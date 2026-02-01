@@ -51,6 +51,12 @@ export default function Home() {
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </Button>
+              <Button variant="outline" size="sm">
+                <a href="/technical-content" className="flex items-center gap-2">
+                  기술 콘텐츠 분석
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </Button>
             </div>
           </div>
         </div>
