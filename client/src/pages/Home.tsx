@@ -38,12 +38,20 @@ export default function Home() {
                 <p className="text-xs text-muted-foreground">YouTube Channel Growth Strategy</p>
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                채널 방문
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm">
+                <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  채널 방문
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button variant="outline" size="sm">
+                <a href="/classical-music" className="flex items-center gap-2">
+                  클래식 음악 분석
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
