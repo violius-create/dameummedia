@@ -1,0 +1,206 @@
+import { eq, desc, and } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/mysql2";
+import { InsertUser, users, posts, images, reservations, comments, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment } from "../drizzle/schema";
+import { ENV } from './_core/env';
+
+let _db: ReturnType<typeof drizzle> | null = null;
+
+// Lazily create the drizzle instance so local tooling can run without a DB.
+export async function getDb() {
+  if (!_db && process.env.DATABASE_URL) {
+    try {
+      _db = drizzle(process.env.DATABASE_URL);
+    } catch (error) {
+      console.warn("[Database] Failed to connect:", error);
+      _db = null;
+    }
+  }
+  return _db;
+}
+
+export async function upsertUser(user: InsertUser): Promise<void> {
+  if (!user.openId) {
+    throw new Error("User openId is required for upsert");
+  }
+
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot upsert user: database not available");
+    return;
+  }
+
+  try {
+    const values: InsertUser = {
+      openId: user.openId,
+    };
+    const updateSet: Record<string, unknown> = {};
+
+    const textFields = ["name", "email", "loginMethod"] as const;
+    type TextField = (typeof textFields)[number];
+
+    const assignNullable = (field: TextField) => {
+      const value = user[field];
+      if (value === undefined) return;
+      const normalized = value ?? null;
+      values[field] = normalized;
+      updateSet[field] = normalized;
+    };
+
+    textFields.forEach(assignNullable);
+
+    if (user.lastSignedIn !== undefined) {
+      values.lastSignedIn = user.lastSignedIn;
+      updateSet.lastSignedIn = user.lastSignedIn;
+    }
+    if (user.role !== undefined) {
+      values.role = user.role;
+      updateSet.role = user.role;
+    } else if (user.openId === ENV.ownerOpenId) {
+      values.role = 'admin';
+      updateSet.role = 'admin';
+    }
+
+    if (!values.lastSignedIn) {
+      values.lastSignedIn = new Date();
+    }
+
+    if (Object.keys(updateSet).length === 0) {
+      updateSet.lastSignedIn = new Date();
+    }
+
+    await db.insert(users).values(values).onDuplicateKeyUpdate({
+      set: updateSet,
+    });
+  } catch (error) {
+    console.error("[Database] Failed to upsert user:", error);
+    throw error;
+  }
+}
+
+export async function getUserByOpenId(openId: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Post queries
+export async function getPosts(category?: string, limit = 10, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const query = category 
+    ? db.select().from(posts).where(and(eq(posts.category, category as any), eq(posts.status, 'published'))).orderBy(desc(posts.createdAt)).limit(limit).offset(offset)
+    : db.select().from(posts).where(eq(posts.status, 'published')).orderBy(desc(posts.createdAt)).limit(limit).offset(offset);
+  
+  return query;
+}
+
+export async function getPostById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(posts).where(eq(posts.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createPost(post: InsertPost) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(posts).values(post);
+  return result;
+}
+
+export async function updatePost(id: number, post: Partial<InsertPost>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.update(posts).set(post).where(eq(posts.id, id));
+}
+
+export async function deletePost(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(posts).where(eq(posts.id, id));
+}
+
+// Image queries
+export async function createImage(image: InsertImage) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.insert(images).values(image);
+}
+
+export async function getImagesByPostId(postId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(images).where(eq(images.postId, postId));
+}
+
+export async function deleteImage(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(images).where(eq(images.id, id));
+}
+
+// Reservation queries
+export async function createReservation(reservation: InsertReservation) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.insert(reservations).values(reservation);
+}
+
+export async function getReservations(limit = 10, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(reservations).orderBy(desc(reservations.createdAt)).limit(limit).offset(offset);
+}
+
+export async function getReservationById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(reservations).where(eq(reservations.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function updateReservation(id: number, reservation: Partial<InsertReservation>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.update(reservations).set(reservation).where(eq(reservations.id, id));
+}
+
+// Comment queries
+export async function createComment(comment: InsertComment) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.insert(comments).values(comment);
+}
+
+export async function getCommentsByPostId(postId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(comments).where(and(eq(comments.postId, postId), eq(comments.status, 'approved'))).orderBy(desc(comments.createdAt));
+}
+
+export async function deleteComment(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(comments).where(eq(comments.id, id));
+}

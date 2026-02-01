@@ -1,0 +1,119 @@
+import { COOKIE_NAME } from "@shared/const";
+import { getSessionCookieOptions } from "./_core/cookies";
+import { systemRouter } from "./_core/systemRouter";
+import { publicProcedure, router, protectedProcedure, adminProcedure } from "./_core/trpc";
+import { z } from "zod";
+import * as db from "./db";
+import { storagePut } from "./storage";
+import { TRPCError } from "@trpc/server";
+
+export const appRouter = router({
+  system: systemRouter,
+  auth: router({
+    me: publicProcedure.query(opts => opts.ctx.user),
+    logout: publicProcedure.mutation(({ ctx }) => {
+      const cookieOptions = getSessionCookieOptions(ctx.req);
+      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+      return {
+        success: true,
+      } as const;
+    }),
+  }),
+
+  // Posts router
+  posts: router({
+    list: publicProcedure
+      .input(z.object({ category: z.string().optional(), limit: z.number().default(10), offset: z.number().default(0) }))
+      .query(({ input }) => db.getPosts(input.category, input.limit, input.offset)),
+    
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(({ input }) => db.getPostById(input.id)),
+    
+    create: adminProcedure
+      .input(z.object({ title: z.string(), content: z.string(), category: z.string(), imageUrl: z.string().optional(), videoUrl: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createPost({
+          title: input.title,
+          content: input.content,
+          category: input.category as any,
+          authorId: ctx.user.id,
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          status: 'published',
+        });
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ id: z.number(), title: z.string().optional(), content: z.string().optional(), imageUrl: z.string().optional(), videoUrl: z.string().optional() }))
+      .mutation(({ input }) => db.updatePost(input.id, { title: input.title, content: input.content, imageUrl: input.imageUrl, videoUrl: input.videoUrl })),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deletePost(input.id)),
+  }),
+  
+  // Images router
+  images: router({
+    upload: adminProcedure
+      .input(z.object({ fileName: z.string(), fileData: z.string(), mimeType: z.string(), postId: z.number().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        try {
+          const buffer = Buffer.from(input.fileData, 'base64');
+          const fileKey = `posts/${Date.now()}-${input.fileName}`;
+          const { url } = await storagePut(fileKey, buffer, input.mimeType);
+          
+          return db.createImage({
+            fileName: input.fileName,
+            fileKey,
+            fileUrl: url,
+            fileSize: buffer.length,
+            mimeType: input.mimeType,
+            uploadedBy: ctx.user.id,
+            postId: input.postId,
+          });
+        } catch (error) {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
+        }
+      }),
+    
+    getByPostId: publicProcedure
+      .input(z.object({ postId: z.number() }))
+      .query(({ input }) => db.getImagesByPostId(input.postId)),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteImage(input.id)),
+  }),
+  
+  // Reservations router
+  reservations: router({
+    create: publicProcedure
+      .input(z.object({ clientName: z.string(), clientEmail: z.string(), clientPhone: z.string().optional(), eventDate: z.date().optional(), eventType: z.string(), description: z.string().optional() }))
+      .mutation(async ({ input }) => {
+        return db.createReservation({
+          clientName: input.clientName,
+          clientEmail: input.clientEmail,
+          clientPhone: input.clientPhone,
+          eventDate: input.eventDate,
+          eventType: input.eventType as any,
+          description: input.description,
+          status: 'pending',
+        });
+      }),
+    
+    list: adminProcedure
+      .input(z.object({ limit: z.number().default(10), offset: z.number().default(0) }))
+      .query(({ input }) => db.getReservations(input.limit, input.offset)),
+    
+    getById: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .query(({ input }) => db.getReservationById(input.id)),
+    
+    updateStatus: adminProcedure
+      .input(z.object({ id: z.number(), status: z.string() }))
+      .mutation(({ input }) => db.updateReservation(input.id, { status: input.status as any })),
+  }),
+});
+
+export type AppRouter = typeof appRouter;
