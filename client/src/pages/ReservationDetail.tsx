@@ -1,4 +1,5 @@
 import { useRoute, Link } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,12 +10,13 @@ import { ArrowLeft, Edit2, Trash2, Loader2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useState } from "react";
-import { useRoute, Link } from "wouter";
 
 export default function ReservationDetail() {
   const [, params] = useRoute("/reservation/:id");
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<any>(null);
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   const id = params?.id ? parseInt(params.id) : null;
 
@@ -532,6 +534,38 @@ export default function ReservationDetail() {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground">추가 정보</h3>
                   
+                  <div className="space-y-2">
+                    <Label htmlFor="status">상태 {isAdmin && <span className="text-xs text-muted-foreground">(관리자만 수정 가능)</span>}</Label>
+                    {isEditing && isAdmin ? (
+                      <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
+                        <SelectTrigger id="status">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="pending">접수대기</SelectItem>
+                          <SelectItem value="confirmed">예약완료</SelectItem>
+                          <SelectItem value="payment_completed">결제완료</SelectItem>
+                          <SelectItem value="work_pending">작업대기</SelectItem>
+                          <SelectItem value="in_progress">작업중</SelectItem>
+                          <SelectItem value="editing">수정중</SelectItem>
+                          <SelectItem value="completed">최종</SelectItem>
+                          <SelectItem value="cancelled">취소</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <p className="text-foreground">
+                        {displayData.status === 'pending' ? '접수대기' :
+                         displayData.status === 'confirmed' ? '예약완료' :
+                         displayData.status === 'payment_completed' ? '결제완료' :
+                         displayData.status === 'work_pending' ? '작업대기' :
+                         displayData.status === 'in_progress' ? '작업중' :
+                         displayData.status === 'editing' ? '수정중' :
+                         displayData.status === 'completed' ? '최종' :
+                         displayData.status === 'cancelled' ? '취소' : displayData.status}
+                      </p>
+                    )}
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="description">비고</Label>
                     {isEditing ? (
