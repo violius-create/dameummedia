@@ -10,6 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Upload, Trash2, Plus } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { FileUploadDropzone } from "@/components/FileUploadDropzone";
 
 export default function AdminDashboard() {
   const { user, isAuthenticated } = useAuth();
@@ -43,6 +44,7 @@ export default function AdminDashboard() {
   const [galleryCategory, setGalleryCategory] = useState<'concert' | 'film'>('concert');
   const [galleryMediaUrl, setGalleryMediaUrl] = useState("");
   const [galleryThumbnailUrl, setGalleryThumbnailUrl] = useState("");
+  const [uploadedFileUrl, setUploadedFileUrl] = useState("");
   
   const createPostMutation = trpc.posts.create.useMutation({
     onSuccess: () => {
@@ -365,9 +367,21 @@ export default function AdminDashboard() {
                   </div>
                 )}
                 
+                <div className="space-y-2">
+                  <Label>파일 업로드</Label>
+                  <FileUploadDropzone
+                    onUploadSuccess={(file) => {
+                      setGalleryMediaUrl(file.url);
+                      setUploadedFileUrl(file.url);
+                    }}
+                    accept={galleryType === 'video' ? 'video/*' : 'image/*'}
+                    maxSize={100}
+                  />
+                </div>
+                
                 <Button 
                   onClick={() => {
-                    if (!galleryTitle || !galleryMediaUrl) {
+                    if (!galleryTitle || (!galleryMediaUrl && !uploadedFileUrl)) {
                       toast.error("제목과 미디어 URL을 입력해주세요.");
                       return;
                     }
@@ -376,16 +390,17 @@ export default function AdminDashboard() {
                       description: galleryDescription || undefined,
                       type: galleryType,
                       category: galleryCategory,
-                      mediaUrl: galleryMediaUrl,
+                      mediaUrl: uploadedFileUrl || galleryMediaUrl,
                       thumbnailUrl: galleryThumbnailUrl || undefined,
                       fileKey: `gallery-${Date.now()}`,
                     });
+                    setUploadedFileUrl("");
                   }}
                   disabled={createGalleryMutation.isPending}
                   className="w-full"
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  갤러리 항목 추가
+                  {createGalleryMutation.isPending ? '추가 중...' : '갤러리 항목 추가'}
                 </Button>
               </CardContent>
             </Card>

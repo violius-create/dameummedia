@@ -116,6 +116,38 @@ export const appRouter = router({
   }),
 
   // Gallery router
+  // File upload router
+  upload: router({
+    uploadFile: adminProcedure
+      .input(z.object({ fileName: z.string(), fileData: z.string(), mimeType: z.string() }))
+      .mutation(async ({ input }) => {
+        try {
+          // Convert base64 string to Buffer
+          const buffer = Buffer.from(input.fileData, 'base64');
+          
+          // Generate unique file key
+          const timestamp = Date.now();
+          const randomSuffix = Math.random().toString(36).substring(2, 8);
+          const fileKey = `gallery/${timestamp}-${randomSuffix}-${input.fileName}`;
+          
+          // Upload to S3
+          const { url } = await storagePut(fileKey, buffer, input.mimeType);
+          
+          return {
+            success: true,
+            url,
+            fileKey,
+            fileName: input.fileName,
+          };
+        } catch (error) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: `파일 업로드 실패: ${error instanceof Error ? error.message : '알 수 없는 오류'}`,
+          });
+        }
+      }),
+  }),
+
   gallery: router({
     list: publicProcedure
       .input(z.object({ category: z.enum(['concert', 'film']).optional(), limit: z.number().default(100), offset: z.number().default(0) }))
