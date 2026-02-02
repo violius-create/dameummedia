@@ -69,22 +69,32 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="border-b border-border bg-background relative overflow-hidden">
+      {/* Main Title Section with Background Video */}
+      <section className="relative w-full h-96 overflow-hidden">
         {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover opacity-20"
-            src="https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
-        </div>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4"
+        />
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
         
-        <div className="container py-24 relative z-10">
+        {/* Title Content */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-6xl font-bold tracking-tight mb-4">담음미디어</h1>
+            <p className="text-2xl text-gray-200">Professional Media Production</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Section */}
+      <section className="border-b border-border bg-background">
+        <div className="container py-24">
           <div className="max-w-3xl">
             <h2 className="mb-6 text-5xl font-bold tracking-tight text-foreground">
               Concert Live<br />
