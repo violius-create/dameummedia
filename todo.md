@@ -126,3 +126,9 @@
 - [x] Reservation 글쓰기 폼 UI 개선 - 이미지 형식에 맞게
 - [x] Reservation View 페이지 UI 개선 - 이미지 형식에 맞게
 - [x] 필드 검증 및 기본값 설정
+
+
+## Reservation 저장 에러 수정 (2026-02-02 버그)
+- [x] Reservation 저장 시 INSERT 쿼리 필드 개수 불일치 에러 수정
+- [x] server/routers.ts의 reservations.create 프로시저 입력 필드 확인 및 수정
+- [x] Reservation.tsx의 입력 필드와 데이터베이스 필드 일치 확인

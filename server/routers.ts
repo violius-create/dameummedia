@@ -105,17 +105,55 @@ export const appRouter = router({
   
   // Reservations router
   reservations: router({
-    create: publicProcedure
-      .input(z.object({ clientName: z.string(), clientEmail: z.string(), clientPhone: z.string().optional(), eventDate: z.date().optional(), eventType: z.string(), description: z.string().optional() }))
+create: publicProcedure
+      .input(z.object({
+        clientName: z.string(),
+        clientEmail: z.string(),
+        clientPhone: z.string().optional(),
+        eventName: z.string().optional(),
+        eventType: z.string(),
+        venue: z.string().optional(),
+        eventDate: z.date().optional(),
+        rehearsalTime: z.string().optional(),
+        composition: z.string().optional(),
+        managerName: z.string().optional(),
+        managerPhone: z.string().optional(),
+        recordingStaff: z.string().optional(),
+        photographyStaff: z.string().optional(),
+        audioSettings: z.string().optional(),
+        projectMonitor: z.string().optional(),
+        paymentMethod: z.string().optional(),
+        isPublic: z.number().optional(),
+        receiptType: z.string().optional(),
+        paidAmount: z.number().optional(),
+        unpaidAmount: z.number().optional(),
+        description: z.string().optional(),
+        status: z.string().optional(),
+      }))
       .mutation(async ({ input }) => {
         return db.createReservation({
           clientName: input.clientName,
           clientEmail: input.clientEmail,
           clientPhone: input.clientPhone,
-          eventDate: input.eventDate,
+          eventName: input.eventName,
           eventType: input.eventType as any,
+          venue: input.venue,
+          eventDate: input.eventDate,
+          rehearsalTime: input.rehearsalTime,
+          composition: input.composition,
+          managerName: input.managerName,
+          managerPhone: input.managerPhone,
+          recordingStaff: input.recordingStaff,
+          photographyStaff: input.photographyStaff,
+          audioSettings: input.audioSettings,
+          projectMonitor: input.projectMonitor,
+          paymentMethod: input.paymentMethod as any,
+          isPublic: input.isPublic,
+          receiptType: input.receiptType as any,
+          paidAmount: input.paidAmount,
+          unpaidAmount: input.unpaidAmount,
           description: input.description,
-          status: 'pending',
+          status: input.status || 'pending',
         });
       }),
     
