@@ -10,12 +10,14 @@ import TechnicalContentAnalysis from "./pages/TechnicalContentAnalysis";
 import AdminDashboard from "./pages/AdminDashboard";
 import ConcertLiveGallery from "./pages/ConcertLiveGallery";
 import MakingFilmGallery from "./pages/MakingFilmGallery";
+import PostDetail from "./pages/PostDetail";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/post/:id"} component={PostDetail} />
       <Route path={"/classical-music"} component={ClassicalMusicAnalysis} />
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />
