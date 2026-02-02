@@ -111,3 +111,31 @@
 - [x] Concert Live/Making Film 페이지를 dameum.kr 스타일로 개선
 - [x] View 화면 하단에 [수정] 버튼 추가
 - [x] View 화면 하단에 다른 게시물 리스트 추가
+
+
+### 스타일 개선 요청 (2026-02-02 추가 3)
+- [x] 색상 팩낹 변경 - 흐낰색 배경, 검은색 테스트, 진한 강조색
+- [x] 메인 페이지 레이아웃 개선
+- [x] Concert Live/Making Film 페이지 디자인 개선
+- [x] Admin 대시보드 디자인 개선
+- [x] 전체 기능 일관성 검증
+
+
+## Reservation 페이지 개선 요청 (2026-02-02 추가 4)
+- [x] Reservation 데이터 스키마에 상세 필드 추가
+- [x] Reservation 글쓰기 폼 UI 개선 - 이미지 형식에 맞게
+- [x] Reservation View 페이지 UI 개선 - 이미지 형식에 맞게
+- [x] 필드 검증 및 기본값 설정
+
+
+## Reservation 저장 에러 수정 (2026-02-02 버그)
+- [x] Reservation 저장 시 INSERT 쿼리 필드 개수 불일치 에러 수정
+- [x] server/routers.ts의 reservations.create 프로시저 입력 필드 확인 및 수정
+- [x] Reservation.tsx의 입력 필드와 데이터베이스 필드 일치 확인
+
+
+## Reservation 게시판 형식 개선 요청 (2026-02-02 추가 5)
+- [ ] Reservation 게시판 리스트 페이지 생성 - 예약 목록 조회
+- [ ] Reservation 글쓰기/수정 페이지 개선 - 작성자 수정 가능하게
+- [ ] 예약 완료 후 View 페이지로 리다이렉트
+- [ ] 링크 텍스트 강조색 변경 - 파란색에서 옅은 회색으로
