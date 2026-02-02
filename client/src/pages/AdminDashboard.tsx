@@ -15,17 +15,7 @@ import { FileUploadDropzone } from "@/components/FileUploadDropzone";
 export default function AdminDashboard() {
   const { user, isAuthenticated } = useAuth();
   
-  if (!isAuthenticated || user?.role !== 'admin') {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">접근 거부</h1>
-          <p className="text-muted-foreground">관리자만 접근 가능합니다.</p>
-        </div>
-      </div>
-    );
-  }
-  
+  // All hooks must be called before any conditional returns
   const [activeTab, setActiveTab] = useState("posts");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -105,6 +95,18 @@ export default function AdminDashboard() {
       toast.error(error.message || "갤러리 항목 삭제에 실패했습니다.");
     },
   });
+  
+  // Check auth after all hooks
+  if (!isAuthenticated || user?.role !== 'admin') {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-2">접근 거부</h1>
+          <p className="text-muted-foreground">관리자만 접근 가능합니다.</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleCreatePost = async () => {
     if (!title || !content) {
