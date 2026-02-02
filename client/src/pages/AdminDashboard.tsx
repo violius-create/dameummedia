@@ -192,12 +192,15 @@ export default function AdminDashboard() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="imageUrl">이미지 URL</Label>
-                  <Input
-                    id="imageUrl"
-                    placeholder="https://example.com/image.jpg"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
+                  <Label htmlFor="imageUrl">이미지</Label>
+                  {imageUrl && (
+                    <div className="mb-2">
+                      <img src={imageUrl} alt="Preview" className="max-w-xs h-auto rounded" />
+                    </div>
+                  )}
+                  <FileUploadDropzone
+                    onFileUpload={(url) => setImageUrl(url)}
+                    accept="image/*"
                   />
                 </div>
                 
