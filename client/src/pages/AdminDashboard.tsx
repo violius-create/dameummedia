@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Upload, Trash2, Plus } from "lucide-react";
+import { Upload, Trash2, Plus, X } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { FileUploadDropzone } from "@/components/FileUploadDropzone";
 import { useLocation } from "wouter";
@@ -24,6 +24,7 @@ export default function AdminDashboard() {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("notice");
   const [imageUrl, setImageUrl] = useState("");
+  const [imageFileName, setImageFileName] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
   
@@ -52,6 +53,7 @@ export default function AdminDashboard() {
         setContent(post.content);
         setCategory(post.category);
         setImageUrl(post.imageUrl || '');
+        setImageFileName('');
         setVideoUrl(post.videoUrl || '');
         setActiveTab('posts');
       }
@@ -62,6 +64,7 @@ export default function AdminDashboard() {
       setContent('');
       setCategory('notice');
       setImageUrl('');
+      setImageFileName('');
       setVideoUrl('');
     }
   }, [posts, editIdFromUrl]);
@@ -82,6 +85,7 @@ export default function AdminDashboard() {
       setContent('');
       setCategory('notice');
       setImageUrl('');
+      setImageFileName('');
       setVideoUrl('');
       setActiveTab('posts');
     },
@@ -99,6 +103,7 @@ export default function AdminDashboard() {
       setImageUrl('');
       setVideoUrl('');
       setEditingPostId(null);
+      setImageFileName('');
       refetchPosts();
       if (data && data.id) {
         window.location.href = `/post/${data.id}`;
@@ -161,6 +166,7 @@ export default function AdminDashboard() {
     setContent('');
     setCategory('notice');
     setImageUrl('');
+    setImageFileName('');
     setVideoUrl('');
   };
 
@@ -245,8 +251,28 @@ export default function AdminDashboard() {
                 <div>
                   <Label>이미지</Label>
                   <FileUploadDropzone
-                    onUploadSuccess={(file) => setImageUrl(file.url)}
+                    onUploadSuccess={(file) => {
+                      setImageUrl(file.url);
+                      setImageFileName(file.fileName);
+                    }}
                   />
+                  {imageUrl && (
+                    <div className="mt-3 p-3 bg-muted rounded-lg">
+                      <p className="text-sm font-medium text-muted-foreground">현재 이미지:</p>
+                      <p className="text-sm font-semibold mt-1">{imageFileName || 'URL: ' + imageUrl.substring(0, 50) + '...'}</p>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => {
+                          setImageUrl('');
+                          setImageFileName('');
+                        }}
+                        className="mt-2"
+                      >
+                        이미지 제거
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <div>
