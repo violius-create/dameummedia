@@ -15,6 +15,7 @@ export default function Home() {
   const [overlayOpacity, setOverlayOpacity] = useState(40);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
+  const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
@@ -87,14 +88,22 @@ export default function Home() {
       {/* Main Title Section with Background Video */}
       <section className="relative w-full h-96 overflow-hidden">
         {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          src="https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4"
-        />
+        {activeHeroBackground?.type === 'video' ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            src={activeHeroBackground?.mediaUrl || 'https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4'}
+          />
+        ) : (
+          <img
+            className="absolute inset-0 w-full h-full object-cover"
+            src={activeHeroBackground?.mediaUrl || 'https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4'}
+            alt="Hero Background"
+          />
+        )}
         {/* Dark Overlay */}
         <div 
           className="absolute inset-0"

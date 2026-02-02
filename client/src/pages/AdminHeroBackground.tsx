@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trpc } from '@/lib/trpc';
-import { ArrowLeft, Upload, Loader2 } from 'lucide-react';
+import { ArrowLeft, Upload, Loader2, CheckCircle2, Circle } from 'lucide-react';
 import { Link } from 'wouter';
 
 export default function AdminHeroBackground() {
@@ -22,6 +22,7 @@ export default function AdminHeroBackground() {
   const uploadMutation = trpc.upload.uploadFile.useMutation();
   const createGalleryMutation = trpc.gallery.create.useMutation();
   const createHeroBackgroundMutation = trpc.heroBackground.create.useMutation();
+  const updateHeroBackgroundMutation = trpc.heroBackground.update.useMutation();
   const { data: heroBackgrounds, refetch } = trpc.heroBackground.list.useQuery({});
 
   // 관리자 권한 확인
@@ -324,11 +325,33 @@ export default function AdminHeroBackground() {
                       <p className="text-sm text-muted-foreground">
                         {item.type === 'video' ? '영상' : '이미지'}
                       </p>
-                      {item.isActive === 1 && (
-                        <div className="mt-2 inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                          활성화됨
-                        </div>
-                      )}
+                      <div className="mt-4 flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant={item.isActive === 1 ? "default" : "outline"}
+                          onClick={async () => {
+                            await updateHeroBackgroundMutation.mutateAsync({
+                              id: item.id,
+                              isActive: item.isActive === 1 ? 0 : 1,
+                            });
+                            refetch();
+                          }}
+                          disabled={updateHeroBackgroundMutation.isPending}
+                          className="flex-1"
+                        >
+                          {item.isActive === 1 ? (
+                            <>
+                              <CheckCircle2 className="h-4 w-4 mr-1" />
+                              활성화됨
+                            </>
+                          ) : (
+                            <>
+                              <Circle className="h-4 w-4 mr-1" />
+                              비활성화
+                            </>
+                          )}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}
