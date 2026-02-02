@@ -83,7 +83,7 @@ export default function AdminDashboard() {
       setCategory('notice');
       setImageUrl('');
       setVideoUrl('');
-      refetchPosts();
+      setActiveTab('posts');
     },
     onError: (error) => {
       toast.error(`작성 실패: ${error.message}`);

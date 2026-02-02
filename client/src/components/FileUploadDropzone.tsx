@@ -14,7 +14,7 @@ interface FileUploadDropzoneProps {
 export function FileUploadDropzone({ 
   onUploadSuccess, 
   accept = "image/*,video/*",
-  maxSize = 100 
+  maxSize = 100
 }: FileUploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<Array<{
@@ -58,15 +58,13 @@ export function FileUploadDropzone({
           },
           {
             onSuccess: (result) => {
-              setUploadedFiles((prev) => [
-                ...prev,
-                {
-                  fileName: result.fileName,
-                  url: result.fileUrl,
-                  fileKey: result.fileKey,
-                  status: 'success',
-                },
-              ]);
+              const newFile = {
+                fileName: result.fileName,
+                url: result.fileUrl,
+                fileKey: result.fileKey,
+                status: 'success' as const,
+              };
+              setUploadedFiles((prev) => [...prev, newFile]);
               onUploadSuccess({
                 url: result.fileUrl,
                 fileName: result.fileName,
@@ -75,16 +73,14 @@ export function FileUploadDropzone({
               toast.success(`${result.fileName} 업로드 완료`);
             },
             onError: (error) => {
-              setUploadedFiles((prev) => [
-                ...prev,
-                {
-                  fileName: file.name,
-                  url: '',
-                  fileKey: '',
-                  status: 'error',
-                  message: error.message,
-                },
-              ]);
+              const errorFile = {
+                fileName: file.name,
+                url: '',
+                fileKey: '',
+                status: 'error' as const,
+                message: error.message,
+              };
+              setUploadedFiles((prev) => [...prev, errorFile]);
               toast.error(`${file.name} 업로드 실패: ${error.message}`);
             },
           }
