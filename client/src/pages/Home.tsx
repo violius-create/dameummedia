@@ -70,10 +70,10 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative border-b border-border bg-gradient-to-b from-primary/5 to-background">
+      <section className="border-b border-border bg-background">
         <div className="container py-24">
           <div className="max-w-3xl">
-            <h2 className="mb-6 text-5xl font-bold tracking-tight">
+            <h2 className="mb-6 text-5xl font-bold tracking-tight text-foreground">
               Concert Live<br />
               <span className="text-primary">Recorded, Mixed, Mastered, and Video</span>
             </h2>
@@ -99,14 +99,14 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="border-b border-border bg-card">
+      <section className="border-b border-border bg-background">
         <div className="container py-16">
-          <h3 className="mb-12 text-3xl font-bold">주요 서비스</h3>
+          <h3 className="mb-12 text-3xl font-bold text-foreground">주요 서비스</h3>
           <div className="grid gap-8 md:grid-cols-3">
-            <Card>
+            <Card className="border border-border hover:shadow-lg transition-shadow">
               <CardHeader>
                 <Music className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>Concert Live</CardTitle>
+                <CardTitle className="text-foreground">Concert Live</CardTitle>
                 <CardDescription>공연 촬영 및 음향 제작</CardDescription>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
@@ -114,10 +114,10 @@ export default function Home() {
                 고품질 영상과 음향을 보장합니다.
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border border-border hover:shadow-lg transition-shadow">
               <CardHeader>
                 <Film className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>Making Film</CardTitle>
+                <CardTitle className="text-foreground">Making Film</CardTitle>
                 <CardDescription>뮤직 비디오 및 영상 제작</CardDescription>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
@@ -125,10 +125,10 @@ export default function Home() {
                 프로필 영상, 뮤직 비디오 등 다양한 영상을 제작합니다.
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border border-border hover:shadow-lg transition-shadow">
               <CardHeader>
                 <Calendar className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>Reservation</CardTitle>
+                <CardTitle className="text-foreground">Reservation</CardTitle>
                 <CardDescription>예약 및 상담</CardDescription>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
@@ -188,7 +188,7 @@ export default function Home() {
       </section>
 
       {/* Making Film Gallery */}
-      <section className="border-b border-border bg-card">
+      <section className="border-b border-border bg-background">
         <div className="container py-16">
           <div className="mb-12 flex items-center justify-between">
             <h3 className="text-3xl font-bold">Making Film</h3>
@@ -228,9 +228,9 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="border-b border-border">
+      <section className="border-b border-border bg-background">
         <div className="container py-16">
-          <h3 className="mb-12 text-3xl font-bold">문의하기</h3>
+          <h3 className="mb-12 text-3xl font-bold text-foreground">문의하기</h3>
           <div className="grid gap-8 md:grid-cols-3">
             <Card>
               <CardHeader>
@@ -267,27 +267,27 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-muted/30">
+      <footer className="border-t border-border bg-primary text-primary-foreground">
         <div className="container py-12">
           <div className="grid gap-8 md:grid-cols-4">
             <div>
               <h4 className="mb-4 font-semibold">담음미디어</h4>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm opacity-90">
                 20년 이상의 경험으로 고품질의 공연 촬영 및 영상 제작 서비스를 제공합니다.
               </p>
             </div>
             <div>
               <h4 className="mb-4 font-semibold">메뉴</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/information"><Button variant="link" className="p-0 h-auto">Information</Button></Link></li>
-                <li><Link href="/price"><Button variant="link" className="p-0 h-auto">Price</Button></Link></li>
-                <li><Link href="/concert-live"><Button variant="link" className="p-0 h-auto">Concert Live</Button></Link></li>
-                <li><Link href="/making-film"><Button variant="link" className="p-0 h-auto">Making Film</Button></Link></li>
+              <ul className="space-y-2 text-sm opacity-90">
+                <li><Link href="/information"><Button variant="link" className="p-0 h-auto text-primary-foreground hover:opacity-80">Information</Button></Link></li>
+                <li><Link href="/price"><Button variant="link" className="p-0 h-auto text-primary-foreground hover:opacity-80">Price</Button></Link></li>
+                <li><Link href="/concert-live"><Button variant="link" className="p-0 h-auto text-primary-foreground hover:opacity-80">Concert Live</Button></Link></li>
+                <li><Link href="/making-film"><Button variant="link" className="p-0 h-auto text-primary-foreground hover:opacity-80">Making Film</Button></Link></li>
               </ul>
             </div>
             <div>
               <h4 className="mb-4 font-semibold">정보</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-2 text-sm opacity-90">
                 <li>사업자등록번호: 696-11-01451</li>
                 <li>계좌: 신한 110-182-745370</li>
                 <li>카카오톡: violius</li>
@@ -295,14 +295,14 @@ export default function Home() {
             </div>
             <div>
               <h4 className="mb-4 font-semibold">연락처</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-2 text-sm opacity-90">
                 <li>전화: 010-9511-7420</li>
                 <li>이메일: dameummedia@naver.com</li>
                 <li>주소: 서울시 관악구 남부순환로 1799</li>
               </ul>
             </div>
           </div>
-          <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
+          <div className="mt-8 border-t border-primary-foreground/20 pt-8 text-center text-sm opacity-90">
             <p>Copyright © 2026 담음미디어. All rights reserved.</p>
           </div>
         </div>
