@@ -74,7 +74,7 @@ export const appRouter = router({
           const fileKey = `posts/${Date.now()}-${input.fileName}`;
           const { url } = await storagePut(fileKey, buffer, input.mimeType);
           
-          return db.createImage({
+          await db.createImage({
             fileName: input.fileName,
             fileKey,
             fileUrl: url,
@@ -83,6 +83,12 @@ export const appRouter = router({
             uploadedBy: ctx.user.id,
             postId: input.postId,
           });
+          
+          return {
+            fileName: input.fileName,
+            fileUrl: url,
+            fileKey: fileKey,
+          };
         } catch (error) {
           throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
         }

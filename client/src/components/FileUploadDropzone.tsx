@@ -5,6 +5,14 @@ import { Upload, X, CheckCircle2, AlertCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
+interface UploadedFile {
+  fileName: string;
+  url: string;
+  fileKey: string;
+  status: 'success' | 'error';
+  message?: string;
+}
+
 interface FileUploadDropzoneProps {
   onUploadSuccess: (file: { url: string; fileName: string; fileKey: string }) => void;
   accept?: string;
@@ -17,13 +25,7 @@ export function FileUploadDropzone({
   maxSize = 100
 }: FileUploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<Array<{
-    fileName: string;
-    url: string;
-    fileKey: string;
-    status: 'success' | 'error';
-    message?: string;
-  }>>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const uploadMutation = trpc.images.upload.useMutation();
 
@@ -58,11 +60,11 @@ export function FileUploadDropzone({
           },
           {
             onSuccess: (result) => {
-              const newFile = {
+              const newFile: UploadedFile = {
                 fileName: result.fileName,
                 url: result.fileUrl,
                 fileKey: result.fileKey,
-                status: 'success' as const,
+                status: 'success',
               };
               setUploadedFiles((prev) => [...prev, newFile]);
               onUploadSuccess({
@@ -73,11 +75,11 @@ export function FileUploadDropzone({
               toast.success(`${result.fileName} 업로드 완료`);
             },
             onError: (error) => {
-              const errorFile = {
+              const errorFile: UploadedFile = {
                 fileName: file.name,
                 url: '',
                 fileKey: '',
-                status: 'error' as const,
+                status: 'error',
                 message: error.message,
               };
               setUploadedFiles((prev) => [...prev, errorFile]);
@@ -108,6 +110,10 @@ export function FileUploadDropzone({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -158,7 +164,7 @@ export function FileUploadDropzone({
             <div className="space-y-2">
               {uploadedFiles.map((file, index) => (
                 <div
-                  key={index}
+                  key={`${file.fileName}-${index}`}
                   className="flex items-center justify-between p-3 bg-muted rounded-lg"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -179,11 +185,7 @@ export function FileUploadDropzone({
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => {
-                      setUploadedFiles((prev) =>
-                        prev.filter((_, i) => i !== index)
-                      );
-                    }}
+                    onClick={() => removeFile(index)}
                   >
                     <X className="h-4 w-4" />
                   </Button>
