@@ -166,7 +166,7 @@ export default function AdminHeroBackground() {
               {/* 업로드 버튼 */}
               <Button
                 onClick={handleUpload}
-                disabled={uploading || !videoFile || !title}
+                disabled={uploading}
                 className="w-full"
               >
                 {uploading ? (
