@@ -82,3 +82,4 @@
 
 ## 게시물 수정 버그 수정
 - [x] 게시물 수정 시 imageUrl null 오류 수정
+- [x] posts.update 라우터에 category 필드 추가
