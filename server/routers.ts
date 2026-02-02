@@ -24,11 +24,22 @@ export const appRouter = router({
   posts: router({
     list: publicProcedure
       .input(z.object({ category: z.string().optional(), limit: z.number().default(10), offset: z.number().default(0) }))
-      .query(({ input }) => db.getPosts(input.category, input.limit, input.offset)),
+      .query(async ({ input, ctx }) => {
+        if (ctx.user?.role === 'admin') {
+          return db.getAllPosts(input.category, input.limit, input.offset);
+        }
+        return db.getPosts(input.category, input.limit, input.offset);
+      }),
     
     getById: publicProcedure
       .input(z.object({ id: z.number() }))
-      .query(({ input }) => db.getPostById(input.id)),
+      .query(async ({ input, ctx }) => {
+        const post = await db.getPostById(input.id);
+        if (!post) return null;
+        if (post.status === 'published') return post;
+        if (ctx.user?.role === 'admin') return post;
+        return null;
+      }),
     
     create: adminProcedure
       .input(z.object({ title: z.string(), content: z.string(), category: z.string(), imageUrl: z.string().optional(), videoUrl: z.string().optional() }))

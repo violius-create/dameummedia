@@ -29,21 +29,43 @@ export default function AdminDashboard() {
   
   const { data: posts, refetch: refetchPosts } = trpc.posts.list.useQuery({ limit: 100 });
   
-  useEffect(() => {
-    const params = new URLSearchParams(location.split('?')[1]);
+  // Extract editId from URL
+  const getEditIdFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
     const editId = params.get('editId');
-    if (editId && posts) {
-      const id = parseInt(editId);
-      setEditingPostId(id);
-      const post = posts.find(p => p.id === id);
+    return editId ? parseInt(editId) : null;
+  };
+  
+  const editIdFromUrl = getEditIdFromUrl();
+  
+  // Effect: Load post data from posts list when editId is in URL
+  useEffect(() => {
+    const editId = getEditIdFromUrl();
+
+    if (editId && posts && posts.length > 0) {
+      const post = posts.find(p => p.id === editId);
+
       if (post) {
+
+        setEditingPostId(editId);
         setTitle(post.title);
         setContent(post.content);
+        setCategory(post.category);
         setImageUrl(post.imageUrl || '');
         setVideoUrl(post.videoUrl || '');
+        setActiveTab('posts');
       }
+    } else if (!editId) {
+      // Clear editing state if no editId in URL
+      setEditingPostId(null);
+      setTitle('');
+      setContent('');
+      setCategory('notice');
+      setImageUrl('');
+      setVideoUrl('');
     }
-  }, [location, posts]);
+  }, [posts]);
+
   const { data: reservations, refetch: refetchReservations } = trpc.reservations.list.useQuery({ limit: 100 });
   const { data: concertGallery, refetch: refetchConcertGallery } = trpc.gallery.list.useQuery({ category: 'concert', limit: 100 });
   const { data: filmGallery, refetch: refetchFilmGallery } = trpc.gallery.list.useQuery({ category: 'film', limit: 100 });
@@ -52,139 +74,116 @@ export default function AdminDashboard() {
   const [galleryDescription, setGalleryDescription] = useState("");
   const [galleryType, setGalleryType] = useState<'image' | 'video'>('image');
   const [galleryCategory, setGalleryCategory] = useState<'concert' | 'film'>('concert');
-  const [galleryMediaUrl, setGalleryMediaUrl] = useState("");
-  const [galleryThumbnailUrl, setGalleryThumbnailUrl] = useState("");
-  const [uploadedFileUrl, setUploadedFileUrl] = useState("");
   
   const createPostMutation = trpc.posts.create.useMutation({
     onSuccess: () => {
       toast.success("게시글이 작성되었습니다.");
-      setTitle("");
-      setContent("");
-      setImageUrl("");
-      setVideoUrl("");
+      setTitle('');
+      setContent('');
+      setCategory('notice');
+      setImageUrl('');
+      setVideoUrl('');
       refetchPosts();
     },
     onError: (error) => {
-      toast.error(error.message || "게시글 작성에 실패했습니다.");
+      toast.error(`작성 실패: ${error.message}`);
     },
   });
-  
+
   const updatePostMutation = trpc.posts.update.useMutation({
     onSuccess: () => {
       toast.success("게시글이 수정되었습니다.");
-      setTitle("");
-      setContent("");
-      setImageUrl("");
-      setVideoUrl("");
+      setTitle('');
+      setContent('');
+      setCategory('notice');
+      setImageUrl('');
+      setVideoUrl('');
       setEditingPostId(null);
       refetchPosts();
     },
     onError: (error) => {
-      toast.error(error.message || "게시글 수정에 실패했습니다.");
+      toast.error(`수정 실패: ${error.message}`);
     },
   });
-  
+
   const deletePostMutation = trpc.posts.delete.useMutation({
     onSuccess: () => {
       toast.success("게시글이 삭제되었습니다.");
       refetchPosts();
     },
     onError: (error) => {
-      toast.error(error.message || "게시글 삭제에 실패했습니다.");
+      toast.error(`삭제 실패: ${error.message}`);
     },
   });
-  
-  const updateReservationMutation = trpc.reservations.updateStatus.useMutation({
-    onSuccess: () => {
-      toast.success("예약 상태가 업데이트되었습니다.");
-      refetchReservations();
-    },
-    onError: (error) => {
-      toast.error(error.message || "예약 상태 업데이트에 실패했습니다.");
-    },
-  });
-  
-  const createGalleryMutation = trpc.gallery.create.useMutation({
-    onSuccess: () => {
-      toast.success("갤러리 항목이 추가되었습니다.");
-      setGalleryTitle("");
-      setGalleryDescription("");
-      setGalleryMediaUrl("");
-      setGalleryThumbnailUrl("");
-      refetchConcertGallery();
-      refetchFilmGallery();
-    },
-    onError: (error) => {
-      toast.error(error.message || "갤러리 항목 추가에 실패했습니다.");
-    },
-  });
-  
-  const deleteGalleryMutation = trpc.gallery.delete.useMutation({
-    onSuccess: () => {
-      toast.success("갤러리 항목이 삭제되었습니다.");
-      refetchConcertGallery();
-      refetchFilmGallery();
-    },
-    onError: (error) => {
-      toast.error(error.message || "갤러리 항목 삭제에 실패했습니다.");
-    },
-  });
-  
-  // Check auth after all hooks
-  if (!isAuthenticated || user?.role !== 'admin') {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">접근 거부</h1>
-          <p className="text-muted-foreground">관리자만 접근 가능합니다.</p>
-        </div>
-      </div>
-    );
-  }
 
-  const handleCreatePost = async () => {
-    if (!title || !content) {
+  const handlePostSubmit = async () => {
+    if (!title.trim() || !content.trim()) {
       toast.error("제목과 내용을 입력해주세요.");
       return;
     }
-    
+
     if (editingPostId) {
-      // Update existing post
       updatePostMutation.mutate({
         id: editingPostId,
         title,
         content,
-        imageUrl: imageUrl || undefined,
-        videoUrl: videoUrl || undefined,
+        category: category as any,
+        imageUrl: imageUrl || null,
+        videoUrl: videoUrl || null,
       });
     } else {
-      // Create new post
       createPostMutation.mutate({
         title,
         content,
-        category,
-        imageUrl: imageUrl || undefined,
-        videoUrl: videoUrl || undefined,
+        category: category as any,
+        imageUrl: imageUrl || null,
+        videoUrl: videoUrl || null,
       });
     }
   };
 
+  const handleEditPost = (post: any) => {
+    setEditingPostId(post.id);
+    setTitle(post.title);
+    setContent(post.content);
+    setCategory(post.category);
+    setImageUrl(post.imageUrl || '');
+    setVideoUrl(post.videoUrl || '');
+    setActiveTab('posts');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingPostId(null);
+    setTitle('');
+    setContent('');
+    setCategory('notice');
+    setImageUrl('');
+    setVideoUrl('');
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card>
+          <CardHeader>
+            <CardTitle>접근 권한 없음</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>관리자만 접근할 수 있습니다.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-        <div className="container py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">관리자 대시보드</h1>
-            <Button variant="outline" size="sm" onClick={() => window.location.href = '/'}>돌아가기</Button>
-          </div>
-        </div>
-      </nav>
-      
-      <div className="container space-y-6 py-8">
-        <div>
-          <p className="text-muted-foreground">게시글, 예약, 이미지를 관리합니다.</p>
+      <div className="container py-8">
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-3xl font-bold">관리자 대시보드</h1>
+          <Button variant="outline" onClick={() => window.history.back()}>
+            돌아가기
+          </Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -199,11 +198,13 @@ export default function AdminDashboard() {
           <TabsContent value="posts" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>새 게시글 작성</CardTitle>
-                <CardDescription>새로운 공지사항, 포트폴리오, 후기를 작성합니다.</CardDescription>
+                <CardTitle>{editingPostId ? '게시글 수정' : '새 게시글 작성'}</CardTitle>
+                <CardDescription>
+                  새로운 공지사항, 포트폴리오, 후기를 작성합니다.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
+                <div>
                   <Label htmlFor="title">제목</Label>
                   <Input
                     id="title"
@@ -212,8 +213,8 @@ export default function AdminDashboard() {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
-                
-                <div className="space-y-2">
+
+                <div>
                   <Label htmlFor="category">카테고리</Label>
                   <Select value={category} onValueChange={setCategory}>
                     <SelectTrigger id="category">
@@ -223,13 +224,11 @@ export default function AdminDashboard() {
                       <SelectItem value="notice">공지사항</SelectItem>
                       <SelectItem value="concert">Concert Live</SelectItem>
                       <SelectItem value="film">Making Film</SelectItem>
-                      <SelectItem value="portfolio">포트폴리오</SelectItem>
-                      <SelectItem value="review">후기</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                
-                <div className="space-y-2">
+
+                <div>
                   <Label htmlFor="content">내용</Label>
                   <Textarea
                     id="content"
@@ -239,21 +238,16 @@ export default function AdminDashboard() {
                     rows={6}
                   />
                 </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="imageUrl">이미지</Label>
-                  {imageUrl && (
-                    <div className="mb-2">
-                      <img src={imageUrl} alt="Preview" className="max-w-xs h-auto rounded" />
-                    </div>
-                  )}
+
+                <div>
+                  <Label>이미지</Label>
                   <FileUploadDropzone
-                    onFileUpload={(url) => setImageUrl(url)}
-                    accept="image/*"
+                    onFileSelect={(url) => setImageUrl(url)}
+                    currentUrl={imageUrl}
                   />
                 </div>
-                
-                <div className="space-y-2">
+
+                <div>
                   <Label htmlFor="videoUrl">비디오 URL</Label>
                   <Input
                     id="videoUrl"
@@ -262,52 +256,50 @@ export default function AdminDashboard() {
                     onChange={(e) => setVideoUrl(e.target.value)}
                   />
                 </div>
-                
-                <Button 
-                  onClick={handleCreatePost}
-                  disabled={createPostMutation.isPending}
-                  className="w-full"
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  게시글 작성
-                </Button>
+
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handlePostSubmit}
+                    disabled={createPostMutation.isPending || updatePostMutation.isPending}
+                  >
+                    {editingPostId ? '게시글 수정' : '게시글 작성'}
+                  </Button>
+                  {editingPostId && (
+                    <Button variant="outline" onClick={handleCancelEdit}>
+                      취소
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
                 <CardTitle>게시글 목록</CardTitle>
-                <CardDescription>작성된 게시글을 관리합니다.</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {posts?.map((post) => (
-                    <div key={post.id} className="flex items-center justify-between border-b pb-4">
-                      <div className="flex-1">
-                        <h4 className="font-semibold">{post.title}</h4>
-                        <p className="text-sm text-muted-foreground">{post.category} · {post.viewCount} views</p>
+                <div className="space-y-2">
+                  {posts?.map((post: any) => (
+                    <div
+                      key={post.id}
+                      className="flex items-center justify-between rounded-lg border p-4"
+                    >
+                      <div>
+                        <h3 className="font-semibold">{post.title}</h3>
+                        <p className="text-sm text-muted-foreground">{post.category}</p>
                       </div>
                       <div className="flex gap-2">
                         <Button
-                          variant="outline"
                           size="sm"
-                          onClick={() => {
-                            setTitle(post.title);
-                            setContent(post.content);
-                            setCategory(post.category);
-                            setImageUrl(post.imageUrl || "");
-                            setVideoUrl(post.videoUrl || "");
-                            setEditingPostId(post.id);
-                            setActiveTab("posts");
-                          }}
+                          variant="outline"
+                          onClick={() => handleEditPost(post)}
                         >
                           수정
                         </Button>
                         <Button
-                          variant="destructive"
                           size="sm"
+                          variant="destructive"
                           onClick={() => deletePostMutation.mutate({ id: post.id })}
-                          disabled={deletePostMutation.isPending}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -324,32 +316,20 @@ export default function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>예약 목록</CardTitle>
-                <CardDescription>고객 예약을 관리합니다.</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {reservations?.map((reservation) => (
-                    <div key={reservation.id} className="border rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold">{reservation.clientName}</h4>
-                        <Select 
-                          value={reservation.status}
-                          onValueChange={(value) => updateReservationMutation.mutate({ id: reservation.id, status: value })}
-                        >
-                          <SelectTrigger className="w-32">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="pending">대기중</SelectItem>
-                            <SelectItem value="confirmed">확인됨</SelectItem>
-                            <SelectItem value="completed">완료</SelectItem>
-                            <SelectItem value="cancelled">취소</SelectItem>
-                          </SelectContent>
-                        </Select>
+                <div className="space-y-2">
+                  {reservations?.map((reservation: any) => (
+                    <div
+                      key={reservation.id}
+                      className="flex items-center justify-between rounded-lg border p-4"
+                    >
+                      <div>
+                        <h3 className="font-semibold">{reservation.name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {reservation.email}
+                        </p>
                       </div>
-                      <p className="text-sm text-muted-foreground">{reservation.clientEmail}</p>
-                      <p className="text-sm text-muted-foreground">{reservation.clientPhone}</p>
-                      <p className="text-sm text-muted-foreground">{reservation.eventType} · {reservation.description}</p>
                     </div>
                   ))}
                 </div>
@@ -361,165 +341,94 @@ export default function AdminDashboard() {
           <TabsContent value="gallery" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>새 갤러리 항목 추가</CardTitle>
-                <CardDescription>Concert Live 또는 Making Film 갤러리에 이미지/영상을 추가합니다.</CardDescription>
+                <CardTitle>갤러리 추가</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="gallery-title">제목</Label>
+                <div>
+                  <Label htmlFor="galleryTitle">제목</Label>
                   <Input
-                    id="gallery-title"
-                    placeholder="갤러리 항목 제목"
+                    id="galleryTitle"
+                    placeholder="갤러리 제목"
                     value={galleryTitle}
                     onChange={(e) => setGalleryTitle(e.target.value)}
                   />
                 </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="gallery-description">설명</Label>
+
+                <div>
+                  <Label htmlFor="galleryDescription">설명</Label>
                   <Textarea
-                    id="gallery-description"
-                    placeholder="갤러리 항목 설명"
+                    id="galleryDescription"
+                    placeholder="갤러리 설명"
                     value={galleryDescription}
                     onChange={(e) => setGalleryDescription(e.target.value)}
-                    rows={3}
                   />
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="gallery-type">타입</Label>
-                    <Select value={galleryType} onValueChange={(value) => setGalleryType(value as any)}>
-                      <SelectTrigger id="gallery-type">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="image">이미지</SelectItem>
-                        <SelectItem value="video">영상</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="gallery-category">카테고리</Label>
-                    <Select value={galleryCategory} onValueChange={(value) => setGalleryCategory(value as any)}>
-                      <SelectTrigger id="gallery-category">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="concert">Concert Live</SelectItem>
-                        <SelectItem value="film">Making Film</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+
+                <div>
+                  <Label htmlFor="galleryType">타입</Label>
+                  <Select
+                    value={galleryType}
+                    onValueChange={(value: any) => setGalleryType(value)}
+                  >
+                    <SelectTrigger id="galleryType">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="image">이미지</SelectItem>
+                      <SelectItem value="video">비디오</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="gallery-media-url">미디어 URL</Label>
-                  <Input
-                    id="gallery-media-url"
-                    placeholder="https://example.com/image.jpg 또는 https://youtube.com/embed/..."
-                    value={galleryMediaUrl}
-                    onChange={(e) => setGalleryMediaUrl(e.target.value)}
-                  />
+
+                <div>
+                  <Label htmlFor="galleryCategory">카테고리</Label>
+                  <Select
+                    value={galleryCategory}
+                    onValueChange={(value: any) => setGalleryCategory(value)}
+                  >
+                    <SelectTrigger id="galleryCategory">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="concert">Concert Live</SelectItem>
+                      <SelectItem value="film">Making Film</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                
-                {galleryType === 'video' && (
-                  <div className="space-y-2">
-                    <Label htmlFor="gallery-thumbnail-url">썸네일 URL (영상용)</Label>
-                    <Input
-                      id="gallery-thumbnail-url"
-                      placeholder="https://example.com/thumbnail.jpg"
-                      value={galleryThumbnailUrl}
-                      onChange={(e) => setGalleryThumbnailUrl(e.target.value)}
-                    />
-                  </div>
-                )}
-                
-                <div className="space-y-2">
-                  <Label>파일 업로드</Label>
-                  <FileUploadDropzone
-                    onUploadSuccess={(file) => {
-                      setGalleryMediaUrl(file.url);
-                      setUploadedFileUrl(file.url);
-                    }}
-                    accept={galleryType === 'video' ? 'video/*' : 'image/*'}
-                    maxSize={100}
-                  />
-                </div>
-                
-                <Button 
-                  onClick={() => {
-                    if (!galleryTitle || (!galleryMediaUrl && !uploadedFileUrl)) {
-                      toast.error("제목과 미디어 URL을 입력해주세요.");
-                      return;
-                    }
-                    createGalleryMutation.mutate({
-                      title: galleryTitle,
-                      description: galleryDescription || undefined,
-                      type: galleryType,
-                      category: galleryCategory,
-                      mediaUrl: uploadedFileUrl || galleryMediaUrl,
-                      thumbnailUrl: galleryThumbnailUrl || undefined,
-                      fileKey: `gallery-${Date.now()}`,
-                    });
-                    setUploadedFileUrl("");
-                  }}
-                  disabled={createGalleryMutation.isPending}
-                  className="w-full"
-                >
+
+                <Button>
                   <Plus className="mr-2 h-4 w-4" />
-                  {createGalleryMutation.isPending ? '추가 중...' : '갤러리 항목 추가'}
+                  갤러리 추가
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle>Concert Live 갤러리</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {concertGallery?.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between border-b pb-2">
-                      <div className="flex-1">
-                        <h4 className="font-semibold">{item.title}</h4>
-                        <p className="text-xs text-muted-foreground">{item.type === 'video' ? '🎬 영상' : '📷 이미지'}</p>
-                      </div>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => deleteGalleryMutation.mutate({ id: item.id })}
-                        disabled={deleteGalleryMutation.isPending}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                <div className="grid grid-cols-3 gap-4">
+                  {concertGallery?.map((item: any) => (
+                    <div key={item.id} className="rounded-lg border p-4">
+                      <h3 className="font-semibold">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle>Making Film 갤러리</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {filmGallery?.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between border-b pb-2">
-                      <div className="flex-1">
-                        <h4 className="font-semibold">{item.title}</h4>
-                        <p className="text-xs text-muted-foreground">{item.type === 'video' ? '🎬 영상' : '📷 이미지'}</p>
-                      </div>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => deleteGalleryMutation.mutate({ id: item.id })}
-                        disabled={deleteGalleryMutation.isPending}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                <div className="grid grid-cols-3 gap-4">
+                  {filmGallery?.map((item: any) => (
+                    <div key={item.id} className="rounded-lg border p-4">
+                      <h3 className="font-semibold">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
                     </div>
                   ))}
                 </div>
@@ -531,31 +440,10 @@ export default function AdminDashboard() {
           <TabsContent value="images" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>이미지 업로드</CardTitle>
-                <CardDescription>새로운 이미지를 업로드합니다.</CardDescription>
+                <CardTitle>이미지 관리</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                    <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
-                    <p className="text-sm text-muted-foreground">
-                      이미지를 드래그하거나 클릭하여 업로드합니다.
-                    </p>
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      className="hidden"
-                      id="image-upload"
-                    />
-                    <Button 
-                      variant="outline" 
-                      className="mt-4"
-                      onClick={() => document.getElementById('image-upload')?.click()}
-                    >
-                      파일 선택
-                    </Button>
-                  </div>
-                </div>
+                <p className="text-muted-foreground">이미지 관리 기능</p>
               </CardContent>
             </Card>
           </TabsContent>

@@ -101,6 +101,17 @@ export async function getPosts(category?: string, limit = 10, offset = 0) {
   return query;
 }
 
+export async function getAllPosts(category?: string, limit = 10, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const query = category 
+    ? db.select().from(posts).where(eq(posts.category, category as any)).orderBy(desc(posts.createdAt)).limit(limit).offset(offset)
+    : db.select().from(posts).orderBy(desc(posts.createdAt)).limit(limit).offset(offset);
+  
+  return query;
+}
+
 export async function getPostById(id: number) {
   const db = await getDb();
   if (!db) return null;
