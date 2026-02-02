@@ -90,3 +90,24 @@ export const comments = mysqlTable("comments", {
 
 export type Comment = typeof comments.$inferSelect;
 export type InsertComment = typeof comments.$inferInsert;
+
+// Gallery table for Concert Live and Making Film galleries
+export const galleryItems = mysqlTable("galleryItems", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  type: mysqlEnum("type", ["image", "video"]).notNull(),
+  category: mysqlEnum("category", ["concert", "film"]).notNull(),
+  mediaUrl: text("mediaUrl").notNull(),
+  thumbnailUrl: text("thumbnailUrl"), // For videos
+  fileKey: varchar("fileKey", { length: 255 }).notNull().unique(), // S3 file key
+  uploadedBy: int("uploadedBy").notNull(),
+  order: int("order").default(0), // For custom ordering
+  featured: int("featured").default(0), // 1 for featured items
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GalleryItem = typeof galleryItems.$inferSelect;
+export type InsertGalleryItem = typeof galleryItems.$inferInsert;

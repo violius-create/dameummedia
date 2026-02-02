@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import ClassicalMusicAnalysis from "./pages/ClassicalMusicAnalysis";
 import TechnicalContentAnalysis from "./pages/TechnicalContentAnalysis";
 import AdminDashboard from "./pages/AdminDashboard";
+import ConcertLiveGallery from "./pages/ConcertLiveGallery";
+import MakingFilmGallery from "./pages/MakingFilmGallery";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -17,6 +19,8 @@ function Router() {
       <Route path={"/classical-music"} component={ClassicalMusicAnalysis} />
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />
+      <Route path={"/concert-live"} component={ConcertLiveGallery} />
+      <Route path={"/making-film"} component={MakingFilmGallery} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

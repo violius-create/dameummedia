@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -203,4 +203,45 @@ export async function deleteComment(id: number) {
   if (!db) throw new Error("Database not available");
   
   return db.delete(comments).where(eq(comments.id, id));
+}
+
+// Gallery queries
+export async function getGalleryItems(category?: string, limit = 100, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const query = category
+    ? db.select().from(galleryItems).where(and(eq(galleryItems.category, category as any), eq(galleryItems.status, 'published'))).orderBy(galleryItems.order, desc(galleryItems.createdAt)).limit(limit).offset(offset)
+    : db.select().from(galleryItems).where(eq(galleryItems.status, 'published')).orderBy(galleryItems.order, desc(galleryItems.createdAt)).limit(limit).offset(offset);
+  
+  return query;
+}
+
+export async function getGalleryItemById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(galleryItems).where(eq(galleryItems.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createGalleryItem(item: InsertGalleryItem) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.insert(galleryItems).values(item);
+}
+
+export async function updateGalleryItem(id: number, item: Partial<InsertGalleryItem>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.update(galleryItems).set(item).where(eq(galleryItems.id, id));
+}
+
+export async function deleteGalleryItem(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(galleryItems).where(eq(galleryItems.id, id));
 }

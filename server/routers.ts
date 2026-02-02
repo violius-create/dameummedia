@@ -114,6 +114,43 @@ export const appRouter = router({
       .input(z.object({ id: z.number(), status: z.string() }))
       .mutation(({ input }) => db.updateReservation(input.id, { status: input.status as any })),
   }),
+
+  // Gallery router
+  gallery: router({
+    list: publicProcedure
+      .input(z.object({ category: z.enum(['concert', 'film']).optional(), limit: z.number().default(100), offset: z.number().default(0) }))
+      .query(({ input }) => db.getGalleryItems(input.category, input.limit, input.offset)),
+    
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(({ input }) => db.getGalleryItemById(input.id)),
+    
+    create: adminProcedure
+      .input(z.object({ title: z.string(), description: z.string().optional(), type: z.enum(['image', 'video']), category: z.enum(['concert', 'film']), mediaUrl: z.string(), thumbnailUrl: z.string().optional(), fileKey: z.string(), order: z.number().default(0), featured: z.number().default(0) }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createGalleryItem({
+          title: input.title,
+          description: input.description,
+          type: input.type,
+          category: input.category,
+          mediaUrl: input.mediaUrl,
+          thumbnailUrl: input.thumbnailUrl,
+          fileKey: input.fileKey,
+          uploadedBy: ctx.user.id,
+          order: input.order,
+          featured: input.featured,
+          status: 'published',
+        });
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ id: z.number(), title: z.string().optional(), description: z.string().optional(), order: z.number().optional(), featured: z.number().optional() }))
+      .mutation(({ input }) => db.updateGalleryItem(input.id, { title: input.title, description: input.description, order: input.order, featured: input.featured })),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteGalleryItem(input.id)),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

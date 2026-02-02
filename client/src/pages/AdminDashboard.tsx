@@ -1,4 +1,3 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Upload, Trash2, Plus } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function AdminDashboard() {
   const { user, isAuthenticated } = useAuth();
@@ -34,6 +34,15 @@ export default function AdminDashboard() {
   
   const { data: posts, refetch: refetchPosts } = trpc.posts.list.useQuery({ limit: 100 });
   const { data: reservations, refetch: refetchReservations } = trpc.reservations.list.useQuery({ limit: 100 });
+  const { data: concertGallery, refetch: refetchConcertGallery } = trpc.gallery.list.useQuery({ category: 'concert', limit: 100 });
+  const { data: filmGallery, refetch: refetchFilmGallery } = trpc.gallery.list.useQuery({ category: 'film', limit: 100 });
+  
+  const [galleryTitle, setGalleryTitle] = useState("");
+  const [galleryDescription, setGalleryDescription] = useState("");
+  const [galleryType, setGalleryType] = useState<'image' | 'video'>('image');
+  const [galleryCategory, setGalleryCategory] = useState<'concert' | 'film'>('concert');
+  const [galleryMediaUrl, setGalleryMediaUrl] = useState("");
+  const [galleryThumbnailUrl, setGalleryThumbnailUrl] = useState("");
   
   const createPostMutation = trpc.posts.create.useMutation({
     onSuccess: () => {
@@ -66,6 +75,32 @@ export default function AdminDashboard() {
     },
     onError: (error) => {
       toast.error(error.message || "예약 상태 업데이트에 실패했습니다.");
+    },
+  });
+  
+  const createGalleryMutation = trpc.gallery.create.useMutation({
+    onSuccess: () => {
+      toast.success("갤러리 항목이 추가되었습니다.");
+      setGalleryTitle("");
+      setGalleryDescription("");
+      setGalleryMediaUrl("");
+      setGalleryThumbnailUrl("");
+      refetchConcertGallery();
+      refetchFilmGallery();
+    },
+    onError: (error) => {
+      toast.error(error.message || "갤러리 항목 추가에 실패했습니다.");
+    },
+  });
+  
+  const deleteGalleryMutation = trpc.gallery.delete.useMutation({
+    onSuccess: () => {
+      toast.success("갤러리 항목이 삭제되었습니다.");
+      refetchConcertGallery();
+      refetchFilmGallery();
+    },
+    onError: (error) => {
+      toast.error(error.message || "갤러리 항목 삭제에 실패했습니다.");
     },
   });
 
@@ -102,9 +137,10 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
+            <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
           </TabsList>
 
@@ -243,6 +279,163 @@ export default function AdminDashboard() {
                       <p className="text-sm text-muted-foreground">{reservation.clientEmail}</p>
                       <p className="text-sm text-muted-foreground">{reservation.clientPhone}</p>
                       <p className="text-sm text-muted-foreground">{reservation.eventType} · {reservation.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Gallery Tab */}
+          <TabsContent value="gallery" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>새 갤러리 항목 추가</CardTitle>
+                <CardDescription>Concert Live 또는 Making Film 갤러리에 이미지/영상을 추가합니다.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="gallery-title">제목</Label>
+                  <Input
+                    id="gallery-title"
+                    placeholder="갤러리 항목 제목"
+                    value={galleryTitle}
+                    onChange={(e) => setGalleryTitle(e.target.value)}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="gallery-description">설명</Label>
+                  <Textarea
+                    id="gallery-description"
+                    placeholder="갤러리 항목 설명"
+                    value={galleryDescription}
+                    onChange={(e) => setGalleryDescription(e.target.value)}
+                    rows={3}
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="gallery-type">타입</Label>
+                    <Select value={galleryType} onValueChange={(value) => setGalleryType(value as any)}>
+                      <SelectTrigger id="gallery-type">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="image">이미지</SelectItem>
+                        <SelectItem value="video">영상</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="gallery-category">카테고리</Label>
+                    <Select value={galleryCategory} onValueChange={(value) => setGalleryCategory(value as any)}>
+                      <SelectTrigger id="gallery-category">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="concert">Concert Live</SelectItem>
+                        <SelectItem value="film">Making Film</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="gallery-media-url">미디어 URL</Label>
+                  <Input
+                    id="gallery-media-url"
+                    placeholder="https://example.com/image.jpg 또는 https://youtube.com/embed/..."
+                    value={galleryMediaUrl}
+                    onChange={(e) => setGalleryMediaUrl(e.target.value)}
+                  />
+                </div>
+                
+                {galleryType === 'video' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="gallery-thumbnail-url">썸네일 URL (영상용)</Label>
+                    <Input
+                      id="gallery-thumbnail-url"
+                      placeholder="https://example.com/thumbnail.jpg"
+                      value={galleryThumbnailUrl}
+                      onChange={(e) => setGalleryThumbnailUrl(e.target.value)}
+                    />
+                  </div>
+                )}
+                
+                <Button 
+                  onClick={() => {
+                    if (!galleryTitle || !galleryMediaUrl) {
+                      toast.error("제목과 미디어 URL을 입력해주세요.");
+                      return;
+                    }
+                    createGalleryMutation.mutate({
+                      title: galleryTitle,
+                      description: galleryDescription || undefined,
+                      type: galleryType,
+                      category: galleryCategory,
+                      mediaUrl: galleryMediaUrl,
+                      thumbnailUrl: galleryThumbnailUrl || undefined,
+                      fileKey: `gallery-${Date.now()}`,
+                    });
+                  }}
+                  disabled={createGalleryMutation.isPending}
+                  className="w-full"
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  갤러리 항목 추가
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Concert Live 갤러리</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {concertGallery?.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between border-b pb-2">
+                      <div className="flex-1">
+                        <h4 className="font-semibold">{item.title}</h4>
+                        <p className="text-xs text-muted-foreground">{item.type === 'video' ? '🎬 영상' : '📷 이미지'}</p>
+                      </div>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => deleteGalleryMutation.mutate({ id: item.id })}
+                        disabled={deleteGalleryMutation.isPending}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Making Film 갤러리</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {filmGallery?.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between border-b pb-2">
+                      <div className="flex-1">
+                        <h4 className="font-semibold">{item.title}</h4>
+                        <p className="text-xs text-muted-foreground">{item.type === 'video' ? '🎬 영상' : '📷 이미지'}</p>
+                      </div>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => deleteGalleryMutation.mutate({ id: item.id })}
+                        disabled={deleteGalleryMutation.isPending}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   ))}
                 </div>
