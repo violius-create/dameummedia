@@ -27,12 +27,16 @@ export default function MakingFilmGallery() {
         </div>
       </nav>
 
-      <div className="container py-12">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-4xl font-bold">Making Film</h2>
-          <p className="text-lg text-muted-foreground">
-            담음미디어의 영화 제작 과정, 촬영 장면, 그리고 완성된 작품들을 소개합니다.
+      <div className="container py-16">
+        {/* Header Section */}
+        <div className="mb-16 space-y-4">
+          <div className="flex items-center gap-3 mb-6">
+            <Film className="h-8 w-8 text-primary" />
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">Making Film</span>
+          </div>
+          <h2 className="text-5xl md:text-6xl font-bold leading-tight">영상 제작 과정</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl">
+            담음미디어의 영상 제작 과정을 담은 영상입니다. 촬영부터 편집, 마스터링까지 전문적인 영상 제작 서비스를 제공합니다.
           </p>
         </div>
 
@@ -42,19 +46,19 @@ export default function MakingFilmGallery() {
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <Card
                 key={post.id}
-                className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:scale-105"
+                className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 group"
                 onClick={() => window.location.href = `/post/${post.id}`}
               >
-                <div className="relative h-48 w-full bg-muted flex items-center justify-center">
+                <div className="relative h-56 w-full bg-muted flex items-center justify-center overflow-hidden">
                   {post.imageUrl ? (
                     <img
                       src={post.imageUrl}
                       alt={post.title}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   ) : (
                     <div className="text-center text-muted-foreground">
@@ -64,14 +68,14 @@ export default function MakingFilmGallery() {
                   )}
                 </div>
                 <CardHeader className="flex-1">
-                  <CardTitle className="line-clamp-2 hover:text-primary transition-colors">{post.title}</CardTitle>
-                  <CardDescription className="line-clamp-2">{post.content}</CardDescription>
+                  <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-lg">{post.title}</CardTitle>
+                  <CardDescription className="line-clamp-3 mt-2">{post.content}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Link href={`/post/${post.id}`}>
-                    <Button variant="ghost" size="sm" className="w-full">
+                    <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary/10">
                       자세히 보기
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
                 </CardContent>

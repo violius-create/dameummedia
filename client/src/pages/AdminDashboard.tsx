@@ -27,6 +27,7 @@ export default function AdminDashboard() {
   const [imageFileName, setImageFileName] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
+  const [selectedPostIds, setSelectedPostIds] = useState<Set<number>>(new Set());
   
   const { data: posts, refetch: refetchPosts } = trpc.posts.list.useQuery({ limit: 100 });
   
@@ -123,6 +124,39 @@ export default function AdminDashboard() {
       toast.error(`삭제 실패: ${error.message}`);
     },
   });
+
+  const handleTogglePostSelection = (postId: number) => {
+    const newSelected = new Set(selectedPostIds);
+    if (newSelected.has(postId)) {
+      newSelected.delete(postId);
+    } else {
+      newSelected.add(postId);
+    }
+    setSelectedPostIds(newSelected);
+  };
+
+  const handleSelectAllPosts = () => {
+    if (selectedPostIds.size === posts?.length) {
+      setSelectedPostIds(new Set());
+    } else {
+      const allIds = new Set(posts?.map((p: any) => p.id) || []);
+      setSelectedPostIds(allIds);
+    }
+  };
+
+  const handleDeleteSelectedPosts = async () => {
+    if (selectedPostIds.size === 0) {
+      toast.error("삭제할 게시글을 선택해주세요.");
+      return;
+    }
+    if (window.confirm(`${selectedPostIds.size}개의 게시글을 삭제하시겠습니까?`)) {
+      for (const postId of selectedPostIds) {
+        await deletePostMutation.mutateAsync({ id: postId });
+      }
+      setSelectedPostIds(new Set());
+      refetchPosts();
+    }
+  }
 
   const handlePostSubmit = async () => {
     if (!title.trim() || !content.trim()) {
@@ -304,7 +338,27 @@ export default function AdminDashboard() {
 
             <Card>
               <CardHeader>
-                <CardTitle>게시글 목록</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle>게시글 목록</CardTitle>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleSelectAllPosts}
+                    >
+                      {selectedPostIds.size === posts?.length && posts?.length > 0 ? "모두 취소" : "모두 선택"}
+                    </Button>
+                    {selectedPostIds.size > 0 && (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={handleDeleteSelectedPosts}
+                      >
+                        {selectedPostIds.size}개 삭제
+                      </Button>
+                    )}
+                  </div>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -313,9 +367,17 @@ export default function AdminDashboard() {
                       key={post.id}
                       className="flex items-center justify-between rounded-lg border p-4"
                     >
-                      <div>
-                        <h3 className="font-semibold">{post.title}</h3>
-                        <p className="text-sm text-muted-foreground">{post.category}</p>
+                      <div className="flex items-center gap-3 flex-1">
+                        <input
+                          type="checkbox"
+                          checked={selectedPostIds.has(post.id)}
+                          onChange={() => handleTogglePostSelection(post.id)}
+                          className="w-4 h-4"
+                        />
+                        <div>
+                          <h3 className="font-semibold">{post.title}</h3>
+                          <p className="text-sm text-muted-foreground">{post.category}</p>
+                        </div>
                       </div>
                       <div className="flex gap-2">
                         <Button

@@ -168,25 +168,85 @@ export default function PostDetail() {
               <div className="prose prose-sm max-w-none dark:prose-invert">
                 <p className="text-lg leading-relaxed whitespace-pre-wrap">{post.content}</p>
               </div>
+
+              {/* Bottom Edit Button */}
+              {isAuthenticated && user?.role === 'admin' && (
+                <div className="flex gap-2 justify-center pt-8 border-t">
+                  <Link href={`/admin?editId=${post.id}`}>
+                    <Button variant="outline">
+                      <Edit className="mr-2 h-4 w-4" />
+                      수정
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      if (confirm("정말 삭제하시겠습니까?")) {
+                        deletePostMutation.mutate({ id: post.id });
+                      }
+                    }}
+                    disabled={deletePostMutation.isPending}
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    삭제
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
 
           {/* Related Posts */}
           <div className="mt-16">
             <h3 className="text-2xl font-bold mb-8">다른 {post.category === 'concert' ? 'Concert Live' : 'Making Film'} 보기</h3>
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Related posts would go here */}
-              <div className="text-center text-muted-foreground py-8">
-                <Link href={post.category === 'concert' ? '/concert-live' : '/making-film'}>
-                  <Button variant="outline">
-                    모든 {post.category === 'concert' ? 'Concert Live' : 'Making Film'} 보기
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            <RelatedPostsList category={post.category} currentPostId={post.id} />
           </div>
         </article>
       </div>
+    </div>
+  );
+}
+
+function RelatedPostsList({ category, currentPostId }: { category: string; currentPostId: number }) {
+  const { data: relatedPosts } = trpc.posts.list.useQuery({
+    category: category,
+    limit: 6,
+  });
+
+  const filteredPosts = relatedPosts?.filter((p: any) => p.id !== currentPostId).slice(0, 3) || [];
+
+  if (filteredPosts.length === 0) {
+    return (
+      <div className="text-center text-muted-foreground py-8">
+        <Link href={category === 'concert' ? '/concert-live' : '/making-film'}>
+          <Button variant="outline">
+            모든 {category === 'concert' ? 'Concert Live' : 'Making Film'} 보기
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-6 md:grid-cols-3">
+      {filteredPosts.map((post: any) => (
+        <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/post/${post.id}`}>
+          <div className="relative h-40 w-full bg-muted flex items-center justify-center">
+            {post.imageUrl ? (
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Music className="h-8 w-8 text-muted-foreground" />
+            )}
+          </div>
+          <CardContent className="pt-4">
+            <h4 className="font-semibold line-clamp-2 mb-2">{post.title}</h4>
+            <p className="text-sm text-muted-foreground line-clamp-2">{post.content}</p>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }
