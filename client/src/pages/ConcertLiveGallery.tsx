@@ -20,9 +20,9 @@ export default function ConcertLiveGallery() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Music className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-bold text-foreground">Concert Live</h1>
+              <h1 className="text-xl font-bold">Concert Live</h1>
             </div>
-            <Button variant="outline" size="sm" onClick={() => setLocation('/')} className="text-foreground">돌아가기</Button>
+            <Button variant="outline" size="sm" onClick={() => setLocation('/')}>돌아가기</Button>
           </div>
         </div>
       </nav>
@@ -34,9 +34,9 @@ export default function ConcertLiveGallery() {
             <Music className="h-8 w-8 text-primary" />
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">Concert Live</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-bold leading-tight text-foreground">클래식 음악 공연</h2>
+          <h2 className="text-5xl md:text-6xl font-bold leading-tight">클래식 음악 공연</h2>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            담음미디어가 기록한 다양한 클래식 음악 공연의 실황 영상과 사진입니다. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
+            담음미디어가 기록한 다양한 클래식 음악 공연의 실황 영상과 사진입니다. 20년 이상의 경험으로 담신의 공연을 완벽하게 기록합니다.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function ConcertLiveGallery() {
             {posts.map((post) => (
               <Card
                 key={post.id}
-                className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 group border border-border"
+                className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 group"
                 onClick={() => window.location.href = `/post/${post.id}`}
               >
                 <div className="relative h-56 w-full bg-muted flex items-center justify-center overflow-hidden">
@@ -68,12 +68,12 @@ export default function ConcertLiveGallery() {
                   )}
                 </div>
                 <CardHeader className="flex-1">
-                  <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-lg text-foreground">{post.title}</CardTitle>
+                  <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-lg">{post.title}</CardTitle>
                   <CardDescription className="line-clamp-3 mt-2">{post.content}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Link href={`/post/${post.id}`}>
-                    <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary/10 text-foreground">
+                    <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary/10">
                       자세히 보기
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
@@ -83,7 +83,7 @@ export default function ConcertLiveGallery() {
             ))}
           </div>
         ) : (
-          <Card className="border border-border">
+          <Card>
             <CardContent className="py-12 text-center">
               <Music className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
               <p className="text-muted-foreground">아직 게시물이 없습니다.</p>

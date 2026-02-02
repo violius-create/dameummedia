@@ -15,8 +15,6 @@ import PostDetail from "./pages/PostDetail";
 import Information from "./pages/Information";
 import Price from "./pages/Price";
 import Reservation from "./pages/Reservation";
-import ReservationDetail from "./pages/ReservationDetail";
-import ReservationBoard from "./pages/ReservationBoard";
 
 function Navigation() {
   return (
@@ -53,9 +51,7 @@ function Router() {
       <Route path={"/post/:id"} component={PostDetail} />
       <Route path={"/information"} component={Information} />
       <Route path={"/price"} component={Price} />
-      <Route path={"/reservation"} component={ReservationBoard} />
-      <Route path={"/reservation/new"} component={Reservation} />
-      <Route path={"/reservation/:id"} component={ReservationDetail} />
+      <Route path={"/reservation"} component={Reservation} />
       <Route path={"/classical-music"} component={ClassicalMusicAnalysis} />
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />
