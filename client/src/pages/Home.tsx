@@ -13,9 +13,10 @@ export default function Home() {
   const [heroTitle, setHeroTitle] = useState('담음미디어');
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
+  const [displayedBackground, setDisplayedBackground] = useState<any>(null);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
-  const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
+  const { data: activeHeroBackground, isLoading: heroLoading } = trpc.heroBackground.getActive.useQuery();
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
@@ -28,9 +29,12 @@ export default function Home() {
     if (savedOpacity) setOverlayOpacity(Number(savedOpacity));
   }, []);
 
+  // 배경 영상 데이터가 로드되면 업데이트
   useEffect(() => {
-    console.log('activeHeroBackground:', activeHeroBackground);
-  }, [activeHeroBackground]);
+    if (activeHeroBackground && !heroLoading) {
+      setDisplayedBackground(activeHeroBackground);
+    }
+  }, [activeHeroBackground, heroLoading]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -92,21 +96,23 @@ export default function Home() {
       {/* Main Title Section with Background Video */}
       <section className="relative w-full h-96 overflow-hidden bg-gray-400">
         {/* Background Video or Image */}
-        {activeHeroBackground?.mediaUrl ? (
-          activeHeroBackground?.type === 'video' ? (
+        {displayedBackground?.mediaUrl ? (
+          displayedBackground?.type === 'video' ? (
             <video
+              key={displayedBackground.id}
               autoPlay
               loop
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
             >
-              <source src={activeHeroBackground.mediaUrl} type="video/mp4" />
+              <source src={displayedBackground.mediaUrl} type="video/mp4" />
             </video>
           ) : (
             <img
+              key={displayedBackground.id}
               className="absolute inset-0 w-full h-full object-cover"
-              src={activeHeroBackground.mediaUrl}
+              src={displayedBackground.mediaUrl}
               alt="Hero Background"
             />
           )
