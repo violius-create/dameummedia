@@ -66,3 +66,8 @@
 - [x] 게시물 이미지/영상 표시
 - [x] 홈페이지에서 게시물 목록 표시
 - [x] Concert Live/Making Film 갤러리 페이지 링크
+
+
+### 추가 기능 요청
+- [x] 게시물 수정 기능 (Edit Post)
+- [x] Reservation 페이지 로그인 제거 설정

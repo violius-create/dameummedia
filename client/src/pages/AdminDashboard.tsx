@@ -22,6 +22,7 @@ export default function AdminDashboard() {
   const [category, setCategory] = useState("notice");
   const [imageUrl, setImageUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [editingPostId, setEditingPostId] = useState<number | null>(null);
   
   const { data: posts, refetch: refetchPosts } = trpc.posts.list.useQuery({ limit: 100 });
   const { data: reservations, refetch: refetchReservations } = trpc.reservations.list.useQuery({ limit: 100 });
@@ -47,6 +48,21 @@ export default function AdminDashboard() {
     },
     onError: (error) => {
       toast.error(error.message || "게시글 작성에 실패했습니다.");
+    },
+  });
+  
+  const updatePostMutation = trpc.posts.update.useMutation({
+    onSuccess: () => {
+      toast.success("게시글이 수정되었습니다.");
+      setTitle("");
+      setContent("");
+      setImageUrl("");
+      setVideoUrl("");
+      setEditingPostId(null);
+      refetchPosts();
+    },
+    onError: (error) => {
+      toast.error(error.message || "게시글 수정에 실패했습니다.");
     },
   });
   
@@ -114,13 +130,25 @@ export default function AdminDashboard() {
       return;
     }
     
-    createPostMutation.mutate({
-      title,
-      content,
-      category,
-      imageUrl: imageUrl || undefined,
-      videoUrl: videoUrl || undefined,
-    });
+    if (editingPostId) {
+      // Update existing post
+      updatePostMutation.mutate({
+        id: editingPostId,
+        title,
+        content,
+        imageUrl: imageUrl || undefined,
+        videoUrl: videoUrl || undefined,
+      });
+    } else {
+      // Create new post
+      createPostMutation.mutate({
+        title,
+        content,
+        category,
+        imageUrl: imageUrl || undefined,
+        videoUrl: videoUrl || undefined,
+      });
+    }
   };
 
   return (
@@ -240,14 +268,31 @@ export default function AdminDashboard() {
                         <h4 className="font-semibold">{post.title}</h4>
                         <p className="text-sm text-muted-foreground">{post.category} · {post.viewCount} views</p>
                       </div>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => deletePostMutation.mutate({ id: post.id })}
-                        disabled={deletePostMutation.isPending}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setTitle(post.title);
+                            setContent(post.content);
+                            setCategory(post.category);
+                            setImageUrl(post.imageUrl || "");
+                            setVideoUrl(post.videoUrl || "");
+                            setEditingPostId(post.id);
+                            setActiveTab("posts");
+                          }}
+                        >
+                          수정
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => deletePostMutation.mutate({ id: post.id })}
+                          disabled={deletePostMutation.isPending}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
