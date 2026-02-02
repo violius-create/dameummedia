@@ -142,18 +142,18 @@ export default function ReservationBoard() {
             <div className="border border-gray-200 rounded-lg overflow-hidden">
               {/* Table Header */}
               <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
-                <div className="grid grid-cols-12 gap-4 items-center text-sm font-semibold text-foreground">
-                  <div className="col-span-1 flex items-center">
+                <div className="grid grid-cols-12 gap-2 items-center text-sm font-semibold text-foreground">
+                  <div className="col-span-1 flex items-center justify-center">
                     <Checkbox 
                       checked={selectedIds.length === filteredReservations.length && filteredReservations.length > 0}
                       onChange={toggleSelectAll}
                     />
                   </div>
-                  <div className="col-span-1">번호</div>
-                  <div className="col-span-3">행사명</div>
+                  <div className="col-span-1 text-center">번호</div>
+                  <div className="col-span-4">행사명</div>
                   <div className="col-span-2">작성자</div>
                   <div className="col-span-2">날짜</div>
-                  <div className="col-span-1">상태</div>
+                  <div className="col-span-2">상태</div>
                 </div>
               </div>
 
@@ -161,18 +161,18 @@ export default function ReservationBoard() {
               <div className="divide-y divide-gray-200">
                 {filteredReservations.map((reservation: any, index: number) => (
                   <div key={reservation.id} className="hover:bg-gray-50 transition-colors">
-                    <div className="px-6 py-4 grid grid-cols-12 gap-4 items-center text-sm">
-                      <div className="col-span-1 flex items-center">
+                    <div className="px-6 py-4 grid grid-cols-12 gap-2 items-center text-sm">
+                      <div className="col-span-1 flex items-center justify-center">
                         <Checkbox 
                           checked={selectedIds.includes(reservation.id)}
                           onChange={() => toggleSelect(reservation.id)}
                         />
                       </div>
-                      <div className="col-span-1 text-foreground font-medium">
+                      <div className="col-span-1 text-center text-foreground font-medium">
                         {reservation.id}
                       </div>
                       <Link href={`/reservation/${reservation.id}`}>
-                        <div className="col-span-3 text-primary hover:underline cursor-pointer">
+                        <div className="col-span-4 text-primary hover:underline cursor-pointer">
                           {reservation.eventName || "제목 없음"}
                         </div>
                       </Link>
@@ -182,7 +182,7 @@ export default function ReservationBoard() {
                       <div className="col-span-2 text-muted-foreground">
                         {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
                       </div>
-                      <div className="col-span-1">
+                      <div className="col-span-2 flex justify-center">
                         <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
                           {getStatusLabel(reservation.status)}
                         </span>
