@@ -198,29 +198,17 @@ export default function ReservationDetail() {
               </h1>
               <span className={`px-4 py-2 rounded text-sm font-medium ${
                 displayData.status === 'pending' 
-                  ? 'bg-gray-100 text-gray-800'
+                  ? 'bg-yellow-100 text-yellow-800'
                   : displayData.status === 'confirmed'
-                  ? 'bg-green-100 text-green-800'
-                  : displayData.status === 'payment_completed'
-                  ? 'bg-black text-white'
-                  : displayData.status === 'work_pending'
-                  ? 'bg-sky-100 text-sky-800'
-                  : displayData.status === 'in_progress'
                   ? 'bg-blue-100 text-blue-800'
-                  : displayData.status === 'editing'
-                  ? 'bg-orange-100 text-orange-800'
                   : displayData.status === 'completed'
-                  ? 'bg-red-100 text-red-800'
-                  : 'bg-black text-white'
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800'
               }`}>
-                {displayData.status === 'pending' ? '접수대기' : 
-                 displayData.status === 'confirmed' ? '예약완료' :
-                 displayData.status === 'payment_completed' ? '결제완료' :
-                 displayData.status === 'work_pending' ? '작업대기' :
-                 displayData.status === 'in_progress' ? '작업중' :
-                 displayData.status === 'editing' ? '수정중' :
-                 displayData.status === 'completed' ? '최종' :
-                 displayData.status === 'cancelled' ? '취소' : displayData.status}
+                {displayData.status === 'pending' ? '대기중' : 
+                 displayData.status === 'confirmed' ? '확정' :
+                 displayData.status === 'completed' ? '완료' :
+                 '취소'}
               </span>
             </div>
             <p className="text-muted-foreground">
@@ -295,7 +283,7 @@ export default function ReservationDetail() {
                         </Select>
                       ) : (
                         <p className="text-foreground">
-                          {displayData.eventType === 'concert' ? '콘서트' :
+                          {displayData.eventType === 'concert' ? '콘서트' : 
                            displayData.eventType === 'film' ? '영상 제작' : '기타'}
                         </p>
                       )}
@@ -322,7 +310,7 @@ export default function ReservationDetail() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="venue">장소</Label>
+                      <Label htmlFor="venue">장소(공연장)</Label>
                       {isEditing ? (
                         <Input
                           id="venue"
@@ -335,21 +323,23 @@ export default function ReservationDetail() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="eventDate">행사일</Label>
+                      <Label htmlFor="eventDate">날짜</Label>
                       {isEditing ? (
                         <Input
                           id="eventDate"
                           type="date"
-                          value={editData?.eventDate || ""}
+                          value={editData?.eventDate ? new Date(editData.eventDate).toISOString().split('T')[0] : ""}
                           onChange={(e) => setEditData({ ...editData, eventDate: e.target.value })}
                         />
                       ) : (
-                        <p className="text-foreground">{displayData.eventDate || "-"}</p>
+                        <p className="text-foreground">
+                          {displayData.eventDate ? new Date(displayData.eventDate).toLocaleDateString('ko-KR') : "-"}
+                        </p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="rehearsalTime">리허설 시간</Label>
+                      <Label htmlFor="rehearsalTime">리허설시간</Label>
                       {isEditing ? (
                         <Input
                           id="rehearsalTime"
@@ -362,16 +352,15 @@ export default function ReservationDetail() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="composition">곡 구성</Label>
+                      <Label htmlFor="composition">편성·인원</Label>
                       {isEditing ? (
-                        <Textarea
+                        <Input
                           id="composition"
                           value={editData?.composition || ""}
                           onChange={(e) => setEditData({ ...editData, composition: e.target.value })}
-                          rows={3}
                         />
                       ) : (
-                        <p className="text-foreground whitespace-pre-wrap">{displayData.composition || "-"}</p>
+                        <p className="text-foreground">{displayData.composition || "-"}</p>
                       )}
                     </div>
                   </div>
@@ -383,7 +372,7 @@ export default function ReservationDetail() {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="managerName">담당자명</Label>
+                      <Label htmlFor="managerName">담당자 성함</Label>
                       {isEditing ? (
                         <Input
                           id="managerName"
@@ -409,47 +398,33 @@ export default function ReservationDetail() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="recordingStaff">녹음 스태프</Label>
+                      <Label htmlFor="recordingStaff">녹음주자</Label>
                       {isEditing ? (
-                        <Select value={editData?.recordingStaff || ""} onValueChange={(value) => setEditData({ ...editData, recordingStaff: value })}>
-                          <SelectTrigger id="recordingStaff">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="yes">필요</SelectItem>
-                            <SelectItem value="no">불필요</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Input
+                          id="recordingStaff"
+                          value={editData?.recordingStaff || ""}
+                          onChange={(e) => setEditData({ ...editData, recordingStaff: e.target.value })}
+                        />
                       ) : (
-                        <p className="text-foreground">
-                          {displayData.recordingStaff === 'yes' ? '필요' :
-                           displayData.recordingStaff === 'no' ? '불필요' : '-'}
-                        </p>
+                        <p className="text-foreground">{displayData.recordingStaff || "-"}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="photographyStaff">촬영 스태프</Label>
+                      <Label htmlFor="photographyStaff">사진촬영 주자</Label>
                       {isEditing ? (
-                        <Select value={editData?.photographyStaff || ""} onValueChange={(value) => setEditData({ ...editData, photographyStaff: value })}>
-                          <SelectTrigger id="photographyStaff">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="yes">필요</SelectItem>
-                            <SelectItem value="no">불필요</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Input
+                          id="photographyStaff"
+                          value={editData?.photographyStaff || ""}
+                          onChange={(e) => setEditData({ ...editData, photographyStaff: e.target.value })}
+                        />
                       ) : (
-                        <p className="text-foreground">
-                          {displayData.photographyStaff === 'yes' ? '필요' :
-                           displayData.photographyStaff === 'no' ? '불필요' : '-'}
-                        </p>
+                        <p className="text-foreground">{displayData.photographyStaff || "-"}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="audioSettings">음향 설정</Label>
+                      <Label htmlFor="audioSettings">촬영(녹음) 음선</Label>
                       {isEditing ? (
                         <Input
                           id="audioSettings"
@@ -462,7 +437,7 @@ export default function ReservationDetail() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="projectMonitor">프로젝트 모니터</Label>
+                      <Label htmlFor="projectMonitor">프로젝트모니 주자</Label>
                       {isEditing ? (
                         <Input
                           id="projectMonitor"
@@ -482,42 +457,25 @@ export default function ReservationDetail() {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="paymentMethod">결제 방식</Label>
+                      <Label htmlFor="paymentMethod">결제방식</Label>
                       {isEditing ? (
                         <Select value={editData?.paymentMethod || ""} onValueChange={(value) => setEditData({ ...editData, paymentMethod: value })}>
                           <SelectTrigger id="paymentMethod">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="cash">현금</SelectItem>
-                            <SelectItem value="transfer">계좌이체</SelectItem>
                             <SelectItem value="card">카드</SelectItem>
+                            <SelectItem value="transfer">계좌이체</SelectItem>
+                            <SelectItem value="cash">현금</SelectItem>
                             <SelectItem value="other">기타</SelectItem>
                           </SelectContent>
                         </Select>
                       ) : (
                         <p className="text-foreground">
-                          {displayData.paymentMethod === 'cash' ? '현금' :
+                          {displayData.paymentMethod === 'card' ? '카드' :
                            displayData.paymentMethod === 'transfer' ? '계좌이체' :
-                           displayData.paymentMethod === 'card' ? '카드' : '기타'}
+                           displayData.paymentMethod === 'cash' ? '현금' : '기타'}
                         </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="isPublic">공개 여부</Label>
-                      {isEditing ? (
-                        <Select value={editData?.isPublic ? "yes" : "no"} onValueChange={(value) => setEditData({ ...editData, isPublic: value === "yes" })}>
-                          <SelectTrigger id="isPublic">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="yes">공개</SelectItem>
-                            <SelectItem value="no">비공개</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <p className="text-foreground">{displayData.isPublic ? '공개' : '비공개'}</p>
                       )}
                     </div>
 
@@ -578,35 +536,22 @@ export default function ReservationDetail() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="status">상태 {isAdmin && <span className="text-xs text-muted-foreground">(관리자만 수정 가능)</span>}</Label>
-                    {isEditing ? (
-                      isAdmin ? (
-                        <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
-                          <SelectTrigger id="status">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="pending">접수대기</SelectItem>
-                            <SelectItem value="confirmed">예약완료</SelectItem>
-                            <SelectItem value="payment_completed">결제완료</SelectItem>
-                            <SelectItem value="work_pending">작업대기</SelectItem>
-                            <SelectItem value="in_progress">작업중</SelectItem>
-                            <SelectItem value="editing">수정중</SelectItem>
-                            <SelectItem value="completed">최종</SelectItem>
-                            <SelectItem value="cancelled">취소</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <p className="text-foreground text-sm text-muted-foreground py-2">
-                          {displayData.status === 'pending' ? '접수대기' :
-                           displayData.status === 'confirmed' ? '예약완료' :
-                           displayData.status === 'payment_completed' ? '결제완료' :
-                           displayData.status === 'work_pending' ? '작업대기' :
-                           displayData.status === 'in_progress' ? '작업중' :
-                           displayData.status === 'editing' ? '수정중' :
-                           displayData.status === 'completed' ? '최종' :
-                           displayData.status === 'cancelled' ? '취소' : displayData.status}
-                        </p>
-                      )
+                    {isEditing && isAdmin ? (
+                      <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
+                        <SelectTrigger id="status">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="pending">접수대기</SelectItem>
+                          <SelectItem value="confirmed">예약완료</SelectItem>
+                          <SelectItem value="payment_completed">결제완료</SelectItem>
+                          <SelectItem value="work_pending">작업대기</SelectItem>
+                          <SelectItem value="in_progress">작업중</SelectItem>
+                          <SelectItem value="editing">수정중</SelectItem>
+                          <SelectItem value="completed">최종</SelectItem>
+                          <SelectItem value="cancelled">취소</SelectItem>
+                        </SelectContent>
+                      </Select>
                     ) : (
                       <p className="text-foreground">
                         {displayData.status === 'pending' ? '접수대기' :
