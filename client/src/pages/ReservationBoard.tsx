@@ -150,8 +150,8 @@ export default function ReservationBoard() {
                     />
                   </div>
                   <div className="col-span-1 text-center">번호</div>
-                  <div className="col-span-4">행사명</div>
-                  <div className="col-span-2">작성자</div>
+                  <div className="col-span-3">행사명</div>
+                  <div className="col-span-3">작성자</div>
                   <div className="col-span-2">날짜</div>
                   <div className="col-span-2">상태</div>
                 </div>
@@ -172,11 +172,11 @@ export default function ReservationBoard() {
                         {reservation.id}
                       </div>
                       <Link href={`/reservation/${reservation.id}`}>
-                        <div className="col-span-4 text-primary hover:underline cursor-pointer">
+                        <div className="col-span-3 text-primary hover:underline cursor-pointer">
                           {reservation.eventName || "제목 없음"}
                         </div>
                       </Link>
-                      <div className="col-span-2 text-foreground">
+                      <div className="col-span-3 text-foreground">
                         {reservation.clientName || "-"}
                       </div>
                       <div className="col-span-2 text-muted-foreground">
