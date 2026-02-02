@@ -70,8 +70,21 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="border-b border-border bg-background">
-        <div className="container py-24">
+      <section className="border-b border-border bg-background relative overflow-hidden">
+        {/* Background Video */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-20"
+            src="https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
+        </div>
+        
+        <div className="container py-24 relative z-10">
           <div className="max-w-3xl">
             <h2 className="mb-6 text-5xl font-bold tracking-tight text-foreground">
               Concert Live<br />
