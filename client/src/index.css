@@ -144,6 +144,10 @@
 }
 
 @layer components {
+  a {
+    @apply text-muted-foreground hover:text-muted-foreground/70 transition-colors;
+  }
+
   .container {
     width: 100%;
     margin-left: auto;

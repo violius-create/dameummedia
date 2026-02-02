@@ -37,32 +37,10 @@ export default function Reservation() {
   });
 
   const createReservationMutation = trpc.reservations.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("예약 신청이 완료되었습니다. 곧 연락드리겠습니다.");
-      setFormData({
-        clientName: "",
-        clientEmail: "",
-        clientPhone: "",
-        eventName: "",
-        eventType: "concert",
-        venue: "",
-        eventDate: "",
-        eventTime: "",
-        rehearsalTime: "",
-        composition: "",
-        managerName: "",
-        managerPhone: "",
-        recordingStaff: "",
-        photographyStaff: "",
-        audioSettings: "",
-        projectMonitor: "",
-        paymentMethod: "card",
-        isPublic: "1",
-        receiptType: "individual",
-        paidAmount: "",
-        unpaidAmount: "",
-        description: "",
-      });
+      // 예약 상세 페이지로 리다이렉트
+      window.location.href = `/reservation/${data.id}`;
     },
     onError: (error) => {
       toast.error(`예약 실패: ${error.message}`);
@@ -71,9 +49,11 @@ export default function Reservation() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submitted with data:', formData);
 
     if (!formData.clientName || !formData.clientEmail || !formData.eventName) {
       toast.error("필수 항목을 모두 입력해주세요.");
+      console.log('Validation failed:', { clientName: formData.clientName, clientEmail: formData.clientEmail, eventName: formData.eventName });
       return;
     }
 
@@ -288,11 +268,11 @@ export default function Reservation() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="managerName">
-                        담당자 성함
+                        담당자 성함/연락처
                       </Label>
                       <Input
                         id="managerName"
-                        placeholder="담당자 이름"
+                        placeholder="홍길동"
                         value={formData.managerName}
                         onChange={(e) => setFormData({ ...formData, managerName: e.target.value })}
                       />
@@ -316,7 +296,7 @@ export default function Reservation() {
                       </Label>
                       <Input
                         id="recordingStaff"
-                        placeholder="담당자 이름"
+                        placeholder="신청"
                         value={formData.recordingStaff}
                         onChange={(e) => setFormData({ ...formData, recordingStaff: e.target.value })}
                       />
@@ -328,36 +308,35 @@ export default function Reservation() {
                       </Label>
                       <Input
                         id="photographyStaff"
-                        placeholder="담당자 이름"
+                        placeholder="신청"
                         value={formData.photographyStaff}
                         onChange={(e) => setFormData({ ...formData, photographyStaff: e.target.value })}
                       />
                     </div>
 
                     <div className="space-y-2">
+                      <Label htmlFor="audioSettings">
+                        촬영(녹음) 음선
+                      </Label>
+                      <Input
+                        id="audioSettings"
+                        placeholder="Economy"
+                        value={formData.audioSettings}
+                        onChange={(e) => setFormData({ ...formData, audioSettings: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
                       <Label htmlFor="projectMonitor">
-                        프로젝트모니터 주자
+                        프로젝트모니 주자
                       </Label>
                       <Input
                         id="projectMonitor"
-                        placeholder="담당자 이름"
+                        placeholder="안함"
                         value={formData.projectMonitor}
                         onChange={(e) => setFormData({ ...formData, projectMonitor: e.target.value })}
                       />
                     </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="audioSettings">
-                      촬영(녹음) 음선
-                    </Label>
-                    <Textarea
-                      id="audioSettings"
-                      placeholder="음향 설정에 대해 입력해주세요..."
-                      value={formData.audioSettings}
-                      onChange={(e) => setFormData({ ...formData, audioSettings: e.target.value })}
-                      rows={3}
-                    />
                   </div>
                 </div>
 
@@ -378,7 +357,6 @@ export default function Reservation() {
                           <SelectItem value="card">카드</SelectItem>
                           <SelectItem value="transfer">계좌이체</SelectItem>
                           <SelectItem value="cash">현금</SelectItem>
-                          <SelectItem value="other">기타</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -393,15 +371,14 @@ export default function Reservation() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="individual">개인</SelectItem>
-                          <SelectItem value="business">사업자</SelectItem>
-                          <SelectItem value="other">기타</SelectItem>
+                          <SelectItem value="business">사업</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="paidAmount">
-                        결제된 금액 (원)
+                        결제된 금액
                       </Label>
                       <Input
                         id="paidAmount"
@@ -414,7 +391,7 @@ export default function Reservation() {
 
                     <div className="space-y-2">
                       <Label htmlFor="unpaidAmount">
-                        미납 금액 (원)
+                        미납 금액
                       </Label>
                       <Input
                         id="unpaidAmount"
@@ -435,7 +412,7 @@ export default function Reservation() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="1">허용</SelectItem>
-                          <SelectItem value="0">비허용</SelectItem>
+                          <SelectItem value="0">거부</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -448,26 +425,33 @@ export default function Reservation() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="description">
-                      프로젝트 설명
+                      기타 사항
                     </Label>
                     <Textarea
                       id="description"
-                      placeholder="당신의 프로젝트에 대해 자세히 설명해주세요..."
+                      placeholder="추가로 알려주실 사항이 있으신가요?"
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      rows={5}
+                      rows={6}
                     />
                   </div>
                 </div>
 
                 {/* Submit Button */}
-                <Button
-                  type="submit"
-                  className="w-full bg-primary text-primary-foreground"
-                  disabled={createReservationMutation.isPending}
-                >
-                  {createReservationMutation.isPending ? "신청 중..." : "예약 신청하기"}
-                </Button>
+                <div className="flex gap-4 pt-6">
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                    disabled={createReservationMutation.isPending}
+                  >
+                    {createReservationMutation.isPending ? "예약 신청 중..." : "예약 신청하기"}
+                  </Button>
+                  <Link href="/">
+                    <Button type="button" variant="outline" className="flex-1">
+                      취소
+                    </Button>
+                  </Link>
+                </div>
               </form>
             </CardContent>
           </Card>

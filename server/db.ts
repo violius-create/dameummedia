@@ -177,7 +177,13 @@ export async function createReservation(reservation: InsertReservation) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  return db.insert(reservations).values(reservation);
+  const result = await db.insert(reservations).values(reservation);
+  // Get the inserted reservation with its ID
+  const insertedId = (result as any).insertId || result[0]?.insertId;
+  if (insertedId) {
+    return getReservationById(insertedId);
+  }
+  return result;
 }
 
 export async function getReservations(limit = 10, offset = 0) {

@@ -105,12 +105,12 @@ export const appRouter = router({
   
   // Reservations router
   reservations: router({
-create: publicProcedure
+    create: publicProcedure
       .input(z.object({
         clientName: z.string(),
         clientEmail: z.string(),
         clientPhone: z.string().optional(),
-        eventName: z.string().optional(),
+        eventName: z.string(),
         eventType: z.string(),
         venue: z.string().optional(),
         eventDate: z.date().optional(),
@@ -128,7 +128,7 @@ create: publicProcedure
         paidAmount: z.number().optional(),
         unpaidAmount: z.number().optional(),
         description: z.string().optional(),
-        status: z.string().optional(),
+        status: z.enum(['pending', 'confirmed', 'completed', 'cancelled']).optional(),
       }))
       .mutation(async ({ input }) => {
         return db.createReservation({
@@ -153,25 +153,55 @@ create: publicProcedure
           paidAmount: input.paidAmount,
           unpaidAmount: input.unpaidAmount,
           description: input.description,
-          status: input.status || 'pending',
+          status: (input.status || 'pending') as any,
         });
       }),
     
-    list: adminProcedure
+    list: publicProcedure
       .input(z.object({ limit: z.number().default(10), offset: z.number().default(0) }))
       .query(({ input }) => db.getReservations(input.limit, input.offset)),
     
-    getById: adminProcedure
+    getById: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(({ input }) => db.getReservationById(input.id)),
+    
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteReservation(input.id)),
     
     updateStatus: adminProcedure
       .input(z.object({ id: z.number(), status: z.string() }))
       .mutation(({ input }) => db.updateReservation(input.id, { status: input.status as any })),
     
-    delete: adminProcedure
-      .input(z.object({ id: z.number() }))
-      .mutation(({ input }) => db.deleteReservation(input.id)),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          clientName: z.string().optional(),
+          clientEmail: z.string().optional(),
+          clientPhone: z.string().optional(),
+          eventName: z.string().optional(),
+          eventType: z.string().optional(),
+          venue: z.string().optional(),
+          eventDate: z.date().optional(),
+          rehearsalTime: z.string().optional(),
+          composition: z.string().optional(),
+          managerName: z.string().optional(),
+          managerPhone: z.string().optional(),
+          recordingStaff: z.string().optional(),
+          photographyStaff: z.string().optional(),
+          audioSettings: z.string().optional(),
+          projectMonitor: z.string().optional(),
+          paymentMethod: z.string().optional(),
+          isPublic: z.number().optional(),
+          receiptType: z.string().optional(),
+          paidAmount: z.number().optional(),
+          unpaidAmount: z.number().optional(),
+          description: z.string().optional(),
+          status: z.enum(['pending', 'confirmed', 'completed', 'cancelled']).optional(),
+        }),
+      }))
+      .mutation(({ input }) => db.updateReservation(input.id, input.data)),
   }),
 
   // Gallery router
