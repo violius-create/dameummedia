@@ -21,6 +21,7 @@ export default function AdminHeroBackground() {
 
   const uploadMutation = trpc.upload.uploadFile.useMutation();
   const createGalleryMutation = trpc.gallery.create.useMutation();
+  const createHeroBackgroundMutation = trpc.heroBackground.create.useMutation();
   const { data: heroBackgrounds, refetch } = trpc.heroBackground.list.useQuery({});
 
   // 관리자 권한 확인
@@ -56,43 +57,52 @@ export default function AdminHeroBackground() {
     }
 
     setUploading(true);
-    try {
-      // 파일을 base64로 변환
-      const reader = new FileReader();
-      reader.onload = async (e) => {
+    
+    // 클로저 문제를 피하기 위해 현재 값을 저장
+    const currentTitle = title;
+    const currentFile = videoFile;
+    
+    // 파일을 base64로 변환
+    const reader = new FileReader();
+    
+    reader.onload = async (e) => {
+      try {
         const base64 = (e.target?.result as string).split(',')[1];
         
         // 파일 업로드
         const uploadResult = await uploadMutation.mutateAsync({
-          fileName: videoFile.name,
+          fileName: currentFile.name,
           fileData: base64,
-          mimeType: videoFile.type,
+          mimeType: currentFile.type,
         });
 
-        // 갤러리 아이템 생성 (hero-background 카테고리로)
-        await createGalleryMutation.mutateAsync({
-          title,
-          description: '배경 영상',
+        // heroBackground 생성
+        await createHeroBackgroundMutation.mutateAsync({
+          title: currentTitle,
           type: 'video',
-          category: 'concert', // 임시로 concert 사용
           mediaUrl: uploadResult.url,
           fileKey: uploadResult.fileKey,
-          order: 0,
-          featured: 1,
+          isActive: 1,
         });
 
         alert('배경 영상이 업로드되었습니다.');
         setTitle('');
         setVideoFile(null);
         setPreview('');
+        setUploading(false);
         refetch();
-      };
-      reader.readAsDataURL(videoFile);
-    } catch (error) {
-      alert(`업로드 실패: ${error instanceof Error ? error.message : '알 수 없는 오류'}`);
-    } finally {
+      } catch (error) {
+        setUploading(false);
+        alert(`업로드 실패: ${error instanceof Error ? error.message : '알 수 없는 오류'}`);
+      }
+    };
+    
+    reader.onerror = () => {
       setUploading(false);
-    }
+      alert('파일 읽기 실패');
+    };
+    
+    reader.readAsDataURL(currentFile);
   };
 
   return (
