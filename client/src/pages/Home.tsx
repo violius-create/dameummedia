@@ -39,11 +39,9 @@ export default function Home() {
               <Link href="/reservation">
                 <Button variant="ghost" size="sm">Reservation</Button>
               </Link>
-              {isAuthenticated && user?.role === 'admin' && (
-                <Link href="/admin">
-                  <Button variant="outline" size="sm">Admin</Button>
-                </Link>
-              )}
+              <Link href="/admin">
+                <Button variant="outline" size="sm">Admin</Button>
+              </Link>
             </div>
           </div>
         </div>
