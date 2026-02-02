@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +13,6 @@ export default function Home() {
   const [heroTitle, setHeroTitle] = useState('담음미디어');
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
-  const backgroundRef = useRef<any>(null);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
@@ -28,13 +27,6 @@ export default function Home() {
     if (savedSubtitle) setHeroSubtitle(savedSubtitle);
     if (savedOpacity) setOverlayOpacity(Number(savedOpacity));
   }, []);
-
-  // 배경 영상 데이터가 로드되면 ref에 저장
-  useEffect(() => {
-    if (activeHeroBackground?.mediaUrl) {
-      backgroundRef.current = activeHeroBackground;
-    }
-  }, [activeHeroBackground]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -153,46 +145,12 @@ export default function Home() {
 
             {/* Right Media */}
             <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
-              {/* Background Media - Always render both, show based on type */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600">
-                {/* Video - always present, visibility controlled */}
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className={`w-full h-full object-cover transition-opacity duration-300 ${
-                    backgroundRef.current?.type === 'video' ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                  }`}
-                  style={{
-                    display: backgroundRef.current?.type === 'video' ? 'block' : 'none'
-                  }}
-                >
-                  {backgroundRef.current?.mediaUrl && (
-                    <source src={backgroundRef.current.mediaUrl} type="video/mp4" />
-                  )}
-                </video>
-
-                {/* Image - always present, visibility controlled */}
-                <img
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-                    backgroundRef.current?.type !== 'video' && backgroundRef.current?.mediaUrl
-                      ? 'opacity-100'
-                      : 'opacity-0 pointer-events-none'
-                  }`}
-                  src={backgroundRef.current?.mediaUrl || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800'}
-                  alt="Hero Background"
-                />
-
-                {/* Fallback - shown when no media */}
-                {!backgroundRef.current?.mediaUrl && (
-                  <img
-                    className="w-full h-full object-cover"
-                    src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800"
-                    alt="Hero Background"
-                  />
-                )}
-              </div>
+              {/* Background Image - Professional music production */}
+              <img
+                className="w-full h-full object-cover"
+                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
+                alt="Professional Music Production"
+              />
 
               {/* Overlay Gradient */}
               <div 
