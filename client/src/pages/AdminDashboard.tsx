@@ -11,9 +11,12 @@ import { toast } from "sonner";
 import { Upload, Trash2, Plus } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { FileUploadDropzone } from "@/components/FileUploadDropzone";
+import { useLocation } from "wouter";
+import { useEffect } from "react";
 
 export default function AdminDashboard() {
   const { user, isAuthenticated } = useAuth();
+  const [location] = useLocation();
   
   // All hooks must be called before any conditional returns
   const [activeTab, setActiveTab] = useState("posts");
@@ -25,6 +28,22 @@ export default function AdminDashboard() {
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
   
   const { data: posts, refetch: refetchPosts } = trpc.posts.list.useQuery({ limit: 100 });
+  
+  useEffect(() => {
+    const params = new URLSearchParams(location.split('?')[1]);
+    const editId = params.get('editId');
+    if (editId && posts) {
+      const id = parseInt(editId);
+      setEditingPostId(id);
+      const post = posts.find(p => p.id === id);
+      if (post) {
+        setTitle(post.title);
+        setContent(post.content);
+        setImageUrl(post.imageUrl || '');
+        setVideoUrl(post.videoUrl || '');
+      }
+    }
+  }, [location, posts]);
   const { data: reservations, refetch: refetchReservations } = trpc.reservations.list.useQuery({ limit: 100 });
   const { data: concertGallery, refetch: refetchConcertGallery } = trpc.gallery.list.useQuery({ category: 'concert', limit: 100 });
   const { data: filmGallery, refetch: refetchFilmGallery } = trpc.gallery.list.useQuery({ category: 'film', limit: 100 });

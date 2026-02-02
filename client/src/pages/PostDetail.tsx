@@ -1,7 +1,7 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Music, Trash2 } from "lucide-react";
+import { ArrowLeft, Music, Trash2, Edit } from "lucide-react";
 import { Link, useRoute } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -79,19 +79,27 @@ export default function PostDetail() {
               </Button>
             </Link>
             {isAuthenticated && user?.role === 'admin' && (
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => {
-                  if (confirm("정말 삭제하시겠습니까?")) {
-                    deletePostMutation.mutate({ id: post.id });
-                  }
-                }}
-                disabled={deletePostMutation.isPending}
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                삭제
-              </Button>
+              <div className="flex gap-2">
+                <Link href={`/admin?editId=${post.id}`}>
+                  <Button variant="outline" size="sm">
+                    <Edit className="mr-2 h-4 w-4" />
+                    수정
+                  </Button>
+                </Link>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => {
+                    if (confirm("정말 삭제하시겠습니까?")) {
+                      deletePostMutation.mutate({ id: post.id });
+                    }
+                  }}
+                  disabled={deletePostMutation.isPending}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  삭제
+                </Button>
+              </div>
             )}
           </div>
         </div>

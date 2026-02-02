@@ -153,15 +153,22 @@ export default function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {concertPosts?.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                {post.imageUrl && (
-                  <img 
-                    src={post.imageUrl} 
-                    alt={post.title}
-                    className="h-48 w-full object-cover"
-                  />
-                )}
-                <CardHeader>
+              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+                <div className="relative h-48 w-full bg-muted flex items-center justify-center">
+                  {post.imageUrl ? (
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="text-center text-muted-foreground">
+                      <Music className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">이미지 없음</p>
+                    </div>
+                  )}
+                </div>
+                <CardHeader className="flex-1">
                   <CardTitle className="line-clamp-2">{post.title}</CardTitle>
                   <CardDescription className="line-clamp-2">{post.content}</CardDescription>
                 </CardHeader>
