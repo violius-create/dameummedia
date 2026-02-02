@@ -14,6 +14,10 @@ export default function AdminHeroBackground() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string>('');
+  const [heroTitle, setHeroTitle] = useState('담음미디어');
+  const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
+  const [overlayOpacity, setOverlayOpacity] = useState(40);
+  const [savingSettings, setSavingSettings] = useState(false);
 
   const uploadMutation = trpc.upload.uploadFile.useMutation();
   const createGalleryMutation = trpc.gallery.create.useMutation();
@@ -175,6 +179,106 @@ export default function AdminHeroBackground() {
                     <Upload className="h-4 w-4 mr-2" />
                     배경 영상 업로드
                   </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 타이틀 및 오버레이 설정 */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>타이틀 및 오버레이 설정</CardTitle>
+            <CardDescription>메인 페이지 타이틀과 배경 영상 오버레이를 설정하세요.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {/* 타이틀 입력 */}
+              <div>
+                <Label htmlFor="heroTitle">메인 타이틀</Label>
+                <Input
+                  id="heroTitle"
+                  placeholder="메인 타이틀"
+                  value={heroTitle}
+                  onChange={(e) => setHeroTitle(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+
+              {/* 부제 입력 */}
+              <div>
+                <Label htmlFor="heroSubtitle">부제</Label>
+                <Input
+                  id="heroSubtitle"
+                  placeholder="부제"
+                  value={heroSubtitle}
+                  onChange={(e) => setHeroSubtitle(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+
+              {/* 오버레이 투명도 조정 */}
+              <div>
+                <Label htmlFor="overlayOpacity">오버레이 투명도: {overlayOpacity}%</Label>
+                <input
+                  id="overlayOpacity"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value={overlayOpacity}
+                  onChange={(e) => setOverlayOpacity(Number(e.target.value))}
+                  className="w-full mt-2"
+                />
+                <p className="text-sm text-muted-foreground mt-2">0%: 투명 (영상 선명), 100%: 불투명 (검은색)</p>
+              </div>
+
+              {/* 미리보기 */}
+              <div>
+                <Label>미리보기</Label>
+                <div 
+                  className="w-full h-48 bg-black rounded-lg mt-2 flex items-center justify-center relative overflow-hidden"
+                  style={{
+                    backgroundColor: '#000000',
+                  }}
+                >
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{
+                      backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`,
+                    }}
+                  >
+                    <div className="text-center text-white">
+                      <h1 className="text-4xl font-bold mb-2">{heroTitle}</h1>
+                      <p className="text-xl text-gray-200">{heroSubtitle}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 저장 버튼 */}
+              <Button
+                onClick={() => {
+                  setSavingSettings(true);
+                  // 로컬 스토리지에 저장 (임시 방식)
+                  localStorage.setItem('heroTitle', heroTitle);
+                  localStorage.setItem('heroSubtitle', heroSubtitle);
+                  localStorage.setItem('overlayOpacity', String(overlayOpacity));
+                  setTimeout(() => {
+                    setSavingSettings(false);
+                    alert('설정이 저장되었습니다.');
+                  }, 500);
+                }}
+                disabled={savingSettings}
+                className="w-full"
+              >
+                {savingSettings ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    저장 중...
+                  </>
+                ) : (
+                  '설정 저장'
                 )}
               </Button>
             </div>

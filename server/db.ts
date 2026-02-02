@@ -181,9 +181,9 @@ export async function createReservation(reservation: InsertReservation) {
   // Get the inserted reservation with its ID
   const insertedId = (result as any).insertId || result[0]?.insertId;
   if (insertedId) {
-    return getReservationById(insertedId);
+    return await getReservationById(insertedId);
   }
-  return result;
+  throw new Error("Failed to create reservation");
 }
 
 export async function getReservations(limit = 10, offset = 0) {

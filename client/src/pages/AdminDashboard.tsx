@@ -150,7 +150,8 @@ export default function AdminDashboard() {
       return;
     }
     if (window.confirm(`${selectedPostIds.size}개의 게시글을 삭제하시겠습니까?`)) {
-      for (const postId of selectedPostIds) {
+      const postIdsArray = Array.from(selectedPostIds);
+      for (const postId of postIdsArray) {
         await deletePostMutation.mutateAsync({ id: postId });
       }
       setSelectedPostIds(new Set());

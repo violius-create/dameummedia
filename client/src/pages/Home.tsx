@@ -1,4 +1,5 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin, LogOut } from "lucide-react";
@@ -9,8 +10,22 @@ import { getLoginUrl } from "@/const";
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const [, navigate] = useLocation();
+  const [heroTitle, setHeroTitle] = useState('담음미디어');
+  const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
+  const [overlayOpacity, setOverlayOpacity] = useState(40);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
+
+  // 로컬 스토리지에서 설정 로드
+  useEffect(() => {
+    const savedTitle = localStorage.getItem('heroTitle');
+    const savedSubtitle = localStorage.getItem('heroSubtitle');
+    const savedOpacity = localStorage.getItem('overlayOpacity');
+    
+    if (savedTitle) setHeroTitle(savedTitle);
+    if (savedSubtitle) setHeroSubtitle(savedSubtitle);
+    if (savedOpacity) setOverlayOpacity(Number(savedOpacity));
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,8 +36,8 @@ export default function Home() {
             <div className="flex items-center gap-3">
               <Music className="h-8 w-8 text-primary" />
               <div>
-                <h1 className="text-xl font-bold tracking-tight">담음미디어</h1>
-                <p className="text-xs text-muted-foreground">Professional Media Production</p>
+                <h1 className="text-xl font-bold tracking-tight">{heroTitle}</h1>
+                <p className="text-xs text-muted-foreground">{heroSubtitle}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -81,13 +96,18 @@ export default function Home() {
           src="https://dameum-media-analysis.s3.amazonaws.com/hero-video.mp4"
         />
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`,
+          }}
+        />
         
         {/* Title Content */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-6xl font-bold tracking-tight mb-4">담음미디어</h1>
-            <p className="text-2xl text-gray-200">Professional Media Production</p>
+            <h1 className="text-6xl font-bold tracking-tight mb-4">{heroTitle}</h1>
+            <p className="text-2xl text-gray-200">{heroSubtitle}</p>
           </div>
         </div>
       </section>

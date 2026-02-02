@@ -58,6 +58,10 @@ export default function ReservationDetail() {
       toast.error("행사명은 필수입니다.");
       return;
     }
+    if (!reservation) {
+      toast.error("예약 정보를 찾을 수 없습니다.");
+      return;
+    }
     await updateMutation.mutateAsync({
       id: reservation.id,
       ...editData,
@@ -65,6 +69,10 @@ export default function ReservationDetail() {
   };
 
   const handleDelete = () => {
+    if (!reservation) {
+      toast.error("예약 정보를 찾을 수 없습니다.");
+      return;
+    }
     if (confirm("정말 삭제하시겠습니까?")) {
       deleteMutation.mutate({ id: reservation.id });
     }

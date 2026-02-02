@@ -38,9 +38,11 @@ export default function Reservation() {
 
   const createReservationMutation = trpc.reservations.create.useMutation({
     onSuccess: (data) => {
-      toast.success("예약 신청이 완료되었습니다. 곧 연락드리겠습니다.");
-      // 예약 상세 페이지로 리다이렉트
-      window.location.href = `/reservation/${data.id}`;
+      if (data && data.id) {
+        toast.success("예약 신청이 완료되었습니다. 곧 연락드리겠습니다.");
+        // 예약 상세 페이지로 리다이렉트
+        window.location.href = `/reservation/${data.id}`;
+      }
     },
     onError: (error) => {
       toast.error(`예약 실패: ${error.message}`);
