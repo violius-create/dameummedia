@@ -42,7 +42,7 @@ export default function ReservationBoard() {
                 돌아가기
               </Button>
             </Link>
-            <Link href="/reservation">
+            <Link href="/reservation/new">
               <Button size="sm" className="bg-primary text-white">
                 <Plus className="mr-2 h-4 w-4" />
                 새 예약

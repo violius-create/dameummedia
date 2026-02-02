@@ -38,7 +38,7 @@ export default function ReservationDetail() {
   const deleteMutation = trpc.reservations.delete.useMutation({
     onSuccess: () => {
       toast.success("예약이 삭제되었습니다.");
-      window.location.href = "/reservation-board";
+      window.location.href = "/reservation";
     },
     onError: (error) => {
       toast.error(`삭제 실패: ${error.message}`);
@@ -101,7 +101,7 @@ export default function ReservationDetail() {
       <div className="min-h-screen bg-background">
         <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
           <div className="container py-4">
-            <Link href="/reservation-board">
+            <Link href="/reservation">
               <Button variant="ghost" size="sm" className="text-foreground">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 돌아가기
@@ -129,7 +129,7 @@ export default function ReservationDetail() {
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container py-4">
           <div className="flex items-center justify-between">
-            <Link href="/reservation-board">
+            <Link href="/reservation">
               <Button variant="ghost" size="sm" className="text-foreground">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 돌아가기

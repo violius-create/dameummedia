@@ -92,7 +92,7 @@ export default function Reservation() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container py-4">
-          <Link href="/">
+          <Link href="/reservation">
             <Button variant="ghost" size="sm" className="text-foreground">
               <ArrowLeft className="mr-2 h-4 w-4" />
               돌아가기
