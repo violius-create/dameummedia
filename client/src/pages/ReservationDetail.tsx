@@ -53,41 +53,20 @@ export default function ReservationDetail() {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    if (!editData) return;
-
-    updateMutation.mutate({
-      id: id!,
-      data: {
-        clientName: editData.clientName,
-        clientEmail: editData.clientEmail,
-        clientPhone: editData.clientPhone,
-        eventName: editData.eventName,
-        eventType: editData.eventType,
-        venue: editData.venue,
-        eventDate: editData.eventDate,
-        rehearsalTime: editData.rehearsalTime,
-        composition: editData.composition,
-        managerName: editData.managerName,
-        managerPhone: editData.managerPhone,
-        recordingStaff: editData.recordingStaff,
-        photographyStaff: editData.photographyStaff,
-        audioSettings: editData.audioSettings,
-        projectMonitor: editData.projectMonitor,
-        paymentMethod: editData.paymentMethod,
-        isPublic: editData.isPublic,
-        receiptType: editData.receiptType,
-        paidAmount: editData.paidAmount,
-        unpaidAmount: editData.unpaidAmount,
-        description: editData.description,
-        status: editData.status,
-      },
+  const handleSave = async () => {
+    if (!editData.eventName) {
+      toast.error("행사명은 필수입니다.");
+      return;
+    }
+    await updateMutation.mutateAsync({
+      id: reservation.id,
+      ...editData,
     });
   };
 
   const handleDelete = () => {
-    if (confirm("정말 이 예약을 삭제하시겠습니까?")) {
-      deleteMutation.mutate({ id: id! });
+    if (confirm("정말 삭제하시겠습니까?")) {
+      deleteMutation.mutate({ id: reservation.id });
     }
   };
 
@@ -125,6 +104,52 @@ export default function ReservationDetail() {
   }
 
   const displayData = isEditing && editData ? editData : reservation;
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-gray-100 text-gray-800';
+      case 'confirmed':
+        return 'bg-green-100 text-green-800';
+      case 'payment_completed':
+        return 'bg-black text-white';
+      case 'work_pending':
+        return 'bg-sky-100 text-sky-800';
+      case 'in_progress':
+        return 'bg-blue-100 text-blue-800';
+      case 'editing':
+        return 'bg-orange-100 text-orange-800';
+      case 'completed':
+        return 'bg-red-100 text-red-800';
+      case 'cancelled':
+        return 'bg-black text-white';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return '접수대기';
+      case 'confirmed':
+        return '예약완료';
+      case 'payment_completed':
+        return '결제완료';
+      case 'work_pending':
+        return '작업대기';
+      case 'in_progress':
+        return '작업중';
+      case 'editing':
+        return '수정중';
+      case 'completed':
+        return '최종';
+      case 'cancelled':
+        return '취소';
+      default:
+        return status;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -191,409 +216,320 @@ export default function ReservationDetail() {
       <div className="container py-16">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
-          <div className="space-y-4">
+          <div className="space-y-4 pb-6 border-b-2 border-gray-300">
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-bold text-foreground">
                 {displayData.eventName || "제목 없음"}
               </h1>
-              <span className={`px-4 py-2 rounded text-sm font-medium ${
-                displayData.status === 'pending' 
-                  ? 'bg-yellow-100 text-yellow-800'
-                  : displayData.status === 'confirmed'
-                  ? 'bg-blue-100 text-blue-800'
-                  : displayData.status === 'completed'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800'
-              }`}>
-                {displayData.status === 'pending' ? '대기중' : 
-                 displayData.status === 'confirmed' ? '확정' :
-                 displayData.status === 'completed' ? '완료' :
-                 '취소'}
+              <span className={`px-4 py-2 rounded text-sm font-bold ${getStatusColor(displayData.status)}`}>
+                {getStatusLabel(displayData.status)}
               </span>
             </div>
-            <p className="text-muted-foreground">
-              작성자: {displayData.clientName} | {new Date(displayData.createdAt).toLocaleDateString('ko-KR')}
+            <p className="text-sm text-muted-foreground">
+              작성자: <span className="font-semibold text-foreground">{displayData.clientName}</span> | 작성일: <span className="font-semibold text-foreground">{new Date(displayData.createdAt).toLocaleDateString('ko-KR')}</span>
             </p>
           </div>
 
           {/* Form */}
-          <Card className="border border-border">
-            <CardHeader>
-              <CardTitle className="text-foreground">예약 정보</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-8">
-                {/* Section 1: 기본 정보 */}
-                <div className="space-y-6 pb-6 border-b border-border">
-                  <h3 className="text-lg font-semibold text-foreground">기본 정보</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="clientEmail">이메일</Label>
-                      {isEditing ? (
-                        <Input
-                          id="clientEmail"
-                          type="email"
-                          value={editData?.clientEmail || ""}
-                          onChange={(e) => setEditData({ ...editData, clientEmail: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.clientEmail}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="clientName">담당자 성함</Label>
-                      {isEditing ? (
-                        <Input
-                          id="clientName"
-                          value={editData?.clientName || ""}
-                          onChange={(e) => setEditData({ ...editData, clientName: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.clientName}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="clientPhone">연락처</Label>
-                      {isEditing ? (
-                        <Input
-                          id="clientPhone"
-                          value={editData?.clientPhone || ""}
-                          onChange={(e) => setEditData({ ...editData, clientPhone: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.clientPhone || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="eventType">문류</Label>
-                      {isEditing ? (
-                        <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData({ ...editData, eventType: value })}>
-                          <SelectTrigger id="eventType">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="concert">콘서트</SelectItem>
-                            <SelectItem value="film">영상 제작</SelectItem>
-                            <SelectItem value="other">기타</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <p className="text-foreground">
-                          {displayData.eventType === 'concert' ? '콘서트' : 
-                           displayData.eventType === 'film' ? '영상 제작' : '기타'}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+          <div className="space-y-6">
+            {/* Section 1: 기본 정보 */}
+            <div className="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500">
+              <h3 className="text-lg font-bold text-blue-900 mb-6">📋 기본 정보</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white rounded p-4 border border-blue-200">
+                  <Label htmlFor="clientEmail" className="text-sm font-semibold text-gray-700">이메일</Label>
+                  {isEditing ? (
+                    <Input
+                      id="clientEmail"
+                      type="email"
+                      value={editData?.clientEmail || ""}
+                      onChange={(e) => setEditData({ ...editData, clientEmail: e.target.value })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.clientEmail}</p>
+                  )}
                 </div>
 
-                {/* Section 2: 행사 정보 */}
-                <div className="space-y-6 pb-6 border-b border-border">
-                  <h3 className="text-lg font-semibold text-foreground">행사 정보</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="eventName">행사명</Label>
-                      {isEditing ? (
-                        <Input
-                          id="eventName"
-                          value={editData?.eventName || ""}
-                          onChange={(e) => setEditData({ ...editData, eventName: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.eventName}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="venue">장소(공연장)</Label>
-                      {isEditing ? (
-                        <Input
-                          id="venue"
-                          value={editData?.venue || ""}
-                          onChange={(e) => setEditData({ ...editData, venue: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.venue || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="eventDate">날짜</Label>
-                      {isEditing ? (
-                        <Input
-                          id="eventDate"
-                          type="date"
-                          value={editData?.eventDate ? new Date(editData.eventDate).toISOString().split('T')[0] : ""}
-                          onChange={(e) => setEditData({ ...editData, eventDate: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">
-                          {displayData.eventDate ? new Date(displayData.eventDate).toLocaleDateString('ko-KR') : "-"}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="rehearsalTime">리허설시간</Label>
-                      {isEditing ? (
-                        <Input
-                          id="rehearsalTime"
-                          value={editData?.rehearsalTime || ""}
-                          onChange={(e) => setEditData({ ...editData, rehearsalTime: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.rehearsalTime || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="composition">편성·인원</Label>
-                      {isEditing ? (
-                        <Input
-                          id="composition"
-                          value={editData?.composition || ""}
-                          onChange={(e) => setEditData({ ...editData, composition: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.composition || "-"}</p>
-                      )}
-                    </div>
-                  </div>
+                <div className="bg-white rounded p-4 border border-blue-200">
+                  <Label htmlFor="clientName" className="text-sm font-semibold text-gray-700">담당자 성함</Label>
+                  {isEditing ? (
+                    <Input
+                      id="clientName"
+                      value={editData?.clientName || ""}
+                      onChange={(e) => setEditData({ ...editData, clientName: e.target.value })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.clientName}</p>
+                  )}
                 </div>
 
-                {/* Section 3: 담당자 정보 */}
-                <div className="space-y-6 pb-6 border-b border-border">
-                  <h3 className="text-lg font-semibold text-foreground">담당자 정보</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="managerName">담당자 성함</Label>
-                      {isEditing ? (
-                        <Input
-                          id="managerName"
-                          value={editData?.managerName || ""}
-                          onChange={(e) => setEditData({ ...editData, managerName: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.managerName || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="managerPhone">담당자 연락처</Label>
-                      {isEditing ? (
-                        <Input
-                          id="managerPhone"
-                          value={editData?.managerPhone || ""}
-                          onChange={(e) => setEditData({ ...editData, managerPhone: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.managerPhone || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="recordingStaff">녹음주자</Label>
-                      {isEditing ? (
-                        <Input
-                          id="recordingStaff"
-                          value={editData?.recordingStaff || ""}
-                          onChange={(e) => setEditData({ ...editData, recordingStaff: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.recordingStaff || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="photographyStaff">사진촬영 주자</Label>
-                      {isEditing ? (
-                        <Input
-                          id="photographyStaff"
-                          value={editData?.photographyStaff || ""}
-                          onChange={(e) => setEditData({ ...editData, photographyStaff: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.photographyStaff || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="audioSettings">촬영(녹음) 음선</Label>
-                      {isEditing ? (
-                        <Input
-                          id="audioSettings"
-                          value={editData?.audioSettings || ""}
-                          onChange={(e) => setEditData({ ...editData, audioSettings: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.audioSettings || "-"}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="projectMonitor">프로젝트모니 주자</Label>
-                      {isEditing ? (
-                        <Input
-                          id="projectMonitor"
-                          value={editData?.projectMonitor || ""}
-                          onChange={(e) => setEditData({ ...editData, projectMonitor: e.target.value })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{displayData.projectMonitor || "-"}</p>
-                      )}
-                    </div>
-                  </div>
+                <div className="bg-white rounded p-4 border border-blue-200">
+                  <Label htmlFor="clientPhone" className="text-sm font-semibold text-gray-700">연락처</Label>
+                  {isEditing ? (
+                    <Input
+                      id="clientPhone"
+                      value={editData?.clientPhone || ""}
+                      onChange={(e) => setEditData({ ...editData, clientPhone: e.target.value })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.clientPhone || "-"}</p>
+                  )}
                 </div>
 
-                {/* Section 4: 결제 정보 */}
-                <div className="space-y-6 pb-6 border-b border-border">
-                  <h3 className="text-lg font-semibold text-foreground">결제 정보</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="paymentMethod">결제방식</Label>
-                      {isEditing ? (
-                        <Select value={editData?.paymentMethod || ""} onValueChange={(value) => setEditData({ ...editData, paymentMethod: value })}>
-                          <SelectTrigger id="paymentMethod">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="card">카드</SelectItem>
-                            <SelectItem value="transfer">계좌이체</SelectItem>
-                            <SelectItem value="cash">현금</SelectItem>
-                            <SelectItem value="other">기타</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <p className="text-foreground">
-                          {displayData.paymentMethod === 'card' ? '카드' :
-                           displayData.paymentMethod === 'transfer' ? '계좌이체' :
-                           displayData.paymentMethod === 'cash' ? '현금' : '기타'}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="receiptType">접수형태</Label>
-                      {isEditing ? (
-                        <Select value={editData?.receiptType || ""} onValueChange={(value) => setEditData({ ...editData, receiptType: value })}>
-                          <SelectTrigger id="receiptType">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="individual">개인</SelectItem>
-                            <SelectItem value="business">사업</SelectItem>
-                            <SelectItem value="other">기타</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <p className="text-foreground">
-                          {displayData.receiptType === 'individual' ? '개인' :
-                           displayData.receiptType === 'business' ? '사업' : '기타'}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="paidAmount">결제된 금액</Label>
-                      {isEditing ? (
-                        <Input
-                          id="paidAmount"
-                          type="number"
-                          value={editData?.paidAmount || 0}
-                          onChange={(e) => setEditData({ ...editData, paidAmount: parseInt(e.target.value) })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{(displayData.paidAmount || 0).toLocaleString()}원</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="unpaidAmount">미납 금액</Label>
-                      {isEditing ? (
-                        <Input
-                          id="unpaidAmount"
-                          type="number"
-                          value={editData?.unpaidAmount || 0}
-                          onChange={(e) => setEditData({ ...editData, unpaidAmount: parseInt(e.target.value) })}
-                        />
-                      ) : (
-                        <p className="text-foreground">{(displayData.unpaidAmount || 0).toLocaleString()}원</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Section 5: 추가 정보 */}
-                <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-foreground">추가 정보</h3>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="status">상태 {isAdmin && <span className="text-xs text-muted-foreground">(관리자만 수정 가능)</span>}</Label>
-                    {isEditing ? (isAdmin ? (
-                      <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
-                        <SelectTrigger id="status">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">접수대기</SelectItem>
-                          <SelectItem value="confirmed">예약완료</SelectItem>
-                          <SelectItem value="payment_completed">결제완료</SelectItem>
-                          <SelectItem value="work_pending">작업대기</SelectItem>
-                          <SelectItem value="in_progress">작업중</SelectItem>
-                          <SelectItem value="editing">수정중</SelectItem>
-                          <SelectItem value="completed">최종</SelectItem>
-                          <SelectItem value="cancelled">취소</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <p className="text-foreground text-sm text-muted-foreground">
-                        {displayData.status === 'pending' ? '접수대기' :
-                         displayData.status === 'confirmed' ? '예약완료' :
-                         displayData.status === 'payment_completed' ? '결제완료' :
-                         displayData.status === 'work_pending' ? '작업대기' :
-                         displayData.status === 'in_progress' ? '작업중' :
-                         displayData.status === 'editing' ? '수정중' :
-                         displayData.status === 'completed' ? '최종' :
-                         displayData.status === 'cancelled' ? '취소' : displayData.status}
-                      </p>
-                    )) : (
-                      <p className="text-foreground">
-                        {displayData.status === 'pending' ? '접수대기' :
-                         displayData.status === 'confirmed' ? '예약완료' :
-                         displayData.status === 'payment_completed' ? '결제완료' :
-                         displayData.status === 'work_pending' ? '작업대기' :
-                         displayData.status === 'in_progress' ? '작업중' :
-                         displayData.status === 'editing' ? '수정중' :
-                         displayData.status === 'completed' ? '최종' :
-                         displayData.status === 'cancelled' ? '취소' : displayData.status}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="description">비고</Label>
-                    {isEditing ? (
-                      <Textarea
-                        id="description"
-                        value={editData?.description || ""}
-                        onChange={(e) => setEditData({ ...editData, description: e.target.value })}
-                        rows={5}
-                      />
-                    ) : (
-                      <p className="text-foreground whitespace-pre-wrap">{displayData.description || "-"}</p>
-                    )}
-                  </div>
+                <div className="bg-white rounded p-4 border border-blue-200">
+                  <Label htmlFor="eventType" className="text-sm font-semibold text-gray-700">문류</Label>
+                  {isEditing ? (
+                    <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData({ ...editData, eventType: value })}>
+                      <SelectTrigger id="eventType" className="mt-2">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="concert">콘서트</SelectItem>
+                        <SelectItem value="film">영상 제작</SelectItem>
+                        <SelectItem value="other">기타</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">
+                      {displayData.eventType === 'concert' ? '콘서트' : 
+                       displayData.eventType === 'film' ? '영상 제작' : '기타'}
+                    </p>
+                  )}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            {/* Section 2: 행사 정보 */}
+            <div className="bg-green-50 rounded-lg p-6 border-l-4 border-green-500">
+              <h3 className="text-lg font-bold text-green-900 mb-6">🎬 행사 정보</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white rounded p-4 border border-green-200">
+                  <Label htmlFor="eventName" className="text-sm font-semibold text-gray-700">행사명</Label>
+                  {isEditing ? (
+                    <Input
+                      id="eventName"
+                      value={editData?.eventName || ""}
+                      onChange={(e) => setEditData({ ...editData, eventName: e.target.value })}
+                      className="mt-2"
+                      required
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.eventName}</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-green-200">
+                  <Label htmlFor="eventDate" className="text-sm font-semibold text-gray-700">행사일</Label>
+                  {isEditing ? (
+                    <Input
+                      id="eventDate"
+                      type="date"
+                      value={editData?.eventDate ? new Date(editData.eventDate).toISOString().split('T')[0] : ""}
+                      onChange={(e) => setEditData({ ...editData, eventDate: e.target.value })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">
+                      {displayData.eventDate ? new Date(displayData.eventDate).toLocaleDateString('ko-KR') : "-"}
+                    </p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-green-200">
+                  <Label htmlFor="venue" className="text-sm font-semibold text-gray-700">장소</Label>
+                  {isEditing ? (
+                    <Input
+                      id="venue"
+                      value={editData?.venue || ""}
+                      onChange={(e) => setEditData({ ...editData, venue: e.target.value })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.venue || "-"}</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-green-200">
+                  <Label htmlFor="eventDuration" className="text-sm font-semibold text-gray-700">촬영 시간</Label>
+                  {isEditing ? (
+                    <Input
+                      id="eventDuration"
+                      value={editData?.eventDuration || ""}
+                      onChange={(e) => setEditData({ ...editData, eventDuration: e.target.value })}
+                      className="mt-2"
+                      placeholder="예: 2시간"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.eventDuration || "-"}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Section 3: 결제 정보 */}
+            <div className="bg-orange-50 rounded-lg p-6 border-l-4 border-orange-500">
+              <h3 className="text-lg font-bold text-orange-900 mb-6">💰 결제 정보</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white rounded p-4 border border-orange-200">
+                  <Label htmlFor="quotedAmount" className="text-sm font-semibold text-gray-700">견적액</Label>
+                  {isEditing ? (
+                    <Input
+                      id="quotedAmount"
+                      type="number"
+                      value={editData?.quotedAmount || 0}
+                      onChange={(e) => setEditData({ ...editData, quotedAmount: parseInt(e.target.value) })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{(displayData.quotedAmount || 0).toLocaleString()}원</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-orange-200">
+                  <Label htmlFor="paidAmount" className="text-sm font-semibold text-gray-700">결제액</Label>
+                  {isEditing ? (
+                    <Input
+                      id="paidAmount"
+                      type="number"
+                      value={editData?.paidAmount || 0}
+                      onChange={(e) => setEditData({ ...editData, paidAmount: parseInt(e.target.value) })}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{(displayData.paidAmount || 0).toLocaleString()}원</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Section 4: 촬영 정보 */}
+            <div className="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-500">
+              <h3 className="text-lg font-bold text-purple-900 mb-6">🎥 촬영 정보</h3>
+              
+              <div className="grid grid-cols-1 gap-6">
+                <div className="bg-white rounded p-4 border border-purple-200">
+                  <Label htmlFor="recordingType" className="text-sm font-semibold text-gray-700">촬영 유형</Label>
+                  {isEditing ? (
+                    <Select value={editData?.recordingType || ""} onValueChange={(value) => setEditData({ ...editData, recordingType: value })}>
+                      <SelectTrigger id="recordingType" className="mt-2">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="photo">Photo</SelectItem>
+                        <SelectItem value="recording">Recording</SelectItem>
+                        <SelectItem value="solo">Solo</SelectItem>
+                        <SelectItem value="simple">Simple</SelectItem>
+                        <SelectItem value="economy">Economy</SelectItem>
+                        <SelectItem value="professional">Professional</SelectItem>
+                        <SelectItem value="special">영상제작</SelectItem>
+                        <SelectItem value="editing">편집제작</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.recordingType || "-"}</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-purple-200">
+                  <Label htmlFor="paymentMethod" className="text-sm font-semibold text-gray-700">결제 방식</Label>
+                  {isEditing ? (
+                    <Select value={editData?.paymentMethod || ""} onValueChange={(value) => setEditData({ ...editData, paymentMethod: value })}>
+                      <SelectTrigger id="paymentMethod" className="mt-2">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="full">100% 선결제</SelectItem>
+                        <SelectItem value="half">50% 선결제</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.paymentMethod || "-"}</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-purple-200">
+                  <Label htmlFor="specialRequirements" className="text-sm font-semibold text-gray-700">특수 요청</Label>
+                  {isEditing ? (
+                    <Select value={editData?.specialRequirements || ""} onValueChange={(value) => setEditData({ ...editData, specialRequirements: value })}>
+                      <SelectTrigger id="specialRequirements" className="mt-2">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="speed">속도기</SelectItem>
+                        <SelectItem value="steadycam">스테디캠</SelectItem>
+                        <SelectItem value="drone">드론</SelectItem>
+                        <SelectItem value="stabilizer">스태빌라이저</SelectItem>
+                        <SelectItem value="crane">크레인</SelectItem>
+                        <SelectItem value="other">기타</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.specialRequirements || "-"}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Section 5: 추가 정보 */}
+            <div className="bg-red-50 rounded-lg p-6 border-l-4 border-red-500">
+              <h3 className="text-lg font-bold text-red-900 mb-6">📝 추가 정보</h3>
+              
+              <div className="space-y-4">
+                <div className="bg-white rounded p-4 border border-red-200">
+                  <Label htmlFor="status" className="text-sm font-semibold text-gray-700">상태 {isAdmin && <span className="text-xs text-red-600">(관리자만 수정 가능)</span>}</Label>
+                  {isEditing && isAdmin ? (
+                    <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
+                      <SelectTrigger id="status" className="mt-2">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">접수대기</SelectItem>
+                        <SelectItem value="confirmed">예약완료</SelectItem>
+                        <SelectItem value="payment_completed">결제완료</SelectItem>
+                        <SelectItem value="work_pending">작업대기</SelectItem>
+                        <SelectItem value="in_progress">작업중</SelectItem>
+                        <SelectItem value="editing">수정중</SelectItem>
+                        <SelectItem value="completed">최종</SelectItem>
+                        <SelectItem value="cancelled">취소</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">
+                      {displayData.status === 'pending' ? '접수대기' :
+                       displayData.status === 'confirmed' ? '예약완료' :
+                       displayData.status === 'payment_completed' ? '결제완료' :
+                       displayData.status === 'work_pending' ? '작업대기' :
+                       displayData.status === 'in_progress' ? '작업중' :
+                       displayData.status === 'editing' ? '수정중' :
+                       displayData.status === 'completed' ? '최종' :
+                       displayData.status === 'cancelled' ? '취소' : displayData.status}
+                    </p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-red-200">
+                  <Label htmlFor="description" className="text-sm font-semibold text-gray-700">비고</Label>
+                  {isEditing ? (
+                    <Textarea
+                      id="description"
+                      value={editData?.description || ""}
+                      onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                      className="mt-2"
+                      rows={4}
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground whitespace-pre-wrap">{displayData.description || "-"}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

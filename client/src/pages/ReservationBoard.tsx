@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
-import { ArrowLeft, Plus, Search, Loader2 } from "lucide-react";
+import { ArrowLeft, Plus, Search, Loader2, Trash2, Edit2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function ReservationBoard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const pageSize = 10;
 
   // 예약 목록 조회
@@ -21,6 +22,66 @@ export default function ReservationBoard() {
     res.eventName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     res.clientName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const toggleSelect = (id: number) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === filteredReservations.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filteredReservations.map((r: any) => r.id));
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-gray-100 text-gray-800';
+      case 'confirmed':
+        return 'bg-green-100 text-green-800';
+      case 'payment_completed':
+        return 'bg-black text-white';
+      case 'work_pending':
+        return 'bg-sky-100 text-sky-800';
+      case 'in_progress':
+        return 'bg-blue-100 text-blue-800';
+      case 'editing':
+        return 'bg-orange-100 text-orange-800';
+      case 'completed':
+        return 'bg-red-100 text-red-800';
+      case 'cancelled':
+        return 'bg-black text-white';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return '접수대기';
+      case 'confirmed':
+        return '예약완료';
+      case 'payment_completed':
+        return '결제완료';
+      case 'work_pending':
+        return '작업대기';
+      case 'in_progress':
+        return '작업중';
+      case 'editing':
+        return '수정중';
+      case 'completed':
+        return '최종';
+      case 'cancelled':
+        return '취소';
+      default:
+        return status;
+    }
+  };
 
   if (isLoading) {
     return (
@@ -76,80 +137,72 @@ export default function ReservationBoard() {
             </div>
           </div>
 
-          {/* Reservations List */}
+          {/* Reservations Table */}
           {filteredReservations && filteredReservations.length > 0 ? (
-            <div className="space-y-4">
-              {filteredReservations.map((reservation: any, index: number) => (
-                <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
-                  <Card className="cursor-pointer hover:shadow-md transition-shadow border border-border">
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <CardTitle className="text-foreground">
-                            {reservation.eventName || "제목 없음"}
-                          </CardTitle>
-                          <CardDescription>
-                            작성자: {reservation.clientName} | {new Date(reservation.createdAt).toLocaleDateString('ko-KR')}
-                          </CardDescription>
+            <div className="border border-gray-200 rounded-lg overflow-hidden">
+              {/* Table Header */}
+              <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                <div className="grid grid-cols-12 gap-4 items-center text-sm font-semibold text-foreground">
+                  <div className="col-span-1 flex items-center">
+                    <Checkbox 
+                      checked={selectedIds.length === filteredReservations.length && filteredReservations.length > 0}
+                      onChange={toggleSelectAll}
+                    />
+                  </div>
+                  <div className="col-span-1">번호</div>
+                  <div className="col-span-3">행사명</div>
+                  <div className="col-span-2">작성자</div>
+                  <div className="col-span-2">날짜</div>
+                  <div className="col-span-1">상태</div>
+                </div>
+              </div>
+
+              {/* Table Body */}
+              <div className="divide-y divide-gray-200">
+                {filteredReservations.map((reservation: any, index: number) => (
+                  <div key={reservation.id} className="hover:bg-gray-50 transition-colors">
+                    <div className="px-6 py-4 grid grid-cols-12 gap-4 items-center text-sm">
+                      <div className="col-span-1 flex items-center">
+                        <Checkbox 
+                          checked={selectedIds.includes(reservation.id)}
+                          onChange={() => toggleSelect(reservation.id)}
+                        />
+                      </div>
+                      <div className="col-span-1 text-foreground font-medium">
+                        {reservation.id}
+                      </div>
+                      <Link href={`/reservation/${reservation.id}`}>
+                        <div className="col-span-3 text-primary hover:underline cursor-pointer">
+                          {reservation.eventName || "제목 없음"}
                         </div>
-                        <span className={`px-3 py-1 rounded text-sm font-medium whitespace-nowrap ml-4 ${
-                          reservation.status === 'pending' 
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : reservation.status === 'confirmed'
-                            ? 'bg-blue-100 text-blue-800'
-                            : reservation.status === 'completed'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {reservation.status === 'pending' ? '대기중' : 
-                           reservation.status === 'confirmed' ? '확정' :
-                           reservation.status === 'completed' ? '완료' :
-                           '취소'}
+                      </Link>
+                      <div className="col-span-2 text-foreground">
+                        {reservation.clientName || "-"}
+                      </div>
+                      <div className="col-span-2 text-muted-foreground">
+                        {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
+                      </div>
+                      <div className="col-span-1">
+                        <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
+                          {getStatusLabel(reservation.status)}
                         </span>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div>
-                          <p className="text-muted-foreground">문류</p>
-                          <p className="font-medium text-foreground">
-                            {reservation.eventType === 'concert' ? '콘서트' : 
-                             reservation.eventType === 'film' ? '영상 제작' : '기타'}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">장소</p>
-                          <p className="font-medium text-foreground">{reservation.venue || "-"}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">행사일</p>
-                          <p className="font-medium text-foreground">
-                            {reservation.eventDate ? new Date(reservation.eventDate).toLocaleDateString('ko-KR') : "-"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">결제액</p>
-                          <p className="font-medium text-foreground">{(reservation.paidAmount || 0).toLocaleString()}원</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
-            <Card className="border border-border">
-              <CardContent className="py-12 text-center">
-                <p className="text-muted-foreground mb-4">
-                  {searchTerm ? "검색 결과가 없습니다." : "예약이 없습니다."}
-                </p>
-                <Link href="/reservation">
-                  <Button className="bg-primary text-white">
-                    새 예약 작성하기
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <div className="border border-gray-200 rounded-lg p-12 text-center">
+              <p className="text-muted-foreground mb-4">
+                {searchTerm ? "검색 결과가 없습니다." : "예약이 없습니다."}
+              </p>
+              <Link href="/reservation/new">
+                <Button className="bg-primary text-white">
+                  새 예약 작성하기
+                </Button>
+              </Link>
+            </div>
           )}
 
           {/* Pagination */}
