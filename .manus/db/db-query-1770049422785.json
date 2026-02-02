@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, title, category, content FROM posts WHERE category = 'concert' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, category, content FROM posts WHERE category = 'concert' LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "공연1",
+      "category": "concert",
+      "content": "포레"
+    },
+    {
+      "id": "30001",
+      "title": "포레",
+      "category": "concert",
+      "content": "포레2"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcategory\tcontent\n1\t공연1\tconcert\t포레\n30001\t포레\tconcert\t포레2\n",
+  "stderr": "",
+  "execution_time_ms": 1537
+}
