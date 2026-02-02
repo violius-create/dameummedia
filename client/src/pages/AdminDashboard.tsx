@@ -547,7 +547,12 @@ export default function AdminDashboard() {
                 <CardDescription>메인 페이지 상단의 배경 이미지/영상을 관리합니다.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <p className="text-sm text-muted-foreground">배경 관리 기능이 준비 중입니다.</p>
+                <Button 
+                  onClick={() => window.location.href = '/admin/hero-background'}
+                  className="w-full"
+                >
+                  배경 영상 관리 페이지로 이동
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>

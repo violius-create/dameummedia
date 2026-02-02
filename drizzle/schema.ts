@@ -145,3 +145,5 @@ export const heroBackgrounds = mysqlTable("heroBackgrounds", {
 
 export type HeroBackground = typeof heroBackgrounds.$inferSelect;
 export type InsertHeroBackground = typeof heroBackgrounds.$inferInsert;
+
+
