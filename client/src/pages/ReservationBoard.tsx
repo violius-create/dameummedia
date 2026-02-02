@@ -142,53 +142,41 @@ export default function ReservationBoard() {
             <div className="border border-gray-200 rounded-lg overflow-hidden">
               {/* Table Header */}
               <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
-                <div className="grid grid-cols-12 gap-2 items-center text-sm font-semibold text-foreground">
-                  <div className="col-span-1 flex items-center justify-center">
-                    <Checkbox 
-                      checked={selectedIds.length === filteredReservations.length && filteredReservations.length > 0}
-                      onChange={toggleSelectAll}
-                    />
-                  </div>
-                  <div className="col-span-1 text-center">번호</div>
-                  <div className="col-span-3">행사명</div>
-                  <div className="col-span-3">작성자</div>
-                  <div className="col-span-2">날짜</div>
-                  <div className="col-span-2">상태</div>
+                <div className="grid grid-cols-5 gap-4 items-center text-sm font-semibold text-foreground">
+                  <div>번호</div>
+                  <div>행사명</div>
+                  <div>작성자</div>
+                  <div>날짜</div>
+                  <div>상태</div>
                 </div>
               </div>
 
               {/* Table Body */}
               <div className="divide-y divide-gray-200">
                 {filteredReservations.map((reservation: any, index: number) => (
-                  <div key={reservation.id} className="hover:bg-gray-50 transition-colors">
-                    <div className="px-6 py-4 grid grid-cols-12 gap-2 items-center text-sm">
-                      <div className="col-span-1 flex items-center justify-center">
-                        <Checkbox 
-                          checked={selectedIds.includes(reservation.id)}
-                          onChange={() => toggleSelect(reservation.id)}
-                        />
-                      </div>
-                      <div className="col-span-1 text-center text-foreground font-medium">
-                        {reservation.id}
-                      </div>
-                      <Link href={`/reservation/${reservation.id}`}>
-                        <div className="col-span-3 text-primary hover:underline cursor-pointer">
+                  <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
+                    <div className="hover:bg-gray-50 transition-colors cursor-pointer">
+                      <div className="px-6 py-4 grid grid-cols-5 gap-4 items-center text-sm">
+                        <div className="text-foreground font-medium">
+                          {reservation.id}
+                        </div>
+                        <div className="text-primary hover:underline">
                           {reservation.eventName || "제목 없음"}
                         </div>
-                      </Link>
-                      <div className="col-span-3 text-foreground">
-                        {reservation.clientName || "-"}
-                      </div>
-                      <div className="col-span-2 text-muted-foreground">
-                        {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
-                      </div>
-                      <div className="col-span-2 flex justify-center">
-                        <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
-                          {getStatusLabel(reservation.status)}
-                        </span>
+                        <div className="text-foreground">
+                          {reservation.clientName || "-"}
+                        </div>
+                        <div className="text-muted-foreground">
+                          {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
+                        </div>
+                        <div className="flex justify-center">
+                          <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
+                            {getStatusLabel(reservation.status)}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
