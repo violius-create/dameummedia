@@ -111,7 +111,11 @@ export default function Home() {
             />
           )
         ) : (
-          <div className="absolute inset-0 w-full h-full bg-blue-500" />
+          <img
+            className="absolute inset-0 w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200"
+            alt="Hero Background"
+          />
         )}
         
         {/* Dark Overlay */}

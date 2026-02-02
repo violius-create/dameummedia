@@ -1,0 +1,26 @@
+{
+  "query": "SELECT id, title, type, mediaUrl, isActive, status FROM heroBackgrounds WHERE isActive = 1 AND status = 'published';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, type, mediaUrl, isActive, status FROM heroBackgrounds WHERE isActive = 1 AND status = 'published';",
+  "rows": [
+    {
+      "id": "1",
+      "title": "테스트 배경 영상",
+      "type": "video",
+      "mediaUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770043139584-1r5gtu-test-video.mp4",
+      "isActive": "1",
+      "status": "published"
+    },
+    {
+      "id": "2",
+      "title": "자동 활성화 테스트 영상",
+      "type": "video",
+      "mediaUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770044232064-1tygzz-test-video.mp4",
+      "isActive": "1",
+      "status": "published"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\ttype\tmediaUrl\tisActive\tstatus\n1\t테스트 배경 영상\tvideo\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770043139584-1r5gtu-test-video.mp4\t1\tpublished\n2\t자동 활성화 테스트 영상\tvideo\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770044232064-1tygzz-test-video.mp4\t1\tpublished\n",
+  "stderr": "",
+  "execution_time_ms": 1619
+}
