@@ -15,6 +15,7 @@ import PostDetail from "./pages/PostDetail";
 import Information from "./pages/Information";
 import Price from "./pages/Price";
 import Reservation from "./pages/Reservation";
+import ReservationDetail from "./pages/ReservationDetail";
 
 function Navigation() {
   return (
@@ -52,6 +53,7 @@ function Router() {
       <Route path={"/information"} component={Information} />
       <Route path={"/price"} component={Price} />
       <Route path={"/reservation"} component={Reservation} />
+      <Route path={"/reservation/:id"} component={ReservationDetail} />
       <Route path={"/classical-music"} component={ClassicalMusicAnalysis} />
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />

@@ -202,6 +202,13 @@ export async function updateReservation(id: number, reservation: Partial<InsertR
   return db.update(reservations).set(reservation).where(eq(reservations.id, id));
 }
 
+export async function deleteReservation(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(reservations).where(eq(reservations.id, id));
+}
+
 // Comment queries
 export async function createComment(comment: InsertComment) {
   const db = await getDb();

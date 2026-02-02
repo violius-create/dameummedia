@@ -36,7 +36,7 @@ export default function ConcertLiveGallery() {
           </div>
           <h2 className="text-5xl md:text-6xl font-bold leading-tight text-foreground">클래식 음악 공연</h2>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            담음미디어가 기록한 다양한 클래식 음악 공연의 실황 영상과 사진입니다. 20년 이상의 경험으로 담신의 공연을 완벽하게 기록합니다.
+            담음미디어가 기록한 다양한 클래식 음악 공연의 실황 영상과 사진입니다. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
           </p>
         </div>
 

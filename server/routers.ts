@@ -130,6 +130,10 @@ export const appRouter = router({
     updateStatus: adminProcedure
       .input(z.object({ id: z.number(), status: z.string() }))
       .mutation(({ input }) => db.updateReservation(input.id, { status: input.status as any })),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteReservation(input.id)),
   }),
 
   // Gallery router

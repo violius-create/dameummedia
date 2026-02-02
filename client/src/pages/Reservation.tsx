@@ -1,39 +1,67 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Calendar, Mail, Phone, MapPin } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 export default function Reservation() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    eventDate: "",
+    clientName: "",
+    clientEmail: "",
+    clientPhone: "",
+    eventName: "",
     eventType: "concert",
-    location: "",
+    venue: "",
+    eventDate: "",
+    eventTime: "",
+    rehearsalTime: "",
+    composition: "",
+    managerName: "",
+    managerPhone: "",
+    recordingStaff: "",
+    photographyStaff: "",
+    audioSettings: "",
+    projectMonitor: "",
+    paymentMethod: "card",
+    isPublic: "1",
+    receiptType: "individual",
+    paidAmount: "",
+    unpaidAmount: "",
     description: "",
-    budget: "",
   });
 
   const createReservationMutation = trpc.reservations.create.useMutation({
     onSuccess: () => {
       toast.success("예약 신청이 완료되었습니다. 곧 연락드리겠습니다.");
       setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        eventDate: "",
+        clientName: "",
+        clientEmail: "",
+        clientPhone: "",
+        eventName: "",
         eventType: "concert",
-        location: "",
+        venue: "",
+        eventDate: "",
+        eventTime: "",
+        rehearsalTime: "",
+        composition: "",
+        managerName: "",
+        managerPhone: "",
+        recordingStaff: "",
+        photographyStaff: "",
+        audioSettings: "",
+        projectMonitor: "",
+        paymentMethod: "card",
+        isPublic: "1",
+        receiptType: "individual",
+        paidAmount: "",
+        unpaidAmount: "",
         description: "",
-        budget: "",
       });
     },
     onError: (error) => {
@@ -44,20 +72,37 @@ export default function Reservation() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.phone || !formData.eventDate) {
+    if (!formData.clientName || !formData.clientEmail || !formData.eventName) {
       toast.error("필수 항목을 모두 입력해주세요.");
       return;
     }
 
+    const eventDateTime = formData.eventDate && formData.eventTime 
+      ? new Date(`${formData.eventDate}T${formData.eventTime}`)
+      : new Date(formData.eventDate);
+
     createReservationMutation.mutate({
-      clientName: formData.name,
-      clientEmail: formData.email,
-      clientPhone: formData.phone,
-      eventDate: new Date(formData.eventDate),
+      clientName: formData.clientName,
+      clientEmail: formData.clientEmail,
+      clientPhone: formData.clientPhone,
+      eventName: formData.eventName,
       eventType: formData.eventType as any,
-      location: formData.location,
+      venue: formData.venue,
+      eventDate: eventDateTime,
+      rehearsalTime: formData.rehearsalTime,
+      composition: formData.composition,
+      managerName: formData.managerName,
+      managerPhone: formData.managerPhone,
+      recordingStaff: formData.recordingStaff,
+      photographyStaff: formData.photographyStaff,
+      audioSettings: formData.audioSettings,
+      projectMonitor: formData.projectMonitor,
+      paymentMethod: formData.paymentMethod as any,
+      isPublic: parseInt(formData.isPublic),
+      receiptType: formData.receiptType as any,
+      paidAmount: formData.paidAmount ? parseInt(formData.paidAmount) : 0,
+      unpaidAmount: formData.unpaidAmount ? parseInt(formData.unpaidAmount) : 0,
       description: formData.description,
-      budget: formData.budget ? parseInt(formData.budget) : undefined,
       status: "pending",
     });
   };
@@ -68,7 +113,7 @@ export default function Reservation() {
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container py-4">
           <Link href="/">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-foreground">
               <ArrowLeft className="mr-2 h-4 w-4" />
               돌아가기
             </Button>
@@ -78,181 +123,352 @@ export default function Reservation() {
 
       {/* Content */}
       <div className="container py-16">
-        <div className="max-w-2xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold">예약하기</h1>
+            <h1 className="text-4xl font-bold text-foreground">예약하기</h1>
             <p className="text-lg text-muted-foreground">
               당신의 프로젝트에 대해 알려주세요. 전문가 팀이 최적의 서비스를 제공해드립니다.
             </p>
           </div>
 
           {/* Form */}
-          <Card>
+          <Card className="border border-border">
             <CardHeader>
-              <CardTitle>예약 신청 양식</CardTitle>
-              <CardDescription>
-                필수 항목(*)을 모두 입력해주세요.
-              </CardDescription>
+              <CardTitle className="text-foreground">예약 신청 양식</CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name */}
-                <div className="space-y-2">
-                  <Label htmlFor="name">
-                    이름 <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="name"
-                    placeholder="홍길동"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                  />
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {/* Section 1: 기본 정보 */}
+                <div className="space-y-6 pb-6 border-b border-border">
+                  <h3 className="text-lg font-semibold text-foreground">기본 정보</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="clientEmail">
+                        이메일 <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="clientEmail"
+                        type="email"
+                        placeholder="example@email.com"
+                        value={formData.clientEmail}
+                        onChange={(e) => setFormData({ ...formData, clientEmail: e.target.value })}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="clientName">
+                        담당자 성함 <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="clientName"
+                        placeholder="홍길동"
+                        value={formData.clientName}
+                        onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="clientPhone">
+                        연락처
+                      </Label>
+                      <Input
+                        id="clientPhone"
+                        placeholder="010-1234-5678"
+                        value={formData.clientPhone}
+                        onChange={(e) => setFormData({ ...formData, clientPhone: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="eventType">
+                        문류 <span className="text-red-500">*</span>
+                      </Label>
+                      <Select value={formData.eventType} onValueChange={(value) => setFormData({ ...formData, eventType: value })}>
+                        <SelectTrigger id="eventType">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="concert">콘서트</SelectItem>
+                          <SelectItem value="film">영상 제작</SelectItem>
+                          <SelectItem value="other">기타</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label htmlFor="email">
-                    이메일 <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="example@email.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                  />
+                {/* Section 2: 행사 정보 */}
+                <div className="space-y-6 pb-6 border-b border-border">
+                  <h3 className="text-lg font-semibold text-foreground">행사 정보</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="eventName">
+                        행사명 <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="eventName"
+                        placeholder="예: 2025 신년음악회"
+                        value={formData.eventName}
+                        onChange={(e) => setFormData({ ...formData, eventName: e.target.value })}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="venue">
+                        장소(공연장)
+                      </Label>
+                      <Input
+                        id="venue"
+                        placeholder="예: 부천아트홀"
+                        value={formData.venue}
+                        onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="eventDate">
+                        날짜
+                      </Label>
+                      <Input
+                        id="eventDate"
+                        type="date"
+                        value={formData.eventDate}
+                        onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="eventTime">
+                        공연시간
+                      </Label>
+                      <Input
+                        id="eventTime"
+                        type="time"
+                        value={formData.eventTime}
+                        onChange={(e) => setFormData({ ...formData, eventTime: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="rehearsalTime">
+                        리허설시간
+                      </Label>
+                      <Input
+                        id="rehearsalTime"
+                        placeholder="예: 오후 2시 예상"
+                        value={formData.rehearsalTime}
+                        onChange={(e) => setFormData({ ...formData, rehearsalTime: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="composition">
+                        편성·인원
+                      </Label>
+                      <Input
+                        id="composition"
+                        placeholder="예: 3명"
+                        value={formData.composition}
+                        onChange={(e) => setFormData({ ...formData, composition: e.target.value })}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                {/* Phone */}
-                <div className="space-y-2">
-                  <Label htmlFor="phone">
-                    전화번호 <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="phone"
-                    placeholder="010-1234-5678"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    required
-                  />
+                {/* Section 3: 담당자 정보 */}
+                <div className="space-y-6 pb-6 border-b border-border">
+                  <h3 className="text-lg font-semibold text-foreground">담당자 정보</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="managerName">
+                        담당자 성함
+                      </Label>
+                      <Input
+                        id="managerName"
+                        placeholder="담당자 이름"
+                        value={formData.managerName}
+                        onChange={(e) => setFormData({ ...formData, managerName: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="managerPhone">
+                        담당자 연락처
+                      </Label>
+                      <Input
+                        id="managerPhone"
+                        placeholder="010-1234-5678"
+                        value={formData.managerPhone}
+                        onChange={(e) => setFormData({ ...formData, managerPhone: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="recordingStaff">
+                        녹음주자
+                      </Label>
+                      <Input
+                        id="recordingStaff"
+                        placeholder="담당자 이름"
+                        value={formData.recordingStaff}
+                        onChange={(e) => setFormData({ ...formData, recordingStaff: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="photographyStaff">
+                        사진촬영 주자
+                      </Label>
+                      <Input
+                        id="photographyStaff"
+                        placeholder="담당자 이름"
+                        value={formData.photographyStaff}
+                        onChange={(e) => setFormData({ ...formData, photographyStaff: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="projectMonitor">
+                        프로젝트모니터 주자
+                      </Label>
+                      <Input
+                        id="projectMonitor"
+                        placeholder="담당자 이름"
+                        value={formData.projectMonitor}
+                        onChange={(e) => setFormData({ ...formData, projectMonitor: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="audioSettings">
+                      촬영(녹음) 음선
+                    </Label>
+                    <Textarea
+                      id="audioSettings"
+                      placeholder="음향 설정에 대해 입력해주세요..."
+                      value={formData.audioSettings}
+                      onChange={(e) => setFormData({ ...formData, audioSettings: e.target.value })}
+                      rows={3}
+                    />
+                  </div>
                 </div>
 
-                {/* Event Date */}
-                <div className="space-y-2">
-                  <Label htmlFor="eventDate">
-                    행사 예정일 <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="eventDate"
-                    type="date"
-                    value={formData.eventDate}
-                    onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                    required
-                  />
+                {/* Section 4: 결제 정보 */}
+                <div className="space-y-6 pb-6 border-b border-border">
+                  <h3 className="text-lg font-semibold text-foreground">결제 정보</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="paymentMethod">
+                        결제방식
+                      </Label>
+                      <Select value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}>
+                        <SelectTrigger id="paymentMethod">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="card">카드</SelectItem>
+                          <SelectItem value="transfer">계좌이체</SelectItem>
+                          <SelectItem value="cash">현금</SelectItem>
+                          <SelectItem value="other">기타</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="receiptType">
+                        접수형태
+                      </Label>
+                      <Select value={formData.receiptType} onValueChange={(value) => setFormData({ ...formData, receiptType: value })}>
+                        <SelectTrigger id="receiptType">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="individual">개인</SelectItem>
+                          <SelectItem value="business">사업자</SelectItem>
+                          <SelectItem value="other">기타</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="paidAmount">
+                        결제된 금액 (원)
+                      </Label>
+                      <Input
+                        id="paidAmount"
+                        type="number"
+                        placeholder="0"
+                        value={formData.paidAmount}
+                        onChange={(e) => setFormData({ ...formData, paidAmount: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="unpaidAmount">
+                        미납 금액 (원)
+                      </Label>
+                      <Input
+                        id="unpaidAmount"
+                        type="number"
+                        placeholder="0"
+                        value={formData.unpaidAmount}
+                        onChange={(e) => setFormData({ ...formData, unpaidAmount: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="isPublic">
+                        공개 허용
+                      </Label>
+                      <Select value={formData.isPublic} onValueChange={(value) => setFormData({ ...formData, isPublic: value })}>
+                        <SelectTrigger id="isPublic">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">허용</SelectItem>
+                          <SelectItem value="0">비허용</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Event Type */}
-                <div className="space-y-2">
-                  <Label htmlFor="eventType">
-                    행사 유형 <span className="text-red-500">*</span>
-                  </Label>
-                  <Select value={formData.eventType} onValueChange={(value) => setFormData({ ...formData, eventType: value })}>
-                    <SelectTrigger id="eventType">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="concert">콘서트</SelectItem>
-                      <SelectItem value="festival">페스티벌</SelectItem>
-                      <SelectItem value="recording">음악 녹음</SelectItem>
-                      <SelectItem value="musicvideo">뮤직 비디오</SelectItem>
-                      <SelectItem value="other">기타</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Location */}
-                <div className="space-y-2">
-                  <Label htmlFor="location">
-                    행사 장소
-                  </Label>
-                  <Input
-                    id="location"
-                    placeholder="서울시 강남구 ..."
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  />
-                </div>
-
-                {/* Budget */}
-                <div className="space-y-2">
-                  <Label htmlFor="budget">
-                    예상 예산 (원)
-                  </Label>
-                  <Input
-                    id="budget"
-                    type="number"
-                    placeholder="3,000,000"
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  />
-                </div>
-
-                {/* Description */}
-                <div className="space-y-2">
-                  <Label htmlFor="description">
-                    프로젝트 설명
-                  </Label>
-                  <Textarea
-                    id="description"
-                    placeholder="당신의 프로젝트에 대해 자세히 설명해주세요..."
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={5}
-                  />
+                {/* Section 5: 추가 정보 */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground">추가 정보</h3>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="description">
+                      프로젝트 설명
+                    </Label>
+                    <Textarea
+                      id="description"
+                      placeholder="당신의 프로젝트에 대해 자세히 설명해주세요..."
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      rows={5}
+                    />
+                  </div>
                 </div>
 
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full bg-primary text-primary-foreground"
                   disabled={createReservationMutation.isPending}
                 >
                   {createReservationMutation.isPending ? "신청 중..." : "예약 신청하기"}
                 </Button>
               </form>
-            </CardContent>
-          </Card>
-
-          {/* Contact Info */}
-          <Card className="bg-card/50">
-            <CardHeader>
-              <CardTitle>연락처</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="font-medium">전화</p>
-                  <p className="text-sm text-muted-foreground">02-1234-5678</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="font-medium">이메일</p>
-                  <p className="text-sm text-muted-foreground">info@dameum.kr</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="font-medium">주소</p>
-                  <p className="text-sm text-muted-foreground">서울시 강남구 ...</p>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </div>

@@ -119,3 +119,10 @@
 - [x] Concert Live/Making Film 페이지 디자인 개선
 - [x] Admin 대시보드 디자인 개선
 - [x] 전체 기능 일관성 검증
+
+
+## Reservation 페이지 개선 요청 (2026-02-02 추가 4)
+- [x] Reservation 데이터 스키마에 상세 필드 추가
+- [x] Reservation 글쓰기 폼 UI 개선 - 이미지 형식에 맞게
+- [x] Reservation View 페이지 UI 개선 - 이미지 형식에 맞게
+- [x] 필드 검증 및 기본값 설정
