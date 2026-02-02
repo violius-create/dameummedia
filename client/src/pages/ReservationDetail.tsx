@@ -536,7 +536,7 @@ export default function ReservationDetail() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="status">상태 {isAdmin && <span className="text-xs text-muted-foreground">(관리자만 수정 가능)</span>}</Label>
-                    {isEditing && isAdmin ? (
+                    {isEditing ? (isAdmin ? (
                       <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
                         <SelectTrigger id="status">
                           <SelectValue />
@@ -553,6 +553,17 @@ export default function ReservationDetail() {
                         </SelectContent>
                       </Select>
                     ) : (
+                      <p className="text-foreground text-sm text-muted-foreground">
+                        {displayData.status === 'pending' ? '접수대기' :
+                         displayData.status === 'confirmed' ? '예약완료' :
+                         displayData.status === 'payment_completed' ? '결제완료' :
+                         displayData.status === 'work_pending' ? '작업대기' :
+                         displayData.status === 'in_progress' ? '작업중' :
+                         displayData.status === 'editing' ? '수정중' :
+                         displayData.status === 'completed' ? '최종' :
+                         displayData.status === 'cancelled' ? '취소' : displayData.status}
+                      </p>
+                    )) : (
                       <p className="text-foreground">
                         {displayData.status === 'pending' ? '접수대기' :
                          displayData.status === 'confirmed' ? '예약완료' :
