@@ -1,9 +1,10 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin } from "lucide-react";
+import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin, LogOut } from "lucide-react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { getLoginUrl } from "@/const";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
@@ -39,9 +40,29 @@ export default function Home() {
               <Link href="/reservation">
                 <Button variant="ghost" size="sm">Reservation</Button>
               </Link>
-              <Link href="/admin">
-                <Button variant="outline" size="sm">Admin</Button>
-              </Link>
+              {isAuthenticated && user?.role === 'admin' && (
+                <Link href="/admin">
+                  <Button variant="outline" size="sm">Admin</Button>
+                </Link>
+              )}
+              {!isAuthenticated ? (
+                <a href={getLoginUrl()}>
+                  <Button size="sm">로그인</Button>
+                </a>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">{user?.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      trpc.auth.logout.useMutation().mutate();
+                    }}
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
