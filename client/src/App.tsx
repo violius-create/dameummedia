@@ -11,6 +11,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ConcertLiveGallery from "./pages/ConcertLiveGallery";
 import MakingFilmGallery from "./pages/MakingFilmGallery";
 import PostDetail from "./pages/PostDetail";
+import Information from "./pages/Information";
+import Price from "./pages/Price";
+import Reservation from "./pages/Reservation";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -18,6 +21,9 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/post/:id"} component={PostDetail} />
+      <Route path={"/information"} component={Information} />
+      <Route path={"/price"} component={Price} />
+      <Route path={"/reservation"} component={Reservation} />
       <Route path={"/classical-music"} component={ClassicalMusicAnalysis} />
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />
