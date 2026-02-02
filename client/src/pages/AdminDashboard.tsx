@@ -91,7 +91,7 @@ export default function AdminDashboard() {
   });
 
   const updatePostMutation = trpc.posts.update.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("게시글이 수정되었습니다.");
       setTitle('');
       setContent('');
@@ -100,6 +100,9 @@ export default function AdminDashboard() {
       setVideoUrl('');
       setEditingPostId(null);
       refetchPosts();
+      if (data && data.id) {
+        window.location.href = `/post/${data.id}`;
+      }
     },
     onError: (error) => {
       toast.error(`수정 실패: ${error.message}`);
@@ -127,6 +130,7 @@ export default function AdminDashboard() {
         id: editingPostId,
         title,
         content,
+        category: category as any,
         imageUrl: imageUrl && imageUrl.trim() ? imageUrl : undefined,
         videoUrl: videoUrl && videoUrl.trim() ? videoUrl : undefined,
       });

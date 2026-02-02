@@ -2,12 +2,13 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin, LogOut } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
+  const [, navigate] = useLocation();
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
 
@@ -153,7 +154,7 @@ export default function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {concertPosts?.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col cursor-pointer" onClick={() => window.location.href = `/post/${post.id}`}>
                 <div className="relative h-48 w-full bg-muted flex items-center justify-center">
                   {post.imageUrl ? (
                     <img
@@ -169,7 +170,7 @@ export default function Home() {
                   )}
                 </div>
                 <CardHeader className="flex-1">
-                  <CardTitle className="line-clamp-2">{post.title}</CardTitle>
+                  <CardTitle className="line-clamp-2 hover:text-primary transition-colors">{post.title}</CardTitle>
                   <CardDescription className="line-clamp-2">{post.content}</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -200,7 +201,7 @@ export default function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {filmPosts?.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/post/${post.id}`}>
                 {post.imageUrl && (
                   <img 
                     src={post.imageUrl} 
@@ -209,7 +210,7 @@ export default function Home() {
                   />
                 )}
                 <CardHeader>
-                  <CardTitle className="line-clamp-2">{post.title}</CardTitle>
+                  <CardTitle className="line-clamp-2 hover:text-primary transition-colors">{post.title}</CardTitle>
                   <CardDescription className="line-clamp-2">{post.content}</CardDescription>
                 </CardHeader>
                 <CardContent>

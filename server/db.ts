@@ -137,7 +137,10 @@ export async function updatePost(id: number, post: Partial<InsertPost>) {
     Object.entries(post).filter(([, value]) => value !== undefined)
   ) as Partial<InsertPost>;
   
-  return db.update(posts).set(updateData).where(eq(posts.id, id));
+  await db.update(posts).set(updateData).where(eq(posts.id, id));
+  
+  // Return the updated post
+  return getPostById(id);
 }
 
 export async function deletePost(id: number) {
