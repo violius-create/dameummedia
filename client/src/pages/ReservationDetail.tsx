@@ -9,6 +9,7 @@ import { ArrowLeft, Edit2, Trash2, Loader2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useRoute, Link } from "wouter";
 
 export default function ReservationDetail() {
   const [, params] = useRoute("/reservation/:id");
@@ -129,12 +130,14 @@ export default function ReservationDetail() {
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container py-4">
           <div className="flex items-center justify-between">
-            <Link href="/reservation">
-              <Button variant="ghost" size="sm" className="text-foreground">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                돌아가기
-              </Button>
-            </Link>
+            <div className="flex gap-2">
+              <Link href="/reservation">
+                <Button variant="ghost" size="sm" className="text-foreground">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  목록 보기
+                </Button>
+              </Link>
+            </div>
             <div className="flex gap-2">
               {!isEditing ? (
                 <>

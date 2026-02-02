@@ -39,7 +39,7 @@ export default function ReservationBoard() {
             <Link href="/">
               <Button variant="ghost" size="sm" className="text-foreground">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                돌아가기
+                HOME
               </Button>
             </Link>
             <Link href="/reservation/new">
