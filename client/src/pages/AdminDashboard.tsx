@@ -127,17 +127,16 @@ export default function AdminDashboard() {
         id: editingPostId,
         title,
         content,
-        category: category as any,
-        imageUrl: imageUrl || null,
-        videoUrl: videoUrl || null,
+        imageUrl: imageUrl && imageUrl.trim() ? imageUrl : undefined,
+        videoUrl: videoUrl && videoUrl.trim() ? videoUrl : undefined,
       });
     } else {
       createPostMutation.mutate({
         title,
         content,
         category: category as any,
-        imageUrl: imageUrl || null,
-        videoUrl: videoUrl || null,
+        imageUrl: imageUrl && imageUrl.trim() ? imageUrl : undefined,
+        videoUrl: videoUrl && videoUrl.trim() ? videoUrl : undefined,
       });
     }
   };

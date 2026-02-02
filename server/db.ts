@@ -132,7 +132,12 @@ export async function updatePost(id: number, post: Partial<InsertPost>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  return db.update(posts).set(post).where(eq(posts.id, id));
+  // Filter out undefined values to avoid SQL errors
+  const updateData = Object.fromEntries(
+    Object.entries(post).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertPost>;
+  
+  return db.update(posts).set(updateData).where(eq(posts.id, id));
 }
 
 export async function deletePost(id: number) {
