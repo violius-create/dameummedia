@@ -1,25 +1,16 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
-import { Film, Play, X } from "lucide-react";
-import { useLocation } from "wouter";
+import { Film, ArrowRight } from "lucide-react";
+import { useLocation, Link } from "wouter";
 
 export default function MakingFilmGallery() {
   const [, setLocation] = useLocation();
-  const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [showLightbox, setShowLightbox] = useState(false);
 
-  const { data: galleryItems, isLoading } = trpc.gallery.list.useQuery({
+  const { data: posts, isLoading } = trpc.posts.list.useQuery({
     category: "film",
     limit: 100,
   });
-
-  const handleItemClick = (item: any) => {
-    setSelectedItem(item);
-    setShowLightbox(true);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -29,7 +20,7 @@ export default function MakingFilmGallery() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Film className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-bold">Making Film Gallery</h1>
+              <h1 className="text-xl font-bold">Making Film</h1>
             </div>
             <Button variant="outline" size="sm" onClick={() => setLocation('/')}>돌아가기</Button>
           </div>
@@ -39,60 +30,50 @@ export default function MakingFilmGallery() {
       <div className="container py-12">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-4xl font-bold">영화 제작 갤러리</h2>
+          <h2 className="mb-4 text-4xl font-bold">Making Film</h2>
           <p className="text-lg text-muted-foreground">
             담음미디어의 영화 제작 과정, 촬영 장면, 그리고 완성된 작품들을 소개합니다.
           </p>
         </div>
 
-        {/* Gallery Grid */}
+        {/* Posts Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
-            <p className="text-muted-foreground">갤러리를 불러오는 중...</p>
+            <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
-        ) : galleryItems && galleryItems.length > 0 ? (
+        ) : posts && posts.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {galleryItems.map((item) => (
+            {posts.map((post) => (
               <Card
-                key={item.id}
+                key={post.id}
                 className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:scale-105"
-                onClick={() => handleItemClick(item)}
+                onClick={() => window.location.href = `/post/${post.id}`}
               >
-                <div className="relative aspect-video overflow-hidden bg-muted">
-                  {item.type === "video" ? (
-                    <>
-                      <img
-                        src={item.thumbnailUrl || "/placeholder.jpg"}
-                        alt={item.title}
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 transition-all group-hover:bg-black/50">
-                        <Play className="h-12 w-12 text-white" />
-                      </div>
-                    </>
-                  ) : (
+                <div className="relative h-48 w-full bg-muted flex items-center justify-center">
+                  {post.imageUrl ? (
                     <img
-                      src={item.mediaUrl}
-                      alt={item.title}
+                      src={post.imageUrl}
+                      alt={post.title}
                       className="h-full w-full object-cover"
                     />
-                  )}
-                  {item.featured === 1 && (
-                    <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold">
-                      Featured
+                  ) : (
+                    <div className="text-center text-muted-foreground">
+                      <Film className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">이미지 없음</p>
                     </div>
                   )}
                 </div>
-                <CardContent className="pt-4">
-                  <h3 className="font-semibold line-clamp-2">{item.title}</h3>
-                  {item.description && (
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                      {item.description}
-                    </p>
-                  )}
-                  <div className="mt-3 text-xs text-muted-foreground">
-                    {item.type === "video" ? "🎬 영상" : "📷 사진"}
-                  </div>
+                <CardHeader className="flex-1">
+                  <CardTitle className="line-clamp-2 hover:text-primary transition-colors">{post.title}</CardTitle>
+                  <CardDescription className="line-clamp-2">{post.content}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href={`/post/${post.id}`}>
+                    <Button variant="ghost" size="sm" className="w-full">
+                      자세히 보기
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
@@ -101,42 +82,11 @@ export default function MakingFilmGallery() {
           <Card>
             <CardContent className="py-12 text-center">
               <Film className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">아직 갤러리 콘텐츠가 없습니다.</p>
+              <p className="text-muted-foreground">아직 게시물이 없습니다.</p>
             </CardContent>
           </Card>
         )}
       </div>
-
-      {/* Lightbox Modal */}
-      <Dialog open={showLightbox} onOpenChange={setShowLightbox}>
-        <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>{selectedItem?.title}</DialogTitle>
-            {selectedItem?.description && (
-              <DialogDescription>{selectedItem.description}</DialogDescription>
-            )}
-          </DialogHeader>
-          <div className="relative">
-            {selectedItem?.type === "video" ? (
-              <iframe
-                width="100%"
-                height="500"
-                src={selectedItem.mediaUrl}
-                title={selectedItem?.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <img
-                src={selectedItem?.mediaUrl}
-                alt={selectedItem?.title}
-                className="w-full h-auto rounded-lg"
-              />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -263,4 +263,55 @@ export async function deleteGalleryItem(id: number) {
   if (!db) throw new Error("Database not available");
   
   return db.delete(galleryItems).where(eq(galleryItems.id, id));
+}
+
+// Hero Background queries
+export async function getActiveHeroBackground() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(heroBackgrounds).where(and(eq(heroBackgrounds.isActive, 1), eq(heroBackgrounds.status, "published"))).orderBy(desc(heroBackgrounds.order)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getHeroBackgrounds(limit = 100, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(heroBackgrounds).orderBy(desc(heroBackgrounds.createdAt)).limit(limit).offset(offset);
+}
+
+export async function getHeroBackgroundById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(heroBackgrounds).where(eq(heroBackgrounds.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createHeroBackground(background: InsertHeroBackground) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.insert(heroBackgrounds).values(background);
+}
+
+export async function updateHeroBackground(id: number, background: Partial<InsertHeroBackground>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(background).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertHeroBackground>;
+  
+  await db.update(heroBackgrounds).set(updateData).where(eq(heroBackgrounds.id, id));
+  
+  return getHeroBackgroundById(id);
+}
+
+export async function deleteHeroBackground(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(heroBackgrounds).where(eq(heroBackgrounds.id, id));
 }

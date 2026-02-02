@@ -111,3 +111,22 @@ export const galleryItems = mysqlTable("galleryItems", {
 
 export type GalleryItem = typeof galleryItems.$inferSelect;
 export type InsertGalleryItem = typeof galleryItems.$inferInsert;
+
+// Hero background management table
+export const heroBackgrounds = mysqlTable("heroBackgrounds", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  type: mysqlEnum("type", ["image", "video"]).notNull(),
+  mediaUrl: text("mediaUrl").notNull(),
+  fileKey: varchar("fileKey", { length: 255 }).notNull().unique(), // S3 file key
+  thumbnailUrl: text("thumbnailUrl"), // For videos
+  uploadedBy: int("uploadedBy").notNull(),
+  isActive: int("isActive").default(1), // 1 for active background
+  order: int("order").default(0), // For custom ordering
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type HeroBackground = typeof heroBackgrounds.$inferSelect;
+export type InsertHeroBackground = typeof heroBackgrounds.$inferInsert;

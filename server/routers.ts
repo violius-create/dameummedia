@@ -200,6 +200,58 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deleteGalleryItem(input.id)),
   }),
+
+  // Hero Background router
+  heroBackground: router({
+    getActive: publicProcedure
+      .query(async () => {
+        return db.getActiveHeroBackground();
+      }),
+    
+    list: adminProcedure
+      .input(z.object({ limit: z.number().default(100), offset: z.number().default(0) }))
+      .query(async ({ input }) => {
+        return db.getHeroBackgrounds(input.limit, input.offset);
+      }),
+    
+    create: adminProcedure
+      .input(z.object({ title: z.string(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional(), isActive: z.number().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        // Deactivate other backgrounds if this one is active
+        if (input.isActive === 1) {
+          await db.updateHeroBackground(0, { isActive: 0 }).catch(() => {});
+        }
+        return db.createHeroBackground({
+          title: input.title,
+          type: input.type,
+          mediaUrl: input.mediaUrl,
+          fileKey: input.fileKey,
+          thumbnailUrl: input.thumbnailUrl,
+          uploadedBy: ctx.user.id,
+          isActive: input.isActive || 1,
+          status: "published",
+        });
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ id: z.number(), title: z.string().optional(), isActive: z.number().optional() }))
+      .mutation(async ({ input }) => {
+        // If activating this background, deactivate others
+        if (input.isActive === 1) {
+          const backgrounds = await db.getHeroBackgrounds(1000, 0);
+          for (const bg of backgrounds) {
+            if (bg.id !== input.id && bg.isActive === 1) {
+              await db.updateHeroBackground(bg.id, { isActive: 0 });
+            }
+          }
+        }
+        return db.updateHeroBackground(input.id, { title: input.title, isActive: input.isActive });
+      }),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteHeroBackground(input.id)),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

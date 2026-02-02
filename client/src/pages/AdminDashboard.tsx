@@ -196,11 +196,12 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
             <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
+            <TabsTrigger value="background">배경 관리</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -472,6 +473,19 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">이미지 관리 기능</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Background Tab */}
+          <TabsContent value="background" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>메인 타이틀 배경 관리</CardTitle>
+                <CardDescription>메인 페이지 상단의 배경 이미지/영상을 관리합니다.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <p className="text-sm text-muted-foreground">배경 관리 기능이 준비 중입니다.</p>
               </CardContent>
             </Card>
           </TabsContent>
