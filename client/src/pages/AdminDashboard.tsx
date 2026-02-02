@@ -64,7 +64,7 @@ export default function AdminDashboard() {
       setImageUrl('');
       setVideoUrl('');
     }
-  }, [posts]);
+  }, [posts, editIdFromUrl]);
 
   const { data: reservations, refetch: refetchReservations } = trpc.reservations.list.useQuery({ limit: 100 });
   const { data: concertGallery, refetch: refetchConcertGallery } = trpc.gallery.list.useQuery({ category: 'concert', limit: 100 });
@@ -242,8 +242,7 @@ export default function AdminDashboard() {
                 <div>
                   <Label>이미지</Label>
                   <FileUploadDropzone
-                    onFileSelect={(url) => setImageUrl(url)}
-                    currentUrl={imageUrl}
+                    onUploadSuccess={(file) => setImageUrl(file.url)}
                   />
                 </div>
 

@@ -25,7 +25,7 @@ export function FileUploadDropzone({
     message?: string;
   }>>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const uploadMutation = trpc.upload.uploadFile.useMutation();
+  const uploadMutation = trpc.images.upload.useMutation();
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -62,12 +62,16 @@ export function FileUploadDropzone({
                 ...prev,
                 {
                   fileName: result.fileName,
-                  url: result.url,
+                  url: result.fileUrl,
                   fileKey: result.fileKey,
                   status: 'success',
                 },
               ]);
-              onUploadSuccess(result);
+              onUploadSuccess({
+                url: result.fileUrl,
+                fileName: result.fileName,
+                fileKey: result.fileKey,
+              });
               toast.success(`${result.fileName} 업로드 완료`);
             },
             onError: (error) => {
