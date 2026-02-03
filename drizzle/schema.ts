@@ -175,6 +175,8 @@ export const siteBranding = mysqlTable("siteBranding", {
   logoFileKey: varchar("logoFileKey", { length: 255 }), // S3 file key for logo
   title: varchar("title", { length: 255 }).default("담음미디어").notNull(), // Main title
   subtitle: varchar("subtitle", { length: 255 }).default("Professional Media Production").notNull(), // Subtitle
+  instagramUrl: varchar("instagramUrl", { length: 255 }).default("https://instagram.com"), // Instagram URL
+  youtubeUrl: varchar("youtubeUrl", { length: 255 }).default("https://youtube.com"), // YouTube URL
   uploadedBy: int("uploadedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

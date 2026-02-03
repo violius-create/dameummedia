@@ -45,21 +45,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top Navigation Bar - Gray Background */}
-      {/* Top Navigation Bar - Gray Background */}
-      <nav className="sticky top-0 z-50 bg-gray-200 border-b border-gray-300">
-        <div className="container py-2 flex items-center justify-end gap-4">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
-            <Instagram className="h-4 w-4" />
-          </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
-            <Youtube className="h-4 w-4" />
-          </a>
-        </div>
-      </nav>
+
 
       {/* Main Navigation Bar - White Background */}
-      <nav className="sticky top-12 z-50 border-b border-border bg-background">
+      <nav className="sticky top-0 z-50 border-b border-border bg-background">
         <div className="container py-4 flex items-center justify-between">
           {/* Left: Logo and Title */}
           <div className="flex items-center gap-3">

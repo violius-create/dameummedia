@@ -595,12 +595,16 @@ function AdminSiteBranding() {
   const [logoFileName, setLogoFileName] = useState("");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [instagramUrl, setInstagramUrl] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
 
   useEffect(() => {
     if (branding) {
       setLogoUrl(branding.logoUrl || "");
       setTitle(branding.title || "");
       setSubtitle(branding.subtitle || "");
+      setInstagramUrl(branding.instagramUrl || "");
+      setYoutubeUrl(branding.youtubeUrl || "");
     }
   }, [branding]);
 
@@ -618,6 +622,8 @@ function AdminSiteBranding() {
       logoUrl: logoUrl || undefined,
       title: title || undefined,
       subtitle: subtitle || undefined,
+      instagramUrl: instagramUrl || undefined,
+      youtubeUrl: youtubeUrl || undefined,
     });
   };
 
@@ -649,6 +655,28 @@ function AdminSiteBranding() {
             value={subtitle}
             onChange={(e) => setSubtitle(e.target.value)}
             placeholder="Professional Media Production"
+          />
+        </div>
+
+        {/* Instagram URL */}
+        <div className="space-y-2">
+          <Label htmlFor="instagramUrl">Instagram URL</Label>
+          <Input
+            id="instagramUrl"
+            value={instagramUrl}
+            onChange={(e) => setInstagramUrl(e.target.value)}
+            placeholder="https://instagram.com/yourprofile"
+          />
+        </div>
+
+        {/* YouTube URL */}
+        <div className="space-y-2">
+          <Label htmlFor="youtubeUrl">YouTube URL</Label>
+          <Input
+            id="youtubeUrl"
+            value={youtubeUrl}
+            onChange={(e) => setYoutubeUrl(e.target.value)}
+            placeholder="https://youtube.com/yourchannel"
           />
         </div>
 

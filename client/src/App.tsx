@@ -35,10 +35,10 @@ function Navigation() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:bg-gray-300 hover:text-white px-2 py-1 rounded transition-colors">
               <Instagram className="h-5 w-5" />
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:bg-gray-300 hover:text-white px-2 py-1 rounded transition-colors">
               <Youtube className="h-5 w-5" />
             </a>
           </div>

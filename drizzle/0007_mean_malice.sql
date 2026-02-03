@@ -1,0 +1,2 @@
+ALTER TABLE `siteBranding` ADD `instagramUrl` varchar(255) DEFAULT 'https://instagram.com';--> statement-breakpoint
+ALTER TABLE `siteBranding` ADD `youtubeUrl` varchar(255) DEFAULT 'https://youtube.com';
