@@ -636,6 +636,25 @@ function AdminSiteBranding() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Logo Image Upload */}
+        <div className="space-y-2">
+          <Label htmlFor="logo">로고 이미지</Label>
+          <FileUploadDropzone
+            onUploadSuccess={(file) => {
+              setLogoUrl(file.url);
+              setLogoFileName(file.fileName);
+            }}
+            accept="image/*"
+            maxSize={10}
+          />
+          {logoUrl && (
+            <div className="flex items-center gap-2">
+              <img src={logoUrl} alt="Logo Preview" className="h-12 w-12 rounded" />
+              <span className="text-sm text-gray-600">{logoFileName || '로고 업로드됨'}</span>
+            </div>
+          )}
+        </div>
+
         {/* Title */}
         <div className="space-y-2">
           <Label htmlFor="title">타이틀</Label>
@@ -649,7 +668,7 @@ function AdminSiteBranding() {
 
         {/* Subtitle */}
         <div className="space-y-2">
-          <Label htmlFor="subtitle">부제목</Label>
+          <Label htmlFor="subtitle">부제목 (YouTube Channel Growth Strategy 부분)</Label>
           <Input
             id="subtitle"
             value={subtitle}

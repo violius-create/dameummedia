@@ -3,6 +3,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import { Instagram, Youtube } from "lucide-react";
+import { useState, useEffect } from "react";
+import { trpc } from "@/lib/trpc";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -21,17 +23,32 @@ import AdminHeroBackground from "./pages/AdminHeroBackground";
 import AdminServiceItems from "./pages/AdminServiceItems";
 
 function Navigation() {
+  const { data: branding } = trpc.siteBranding.get.useQuery();
+  const [logoUrl, setLogoUrl] = useState("");
+  const [subtitle, setSubtitle] = useState("YouTube Channel Growth Strategy");
+
+  useEffect(() => {
+    if (branding) {
+      setLogoUrl(branding.logoUrl || "");
+      setSubtitle(branding.subtitle || "YouTube Channel Growth Strategy");
+    }
+  }, [branding]);
+
   return (
     <nav className="border-b border-border bg-gray-100">
       <div className="container py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <span className="text-white font-bold text-sm">담</span>
-            </div>
+            {logoUrl ? (
+              <img src={logoUrl} alt="Logo" className="h-8 w-8 rounded" />
+            ) : (
+              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+                <span className="text-white font-bold text-sm">담</span>
+              </div>
+            )}
             <div>
               <h1 className="text-lg font-bold tracking-tight">담음미디어</h1>
-              <p className="text-xs text-muted-foreground">YouTube Channel Growth Strategy</p>
+              <p className="text-xs text-muted-foreground">{subtitle}</p>
             </div>
           </div>
           <div className="flex items-center gap-4">

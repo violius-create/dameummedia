@@ -61,19 +61,19 @@ export default function Home() {
           {/* Center: Navigation Links */}
           <div className="flex items-center gap-6">
             <Link href="/information">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Information</Button>
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Information</Button>
             </Link>
             <Link href="/price">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Price</Button>
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Price</Button>
             </Link>
             <Link href="/concert-live">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Concert Live</Button>
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Concert Live</Button>
             </Link>
             <Link href="/making-film">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Making Film</Button>
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Making Film</Button>
             </Link>
             <Link href="/reservation">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Reservation</Button>
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Reservation</Button>
             </Link>
           </div>
 
@@ -201,12 +201,7 @@ export default function Home() {
                           {sectionBg.description}
                         </p>
                       )}
-                      <Link href="/reservation">
-                        <Button size="lg" className="font-semibold">
-                          예약하기
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
+
                     </div>
 
                     <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
@@ -346,12 +341,7 @@ export default function Home() {
               <p className="text-gray-300">
                 아래 버튼을 클릭하여 예약 페이지로 이동하세요.
               </p>
-              <Link href="/reservation">
-                <Button size="lg" className="w-full font-semibold">
-                  지금 예약하기
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+
             </div>
           </div>
         </div>
