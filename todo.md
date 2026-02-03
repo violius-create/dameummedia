@@ -201,3 +201,8 @@
 - [x] 파일 업로드 시 "Service item not found" 에러 원인 파악 - itemKey 값 미설정
 - [x] 데이터베이스의 serviceItems 테이블에 itemKey 값 설정
 - [x] 파일 업로드 테스트
+
+## 메인 페이지 쿼리 에러 수정 (2026-02-03)
+- [x] 메인 페이지 서비스 항목 로드 쿼리 에러 진단
+- [x] getServiceItems 함수의 orderBy 구문 수정
+- [x] 메인 페이지 정상 로드 확인
