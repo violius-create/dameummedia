@@ -177,34 +177,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="border-b border-border bg-background">
-        <div className="container py-24">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="space-y-4">
-              <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                <Music className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold">음향 녹음</h3>
-              <p className="text-muted-foreground">최신 장비를 사용한 고품질 음향 녹음 및 편집</p>
-            </div>
-            <div className="space-y-4">
-              <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                <Film className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold">영상 제작</h3>
-              <p className="text-muted-foreground">4K 이상의 고해상도 영상 촬영 및 편집</p>
-            </div>
-            <div className="space-y-4">
-              <div className="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-pink-600" />
-              </div>
-              <h3 className="text-xl font-bold">빠른 납기</h3>
-              <p className="text-muted-foreground">전문 팀과 함께 신속한 완성을 보장합니다</p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Additional Hero Sections - Section 2 and 3 */}
       {heroBackgrounds && heroBackgrounds.length > 0 && (
@@ -214,7 +187,7 @@ export default function Home() {
             if (!sectionBg) return null;
             
             return (
-              <section key={section} className="relative min-h-[360px] overflow-hidden bg-gray-100 mt-[10px]">
+              <section key={section} className="relative min-h-[240px] overflow-hidden bg-gray-100 mt-[10px]">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
                 
                 <div className="relative container py-24 h-full flex items-center">
@@ -223,6 +196,11 @@ export default function Home() {
                       <h2 className="text-5xl font-bold tracking-tight text-white">
                         {sectionBg.title}
                       </h2>
+                      {sectionBg.description && (
+                        <p className="text-lg text-gray-100">
+                          {sectionBg.description}
+                        </p>
+                      )}
                       <Link href="/reservation">
                         <Button size="lg" className="font-semibold">
                           예약하기

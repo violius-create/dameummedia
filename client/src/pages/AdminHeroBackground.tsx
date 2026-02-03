@@ -14,6 +14,7 @@ export default function AdminHeroBackground() {
   const { user } = useAuth();
   const [selectedSection, setSelectedSection] = useState<SectionType>('main');
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string>('');
@@ -64,6 +65,7 @@ export default function AdminHeroBackground() {
     
     // 클로저 문제를 피하기 위해 현재 값을 저장
     const currentTitle = title;
+    const currentDescription = description;
     const currentFile = videoFile;
     const currentSection = selectedSection;
     
@@ -84,6 +86,7 @@ export default function AdminHeroBackground() {
         // heroBackground 생성
         await createHeroBackgroundMutation.mutateAsync({
           title: currentTitle,
+          description: currentDescription,
           type: 'video',
           mediaUrl: uploadResult.url,
           fileKey: uploadResult.fileKey,
@@ -91,8 +94,9 @@ export default function AdminHeroBackground() {
           section: currentSection,
         });
 
-        alert(`${currentSection === 'main' ? '메인' : currentSection === 'section2' ? '섹션 2' : '섹션 3'} 배경 영상이 업로드되었습니다.`);
+        alert(`${currentSection === 'main' ? '메인' : currentSection === 'section2' ? '섹션 2' : '섹션 3'} 배경 영상이 업로드되었스니다.`);
         setTitle('');
+        setDescription('');
         setVideoFile(null);
         setPreview('');
         setUploading(false);
@@ -185,6 +189,18 @@ export default function AdminHeroBackground() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="mt-2"
+                />
+              </div>
+
+              {/* 설명 입력 */}
+              <div>
+                <Label htmlFor="description">설명</Label>
+                <textarea
+                  id="description"
+                  placeholder="섹션 설명 텍스트"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="mt-2 w-full p-2 border border-border rounded-md min-h-[100px]"
                 />
               </div>
 

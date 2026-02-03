@@ -287,7 +287,7 @@ export const appRouter = router({
       }),
     
     create: adminProcedure
-      .input(z.object({ title: z.string(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional(), isActive: z.number().optional(), section: z.enum(["main", "section2", "section3"]).optional() }))
+      .input(z.object({ title: z.string(), description: z.string().optional(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional(), isActive: z.number().optional(), section: z.enum(["main", "section2", "section3"]).optional() }))
       .mutation(async ({ input, ctx }) => {
         // Deactivate other backgrounds in the same section if this one is active
         if (input.isActive === 1) {
@@ -302,6 +302,7 @@ export const appRouter = router({
         }
         return db.createHeroBackground({
           title: input.title,
+          description: input.description,
           type: input.type,
           mediaUrl: input.mediaUrl,
           fileKey: input.fileKey,

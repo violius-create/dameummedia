@@ -131,6 +131,7 @@ export type InsertGalleryItem = typeof galleryItems.$inferInsert;
 export const heroBackgrounds = mysqlTable("heroBackgrounds", {
   id: int("id").autoincrement().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"), // Section description text
   type: mysqlEnum("type", ["image", "video"]).notNull(),
   mediaUrl: text("mediaUrl").notNull(),
   fileKey: varchar("fileKey", { length: 255 }).notNull().unique(), // S3 file key
