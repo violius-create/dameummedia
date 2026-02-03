@@ -47,21 +47,16 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       {/* Unified Navigation Bar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background">
-        <div className="container py-4">
-          <div className="flex items-center justify-between">
-            {/* Left: Logo and Title */}
-            <div className="flex items-center gap-3">
-              {siteBranding?.logoUrl && (
-                <img src={siteBranding.logoUrl} alt="Logo" className="h-8 w-8 rounded" />
-              )}
-              <div>
-                <h1 className="text-lg font-bold text-foreground">{heroTitle}</h1>
-                <p className="text-xs text-muted-foreground">{heroSubtitle}</p>
-              </div>
-            </div>
+        <div className="container py-4 flex items-center justify-between">
+          {/* Left: Logo only */}
+          <div className="flex items-center gap-3">
+            {siteBranding?.logoUrl && (
+              <img src={siteBranding.logoUrl} alt="Logo" className="h-8 w-8 rounded" />
+            )}
+          </div>
 
-            {/* Center: Navigation Links */}
-            <div className="flex items-center gap-1">
+          {/* Center: Navigation Links */}
+          <div className="flex items-center gap-1">
               <Link href="/">
                 <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">
                   HOME
@@ -82,10 +77,10 @@ export default function Home() {
               <Link href="/reservation">
                 <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Reservation</Button>
               </Link>
-            </div>
+          </div>
 
-            {/* Right: Admin and Auth */}
-            <div className="flex items-center gap-2">
+          {/* Right: Admin and Auth */}
+          <div className="flex items-center gap-2">
               {isAuthenticated && user?.role === 'admin' && (
                 <Link href="/admin">
                   <Button variant="outline" size="sm" className="text-foreground">Admin</Button>
@@ -110,7 +105,6 @@ export default function Home() {
                   </Button>
                 </div>
               )}
-            </div>
           </div>
         </div>
       </nav>
