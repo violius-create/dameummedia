@@ -17,13 +17,11 @@ export default function Home() {
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
   const { data: heroBackgrounds } = trpc.heroBackground.list.useQuery({});
-  const { data: serviceItems } = trpc.serviceItems.getAll.useQuery({ limit: 3 });
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
     console.log("heroBackgrounds:", heroBackgrounds);
-    console.log("serviceItems:", serviceItems);
-  }, [activeHeroBackground, heroBackgrounds, serviceItems]);
+  }, [activeHeroBackground, heroBackgrounds]);
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
