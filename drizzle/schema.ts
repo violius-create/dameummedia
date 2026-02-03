@@ -134,7 +134,6 @@ export const heroBackgrounds = mysqlTable("heroBackgrounds", {
   type: mysqlEnum("type", ["image", "video"]).notNull(),
   mediaUrl: text("mediaUrl").notNull(),
   fileKey: varchar("fileKey", { length: 255 }).notNull().unique(), // S3 file key
-  thumbnailUrl: text("thumbnailUrl"), // For videos
   uploadedBy: int("uploadedBy").notNull(),
   isActive: int("isActive").default(1), // 1 for active background
   order: int("order").default(0), // For custom ordering
@@ -156,7 +155,6 @@ export const serviceItems = mysqlTable("serviceItems", {
   type: mysqlEnum("type", ["image", "video"]).notNull(),
   mediaUrl: text("mediaUrl").notNull(),
   fileKey: varchar("fileKey", { length: 255 }).notNull().unique(), // S3 file key
-  thumbnailUrl: text("thumbnailUrl"), // For videos
   uploadedBy: int("uploadedBy").notNull(),
   order: int("order").default(0), // For custom ordering
   isActive: int("isActive").default(1), // 1 for active item
