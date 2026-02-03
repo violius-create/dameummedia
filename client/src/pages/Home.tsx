@@ -136,19 +136,7 @@ export default function Home() {
               <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
                 고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
               </p>
-              <div className="flex gap-4 pt-4">
-                <Link href="/reservation">
-                  <Button size="lg" className="font-semibold">
-                    예약하기
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/information">
-                  <Button size="lg" variant="outline" className="font-semibold">
-                    자세히 보기
-                  </Button>
-                </Link>
-              </div>
+
             </div>
 
             {/* Right Media */}

@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
-import { Home as HomeIcon } from "lucide-react";
+import { Instagram, Youtube } from "lucide-react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -22,7 +22,7 @@ import AdminServiceItems from "./pages/AdminServiceItems";
 
 function Navigation() {
   return (
-    <nav className="border-b border-border bg-card">
+    <nav className="border-b border-border bg-gray-100">
       <div className="container py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
@@ -34,13 +34,14 @@ function Navigation() {
               <p className="text-xs text-muted-foreground">YouTube Channel Growth Strategy</p>
             </div>
           </div>
-          <button
-            onClick={() => window.location.href = '/'}
-            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent transition-colors"
-          >
-            <HomeIcon className="h-4 w-4" />
-            <span className="text-sm font-medium">HOME</span>
-          </button>
+          <div className="flex items-center gap-4">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+              <Instagram className="h-5 w-5" />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+              <Youtube className="h-5 w-5" />
+            </a>
+          </div>
         </div>
       </div>
     </nav>
