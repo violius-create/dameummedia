@@ -231,12 +231,13 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-6 overflow-x-auto">
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
             <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
             <TabsTrigger value="background">배경 관리</TabsTrigger>
+            <TabsTrigger value="services">서비스 항목</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -553,6 +554,24 @@ export default function AdminDashboard() {
                   className="w-full"
                 >
                   배경 영상 관리 페이지로 이동
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Services Tab */}
+          <TabsContent value="services" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>서비스 항목 관리</CardTitle>
+                <CardDescription>메인 페이지의 서비스 항목을 관리합니다.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <Button 
+                  onClick={() => window.location.href = '/admin/service-items'}
+                  className="w-full"
+                >
+                  서비스 항목 관리 페이지로 이동
                 </Button>
               </CardContent>
             </Card>
