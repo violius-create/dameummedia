@@ -187,10 +187,10 @@ export default function Home() {
             if (!sectionBg) return null;
             
             return (
-              <section key={section} className="relative min-h-[240px] overflow-hidden bg-gray-100 mt-[10px]">
+              <section key={section} className="relative h-[240px] overflow-hidden bg-gray-100 mt-[10px]">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
                 
-                <div className="relative container py-24 h-full flex items-center">
+                <div className="relative container py-12 h-full flex items-center">
                   <div className="grid md:grid-cols-2 gap-12 items-center w-full">
                     <div className="z-10 space-y-6">
                       <h2 className="text-5xl font-bold tracking-tight text-white">

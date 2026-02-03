@@ -403,6 +403,24 @@ export default function AdminHeroBackground() {
                             className="mt-1 text-sm"
                           />
                         </div>
+                        <div className="mb-4">
+                          <Label htmlFor={`description-${item.id}`} className="text-xs">설명 수정</Label>
+                          <textarea
+                            id={`description-${item.id}`}
+                            defaultValue={(item as any).description || ''}
+                            onBlur={async (e) => {
+                              if (e.target.value !== ((item as any).description || '')) {
+                                await updateHeroBackgroundMutation.mutateAsync({
+                                  id: item.id,
+                                  description: e.target.value,
+                                });
+                                refetch();
+                              }
+                            }}
+                            className="mt-1 text-sm w-full border border-border rounded p-2 min-h-[80px]"
+                            placeholder="섹션 설명을 입력하세요"
+                          />
+                        </div>
                         <p className="text-sm text-muted-foreground mb-4">
                           {item.type === 'video' ? '영상' : '이미지'}
                         </p>

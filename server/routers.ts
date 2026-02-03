@@ -314,7 +314,7 @@ export const appRouter = router({
       }),
     
     update: adminProcedure
-      .input(z.object({ id: z.number(), title: z.string().optional(), isActive: z.number().optional() }))
+      .input(z.object({ id: z.number(), title: z.string().optional(), description: z.string().optional(), isActive: z.number().optional() }))
       .mutation(async ({ input }) => {
         // If activating this background, deactivate others in the same section
         if (input.isActive === 1) {
@@ -328,7 +328,7 @@ export const appRouter = router({
             }
           }
         }
-        return db.updateHeroBackground(input.id, { title: input.title, isActive: input.isActive });
+        return db.updateHeroBackground(input.id, { title: input.title, description: input.description, isActive: input.isActive });
       }),
     
     delete: adminProcedure
