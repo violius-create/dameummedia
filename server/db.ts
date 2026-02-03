@@ -334,7 +334,7 @@ export async function getServiceItems(limit = 100, offset = 0) {
   const db = await getDb();
   if (!db) return [];
   
-  return db.select().from(serviceItems).where(eq(serviceItems.status, 'published')).orderBy(serviceItems.order, desc(serviceItems.createdAt)).limit(limit).offset(offset);
+  return db.select().from(serviceItems).orderBy(serviceItems.order, desc(serviceItems.createdAt)).limit(limit).offset(offset);
 }
 
 export async function getServiceItemById(id: number) {

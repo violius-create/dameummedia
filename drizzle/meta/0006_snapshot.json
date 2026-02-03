@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "23975fac-8e71-49b3-b660-e5bfca2df493",
-  "prevId": "acfba575-322f-4db0-b9fe-ffde36d20b0f",
+  "id": "0238a66c-0fc5-4237-8ec0-037c72aed6a8",
+  "prevId": "23975fac-8e71-49b3-b660-e5bfca2df493",
   "tables": {
     "comments": {
       "name": "comments",
@@ -238,13 +238,6 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "thumbnailUrl": {
-          "name": "thumbnailUrl",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "uploadedBy": {
@@ -760,13 +753,6 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "thumbnailUrl": {
-          "name": "thumbnailUrl",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "uploadedBy": {

@@ -34,14 +34,21 @@
       "idx": 4,
       "version": "5",
       "when": 1770111670964,
-      "tag": "0004_sloppy_carnage",
+      "tag": "0004_massive_joshua_kane",
       "breakpoints": true
     },
     {
       "idx": 5,
       "version": "5",
-      "when": 1770111985008,
-      "tag": "0005_shocking_harry_osborn",
+      "when": 1770115670666,
+      "tag": "0005_nosy_moon_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1770115696787,
+      "tag": "0006_rapid_spectrum",
       "breakpoints": true
     }
   ]
