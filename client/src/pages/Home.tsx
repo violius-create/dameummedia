@@ -47,18 +47,12 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       {/* Top Navigation Bar - Gray Background */}
       {/* Top Navigation Bar - Gray Background */}
-      <nav className="sticky top-0 z-50 bg-gray-700 border-b border-gray-600">
+      <nav className="sticky top-0 z-50 bg-gray-200 border-b border-gray-300">
         <div className="container py-2 flex items-center justify-end gap-4">
-          <a href={getLoginUrl()} className="text-white text-sm hover:text-gray-300">
-            LOGIN
-          </a>
-          <a href="#" className="text-white text-sm hover:text-gray-300">
-            JOIN
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
             <Instagram className="h-4 w-4" />
           </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
             <Youtube className="h-4 w-4" />
           </a>
         </div>
