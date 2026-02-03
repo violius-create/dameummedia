@@ -294,7 +294,8 @@ export const appRouter = router({
           const allBackgrounds = await db.getHeroBackgrounds(1000, 0);
           const currentSection = input.section || "main";
           for (const bg of allBackgrounds) {
-            if (bg.isActive === 1 && (bg as any).section === currentSection) {
+            const bgSection = (bg as any).section || "main";
+            if (bg.isActive === 1 && bgSection === currentSection) {
               await db.updateHeroBackground(bg.id, { isActive: 0 });
             }
           }
@@ -320,7 +321,8 @@ export const appRouter = router({
           const currentBg = backgrounds.find(bg => bg.id === input.id);
           const currentSection = (currentBg as any)?.section || "main";
           for (const bg of backgrounds) {
-            if (bg.id !== input.id && bg.isActive === 1 && (bg as any).section === currentSection) {
+            const bgSection = (bg as any).section || "main";
+            if (bg.id !== input.id && bg.isActive === 1 && bgSection === currentSection) {
               await db.updateHeroBackground(bg.id, { isActive: 0 });
             }
           }
