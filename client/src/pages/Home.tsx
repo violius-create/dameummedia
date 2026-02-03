@@ -50,12 +50,11 @@ export default function Home() {
       {/* Main Navigation Bar - White Background */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background">
         <div className="container py-4 flex items-center justify-between">
-          {/* Left: Logo and Title */}
+          {/* Left: Logo */}
           <div className="flex items-center gap-3">
             {siteBranding?.logoUrl && (
               <img src={siteBranding.logoUrl} alt="Logo" className="h-8 w-8 rounded" />
             )}
-            <span className="text-lg font-semibold text-foreground">{heroTitle}</span>
           </div>
 
           {/* Center: Navigation Links */}

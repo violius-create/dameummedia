@@ -237,3 +237,7 @@
 - [x] Admin에서 로고 이미지 업로드 기능 추가
 - [x] 로고를 'YouTube Channel Growth Strategy' 자리에 표시
 - [x] 'YouTube Channel Growth Strategy' 텍스트 편집 기능 추가
+
+
+## 네비게이션 텍스트 정리 (2026-02-03)
+- [x] 좌측 네비게이션 바의 "담음미디어" 텍스트 삭제
