@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "acfba575-322f-4db0-b9fe-ffde36d20b0f",
-  "prevId": "52f936b0-bf07-478b-af6f-871602c8b8f4",
+  "id": "a31552f8-8943-44c4-9fe3-028ed3e200b6",
+  "prevId": "23975fac-8e71-49b3-b660-e5bfca2df493",
   "tables": {
     "comments": {
       "name": "comments",
@@ -238,13 +238,6 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "thumbnailUrl": {
-          "name": "thumbnailUrl",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "uploadedBy": {
@@ -720,6 +713,13 @@
           "notNull": true,
           "autoincrement": true
         },
+        "itemKey": {
+          "name": "itemKey",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "title": {
           "name": "title",
           "type": "varchar(255)",
@@ -753,13 +753,6 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "thumbnailUrl": {
-          "name": "thumbnailUrl",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "uploadedBy": {
@@ -822,6 +815,12 @@
         }
       },
       "uniqueConstraints": {
+        "serviceItems_itemKey_unique": {
+          "name": "serviceItems_itemKey_unique",
+          "columns": [
+            "itemKey"
+          ]
+        },
         "serviceItems_fileKey_unique": {
           "name": "serviceItems_fileKey_unique",
           "columns": [

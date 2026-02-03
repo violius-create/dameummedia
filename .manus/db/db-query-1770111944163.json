@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, itemKey, title, description FROM serviceItems;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, itemKey, title, description FROM serviceItems;",
+  "rows": [
+    {
+      "id": "1",
+      "itemKey": "classy_live_filming",
+      "title": "Classy live filming",
+      "description": ""
+    },
+    {
+      "id": "2",
+      "itemKey": "profile_music_video",
+      "title": "Profile-Music video",
+      "description": ""
+    },
+    {
+      "id": "3",
+      "itemKey": "planned_shooting",
+      "title": "Planned shooting",
+      "description": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "id\titemKey\ttitle\tdescription\n1\tclassy_live_filming\tClassy live filming\t\n2\tprofile_music_video\tProfile-Music video\t\n3\tplanned_shooting\tPlanned shooting\t\n",
+  "stderr": "",
+  "execution_time_ms": 1497
+}
