@@ -16,6 +16,10 @@ export default function Home() {
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
+  
+  useEffect(() => {
+    console.log("activeHeroBackground:", activeHeroBackground);
+  }, [activeHeroBackground]);
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
@@ -146,24 +150,25 @@ export default function Home() {
             {/* Right Media */}
             <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
               {/* Background Image - Show uploaded image or fallback */}
-              {activeHeroBackground?.type === 'video' && activeHeroBackground?.mediaUrl ? (
-                <video
-                  key={activeHeroBackground.id}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
-                >
-                  <source src={activeHeroBackground.mediaUrl} type="video/mp4" />
-                </video>
-              ) : activeHeroBackground?.mediaUrl ? (
-                <img
-                  key={activeHeroBackground.id}
-                  className="w-full h-full object-cover"
-                  src={activeHeroBackground.mediaUrl}
-                  alt="Hero Background"
-                />
+              {activeHeroBackground?.mediaUrl ? (
+                activeHeroBackground.type === 'video' ? (
+                  <video
+                    key={`video-${activeHeroBackground.id}`}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                    src={activeHeroBackground.mediaUrl}
+                  />
+                ) : (
+                  <img
+                    key={`img-${activeHeroBackground.id}`}
+                    className="w-full h-full object-cover"
+                    src={activeHeroBackground.mediaUrl}
+                    alt="Hero Background"
+                  />
+                )
               ) : (
                 <img
                   className="w-full h-full object-cover"

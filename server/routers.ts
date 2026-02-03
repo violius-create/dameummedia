@@ -291,7 +291,12 @@ export const appRouter = router({
       .mutation(async ({ input, ctx }) => {
         // Deactivate other backgrounds if this one is active
         if (input.isActive === 1) {
-          await db.updateHeroBackground(0, { isActive: 0 }).catch(() => {});
+          const allBackgrounds = await db.getHeroBackgrounds(1000, 0);
+          for (const bg of allBackgrounds) {
+            if (bg.isActive === 1) {
+              await db.updateHeroBackground(bg.id, { isActive: 0 });
+            }
+          }
         }
         return db.createHeroBackground({
           title: input.title,
