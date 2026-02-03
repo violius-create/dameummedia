@@ -92,9 +92,9 @@ export default function Home() {
       </nav>
 
       {/* Split-Screen Hero Section */}
-      <section className="relative min-h-[600px] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <section className="relative min-h-[360px] overflow-hidden bg-gray-100">
         {/* Gradient Background Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
         
         {/* Animated Background Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
@@ -214,8 +214,8 @@ export default function Home() {
             if (!sectionBg) return null;
             
             return (
-              <section key={section} className="relative min-h-[600px] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/80 to-transparent" />
+              <section key={section} className="relative min-h-[360px] overflow-hidden bg-gray-100 mt-[10px]">
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
                 
                 <div className="relative container py-24 h-full flex items-center">
                   <div className="grid md:grid-cols-2 gap-12 items-center w-full">

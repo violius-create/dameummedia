@@ -366,8 +366,28 @@ export default function AdminHeroBackground() {
                         />
                       )}
                       <div className="p-4">
-                        <h3 className="font-semibold">{item.title}</h3>
-                        <p className="text-sm text-muted-foreground">
+                        <div className="mb-4">
+                          <Label htmlFor={`title-${item.id}`} className="text-xs">제목 수정</Label>
+                          <Input
+                            id={`title-${item.id}`}
+                            value={item.title}
+                            onChange={(e) => {
+                              const updatedItem = { ...item, title: e.target.value };
+                              // 임시로 상태 업데이트 (실제로는 서버에 저장해야 함)
+                            }}
+                            onBlur={async (e) => {
+                              if (e.target.value !== item.title) {
+                                await updateHeroBackgroundMutation.mutateAsync({
+                                  id: item.id,
+                                  title: e.target.value,
+                                });
+                                refetch();
+                              }
+                            }}
+                            className="mt-1 text-sm"
+                          />
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4">
                           {item.type === 'video' ? '영상' : '이미지'}
                         </p>
                         <div className="mt-4 flex items-center gap-2">
