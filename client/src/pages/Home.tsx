@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin, LogOut, Play } from "lucide-react";
+import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin, LogOut, Play, Search, Instagram, Youtube } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
@@ -45,66 +45,77 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Unified Navigation Bar */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background">
+      {/* Top Navigation Bar - Gray Background */}
+      {/* Top Navigation Bar - Gray Background */}
+      <nav className="sticky top-0 z-50 bg-gray-700 border-b border-gray-600">
+        <div className="container py-2 flex items-center justify-end gap-4">
+          <a href={getLoginUrl()} className="text-white text-sm hover:text-gray-300">
+            LOGIN
+          </a>
+          <a href="#" className="text-white text-sm hover:text-gray-300">
+            JOIN
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
+            <Instagram className="h-4 w-4" />
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
+            <Youtube className="h-4 w-4" />
+          </a>
+        </div>
+      </nav>
+
+      {/* Main Navigation Bar - White Background */}
+      <nav className="sticky top-12 z-50 border-b border-border bg-background">
         <div className="container py-4 flex items-center justify-between">
-          {/* Left: Logo only */}
+          {/* Left: Logo and Title */}
           <div className="flex items-center gap-3">
             {siteBranding?.logoUrl && (
               <img src={siteBranding.logoUrl} alt="Logo" className="h-8 w-8 rounded" />
             )}
+            <span className="text-lg font-semibold text-foreground">{heroTitle}</span>
           </div>
 
           {/* Center: Navigation Links */}
-          <div className="flex items-center gap-1">
-              <Link href="/">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">
-                  HOME
-                </Button>
-              </Link>
-              <Link href="/information">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Information</Button>
-              </Link>
-              <Link href="/price">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Price</Button>
-              </Link>
-              <Link href="/concert-live">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Concert Live</Button>
-              </Link>
-              <Link href="/making-film">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Making Film</Button>
-              </Link>
-              <Link href="/reservation">
-                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Reservation</Button>
-              </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/information">
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Information</Button>
+            </Link>
+            <Link href="/price">
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Price</Button>
+            </Link>
+            <Link href="/concert-live">
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Concert Live</Button>
+            </Link>
+            <Link href="/making-film">
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Making Film</Button>
+            </Link>
+            <Link href="/reservation">
+              <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Reservation</Button>
+            </Link>
           </div>
 
-          {/* Right: Admin and Auth */}
-          <div className="flex items-center gap-2">
-              {isAuthenticated && user?.role === 'admin' && (
-                <Link href="/admin">
-                  <Button variant="outline" size="sm" className="text-foreground">Admin</Button>
-                </Link>
-              )}
-              {!isAuthenticated ? (
-                <a href={getLoginUrl()}>
-                  <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">로그인</Button>
-                </a>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-foreground">{user?.name}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-foreground hover:bg-accent"
-                    onClick={() => {
-                      trpc.auth.logout.useMutation().mutate();
-                    }}
-                  >
-                    <LogOut className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
+          {/* Right: Search and Admin */}
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">
+              <Search className="h-4 w-4" />
+            </Button>
+            {isAuthenticated && user?.role === 'admin' && (
+              <Link href="/admin">
+                <Button variant="outline" size="sm" className="text-foreground">Admin</Button>
+              </Link>
+            )}
+            {isAuthenticated && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-foreground hover:bg-accent"
+                onClick={() => {
+                  trpc.auth.logout.useMutation().mutate();
+                }}
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
       </nav>
