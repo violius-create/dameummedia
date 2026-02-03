@@ -45,47 +45,63 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation with HOME button */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-blue-600">
+      {/* Unified Navigation Bar */}
+      <nav className="sticky top-0 z-50 border-b border-border bg-background">
         <div className="container py-4">
           <div className="flex items-center justify-between">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">
-                HOME
-              </Button>
-            </Link>
-            <div className="flex items-center gap-2">
+            {/* Left: Logo and Title */}
+            <div className="flex items-center gap-3">
+              {siteBranding?.logoUrl && (
+                <img src={siteBranding.logoUrl} alt="Logo" className="h-8 w-8 rounded" />
+              )}
+              <div>
+                <h1 className="text-lg font-bold text-foreground">{heroTitle}</h1>
+                <p className="text-xs text-muted-foreground">{heroSubtitle}</p>
+              </div>
+            </div>
+
+            {/* Center: Navigation Links */}
+            <div className="flex items-center gap-1">
+              <Link href="/">
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">
+                  HOME
+                </Button>
+              </Link>
               <Link href="/information">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Information</Button>
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Information</Button>
               </Link>
               <Link href="/price">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Price</Button>
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Price</Button>
               </Link>
               <Link href="/concert-live">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Concert Live</Button>
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Concert Live</Button>
               </Link>
               <Link href="/making-film">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Making Film</Button>
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Making Film</Button>
               </Link>
               <Link href="/reservation">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Reservation</Button>
+                <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">Reservation</Button>
               </Link>
+            </div>
+
+            {/* Right: Admin and Auth */}
+            <div className="flex items-center gap-2">
               {isAuthenticated && user?.role === 'admin' && (
                 <Link href="/admin">
-                  <Button variant="outline" size="sm" className="text-white border-white hover:bg-blue-700">Admin</Button>
+                  <Button variant="outline" size="sm" className="text-foreground">Admin</Button>
                 </Link>
               )}
               {!isAuthenticated ? (
                 <a href={getLoginUrl()}>
-                  <Button size="sm" className="bg-white text-blue-600 hover:bg-gray-100">로그인</Button>
+                  <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">로그인</Button>
                 </a>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-white">{user?.name}</span>
+                  <span className="text-sm text-foreground">{user?.name}</span>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-white hover:bg-blue-700"
+                    className="text-foreground hover:bg-accent"
                     onClick={() => {
                       trpc.auth.logout.useMutation().mutate();
                     }}
