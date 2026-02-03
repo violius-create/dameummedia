@@ -1,0 +1,25 @@
+{
+  "query": "SELECT * FROM serviceItems;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT * FROM serviceItems;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "Filming",
+      "description": "Filming",
+      "type": "video",
+      "mediaUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770104336378-xunyr2-service-item-1770104333565-sub-1-3.mp4",
+      "fileKey": "gallery/1770104336378-xunyr2-service-item-1770104333565-sub-1-3.mp4",
+      "thumbnailUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770104336378-xunyr2-service-item-1770104333565-sub-1-3.mp4",
+      "uploadedBy": "1",
+      "order": "0",
+      "isActive": "1",
+      "status": "published",
+      "createdAt": "2026-02-03 07:38:57",
+      "updatedAt": "2026-02-03 07:38:57"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tdescription\ttype\tmediaUrl\tfileKey\tthumbnailUrl\tuploadedBy\torder\tisActive\tstatus\tcreatedAt\tupdatedAt\n1\tFilming\tFilming\tvideo\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770104336378-xunyr2-service-item-1770104333565-sub-1-3.mp4\tgallery/1770104336378-xunyr2-service-item-1770104333565-sub-1-3.mp4\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/gallery/1770104336378-xunyr2-service-item-1770104333565-sub-1-3.mp4\t1\t0\t1\tpublished\t2026-02-03 07:38:57\t2026-02-03 07:38:57\n",
+  "stderr": "",
+  "execution_time_ms": 1516
+}

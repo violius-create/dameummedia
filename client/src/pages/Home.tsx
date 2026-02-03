@@ -20,7 +20,8 @@ export default function Home() {
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
-  }, [activeHeroBackground]);
+    console.log("serviceItems:", serviceItems);
+  }, [activeHeroBackground, serviceItems]);
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
