@@ -29,20 +29,6 @@
       "when": 1770016797309,
       "tag": "0003_amused_payback",
       "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1770033830629,
-      "tag": "0004_unique_scarlet_spider",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1770102067648,
-      "tag": "0005_known_rumiko_fujikawa",
-      "breakpoints": true
     }
   ]
 }

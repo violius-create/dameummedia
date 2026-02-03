@@ -150,6 +150,7 @@ export type InsertHeroBackground = typeof heroBackgrounds.$inferInsert;
 // Service items table for main page service sections
 export const serviceItems = mysqlTable("serviceItems", {
   id: int("id").autoincrement().primaryKey(),
+  itemKey: varchar("itemKey", { length: 100 }).unique(), // classy_live_filming, profile_music_video, planned_shooting
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   type: mysqlEnum("type", ["image", "video"]).notNull(),

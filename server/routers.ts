@@ -366,9 +366,9 @@ export const appRouter = router({
       }),
     
     update: adminProcedure
-      .input(z.object({ id: z.number(), title: z.string().optional(), description: z.string().optional(), isActive: z.number().optional() }))
+      .input(z.object({ id: z.number(), title: z.string().optional(), description: z.string().optional(), isActive: z.number().optional(), mediaUrl: z.string().optional(), fileKey: z.string().optional(), type: z.enum(["image", "video"]).optional() }))
       .mutation(async ({ input }) => {
-        return db.updateServiceItem(input.id, { title: input.title, description: input.description, isActive: input.isActive });
+        return db.updateServiceItem(input.id, { title: input.title, description: input.description, isActive: input.isActive, mediaUrl: input.mediaUrl, fileKey: input.fileKey, type: input.type });
       }),
     
     delete: adminProcedure

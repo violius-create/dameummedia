@@ -1,0 +1,9 @@
+{
+  "query": "DROP TABLE IF EXISTS serviceItems;\n\nCREATE TABLE serviceItems (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  itemKey VARCHAR(50) NOT NULL UNIQUE,\n  title VARCHAR(255),\n  description TEXT,\n  type VARCHAR(20),\n  mediaUrl VARCHAR(500),\n  fileKey VARCHAR(500),\n  uploadedBy INT,\n  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);\n\nINSERT INTO serviceItems (itemKey, title, description, type) VALUES\n('classy_live_filming', 'Classy live filming', '', NULL),\n('profile_music_video', 'Profile-Music video', '', NULL),\n('planned_shooting', 'Planned shooting', '', NULL);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute DROP TABLE IF EXISTS serviceItems;\n\nCREATE TABLE serviceItems (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  itemKey VARCHAR(50) NOT NULL UNIQUE,\n  title VARCHAR(255),\n  description TEXT,\n  type VARCHAR(20),\n  mediaUrl VARCHAR(500),\n  fileKey VARCHAR(500),\n  uploadedBy INT,\n  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);\n\nINSERT INTO serviceItems (itemKey, title, description, type) VALUES\n('classy_live_filming', 'Classy live filming', '', NULL),\n('profile_music_video', 'Profile-Music video', '', NULL),\n('planned_shooting', 'Planned shooting', '', NULL);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2535
+}
