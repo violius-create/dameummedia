@@ -16,6 +16,7 @@ export default function Home() {
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
+  const { data: serviceItems } = trpc.serviceItems.getAll.useQuery({ limit: 3 });
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
@@ -333,6 +334,94 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Service Items Section */}
+      {serviceItems && serviceItems.length > 0 && (
+        <section className="bg-background border-t border-border">
+          <div className="container py-24">
+            <div className="mb-12">
+              <h2 className="mb-4 text-4xl font-bold tracking-tight">Our Services</h2>
+              <p className="text-lg text-muted-foreground">Professional media production services</p>
+            </div>
+            <div className="space-y-16">
+              {serviceItems.map((item, index) => {
+                const isEven = index % 2 === 0;
+                return (
+                  <div key={item.id} className="grid md:grid-cols-2 gap-8 items-center">
+                    {isEven ? (
+                      <>
+                        <div>
+                          {item.type === 'video' ? (
+                            <video
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+                              src={item.mediaUrl}
+                            />
+                          ) : (
+                            <img
+                              src={item.mediaUrl}
+                              alt={item.title}
+                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+                            />
+                          )}
+                        </div>
+                        <div>
+                          <h3 className="text-3xl font-bold mb-4">{item.title}</h3>
+                          {item.description && (
+                            <p className="text-lg text-muted-foreground mb-6">{item.description}</p>
+                          )}
+                          <Link href="/reservation">
+                            <Button size="lg">
+                              예약하기
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <h3 className="text-3xl font-bold mb-4">{item.title}</h3>
+                          {item.description && (
+                            <p className="text-lg text-muted-foreground mb-6">{item.description}</p>
+                          )}
+                          <Link href="/reservation">
+                            <Button size="lg">
+                              예약하기
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </Link>
+                        </div>
+                        <div>
+                          {item.type === 'video' ? (
+                            <video
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+                              src={item.mediaUrl}
+                            />
+                          ) : (
+                            <img
+                              src={item.mediaUrl}
+                              alt={item.title}
+                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+                            />
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

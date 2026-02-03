@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -327,4 +327,47 @@ export async function deleteHeroBackground(id: number) {
   if (!db) throw new Error("Database not available");
   
   return db.delete(heroBackgrounds).where(eq(heroBackgrounds.id, id));
+}
+
+// Service Items queries
+export async function getServiceItems(limit = 100, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(serviceItems).where(eq(serviceItems.status, 'published')).orderBy(serviceItems.order, desc(serviceItems.createdAt)).limit(limit).offset(offset);
+}
+
+export async function getServiceItemById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(serviceItems).where(eq(serviceItems.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createServiceItem(item: InsertServiceItem) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.insert(serviceItems).values(item);
+}
+
+export async function updateServiceItem(id: number, item: Partial<InsertServiceItem>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(item).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertServiceItem>;
+  
+  await db.update(serviceItems).set(updateData).where(eq(serviceItems.id, id));
+  
+  return getServiceItemById(id);
+}
+
+export async function deleteServiceItem(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(serviceItems).where(eq(serviceItems.id, id));
 }

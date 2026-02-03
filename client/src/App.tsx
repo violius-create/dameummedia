@@ -18,6 +18,7 @@ import Reservation from "./pages/Reservation";
 import ReservationDetail from "./pages/ReservationDetail";
 import ReservationBoard from "./pages/ReservationBoard";
 import AdminHeroBackground from "./pages/AdminHeroBackground";
+import AdminServiceItems from "./pages/AdminServiceItems";
 
 function Navigation() {
   return (
@@ -61,6 +62,7 @@ function Router() {
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />
       <Route path={"/admin/hero-background"} component={AdminHeroBackground} />
+      <Route path={"/admin/service-items"} component={AdminServiceItems} />
       <Route path={"/concert-live"} component={ConcertLiveGallery} />
       <Route path={"/making-film"} component={MakingFilmGallery} />
       <Route path={"/404"} component={NotFound} />

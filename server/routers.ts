@@ -329,6 +329,52 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deleteHeroBackground(input.id)),
   }),
+
+  serviceItems: router({
+    getAll: publicProcedure
+      .input(z.object({ limit: z.number().default(100), offset: z.number().default(0) }))
+      .query(async ({ input }) => {
+        return db.getServiceItems(input.limit, input.offset);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return db.getServiceItemById(input.id);
+      }),
+    
+    list: adminProcedure
+      .input(z.object({ limit: z.number().default(100), offset: z.number().default(0) }))
+      .query(async ({ input }) => {
+        return db.getServiceItems(input.limit, input.offset);
+      }),
+    
+    create: adminProcedure
+      .input(z.object({ title: z.string(), description: z.string().optional(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createServiceItem({
+          title: input.title,
+          description: input.description,
+          type: input.type,
+          mediaUrl: input.mediaUrl,
+          fileKey: input.fileKey,
+          thumbnailUrl: input.thumbnailUrl,
+          uploadedBy: ctx.user.id,
+          isActive: 1,
+          status: "published",
+        });
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ id: z.number(), title: z.string().optional(), description: z.string().optional(), isActive: z.number().optional() }))
+      .mutation(async ({ input }) => {
+        return db.updateServiceItem(input.id, { title: input.title, description: input.description, isActive: input.isActive });
+      }),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteServiceItem(input.id)),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
