@@ -145,12 +145,32 @@ export default function Home() {
 
             {/* Right Media */}
             <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
-              {/* Background Image - Professional music production */}
-              <img
-                className="w-full h-full object-cover"
-                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
-                alt="Professional Music Production"
-              />
+              {/* Background Image - Show uploaded image or fallback */}
+              {activeHeroBackground?.type === 'video' && activeHeroBackground?.mediaUrl ? (
+                <video
+                  key={activeHeroBackground.id}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source src={activeHeroBackground.mediaUrl} type="video/mp4" />
+                </video>
+              ) : activeHeroBackground?.mediaUrl ? (
+                <img
+                  key={activeHeroBackground.id}
+                  className="w-full h-full object-cover"
+                  src={activeHeroBackground.mediaUrl}
+                  alt="Hero Background"
+                />
+              ) : (
+                <img
+                  className="w-full h-full object-cover"
+                  src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
+                  alt="Professional Music Production"
+                />
+              )}
 
               {/* Overlay Gradient */}
               <div 
