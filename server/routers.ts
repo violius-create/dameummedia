@@ -289,11 +289,12 @@ export const appRouter = router({
     create: adminProcedure
       .input(z.object({ title: z.string(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional(), isActive: z.number().optional(), section: z.enum(["main", "section2", "section3"]).optional() }))
       .mutation(async ({ input, ctx }) => {
-        // Deactivate other backgrounds if this one is active
+        // Deactivate other backgrounds in the same section if this one is active
         if (input.isActive === 1) {
           const allBackgrounds = await db.getHeroBackgrounds(1000, 0);
+          const currentSection = input.section || "main";
           for (const bg of allBackgrounds) {
-            if (bg.isActive === 1) {
+            if (bg.isActive === 1 && (bg as any).section === currentSection) {
               await db.updateHeroBackground(bg.id, { isActive: 0 });
             }
           }
@@ -313,11 +314,13 @@ export const appRouter = router({
     update: adminProcedure
       .input(z.object({ id: z.number(), title: z.string().optional(), isActive: z.number().optional() }))
       .mutation(async ({ input }) => {
-        // If activating this background, deactivate others
+        // If activating this background, deactivate others in the same section
         if (input.isActive === 1) {
           const backgrounds = await db.getHeroBackgrounds(1000, 0);
+          const currentBg = backgrounds.find(bg => bg.id === input.id);
+          const currentSection = (currentBg as any)?.section || "main";
           for (const bg of backgrounds) {
-            if (bg.id !== input.id && bg.isActive === 1) {
+            if (bg.id !== input.id && bg.isActive === 1 && (bg as any).section === currentSection) {
               await db.updateHeroBackground(bg.id, { isActive: 0 });
             }
           }
