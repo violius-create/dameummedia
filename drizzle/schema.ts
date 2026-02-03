@@ -167,3 +167,18 @@ export const serviceItems = mysqlTable("serviceItems", {
 
 export type ServiceItem = typeof serviceItems.$inferSelect;
 export type InsertServiceItem = typeof serviceItems.$inferInsert;
+
+// Site branding table for managing main logo and title
+export const siteBranding = mysqlTable("siteBranding", {
+  id: int("id").autoincrement().primaryKey(),
+  logoUrl: text("logoUrl"), // Logo image URL
+  logoFileKey: varchar("logoFileKey", { length: 255 }), // S3 file key for logo
+  title: varchar("title", { length: 255 }).default("담음미디어").notNull(), // Main title
+  subtitle: varchar("subtitle", { length: 255 }).default("Professional Media Production").notNull(), // Subtitle
+  uploadedBy: int("uploadedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SiteBranding = typeof siteBranding.$inferSelect;
+export type InsertSiteBranding = typeof siteBranding.$inferInsert;

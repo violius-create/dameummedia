@@ -231,13 +231,14 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-6 overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-6 lg:grid-cols-7 overflow-x-auto">
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
             <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
             <TabsTrigger value="background">배경 관리</TabsTrigger>
             <TabsTrigger value="services">서비스 항목</TabsTrigger>
+            <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -576,8 +577,90 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Site Branding Tab */}
+          <TabsContent value="branding" className="space-y-6">
+            <AdminSiteBranding />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
+  );
+}
+
+// Site Branding Component
+function AdminSiteBranding() {
+  const { data: branding } = trpc.siteBranding.get.useQuery();
+  const [logoUrl, setLogoUrl] = useState("");
+  const [logoFileName, setLogoFileName] = useState("");
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+
+  useEffect(() => {
+    if (branding) {
+      setLogoUrl(branding.logoUrl || "");
+      setTitle(branding.title || "");
+      setSubtitle(branding.subtitle || "");
+    }
+  }, [branding]);
+
+  const updateBrandingMutation = trpc.siteBranding.update.useMutation({
+    onSuccess: () => {
+      toast.success("사이트 브랜딩이 업데이트되었습니다.");
+    },
+    onError: (error) => {
+      toast.error(`업데이트 실패: ${error.message}`);
+    },
+  });
+
+  const handleSave = () => {
+    updateBrandingMutation.mutate({
+      logoUrl: logoUrl || undefined,
+      title: title || undefined,
+      subtitle: subtitle || undefined,
+    });
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>사이트 브랜딩 설정</CardTitle>
+        <CardDescription>
+          메인 페이지의 좌측 로고와 타이틀을 관리합니다.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Title */}
+        <div className="space-y-2">
+          <Label htmlFor="title">타이틀</Label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="담음미디어"
+          />
+        </div>
+
+        {/* Subtitle */}
+        <div className="space-y-2">
+          <Label htmlFor="subtitle">부제목</Label>
+          <Input
+            id="subtitle"
+            value={subtitle}
+            onChange={(e) => setSubtitle(e.target.value)}
+            placeholder="Professional Media Production"
+          />
+        </div>
+
+        {/* Save Button */}
+        <Button
+          onClick={handleSave}
+          disabled={updateBrandingMutation.isPending}
+          className="w-full"
+        >
+          {updateBrandingMutation.isPending ? "저장 중..." : "저장"}
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

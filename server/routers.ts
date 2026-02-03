@@ -380,6 +380,35 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deleteServiceItem(input.id)),
   }),
+
+  siteBranding: router({
+    get: publicProcedure
+      .query(async () => {
+        return db.getSiteBranding();
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ logoUrl: z.string().optional(), logoFileKey: z.string().optional(), title: z.string().optional(), subtitle: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        const existing = await db.getSiteBranding();
+        if (existing) {
+          return db.updateSiteBranding(existing.id, {
+            logoUrl: input.logoUrl,
+            logoFileKey: input.logoFileKey,
+            title: input.title,
+            subtitle: input.subtitle,
+          });
+        } else {
+          return db.createOrUpdateSiteBranding({
+            logoUrl: input.logoUrl,
+            logoFileKey: input.logoFileKey,
+            title: input.title,
+            subtitle: input.subtitle,
+            uploadedBy: ctx.user.id,
+          });
+        }
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

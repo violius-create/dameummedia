@@ -17,11 +17,20 @@ export default function Home() {
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
   const { data: heroBackgrounds } = trpc.heroBackground.list.useQuery({});
+  const { data: siteBranding } = trpc.siteBranding.get.useQuery();
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
     console.log("heroBackgrounds:", heroBackgrounds);
   }, [activeHeroBackground, heroBackgrounds]);
+
+  // siteBranding 데이터 로드
+  useEffect(() => {
+    if (siteBranding) {
+      setHeroTitle(siteBranding.title || '담음미디어');
+      setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
+    }
+  }, [siteBranding]);
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
@@ -36,48 +45,47 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
+      {/* Navigation with HOME button */}
+      <nav className="sticky top-0 z-50 border-b border-border bg-blue-600">
         <div className="container py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Music className="h-8 w-8 text-primary" />
-              <div>
-                <h1 className="text-xl font-bold tracking-tight">{heroTitle}</h1>
-                <p className="text-xs text-muted-foreground">{heroSubtitle}</p>
-              </div>
-            </div>
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">
+                HOME
+              </Button>
+            </Link>
             <div className="flex items-center gap-2">
               <Link href="/information">
-                <Button variant="ghost" size="sm">Information</Button>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Information</Button>
               </Link>
               <Link href="/price">
-                <Button variant="ghost" size="sm">Price</Button>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Price</Button>
               </Link>
               <Link href="/concert-live">
-                <Button variant="ghost" size="sm">Concert Live</Button>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Concert Live</Button>
               </Link>
               <Link href="/making-film">
-                <Button variant="ghost" size="sm">Making Film</Button>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Making Film</Button>
               </Link>
               <Link href="/reservation">
-                <Button variant="ghost" size="sm">Reservation</Button>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">Reservation</Button>
               </Link>
               {isAuthenticated && user?.role === 'admin' && (
                 <Link href="/admin">
-                  <Button variant="outline" size="sm">Admin</Button>
+                  <Button variant="outline" size="sm" className="text-white border-white hover:bg-blue-700">Admin</Button>
                 </Link>
               )}
               {!isAuthenticated ? (
                 <a href={getLoginUrl()}>
-                  <Button size="sm">로그인</Button>
+                  <Button size="sm" className="bg-white text-blue-600 hover:bg-gray-100">로그인</Button>
                 </a>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">{user?.name}</span>
+                  <span className="text-sm text-white">{user?.name}</span>
                   <Button
                     variant="ghost"
                     size="sm"
+                    className="text-white hover:bg-blue-700"
                     onClick={() => {
                       trpc.auth.logout.useMutation().mutate();
                     }}
@@ -92,7 +100,7 @@ export default function Home() {
       </nav>
 
       {/* Split-Screen Hero Section */}
-      <section className="relative min-h-[360px] overflow-hidden bg-gray-100">
+      <section className="relative h-[500px] overflow-hidden bg-gray-100">
         {/* Gradient Background Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
         
@@ -187,7 +195,7 @@ export default function Home() {
             if (!sectionBg) return null;
             
             return (
-              <section key={section} className="relative h-[240px] overflow-hidden bg-gray-100 mt-[10px]">
+              <section key={section} className="relative h-[350px] overflow-hidden bg-gray-100 mt-[10px]">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
                 
                 <div className="relative container py-12 h-full flex items-center">

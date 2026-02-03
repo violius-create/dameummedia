@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -383,4 +383,40 @@ export async function deleteServiceItem(id: number) {
   if (!db) throw new Error("Database not available");
   
   return db.delete(serviceItems).where(eq(serviceItems.id, id));
+}
+
+
+// Site Branding queries
+export async function getSiteBranding() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(siteBranding).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createOrUpdateSiteBranding(branding: InsertSiteBranding) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const existing = await getSiteBranding();
+  
+  if (existing) {
+    return db.update(siteBranding).set(branding).where(eq(siteBranding.id, existing.id));
+  } else {
+    return db.insert(siteBranding).values(branding);
+  }
+}
+
+export async function updateSiteBranding(id: number, branding: Partial<InsertSiteBranding>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(branding).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertSiteBranding>;
+  
+  await db.update(siteBranding).set(updateData).where(eq(siteBranding.id, id));
+  
+  return getSiteBranding();
 }
