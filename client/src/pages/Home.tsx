@@ -110,9 +110,9 @@ export default function Home() {
         <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
 
         <div className="relative container h-full flex items-center">
-          <div className="grid md:grid-cols-12 gap-8 items-center w-full">
+          <div className="grid md:grid-cols-12 gap-8 items-start md:items-center w-full">
             {/* Left Content - Larger and More Prominent */}
-            <div className="md:col-span-5 z-10 space-y-8">
+            <div className="md:col-span-5 z-10 space-y-8 pt-12 md:pt-0">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 px-4 py-2 border border-blue-400/30 backdrop-blur-sm">
                   <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
@@ -131,8 +131,8 @@ export default function Home() {
             </div>
 
             {/* Right Media - Overlapping and Dynamic */}
-            <div className="md:col-span-7 relative h-full flex items-center justify-end">
-              <div className="relative w-full h-[450px] md:h-[520px] -mr-12 rounded-3xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm">
+            <div className="md:col-span-7 relative h-full flex items-end justify-end pb-8 md:pb-0">
+              <div className="relative w-full h-[380px] md:h-[480px] -mr-16 md:-mr-20 rounded-3xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
                 {/* Background Image - Show uploaded image or fallback */}
                 {activeHeroBackground?.mediaUrl ? (
                   activeHeroBackground.type === 'video' ? (
