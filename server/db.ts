@@ -334,7 +334,20 @@ export async function getServiceItems(limit = 100, offset = 0) {
   const db = await getDb();
   if (!db) return [];
   
-  return db.select().from(serviceItems).orderBy(serviceItems.order, desc(serviceItems.createdAt)).limit(limit).offset(offset);
+  return db.select({
+    id: serviceItems.id,
+    itemKey: serviceItems.itemKey,
+    title: serviceItems.title,
+    description: serviceItems.description,
+    type: serviceItems.type,
+    mediaUrl: serviceItems.mediaUrl,
+    fileKey: serviceItems.fileKey,
+    uploadedBy: serviceItems.uploadedBy,
+    order: serviceItems.order,
+    isActive: serviceItems.isActive,
+    createdAt: serviceItems.createdAt,
+    updatedAt: serviceItems.updatedAt,
+  }).from(serviceItems).orderBy(serviceItems.order, desc(serviceItems.createdAt)).limit(limit).offset(offset);
 }
 
 export async function getServiceItemById(id: number) {
