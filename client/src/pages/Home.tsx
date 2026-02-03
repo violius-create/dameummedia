@@ -103,72 +103,77 @@ export default function Home() {
       </nav>
 
       {/* Split-Screen Hero Section */}
-      <section className="relative h-[500px] overflow-hidden bg-gray-100">
-        {/* Gradient Background Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
-        
+      <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
         {/* Animated Background Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
 
-        <div className="relative container py-24 h-full flex items-center">
-          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
-            {/* Left Content */}
-            <div className="z-10 space-y-6">
-              <div className="inline-block rounded-full bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-400 border border-blue-500/20">
-                Professional Media Production
+        <div className="relative container h-full flex items-center">
+          <div className="grid md:grid-cols-12 gap-8 items-center w-full">
+            {/* Left Content - Larger and More Prominent */}
+            <div className="md:col-span-5 z-10 space-y-8">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 px-4 py-2 border border-blue-400/30 backdrop-blur-sm">
+                  <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                  <span className="text-sm font-semibold text-blue-300">Professional Media Production</span>
+                </div>
               </div>
-              <h2 className="text-6xl font-bold tracking-tight text-white leading-tight">
-                {heroTitle}
-              </h2>
-              <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
+              <div>
+                <h2 className="text-7xl md:text-8xl font-black tracking-tighter text-white leading-none mb-4">
+                  {heroTitle}
+                </h2>
+                <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" />
+              </div>
+              <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-md font-light">
                 고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
               </p>
-
             </div>
 
-            {/* Right Media */}
-            <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
-              {/* Background Image - Show uploaded image or fallback */}
-              {activeHeroBackground?.mediaUrl ? (
-                activeHeroBackground.type === 'video' ? (
-                  <video
-                    key={`video-${activeHeroBackground.id}`}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                    src={activeHeroBackground.mediaUrl}
-                  />
+            {/* Right Media - Overlapping and Dynamic */}
+            <div className="md:col-span-7 relative h-full flex items-center justify-end">
+              <div className="relative w-full h-[450px] md:h-[520px] -mr-12 rounded-3xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm">
+                {/* Background Image - Show uploaded image or fallback */}
+                {activeHeroBackground?.mediaUrl ? (
+                  activeHeroBackground.type === 'video' ? (
+                    <video
+                      key={`video-${activeHeroBackground.id}`}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                      src={activeHeroBackground.mediaUrl}
+                    />
+                  ) : (
+                    <img
+                      key={`img-${activeHeroBackground.id}`}
+                      className="w-full h-full object-cover"
+                      src={activeHeroBackground.mediaUrl}
+                      alt="Hero Background"
+                    />
+                  )
                 ) : (
                   <img
-                    key={`img-${activeHeroBackground.id}`}
                     className="w-full h-full object-cover"
-                    src={activeHeroBackground.mediaUrl}
-                    alt="Hero Background"
+                    src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
+                    alt="Professional Music Production"
                   />
-                )
-              ) : (
-                <img
-                  className="w-full h-full object-cover"
-                  src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
-                  alt="Professional Music Production"
+                )}
+
+                {/* Overlay Gradient */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"
+                  style={{
+                    backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`
+                  }}
                 />
-              )}
 
-              {/* Overlay Gradient */}
-              <div 
-                className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"
-                style={{
-                  backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`
-                }}
-              />
-
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
-                  <Play className="w-10 h-10 text-white fill-white" />
+                {/* Play Button Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
+                    <Play className="w-10 h-10 text-white fill-white" />
+                  </div>
                 </div>
               </div>
             </div>
