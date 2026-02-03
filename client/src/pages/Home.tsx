@@ -16,12 +16,14 @@ export default function Home() {
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
+  const { data: heroBackgrounds } = trpc.heroBackground.list.useQuery({});
   const { data: serviceItems } = trpc.serviceItems.getAll.useQuery({ limit: 3 });
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
+    console.log("heroBackgrounds:", heroBackgrounds);
     console.log("serviceItems:", serviceItems);
-  }, [activeHeroBackground, serviceItems]);
+  }, [activeHeroBackground, heroBackgrounds, serviceItems]);
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
@@ -98,54 +100,33 @@ export default function Home() {
         
         {/* Animated Background Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
 
-        <div className="relative container h-full flex items-center">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-20 items-center">
+        <div className="relative container py-24 h-full flex items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
             {/* Left Content */}
-            <div className="space-y-8 z-10">
-              <div className="space-y-4">
-                <div className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full">
-                  <p className="text-sm font-semibold text-blue-300">Professional Media Production</p>
-                </div>
-                <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
-                  {heroTitle}
-                </h1>
-                <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
-                  고품질의 공연 촬영, 음향 녹음, 믹싱, 마스터링 및 영상 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
-                </p>
+            <div className="z-10 space-y-6">
+              <div className="inline-block rounded-full bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-400 border border-blue-500/20">
+                Professional Media Production
               </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 pt-4">
+              <h2 className="text-6xl font-bold tracking-tight text-white leading-tight">
+                {heroTitle}
+              </h2>
+              <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
+                고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
+              </p>
+              <div className="flex gap-4 pt-4">
                 <Link href="/reservation">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8">
+                  <Button size="lg" className="font-semibold">
                     예약하기
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/concert-live">
-                  <Button size="lg" variant="outline" className="border-gray-400 text-white hover:bg-white/10 font-semibold px-8">
-                    <Play className="mr-2 h-5 w-5" />
-                    영상 보기
+                <Link href="/information">
+                  <Button size="lg" variant="outline" className="font-semibold">
+                    자세히 보기
                   </Button>
                 </Link>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-700">
-                <div>
-                  <p className="text-3xl font-bold text-white">20+</p>
-                  <p className="text-sm text-gray-400">Years Experience</p>
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-white">500+</p>
-                  <p className="text-sm text-gray-400">Projects Completed</p>
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-white">100%</p>
-                  <p className="text-sm text-gray-400">Satisfaction Rate</p>
-                </div>
               </div>
             </div>
 
@@ -227,88 +208,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Service Items Section - Right after Hero */}
-      {serviceItems && serviceItems.length > 0 && (
-        <section className="bg-background border-t border-border">
-          <div className="container py-24">
-            <div className="space-y-16">
-              {serviceItems.map((item, index) => {
-                const isEven = index % 2 === 0;
-                return (
-                  <div key={item.id} className="grid md:grid-cols-2 gap-8 items-center">
-                    {isEven ? (
-                      <>
-                        <div>
-                          {item.type === 'video' ? (
-                            <video
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-                              src={item.mediaUrl}
-                            />
-                          ) : (
-                            <img
-                              src={item.mediaUrl}
-                              alt={item.title}
-                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-                            />
-                          )}
+      {/* Additional Hero Sections - Section 2 and 3 */}
+      {heroBackgrounds && heroBackgrounds.length > 0 && (
+        <>
+          {['section2', 'section3'].map((section) => {
+            const sectionBg = heroBackgrounds.find((bg: any) => bg.section === section && bg.isActive === 1);
+            if (!sectionBg) return null;
+            
+            return (
+              <section key={section} className="relative min-h-[600px] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/80 to-transparent" />
+                
+                <div className="relative container py-24 h-full flex items-center">
+                  <div className="grid md:grid-cols-2 gap-12 items-center w-full">
+                    <div className="z-10 space-y-6">
+                      <h2 className="text-5xl font-bold tracking-tight text-white">
+                        {sectionBg.title}
+                      </h2>
+                      <Link href="/reservation">
+                        <Button size="lg" className="font-semibold">
+                          예약하기
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+
+                    <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+                      {sectionBg.type === 'video' ? (
+                        <video
+                          key={`video-${sectionBg.id}`}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="w-full h-full object-cover"
+                          src={sectionBg.mediaUrl}
+                        />
+                      ) : (
+                        <img
+                          key={`img-${sectionBg.id}`}
+                          className="w-full h-full object-cover"
+                          src={sectionBg.mediaUrl}
+                          alt={sectionBg.title}
+                        />
+                      )}
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
+                          <Play className="w-10 h-10 text-white fill-white" />
                         </div>
-                        <div>
-                          <h3 className="text-3xl font-bold mb-4">{item.title}</h3>
-                          {item.description && (
-                            <p className="text-lg text-muted-foreground mb-6">{item.description}</p>
-                          )}
-                          <Link href="/reservation">
-                            <Button size="lg">
-                              예약하기
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div>
-                          <h3 className="text-3xl font-bold mb-4">{item.title}</h3>
-                          {item.description && (
-                            <p className="text-lg text-muted-foreground mb-6">{item.description}</p>
-                          )}
-                          <Link href="/reservation">
-                            <Button size="lg">
-                              예약하기
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </div>
-                        <div>
-                          {item.type === 'video' ? (
-                            <video
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-                              src={item.mediaUrl}
-                            />
-                          ) : (
-                            <img
-                              src={item.mediaUrl}
-                              alt={item.title}
-                              className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-                            />
-                          )}
-                        </div>
-                      </>
-                    )}
+                      </div>
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+                </div>
+              </section>
+            );
+          })}
+        </>
       )}
 
       {/* Concert Live Section */}
@@ -348,11 +306,11 @@ export default function Home() {
       </section>
 
       {/* Making Film Section */}
-      <section className="border-t border-border bg-background">
+      <section className="bg-background border-t border-border">
         <div className="container py-24">
           <div className="mb-12">
-            <h2 className="mb-4 text-4xl font-bold tracking-tight">영화 제작</h2>
-            <p className="text-lg text-muted-foreground">최근 제작된 영화 및 영상 프로젝트</p>
+            <h2 className="mb-4 text-4xl font-bold tracking-tight">영상 제작</h2>
+            <p className="text-lg text-muted-foreground">최근 제작된 영상 콘텐츠</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filmPosts?.map((post) => (
@@ -375,7 +333,7 @@ export default function Home() {
           <div className="mt-8 text-center">
             <Link href="/making-film">
               <Button variant="outline" size="lg">
-                모든 영상 보기
+                모든 영상 제작 보기
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -384,42 +342,51 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="border-t border-border bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-border text-white">
         <div className="container py-24">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <h2 className="mb-4 text-4xl font-bold">문의하기</h2>
-            <p className="text-lg text-muted-foreground">
-              당신의 프로젝트에 대해 이야기해보세요
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="flex flex-col items-center text-center">
-              <Mail className="w-8 h-8 text-primary mb-3" />
-              <h3 className="font-semibold mb-1">이메일</h3>
-              <p className="text-sm text-muted-foreground">violius@gmail.com</p>
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold tracking-tight">연락처</h2>
+              <p className="text-lg text-gray-300">
+                언제든지 연락주세요. 전문 팀이 당신의 프로젝트를 도와드리겠습니다.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-blue-400" />
+                  <span>violius@gmail.com</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-blue-400" />
+                  <span>문의 전화</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-blue-400" />
+                  <span>서울특별시</span>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <Phone className="w-8 h-8 text-primary mb-3" />
-              <h3 className="font-semibold mb-1">전화</h3>
-              <p className="text-sm text-muted-foreground">문의 바랍니다</p>
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold">빠른 예약</h3>
+              <p className="text-gray-300">
+                아래 버튼을 클릭하여 예약 페이지로 이동하세요.
+              </p>
+              <Link href="/reservation">
+                <Button size="lg" className="w-full font-semibold">
+                  지금 예약하기
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <MapPin className="w-8 h-8 text-primary mb-3" />
-              <h3 className="font-semibold mb-1">위치</h3>
-              <p className="text-sm text-muted-foreground">서울, 대한민국</p>
-            </div>
-          </div>
-          <div className="mt-12 text-center">
-            <Link href="/reservation">
-              <Button size="lg" className="font-semibold">
-                지금 예약하기
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
 
+      {/* Footer */}
+      <footer className="bg-slate-950 border-t border-border text-gray-400 py-8">
+        <div className="container text-center">
+          <p>&copy; 2024 담음미디어. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
