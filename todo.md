@@ -369,3 +369,11 @@
 - [x] PostDetail 페이지에 '목록보기' 버튼 추가
 - [x] App.tsx에서 Concert Live 링크를 /concert-live로 수정
 - [x] App.tsx에서 Making Film 링크를 /making-film으로 수정
+
+## 게시판 삭제 기능 및 모바일 반응형 개선 (2026-02-04 완료)
+- [x] ConcertLiveGallery 페이지에 관리자용 삭제 버튼 추가 (체크박스)
+- [x] MakingFilmGallery 페이지에 관리자용 삭제 버튼 추가 (체크박스)
+- [x] 네비게이션 바 모바일 반응형 개선 (햄버거 메뉴)
+- [x] 게시판 갤러리 모바일 반응형 개선 (1열/2열/3열)
+- [x] PostDetail 페이지 모바일 반응형 개선
+- [x] 전체 페이지 모바일 반응형 테스트
