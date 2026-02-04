@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -347,35 +348,44 @@ export default function Reservation() {
                   <h3 className="text-lg font-semibold text-foreground">결제 정보</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="paymentMethod">
+                    <div className="space-y-3">
+                      <Label>
                         결제방식
                       </Label>
-                      <Select value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}>
-                        <SelectTrigger id="paymentMethod">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="card">카드</SelectItem>
-                          <SelectItem value="transfer">계좌이체</SelectItem>
-                          <SelectItem value="cash">현금</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <RadioGroup value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })} className="flex flex-row gap-6">
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="card" id="payment-card" />
+                          <Label htmlFor="payment-card" className="font-normal cursor-pointer">카드</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="transfer" id="payment-transfer" />
+                          <Label htmlFor="payment-transfer" className="font-normal cursor-pointer">계좌이체</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="cash" id="payment-cash" />
+                          <Label htmlFor="payment-cash" className="font-normal cursor-pointer">현금</Label>
+                        </div>
+                      </RadioGroup>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="receiptType">
-                        접수형태
+                    <div className="space-y-3">
+                      <Label>
+                        계산서 발행
                       </Label>
-                      <Select value={formData.receiptType} onValueChange={(value) => setFormData({ ...formData, receiptType: value })}>
-                        <SelectTrigger id="receiptType">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="individual">개인</SelectItem>
-                          <SelectItem value="business">사업</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <RadioGroup value={formData.receiptType} onValueChange={(value) => setFormData({ ...formData, receiptType: value })} className="flex flex-row gap-6">
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="issued" id="receipt-issued" />
+                          <Label htmlFor="receipt-issued" className="font-normal cursor-pointer">발행</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="not_issued" id="receipt-not-issued" />
+                          <Label htmlFor="receipt-not-issued" className="font-normal cursor-pointer">미발행</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="cash_receipt" id="receipt-cash" />
+                          <Label htmlFor="receipt-cash" className="font-normal cursor-pointer">현금영수증</Label>
+                        </div>
+                      </RadioGroup>
                     </div>
 
                     <div className="space-y-2">
