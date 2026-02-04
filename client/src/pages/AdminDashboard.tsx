@@ -635,18 +635,36 @@ function AdminSiteBranding() {
         {/* Logo Image Upload */}
         <div className="space-y-2">
           <Label htmlFor="logo">로고 이미지</Label>
-          <FileUploadDropzone
-            onUploadSuccess={(file) => {
-              setLogoUrl(file.url);
-              setLogoFileName(file.fileName);
-            }}
-            accept="image/*"
-            maxSize={10}
-          />
+          <div className="space-y-3">
+            {/* Logo URL Input */}
+            <div>
+              <Label htmlFor="logoUrl" className="text-sm text-gray-600">로고 URL</Label>
+              <Input
+                id="logoUrl"
+                value={logoUrl}
+                onChange={(e) => setLogoUrl(e.target.value)}
+                placeholder="https://example.com/logo.png"
+              />
+            </div>
+            
+            {/* Logo File Upload */}
+            <div>
+              <Label className="text-sm text-gray-600">또는 파일 업로드</Label>
+              <FileUploadDropzone
+                onUploadSuccess={(file) => {
+                  setLogoUrl(file.url);
+                  setLogoFileName(file.fileName);
+                }}
+                accept="image/*"
+                maxSize={10}
+              />
+            </div>
+          </div>
+          
           {logoUrl && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-3 p-2 bg-gray-100 rounded">
               <img src={logoUrl} alt="Logo Preview" className="h-12 w-12 rounded" />
-              <span className="text-sm text-gray-600">{logoFileName || '로고 업로드됨'}</span>
+              <span className="text-sm text-gray-600">{logoFileName || '로고 미리보기'}</span>
             </div>
           )}
         </div>
