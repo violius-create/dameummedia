@@ -172,11 +172,8 @@ export default function Home() {
                 </h2>
                 <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
               </div>
-              <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-md font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
-                {heroSubtitle}
-              </p>
               {heroDescription && (
-                <p className="text-sm md:text-base text-gray-200 leading-relaxed max-w-2xl font-light animate-fade-in" style={{animationDelay: '0.8s'}}>
+                <p className="text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
                   {heroDescription}
                 </p>
               )}
