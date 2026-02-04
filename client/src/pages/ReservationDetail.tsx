@@ -413,6 +413,11 @@ export default function ReservationDetail() {
                     <p className="mt-2 text-foreground font-medium">{(displayData.paidAmount || 0).toLocaleString()}원</p>
                   )}
                 </div>
+
+                <div className="bg-white rounded p-4 border border-orange-200">
+                  <Label className="text-sm font-semibold text-gray-700">잔금</Label>
+                  <p className="mt-2 text-foreground font-medium">{((displayData.quotedAmount || 0) - (displayData.paidAmount || 0)).toLocaleString()}원</p>
+                </div>
               </div>
             </div>
 

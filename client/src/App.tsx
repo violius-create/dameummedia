@@ -69,7 +69,7 @@ function Navigation() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8 justify-center flex-1">
+          <div className="hidden md:flex items-center gap-5 justify-center flex-1">
             <Link href="/information">
               <Button variant="ghost" className="text-foreground hover:bg-muted">
                 Information
@@ -98,7 +98,7 @@ function Navigation() {
           </div>
 
           {/* Right Side - SNS and Auth */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-foreground hover:bg-muted flex items-center gap-2">
                 <Instagram className="h-5 w-5" />

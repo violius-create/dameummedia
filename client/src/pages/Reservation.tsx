@@ -24,10 +24,9 @@ export default function Reservation() {
     composition: "",
     managerName: "",
     managerPhone: "",
-    recordingStaff: "",
+    recordingStaff: "신청",
     photographyStaff: "",
     audioSettings: "",
-    projectMonitor: "",
     paymentMethod: "card",
     isPublic: "1",
     receiptType: "issued",
@@ -78,7 +77,6 @@ export default function Reservation() {
       recordingStaff: formData.recordingStaff,
       photographyStaff: formData.photographyStaff,
       audioSettings: formData.audioSettings,
-      projectMonitor: formData.projectMonitor,
       paymentMethod: formData.paymentMethod as any,
       isPublic: parseInt(formData.isPublic),
       receiptType: formData.receiptType as any,
@@ -319,14 +317,32 @@ export default function Reservation() {
 
                     <div className="space-y-2">
                       <Label htmlFor="recordingStaff">
-                        녹음주자
+                        녹음신청
                       </Label>
-                      <Input
-                        id="recordingStaff"
-                        placeholder="신청"
-                        value={formData.recordingStaff}
-                        onChange={(e) => setFormData({ ...formData, recordingStaff: e.target.value })}
-                      />
+                      <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="recordingStaff"
+                            value="신청"
+                            checked={formData.recordingStaff === "신청"}
+                            onChange={(e) => setFormData({ ...formData, recordingStaff: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>신청</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="recordingStaff"
+                            value="미신청"
+                            checked={formData.recordingStaff === "미신청"}
+                            onChange={(e) => setFormData({ ...formData, recordingStaff: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>미신청</span>
+                        </label>
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -353,17 +369,7 @@ export default function Reservation() {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="projectMonitor">
-                        프로젝트모니 주자
-                      </Label>
-                      <Input
-                        id="projectMonitor"
-                        placeholder="안함"
-                        value={formData.projectMonitor}
-                        onChange={(e) => setFormData({ ...formData, projectMonitor: e.target.value })}
-                      />
-                    </div>
+
                   </div>
                 </div>
 
