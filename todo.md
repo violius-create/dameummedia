@@ -399,3 +399,8 @@
 - [x] CreatePost 페이지 이미지 URL 입력을 파일 업로드로 변경
 - [x] 파일 업로드 시 S3에 저장 및 URL 반환 기능 구현
 - [x] 이미지 파일 미리보기 기능 추가
+
+### 게시물 조회 오류 진단 (2026-02-04 완료)
+- [x] ConcertLiveGallery의 링크를 /post에서 /posts로 변경
+- [x] MakingFilmGallery의 링크를 /post에서 /posts로 변경
+- [x] PostDetail 페이지에서 라우트 파라미터 정상 동작 확인

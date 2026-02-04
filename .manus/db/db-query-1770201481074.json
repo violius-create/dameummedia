@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, title, category, status, authorId FROM posts LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, category, status, authorId FROM posts LIMIT 10;",
+  "rows": [
+    {
+      "id": "30001",
+      "title": "포레",
+      "category": "concert",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "30007",
+      "title": "Test Title - Updated v2",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "60003",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "60006",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "90004",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "90006",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "120004",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "120006",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "120011",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    },
+    {
+      "id": "120013",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published",
+      "authorId": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcategory\tstatus\tauthorId\n30001\t포레\tconcert\tpublished\t1\n30007\tTest Title - Updated v2\tnotice\tpublished\t1\n60003\tTest Title\tnotice\tpublished\t1\n60006\tTest Title\tnotice\tpublished\t1\n90004\tTest Title\tnotice\tpublished\t1\n90006\t이미지 없는 게시물\tnotice\tpublished\t1\n120004\tTest Title\tnotice\tpublished\t1\n120006\t이미지 없는 게시물\tnotice\tpublished\t1\n120011\tTest Title\tnotice\tpublished\t1\n120013\t이미지 없는 게시물\tnotice\tpublished\t1\n",
+  "stderr": "",
+  "execution_time_ms": 2141
+}

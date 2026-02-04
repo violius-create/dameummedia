@@ -142,7 +142,7 @@ export default function MakingFilmGallery() {
                 )}
                 <Card
                   className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 border border-border"
-                  onClick={() => window.location.href = `/post/${post.id}`}
+                  onClick={() => window.location.href = `/posts/${post.id}`}
                 >
                   <div className="relative h-40 sm:h-56 w-full bg-muted flex items-center justify-center overflow-hidden">
                     {post.imageUrl ? (

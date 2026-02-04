@@ -11,10 +11,14 @@ export default function PostDetail() {
   const [, params] = useRoute("/posts/:id");
   const postId = params?.id ? parseInt(params.id) : null;
 
-  const { data: post, isLoading } = trpc.posts.getById.useQuery(
+  console.log("PostDetail - postId:", postId, "params:", params);
+
+  const { data: post, isLoading, error } = trpc.posts.getById.useQuery(
     { id: postId! },
     { enabled: !!postId }
   );
+
+  console.log("PostDetail - post:", post, "error:", error, "isLoading:", isLoading);
 
   const deletePostMutation = trpc.posts.delete.useMutation({
     onSuccess: () => {
