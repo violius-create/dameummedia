@@ -293,4 +293,4 @@
 
 ## 상단 로고 수정 요청 (2026-02-04 추가)
 - [x] 상단 회색 네비게이션 바의 왼쪽 작은 로고 삭제
-- [x] 검은색 섹션의 "Professional Media Production" 배지 복구
+- [x] 검은색 섹션의 "Professional Media Production" 배지 삭제
