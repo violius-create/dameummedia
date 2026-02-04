@@ -111,7 +111,7 @@ export const appRouter = router({
         clientEmail: z.string(),
         clientPhone: z.string().optional(),
         eventName: z.string(),
-        eventType: z.enum(['concert', 'film', 'other']),
+        eventType: z.enum(['photo', 'concert', 'video', 'music_video', 'other']),
         venue: z.string().optional(),
         eventDate: z.date().optional(),
         rehearsalTime: z.string().optional(),
@@ -129,6 +129,7 @@ export const appRouter = router({
         paidAmount: z.number().optional(),
         unpaidAmount: z.number().optional(),
         description: z.string().optional(),
+        attachments: z.string().optional(),
         status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
       }))
       .mutation(async ({ input }) => {
@@ -155,7 +156,8 @@ export const appRouter = router({
           paidAmount: input.paidAmount,
           unpaidAmount: input.unpaidAmount,
           description: input.description,
-          status: (input.status || 'pending') as any,
+          attachments: input.attachments,
+          status: input.status as any,
         });
       }),
     
@@ -183,7 +185,7 @@ export const appRouter = router({
           clientEmail: z.string().optional(),
           clientPhone: z.string().optional(),
           eventName: z.string().optional(),
-          eventType: z.enum(['concert', 'film', 'other']).optional(),
+          eventType: z.enum(['photo', 'concert', 'video', 'music_video', 'other']).optional(),
           venue: z.string().optional(),
           eventDate: z.date().optional(),
           rehearsalTime: z.string().optional(),
@@ -202,6 +204,7 @@ export const appRouter = router({
           paidAmount: z.number().optional(),
           unpaidAmount: z.number().optional(),
           description: z.string().optional(),
+          attachments: z.string().optional(),
           status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
         }),
       }))

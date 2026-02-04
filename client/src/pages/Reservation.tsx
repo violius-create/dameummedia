@@ -16,7 +16,7 @@ export default function Reservation() {
     clientEmail: "",
     clientPhone: "",
     eventName: "",
-    eventType: "concert",
+    eventType: "photo",
     venue: "",
     eventDate: "",
     eventTime: "",
@@ -165,9 +165,20 @@ export default function Reservation() {
 
                     <div className="space-y-2">
                       <Label htmlFor="eventType">
-                        문류 <span className="text-red-500">*</span>
+                        분류 <span className="text-red-500">*</span>
                       </Label>
-                      <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
+                      <div className="flex flex-wrap gap-4 p-3 bg-muted/30 rounded-md">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="eventType"
+                            value="photo"
+                            checked={formData.eventType === "photo"}
+                            onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>사진촬영</span>
+                        </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
                             type="radio"
@@ -177,18 +188,29 @@ export default function Reservation() {
                             onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
                             className="w-4 h-4"
                           />
-                          <span>콘서트</span>
+                          <span>공연촬영</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
                             type="radio"
                             name="eventType"
-                            value="film"
-                            checked={formData.eventType === "film"}
+                            value="video"
+                            checked={formData.eventType === "video"}
                             onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
                             className="w-4 h-4"
                           />
-                          <span>영상 제작</span>
+                          <span>영상제작</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="eventType"
+                            value="music_video"
+                            checked={formData.eventType === "music_video"}
+                            onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>뮤직비디오제작</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
@@ -524,7 +546,7 @@ export default function Reservation() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="description">
-                      기타 사항
+                      프로그램 및 정보
                     </Label>
                     <Textarea
                       id="description"

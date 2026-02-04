@@ -67,7 +67,7 @@ export const reservations = mysqlTable("reservations", {
   clientEmail: varchar("clientEmail", { length: 320 }).notNull(),
   clientPhone: varchar("clientPhone", { length: 20 }),
   eventName: varchar("eventName", { length: 255 }).notNull(),
-  eventType: mysqlEnum("eventType", ["concert", "film", "other"]).notNull(),
+  eventType: mysqlEnum("eventType", ["photo", "concert", "video", "music_video", "other"]).notNull(),
   venue: varchar("venue", { length: 255 }),
   eventDate: timestamp("eventDate"),
   rehearsalTime: varchar("rehearsalTime", { length: 100 }),
@@ -87,6 +87,7 @@ export const reservations = mysqlTable("reservations", {
   paidAmount: int("paidAmount").default(0),
   unpaidAmount: int("unpaidAmount").default(0),
   description: text("description"),
+  attachments: text("attachments"), // JSON array of file URLs
   status: mysqlEnum("status", ["pending", "confirmed", "payment_completed", "work_pending", "in_progress", "editing", "completed", "cancelled"]).default("pending").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

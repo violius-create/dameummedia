@@ -43,6 +43,13 @@
       "when": 1770234334288,
       "tag": "0005_magenta_echo",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1770237330526,
+      "tag": "0006_chemical_komodo",
+      "breakpoints": true
     }
   ]
 }

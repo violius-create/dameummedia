@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE reservations SET eventType = 'video' WHERE eventType = 'film';\n\nALTER TABLE reservations MODIFY COLUMN eventType ENUM('photo', 'concert', 'video', 'music_video', 'other') NOT NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute UPDATE reservations SET eventType = 'video' WHERE eventType = 'film';\n\nALTER TABLE reservations MODIFY COLUMN eventType ENUM('photo', 'concert', 'video', 'music_video', 'other') NOT NULL;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column '%s' at row %d"
+  ]
+}

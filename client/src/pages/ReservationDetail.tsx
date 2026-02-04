@@ -17,6 +17,8 @@ export default function ReservationDetail() {
   const [editData, setEditData] = useState<any>(null);
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
+  
+  const uploadFileMutation = trpc.upload.uploadFile.useMutation();
 
   const id = params?.id ? parseInt(params.id) : null;
 
@@ -311,22 +313,26 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-blue-200">
-                  <Label htmlFor="eventType" className="text-sm font-semibold text-gray-700">문류</Label>
+                  <Label htmlFor="eventType" className="text-sm font-semibold text-gray-700">분류</Label>
                   {isEditing ? (
                     <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, eventType: value }))}>
                       <SelectTrigger id="eventType" className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="concert">콘서트</SelectItem>
-                        <SelectItem value="film">영상 제작</SelectItem>
+                        <SelectItem value="photo">사진촬영</SelectItem>
+                        <SelectItem value="concert">공연촬영</SelectItem>
+                        <SelectItem value="video">영상제작</SelectItem>
+                        <SelectItem value="music_video">뮤직비디오제작</SelectItem>
                         <SelectItem value="other">기타</SelectItem>
                       </SelectContent>
                     </Select>
                   ) : (
                     <p className="mt-2 text-foreground font-medium">
-                      {displayData.eventType === 'concert' ? '콘서트' : 
-                       displayData.eventType === 'film' ? '영상 제작' : '기타'}
+                      {displayData.eventType === 'photo' ? '사진촬영' : 
+                       displayData.eventType === 'concert' ? '공연촬영' : 
+                       displayData.eventType === 'video' ? '영상제작' : 
+                       displayData.eventType === 'music_video' ? '뮤직비디오제작' : '기타'}
                     </p>
                   )}
                 </div>
@@ -399,20 +405,7 @@ export default function ReservationDetail() {
                   )}
                 </div>
 
-                <div className="bg-white rounded p-4 border border-green-200">
-                  <Label htmlFor="eventDuration" className="text-sm font-semibold text-gray-700">촬영 시간</Label>
-                  {isEditing ? (
-                    <Input
-                      id="eventDuration"
-                      value={editData?.eventDuration || ""}
-                      onChange={(e) => setEditData((prev: any) => ({ ...prev, eventDuration: e.target.value }))}
-                      className="mt-2"
-                      placeholder="예: 2시간"
-                    />
-                  ) : (
-                    <p className="mt-2 text-foreground font-medium">{displayData.eventDuration || "-"}</p>
-                  )}
-                </div>
+
               </div>
             </div>
 
@@ -564,7 +557,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-red-200">
-                  <Label htmlFor="description" className="text-sm font-semibold text-gray-700">비고</Label>
+                  <Label htmlFor="description" className="text-sm font-semibold text-gray-700">프로그램 및 정보</Label>
                   {isEditing ? (
                     <Textarea
                       id="description"
@@ -575,6 +568,99 @@ export default function ReservationDetail() {
                     />
                   ) : (
                     <p className="mt-2 text-foreground whitespace-pre-wrap">{displayData.description || "-"}</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-red-200">
+                  <Label htmlFor="attachments" className="text-sm font-semibold text-gray-700">파일첨부</Label>
+                  {isEditing ? (
+                    <div className="mt-2">
+                      <Input
+                        id="attachments"
+                        type="file"
+                        multiple
+                        onChange={async (e) => {
+                          const files = e.target.files;
+                          if (!files || files.length === 0) return;
+                          
+                          const uploadedUrls: string[] = [];
+                          
+                          for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const reader = new FileReader();
+                            
+                            await new Promise((resolve) => {
+                              reader.onload = async () => {
+                                try {
+                                  const base64 = reader.result as string;
+                                  const fileData = base64.split(',')[1];
+                                  
+                                  const result = await uploadFileMutation.mutateAsync({
+                                    fileName: file.name,
+                                    fileData,
+                                    mimeType: file.type,
+                                  });
+                                  
+                                  uploadedUrls.push(result.url);
+                                  resolve(null);
+                                } catch (error) {
+                                  console.error('File upload error:', error);
+                                  toast.error(`파일 업로드 실패: ${file.name}`);
+                                  resolve(null);
+                                }
+                              };
+                              reader.readAsDataURL(file);
+                            });
+                          }
+                          
+                          if (uploadedUrls.length > 0) {
+                            const existingAttachments = editData?.attachments ? JSON.parse(editData.attachments) : [];
+                            const newAttachments = [...existingAttachments, ...uploadedUrls];
+                            setEditData((prev: any) => ({ ...prev, attachments: JSON.stringify(newAttachments) }));
+                            toast.success(`${uploadedUrls.length}개 파일이 업로드되었습니다.`);
+                          }
+                        }}
+                        className="cursor-pointer"
+                      />
+                      {editData?.attachments && (
+                        <div className="mt-2 space-y-1">
+                          {JSON.parse(editData.attachments).map((url: string, index: number) => (
+                            <div key={index} className="flex items-center gap-2 text-sm">
+                              <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">
+                                첨부파일 {index + 1}
+                              </a>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const attachments = JSON.parse(editData.attachments);
+                                  const newAttachments = attachments.filter((_: string, i: number) => i !== index);
+                                  setEditData((prev: any) => ({ ...prev, attachments: newAttachments.length > 0 ? JSON.stringify(newAttachments) : null }));
+                                }}
+                                className="text-red-600 hover:text-red-800 text-xs"
+                              >
+                                삭제
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="mt-2">
+                      {displayData.attachments ? (
+                        <div className="space-y-1">
+                          {JSON.parse(displayData.attachments).map((url: string, index: number) => (
+                            <div key={index}>
+                              <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                                첨부파일 {index + 1}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-foreground">-</p>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>
