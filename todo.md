@@ -387,3 +387,8 @@
 - [x] ConcertLiveGallery 페이지에 [글쓰기] 버튼 추가 (관리자만 보임)
 - [x] MakingFilmGallery 페이지에 [글쓰기] 버튼 추가 (관리자만 보임)
 - [x] Home.tsx의 메인 영상 가운데 플레이 버튼 아이콘 삭제
+
+## 글쓰기 버튼 링크 수정 (2026-02-04 완료)
+- [x] ConcertLiveGallery의 [글쓰기] 버튼을 새로운 게시물 작성 페이지로 링크 변경 (/concert-live/new)
+- [x] MakingFilmGallery의 [글쓰기] 버튼을 새로운 게시물 작성 페이지로 링크 변경 (/making-film/new)
+- [x] CreatePost 페이지 생성 (제목, 내용, 이미지 URL, 동영상 URL 입력 필드)

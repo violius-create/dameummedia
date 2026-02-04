@@ -78,7 +78,7 @@ export default function ConcertLiveGallery() {
             </div>
             {user?.role === 'admin' && (
               <Button 
-                onClick={() => setLocation('/admin/service-items')}
+                onClick={() => setLocation('/concert-live/new')}
                 className="flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />

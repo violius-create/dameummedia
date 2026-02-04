@@ -22,6 +22,7 @@ import ReservationBoard from "./pages/ReservationBoard";
 import AdminHeroBackground from "./pages/AdminHeroBackground";
 import AdminServiceItems from "./pages/AdminServiceItems";
 import AdminSectionTitles from "./pages/AdminSectionTitles";
+import CreatePost from "./pages/CreatePost";
 
 function Navigation() {
   const { data: branding } = trpc.siteBranding.get.useQuery();
@@ -149,7 +150,9 @@ function Router() {
       <Route path={"/admin/hero-background"} component={AdminHeroBackground} />
       <Route path={"/admin/service-items"} component={AdminServiceItems} />
       <Route path={"/admin/section-titles"} component={AdminSectionTitles} />
-      <Route component={NotFound} />
+      <Route path={"/concert-live/new"} component={() => <CreatePost category="concert" />} />
+      <Route path={"/making-film/new"} component={() => <CreatePost category="film" />} />
+      <Route path={"*"} component={NotFound} />
     </Switch>
   );
 }
