@@ -35,7 +35,7 @@ function Navigation() {
   }, [branding]);
 
   return (
-    <nav className="border-b border-border bg-gray-100">
+    <nav className="sticky top-0 z-50 border-b border-border bg-gray-100">
       <div className="container py-3 flex items-center justify-between">
         {/* Left: Logo */}
         <div className="flex items-center gap-3 cursor-pointer flex-shrink-0" onClick={() => window.location.href = '/'}>
