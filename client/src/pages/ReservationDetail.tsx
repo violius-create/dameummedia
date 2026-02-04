@@ -62,9 +62,18 @@ export default function ReservationDetail() {
       toast.error("예약 정보를 찾을 수 없습니다.");
       return;
     }
+    
+    // null 값을 undefined로 변환하여 optional 필드로 처리
+    const cleanedData = Object.fromEntries(
+      Object.entries(editData).map(([key, value]) => [
+        key,
+        value === null ? undefined : value
+      ])
+    );
+    
     await updateMutation.mutateAsync({
       id: reservation.id,
-      ...editData,
+      data: cleanedData,
     });
   };
 
