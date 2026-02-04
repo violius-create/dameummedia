@@ -38,29 +38,35 @@ function Navigation() {
   return (
     <nav className="border-b border-border bg-gray-100">
       <div className="container py-4">
-        <div className="flex items-center justify-between">
-          {/* Left: Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            {logoUrl && (
-              <img src={logoUrl} alt="Logo" className="h-8 w-auto" />
-            )}
+        {/* First row: Navigation menu */}
+        <div className="flex items-center justify-between mb-4">
+          {/* Left: Navigation menu */}
+          <div className="flex items-center gap-6">
+            <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              Information
+            </a>
+            <a href="/price" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              Price
+            </a>
+            <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              Concert Live
+            </a>
+            <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              Making Film
+            </a>
+            <a href="/reservation" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              Reservation
+            </a>
           </div>
           
-          {/* Center: SNS Links */}
+          {/* Right: SNS Links + Admin + Logout */}
           <div className="flex items-center gap-4">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Instagram
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            <a href={branding?.youtubeUrl || "https://youtube.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               YouTube
             </a>
-          </div>
-          
-          {/* Right: Search and Login */}
-          <div className="flex items-center gap-3">
-            <button className="text-gray-700 hover:text-gray-900 transition-colors">
-              <Search className="h-5 w-5" />
-            </button>
             {isAuthenticated && user?.role === 'admin' && (
               <a href="/admin" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
                 Admin
@@ -75,6 +81,15 @@ function Navigation() {
               >
                 <LogOut className="h-5 w-5" />
               </button>
+            )}
+          </div>
+        </div>
+        
+        {/* Second row: Logo */}
+        <div className="flex items-center">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
+            {logoUrl && (
+              <img src={logoUrl} alt="Logo" className="h-12 w-auto" />
             )}
           </div>
         </div>
