@@ -324,3 +324,9 @@
 - [x] 검색 아이콘 제거
 - [x] 로그인 아이콘 제거
 - [x] 우측에 SNS + Admin만 표시
+
+## 네비게이션 바 2줄 레이아웃 재구성 (2026-02-04 완료)
+- [x] 첫 번째 줄: 회색 배경, 우측에 Instagram/YouTube/Admin 배치
+- [x] 두 번째 줄: 흰색 배경, 좌측에 Logo, 중앙에 메뉴 배치
+- [x] Logo 클릭 시 홈페이지로 이동
+- [x] 메뉴 항목: Information, Price, Concert Live, Making Film, Reservation
