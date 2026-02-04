@@ -343,3 +343,8 @@
 - [x] 중앙에 메뉴 배치 (Information, Price, Concert Live, Making Film, Reservation)
 - [x] 우측에 SNS (Instagram, YouTube) + Logout 배치
 - [x] 깔끔한 1줄 레이아웃 완성
+
+## Home.tsx 중복 네비게이션 바 삭제 (2026-02-04 완료)
+- [x] Home.tsx에서 중복된 네비게이션 바 제거
+- [x] App.tsx의 네비게이션 바만 유지
+- [x] 네비게이션 바 1줄 레이아웃 확정

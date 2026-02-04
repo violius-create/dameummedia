@@ -75,57 +75,6 @@ export default function Home() {
     <div className="min-h-screen bg-background">
 
 
-      {/* Main Navigation Bar - White Background */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background">
-        <div className="container py-4 flex items-center justify-between">
-          {/* Left: Logo - Hidden */}
-          <div className="flex items-center gap-3">
-          </div>
-
-          {/* Center: Navigation Links */}
-          <div className="flex items-center gap-6">
-            <Link href="/information">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Information</Button>
-            </Link>
-            <Link href="/price">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Price</Button>
-            </Link>
-            <Link href="/concert-live">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Concert Live</Button>
-            </Link>
-            <Link href="/making-film">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Making Film</Button>
-            </Link>
-            <Link href="/reservation">
-              <Button variant="ghost" size="sm" className="text-foreground hover:bg-gray-300 hover:text-white">Reservation</Button>
-            </Link>
-          </div>
-
-          {/* Right: Search and Admin */}
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" className="text-foreground hover:bg-accent">
-              <Search className="h-4 w-4" />
-            </Button>
-            {isAuthenticated && user?.role === 'admin' && (
-              <Link href="/admin">
-                <Button variant="outline" size="sm" className="text-foreground">Admin</Button>
-              </Link>
-            )}
-            {isAuthenticated && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-foreground hover:bg-accent"
-                onClick={() => {
-                  trpc.auth.logout.useMutation().mutate();
-                }}
-              >
-                <LogOut className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        </div>
-      </nav>
 
       {/* Full Screen Hero Section */}
       <section className="relative h-[500px] overflow-hidden bg-black">
