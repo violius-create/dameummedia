@@ -39,16 +39,9 @@ function Navigation() {
     <nav className="border-b border-border bg-gray-100">
       <div className="container py-4">
         {/* Navigation row */}
-        <div className="flex items-center justify-between">
-          {/* Left: Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            {logoUrl && (
-              <img src={logoUrl} alt="Logo" className="h-10 w-auto" />
-            )}
-          </div>
-          
+        <div className="flex items-center justify-center gap-12">
           {/* Center: Navigation menu */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Information
             </a>
@@ -67,7 +60,7 @@ function Navigation() {
           </div>
           
           {/* Right: SNS Links + Admin */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Instagram
             </a>
