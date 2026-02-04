@@ -19,7 +19,7 @@ export default function AdminDashboard() {
   const [location] = useLocation();
   
   // All hooks must be called before any conditional returns
-  const [activeTab, setActiveTab] = useState("posts");
+  const [activeTab, setActiveTab] = useState("images");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("notice");
@@ -231,10 +231,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-5 overflow-x-auto">
-            <TabsTrigger value="posts">게시글 관리</TabsTrigger>
-            <TabsTrigger value="reservations">예약 관리</TabsTrigger>
-            <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-3 overflow-x-auto">
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
