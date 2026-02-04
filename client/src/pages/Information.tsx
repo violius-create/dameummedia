@@ -1,163 +1,179 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Music, Mic, Video, Zap } from "lucide-react";
-import { Link } from "wouter";
+import { useEffect, useState } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Music, Award, Briefcase } from "lucide-react";
 
 export default function Information() {
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    setFadeIn(true);
+  }, []);
+
+  const experiences = [
+    "전 대우전자(주) 중앙연구소 주임연구원",
+    "중대 루바토 오케스트라 비올라 및 지휘자 역임(3회)",
+    "베누스토 오케스트라 비올라 단원 및 부지휘자 역임",
+    "체카 사중주단 비올라 단원",
+    "구 테헤란밸리 오케스트라 초대 음악감독 역임",
+    "사단법인 레일아트 공연자 및 매거진 팀장 역임",
+  ];
+
+  const achievements = [
+    "400여개의 오케스트레이션 및 악보 제작 판매중",
+    "영화음악 편곡, 녹음 및 자문 (정승필 실종사건, 노리개, 커피메이트)",
+    "다수의 드라마 녹음용 악보 및 String 편곡 작업",
+    "뮤지컬 음악 작곡 (알로하오에)",
+    "세계 최초 온라인 콘서트 '아,대한민국!' 프로듀싱 및 음반제작 (2005)",
+    "500여건의 녹음 및 촬영, 300여건의 음반 및 DVD 제작",
+    "직장인 밴드에서 바이올린 및 베이스 주자로 활동",
+  ];
+
+  const dramaWorks = [
+    "신기생뎐", "매리는 외박중", "구미호여우누이뎐", 
+    "그겨울 바람이 분다", "굿닥터", "장근석 1집", "시아준수 솔로2집"
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-        <div className="container py-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              돌아가기
-            </Button>
-          </Link>
-        </div>
-      </nav>
-
-      {/* Content */}
-      <div className="container py-16">
-        <div className="max-w-4xl mx-auto space-y-12">
-          {/* Header */}
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold">서비스 소개</h1>
-            <p className="text-lg text-muted-foreground">
-              담음미디어는 20년 이상의 경험을 바탕으로 최고 품질의 음악 공연 촬영, 
-              음향 제작, 그리고 영상 제작 서비스를 제공합니다.
+      {/* Hero Section */}
+      <section className="relative h-[400px] overflow-hidden bg-black">
+        <div className="relative w-full h-full">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=400&fit=crop"
+              alt="Information Hero"
+              className="w-full h-full object-cover opacity-40"
+            />
+          </div>
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+          
+          {/* Content */}
+          <div className="container relative h-full flex flex-col justify-center items-center text-center">
+            <h1 className={`text-6xl font-bold tracking-tight text-white mb-4 transition-all duration-1000 ${fadeIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              Information
+            </h1>
+            <p className={`text-xl text-gray-200 transition-all duration-1000 delay-300 ${fadeIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              담음미디어를 소개합니다
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* Services Grid */}
-          <div className="grid gap-8 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <Music className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>Concert Live</CardTitle>
-                <CardDescription>공연 촬영 및 음향 제작</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                <p>
-                  전문 장비와 경험 많은 팀이 당신의 공연을 생생하게 기록합니다.
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>4K/8K 고화질 촬영</li>
-                  <li>멀티 앵글 촬영</li>
-                  <li>전문 음향 녹음</li>
-                  <li>실시간 스트리밍</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <Mic className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>음향 제작</CardTitle>
-                <CardDescription>녹음, 믹싱, 마스터링</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                <p>
-                  최신 음향 장비와 전문 엔지니어가 최고의 사운드를 만들어냅니다.
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>스튜디오 녹음</li>
-                  <li>라이브 녹음</li>
-                  <li>프로페셔널 믹싱</li>
-                  <li>마스터링</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <Video className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>Making Film</CardTitle>
-                <CardDescription>뮤직 비디오 및 영상 제작</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                <p>
-                  창의적인 영상 제작으로 당신의 음악을 시각적으로 표현합니다.
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>뮤직 비디오 제작</li>
-                  <li>프로필 영상</li>
-                  <li>광고 영상</li>
-                  <li>컨셉 영상</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <Zap className="mb-2 h-8 w-8 text-primary" />
-                <CardTitle>포스트 프로덕션</CardTitle>
-                <CardDescription>편집, 컬러 그레이딩, 이펙트</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                <p>
-                  촬영된 영상을 최고 수준으로 완성시킵니다.
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>전문 영상 편집</li>
-                  <li>컬러 그레이딩</li>
-                  <li>특수 효과</li>
-                  <li>자막 제작</li>
-                </ul>
-              </CardContent>
-            </Card>
+      {/* Main Content */}
+      <section className="container py-24">
+        {/* About Section */}
+        <div className="max-w-4xl mx-auto mb-24 text-center">
+          <h2 className="text-5xl font-bold tracking-tight mb-8">담음미디어는</h2>
+          <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+            다년간 실제 연주 생활과 지휘자 경험을 한 운영자가 직접 녹음-촬영 및 편집을 합니다.
+          </p>
+          <div className="space-y-4">
+            <p className="text-3xl font-bold text-primary">
+              음악이 보이는 영상을 만듭니다
+            </p>
+            <p className="text-3xl font-bold text-primary">
+              열정의 가치를 담는, 담음미디어
+            </p>
           </div>
+        </div>
 
-          {/* Why Choose Us */}
-          <Card className="bg-primary/5 border-primary/20">
-            <CardHeader>
-              <CardTitle>왜 담음미디어를 선택해야 할까요?</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <h4 className="font-semibold mb-2">20년 이상의 경험</h4>
-                  <p className="text-sm text-muted-foreground">
-                    수많은 공연과 프로젝트를 성공적으로 진행한 경험이 있습니다.
-                  </p>
+        {/* Experience & Achievements Grid */}
+        <div className="grid gap-12 md:grid-cols-2 max-w-6xl mx-auto mb-24">
+          {/* Experience Card */}
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Briefcase className="w-6 h-6 text-primary" />
                 </div>
-                <div>
-                  <h4 className="font-semibold mb-2">최신 장비</h4>
-                  <p className="text-sm text-muted-foreground">
-                    항상 최신 기술과 장비를 사용하여 최고의 품질을 보장합니다.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">전문 팀</h4>
-                  <p className="text-sm text-muted-foreground">
-                    촬영, 음향, 편집 등 각 분야의 전문가로 구성된 팀입니다.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">맞춤형 서비스</h4>
-                  <p className="text-sm text-muted-foreground">
-                    당신의 요구에 맞는 맞춤형 서비스를 제공합니다.
-                  </p>
-                </div>
+                <h3 className="text-2xl font-bold">주요 경력</h3>
               </div>
+              <ul className="space-y-3">
+                {experiences.map((exp, index) => (
+                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                    <span className="text-primary mt-1.5">•</span>
+                    <span className="flex-1">{exp}</span>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
 
-          {/* CTA */}
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold">당신의 프로젝트를 시작하세요</h3>
-            <p className="text-muted-foreground">
-              전문가 상담을 통해 최적의 서비스를 제공받으세요.
-            </p>
-            <Link href="/reservation">
-              <Button size="lg">
-                예약하기
-              </Button>
-            </Link>
+          {/* Achievements Card */}
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Award className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold">주요 실적</h3>
+              </div>
+              <ul className="space-y-3">
+                {achievements.map((achievement, index) => (
+                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                    <span className="text-primary mt-1.5">•</span>
+                    <span className="flex-1">{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Drama Works Section */}
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-2 bg-gradient-to-br from-primary/5 to-primary/10">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-primary/20 rounded-lg">
+                  <Music className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold">드라마 및 음반 작업</h3>
+              </div>
+              <p className="text-muted-foreground mb-4">
+                다수의 드라마 녹음용 악보 및 String 편곡 작업을 진행했습니다.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {dramaWorks.map((work, index) => (
+                  <span
+                    key={index}
+                    className="px-4 py-2 bg-background border border-border rounded-full text-sm font-medium hover:border-primary hover:text-primary transition-colors"
+                  >
+                    {work}
+                  </span>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="bg-muted border-t border-border">
+        <div className="container py-16 text-center">
+          <h3 className="text-3xl font-bold mb-4">프로젝트 문의</h3>
+          <p className="text-lg text-muted-foreground mb-8">
+            담음미디어와 함께 특별한 영상을 만들어보세요
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/reservation"
+              className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+            >
+              예약하기
+            </a>
+            <a
+              href="/price"
+              className="px-8 py-3 bg-background border-2 border-border rounded-lg font-semibold hover:border-primary hover:text-primary transition-colors"
+            >
+              가격표 보기
+            </a>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

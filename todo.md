@@ -441,3 +441,9 @@
 - [x] Home.tsx에서 섹션 2, 3 영상 위 제목 글자 크기 1.5배로 확대 (text-3xl → text-5xl)
 - [x] Home.tsx에서 섹션 2, 3 영상 위 설명 글자 크기 1.5배로 확대 (text-sm → text-xl)
 - [x] 테스트 및 검증
+
+## Information 페이지 구현 (2026-02-04 완료)
+- [x] dameum.kr 회사소개 페이지 콘텐츠 확인
+- [x] Information 페이지 디자인 및 구현 (히어로 섹션, 주요 경력, 주요 실적, 드라마 작업, CTA)
+- [x] App.tsx에 Information 라우트 연결 (이미 연결됨)
+- [x] 테스트 및 검증
