@@ -21,6 +21,7 @@ import ReservationDetail from "./pages/ReservationDetail";
 import ReservationBoard from "./pages/ReservationBoard";
 import AdminHeroBackground from "./pages/AdminHeroBackground";
 import AdminServiceItems from "./pages/AdminServiceItems";
+import AdminSectionTitles from "./pages/AdminSectionTitles";
 
 function Navigation() {
   const { data: branding } = trpc.siteBranding.get.useQuery();
@@ -69,6 +70,7 @@ function Router() {
       <Route path={"/admin"} component={AdminDashboard} />
       <Route path={"/admin/hero-background"} component={AdminHeroBackground} />
       <Route path={"/admin/service-items"} component={AdminServiceItems} />
+      <Route path={"/admin/section-titles"} component={AdminSectionTitles} />
       <Route path={"/concert-live"} component={ConcertLiveGallery} />
       <Route path={"/making-film"} component={MakingFilmGallery} />
       <Route path={"/404"} component={NotFound} />

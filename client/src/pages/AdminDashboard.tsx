@@ -231,15 +231,12 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-7 lg:grid-cols-8 overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-5 overflow-x-auto">
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
             <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
-            <TabsTrigger value="background">배경 관리</TabsTrigger>
-            <TabsTrigger value="services">서비스 항목</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
-            <TabsTrigger value="sections">섹션 제목</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -543,51 +540,44 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          {/* Background Tab */}
-          <TabsContent value="background" className="space-y-6">
+          {/* Quick Access Buttons */}
+          <div className="mt-8 grid grid-cols-2 gap-4">
             <Card>
               <CardHeader>
-                <CardTitle>메인 타이틀 배경 관리</CardTitle>
-                <CardDescription>메인 페이지 상단의 배경 이미지/영상을 관리합니다.</CardDescription>
+                <CardTitle>배경 관리</CardTitle>
+                <CardDescription>메인 페이지 배경 영상 관리</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent>
                 <Button 
                   onClick={() => window.location.href = '/admin/hero-background'}
                   className="w-full"
                 >
-                  배경 영상 관리 페이지로 이동
+                  배경 관리 페이지로 이동
                 </Button>
               </CardContent>
             </Card>
-          </TabsContent>
-
-          {/* Services Tab */}
-          <TabsContent value="services" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>서비스 항목 관리</CardTitle>
-                <CardDescription>메인 페이지의 서비스 항목을 관리합니다.</CardDescription>
+                <CardTitle>섹션 제목</CardTitle>
+                <CardDescription>메인 페이지 섹션 제목 관리</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent>
                 <Button 
-                  onClick={() => window.location.href = '/admin/service-items'}
+                  onClick={() => window.location.href = '/admin/section-titles'}
                   className="w-full"
                 >
-                  서비스 항목 관리 페이지로 이동
+                  섹션 제목 관리 페이지로 이동
                 </Button>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
 
           {/* Site Branding Tab */}
           <TabsContent value="branding" className="space-y-6">
             <AdminSiteBranding />
           </TabsContent>
 
-          {/* Section Titles Tab */}
-          <TabsContent value="sections" className="space-y-6">
-            <SectionTitlesTab />
-          </TabsContent>
+
         </Tabs>
       </div>
     </div>
