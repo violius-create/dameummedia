@@ -523,10 +523,10 @@
 - [x] 모든 필드 수정 기능 테스트 (촬영 시간 14:30 저장 성공)
 
 ## 예약게시판 Select 필드 수정 불가 문제 (2026-02-05)
-- [ ] 촬영유형 수정 불가 문제 해결
-- [ ] 결제방식 수정 불가 문제 해결
-- [ ] 특수요청 수정 불가 문제 해결
-- [ ] 상태 수정 불가 문제 해결
-- [ ] 비고 수정 불가 문제 해결
-- [ ] Select 컴포넌트 onValueChange 핸들러 확인
-- [ ] 모든 Select 필드 수정 기능 테스트
+- [x] 촬영유형 수정 불가 문제 해결
+- [x] 결제방식 수정 불가 문제 해결 (enum 값 추가: full, half)
+- [x] 특수요청 수정 불가 문제 해결
+- [x] 상태 수정 불가 문제 해결 (enum 값 추가: payment_completed, work_pending, in_progress, editing)
+- [x] 비고 수정 불가 문제 해결
+- [x] Select 컴포넌트 onValueChange 핸들러 확인
+- [x] 모든 Select 필드 수정 기능 테스트 (결제방식 full, 상태 in_progress 저장 성공)

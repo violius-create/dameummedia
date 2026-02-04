@@ -123,13 +123,13 @@ export const appRouter = router({
         audioSettings: z.string().optional(),
         recordingType: z.string().optional(),
         specialRequirements: z.string().optional(),
-        paymentMethod: z.string().optional(),
+        paymentMethod: z.enum(['card', 'transfer', 'cash', 'other', 'full', 'half']).optional(),
         isPublic: z.number().optional(),
-        receiptType: z.string().optional(),
+        receiptType: z.enum(['issued', 'not_issued', 'cash_receipt']).optional(),
         paidAmount: z.number().optional(),
         unpaidAmount: z.number().optional(),
         description: z.string().optional(),
-        status: z.enum(['pending', 'confirmed', 'completed', 'cancelled']).optional(),
+        status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
       }))
       .mutation(async ({ input }) => {
         return db.createReservation({
@@ -195,14 +195,14 @@ export const appRouter = router({
           audioSettings: z.string().optional(),
           recordingType: z.string().optional(),
           specialRequirements: z.string().optional(),
-          paymentMethod: z.enum(['card', 'transfer', 'cash', 'other']).optional(),
+          paymentMethod: z.enum(['card', 'transfer', 'cash', 'other', 'full', 'half']).optional(),
           isPublic: z.number().optional(),
           receiptType: z.enum(['issued', 'not_issued', 'cash_receipt']).optional(),
           quotedAmount: z.number().optional(),
           paidAmount: z.number().optional(),
           unpaidAmount: z.number().optional(),
           description: z.string().optional(),
-          status: z.enum(['pending', 'confirmed', 'completed', 'cancelled']).optional(),
+          status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
         }),
       }))
       .mutation(({ input }) => db.updateReservation(input.id, input.data)),

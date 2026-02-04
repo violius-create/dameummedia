@@ -1,0 +1,2 @@
+ALTER TABLE `reservations` MODIFY COLUMN `paymentMethod` enum('card','transfer','cash','other','full','half');--> statement-breakpoint
+ALTER TABLE `reservations` MODIFY COLUMN `status` enum('pending','confirmed','payment_completed','work_pending','in_progress','editing','completed','cancelled') NOT NULL DEFAULT 'pending';
