@@ -12,6 +12,7 @@ export default function Home() {
   const [, navigate] = useLocation();
   const [heroTitle, setHeroTitle] = useState('담음미디어');
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
+  const [heroDescription, setHeroDescription] = useState('');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
@@ -33,6 +34,13 @@ export default function Home() {
       setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
     }
   }, [siteBranding]);
+
+  // 활성화된 메인 배경 영상의 설명 로드
+  useEffect(() => {
+    if (activeHeroBackground?.description) {
+      setHeroDescription(activeHeroBackground.description);
+    }
+  }, [activeHeroBackground]);
 
   // 섹션 제목 데이터 로드
   useEffect(() => {
@@ -163,6 +171,11 @@ export default function Home() {
               <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-md font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
                 {heroSubtitle}
               </p>
+              {heroDescription && (
+                <p className="text-sm md:text-base text-gray-200 leading-relaxed max-w-2xl font-light animate-fade-in" style={{animationDelay: '0.8s'}}>
+                  {heroDescription}
+                </p>
+              )}
             </div>
           </div>
 
