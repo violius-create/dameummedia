@@ -63,13 +63,26 @@ export default function ReservationDetail() {
       return;
     }
     
-    // null 값을 undefined로 변환하여 optional 필드로 처리
+    // null 값을 undefined로 변환하고, undefined 값과 읽기 전용 필드 제거
+    const readOnlyFields = ['id', 'createdAt', 'updatedAt'];
+    
+    console.log('[DEBUG] editData before cleaning:', editData);
+    
     const cleanedData = Object.fromEntries(
-      Object.entries(editData).map(([key, value]) => [
-        key,
-        value === null ? undefined : value
-      ])
+      Object.entries(editData)
+        .filter(([key, value]) => {
+          const shouldKeep = !readOnlyFields.includes(key) && value !== undefined;
+          console.log(`[DEBUG] Field ${key}: value=${value}, shouldKeep=${shouldKeep}`);
+          return shouldKeep;
+        })
+        .map(([key, value]) => {
+          const finalValue = value === null ? undefined : value;
+          console.log(`[DEBUG] Mapping ${key}: ${value} -> ${finalValue}`);
+          return [key, finalValue];
+        })
     );
+    
+    console.log('[DEBUG] cleanedData:', cleanedData);
     
     await updateMutation.mutateAsync({
       id: reservation.id,
@@ -261,7 +274,7 @@ export default function ReservationDetail() {
                       id="clientEmail"
                       type="email"
                       value={editData?.clientEmail || ""}
-                      onChange={(e) => setEditData({ ...editData, clientEmail: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, clientEmail: e.target.value }))}
                       className="mt-2"
                     />
                   ) : (
@@ -275,7 +288,7 @@ export default function ReservationDetail() {
                     <Input
                       id="clientName"
                       value={editData?.clientName || ""}
-                      onChange={(e) => setEditData({ ...editData, clientName: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, clientName: e.target.value }))}
                       className="mt-2"
                     />
                   ) : (
@@ -289,7 +302,7 @@ export default function ReservationDetail() {
                     <Input
                       id="clientPhone"
                       value={editData?.clientPhone || ""}
-                      onChange={(e) => setEditData({ ...editData, clientPhone: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, clientPhone: e.target.value }))}
                       className="mt-2"
                     />
                   ) : (
@@ -300,7 +313,7 @@ export default function ReservationDetail() {
                 <div className="bg-white rounded p-4 border border-blue-200">
                   <Label htmlFor="eventType" className="text-sm font-semibold text-gray-700">문류</Label>
                   {isEditing ? (
-                    <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData({ ...editData, eventType: value })}>
+                    <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, eventType: value }))}>
                       <SelectTrigger id="eventType" className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
@@ -331,7 +344,7 @@ export default function ReservationDetail() {
                     <Input
                       id="eventName"
                       value={editData?.eventName || ""}
-                      onChange={(e) => setEditData({ ...editData, eventName: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, eventName: e.target.value }))}
                       className="mt-2"
                       required
                     />
@@ -347,7 +360,7 @@ export default function ReservationDetail() {
                       id="eventDate"
                       type="date"
                       value={editData?.eventDate ? new Date(editData.eventDate).toISOString().split('T')[0] : ""}
-                      onChange={(e) => setEditData({ ...editData, eventDate: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, eventDate: e.target.value }))}
                       className="mt-2"
                     />
                   ) : (
@@ -363,7 +376,7 @@ export default function ReservationDetail() {
                     <Input
                       id="venue"
                       value={editData?.venue || ""}
-                      onChange={(e) => setEditData({ ...editData, venue: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, venue: e.target.value }))}
                       className="mt-2"
                     />
                   ) : (
@@ -377,7 +390,7 @@ export default function ReservationDetail() {
                     <Input
                       id="eventDuration"
                       value={editData?.eventDuration || ""}
-                      onChange={(e) => setEditData({ ...editData, eventDuration: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, eventDuration: e.target.value }))}
                       className="mt-2"
                       placeholder="예: 2시간"
                     />
@@ -400,7 +413,7 @@ export default function ReservationDetail() {
                       id="quotedAmount"
                       type="number"
                       value={editData?.quotedAmount || 0}
-                      onChange={(e) => setEditData({ ...editData, quotedAmount: parseInt(e.target.value) })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, quotedAmount: parseInt(e.target.value) || 0 }))}
                       className="mt-2"
                     />
                   ) : (
@@ -415,7 +428,7 @@ export default function ReservationDetail() {
                       id="paidAmount"
                       type="number"
                       value={editData?.paidAmount || 0}
-                      onChange={(e) => setEditData({ ...editData, paidAmount: parseInt(e.target.value) })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, paidAmount: parseInt(e.target.value) || 0 }))}
                       className="mt-2"
                     />
                   ) : (
@@ -438,7 +451,7 @@ export default function ReservationDetail() {
                 <div className="bg-white rounded p-4 border border-purple-200">
                   <Label htmlFor="recordingType" className="text-sm font-semibold text-gray-700">촬영 유형</Label>
                   {isEditing ? (
-                    <Select value={editData?.recordingType || ""} onValueChange={(value) => setEditData({ ...editData, recordingType: value })}>
+                    <Select value={editData?.recordingType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, recordingType: value }))}>
                       <SelectTrigger id="recordingType" className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
@@ -461,7 +474,7 @@ export default function ReservationDetail() {
                 <div className="bg-white rounded p-4 border border-purple-200">
                   <Label htmlFor="paymentMethod" className="text-sm font-semibold text-gray-700">결제 방식</Label>
                   {isEditing ? (
-                    <Select value={editData?.paymentMethod || ""} onValueChange={(value) => setEditData({ ...editData, paymentMethod: value })}>
+                    <Select value={editData?.paymentMethod || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, paymentMethod: value }))}>
                       <SelectTrigger id="paymentMethod" className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
@@ -478,7 +491,7 @@ export default function ReservationDetail() {
                 <div className="bg-white rounded p-4 border border-purple-200">
                   <Label htmlFor="specialRequirements" className="text-sm font-semibold text-gray-700">특수 요청</Label>
                   {isEditing ? (
-                    <Select value={editData?.specialRequirements || ""} onValueChange={(value) => setEditData({ ...editData, specialRequirements: value })}>
+                    <Select value={editData?.specialRequirements || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, specialRequirements: value }))}>
                       <SelectTrigger id="specialRequirements" className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
@@ -506,7 +519,7 @@ export default function ReservationDetail() {
                 <div className="bg-white rounded p-4 border border-red-200">
                   <Label htmlFor="status" className="text-sm font-semibold text-gray-700">상태 {isAdmin && <span className="text-xs text-red-600">(관리자만 수정 가능)</span>}</Label>
                   {isEditing && isAdmin ? (
-                    <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData({ ...editData, status: value })}>
+                    <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, status: value }))}>
                       <SelectTrigger id="status" className="mt-2">
                         <SelectValue />
                       </SelectTrigger>
@@ -541,7 +554,7 @@ export default function ReservationDetail() {
                     <Textarea
                       id="description"
                       value={editData?.description || ""}
-                      onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, description: e.target.value }))}
                       className="mt-2"
                       rows={4}
                     />

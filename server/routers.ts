@@ -192,6 +192,7 @@ export const appRouter = router({
           paymentMethod: z.enum(['card', 'transfer', 'cash', 'other']).optional(),
           isPublic: z.number().optional(),
           receiptType: z.enum(['issued', 'not_issued', 'cash_receipt']).optional(),
+          quotedAmount: z.number().optional(),
           paidAmount: z.number().optional(),
           unpaidAmount: z.number().optional(),
           description: z.string().optional(),

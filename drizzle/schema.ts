@@ -81,6 +81,7 @@ export const reservations = mysqlTable("reservations", {
   paymentMethod: mysqlEnum("paymentMethod", ["card", "transfer", "cash", "other"]),
   isPublic: int("isPublic").default(1),
   receiptType: mysqlEnum("receiptType", ["issued", "not_issued", "cash_receipt"]),
+  quotedAmount: int("quotedAmount").default(0),
   paidAmount: int("paidAmount").default(0),
   unpaidAmount: int("unpaidAmount").default(0),
   description: text("description"),

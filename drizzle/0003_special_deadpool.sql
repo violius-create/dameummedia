@@ -1,0 +1,1 @@
+ALTER TABLE `reservations` ADD `quotedAmount` int DEFAULT 0;
