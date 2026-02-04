@@ -184,3 +184,17 @@ export const siteBranding = mysqlTable("siteBranding", {
 
 export type SiteBranding = typeof siteBranding.$inferSelect;
 export type InsertSiteBranding = typeof siteBranding.$inferInsert;
+
+// Section titles table for managing page section titles
+export const sectionTitles = mysqlTable("sectionTitles", {
+  id: int("id").autoincrement().primaryKey(),
+  sectionKey: varchar("sectionKey", { length: 100 }).unique().notNull(), // concert_live, making_film, information, price, reservation
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"), // Optional description for the section
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SectionTitle = typeof sectionTitles.$inferSelect;
+export type InsertSectionTitle = typeof sectionTitles.$inferInsert;

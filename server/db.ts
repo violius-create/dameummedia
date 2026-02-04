@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -419,4 +419,62 @@ export async function updateSiteBranding(id: number, branding: Partial<InsertSit
   await db.update(siteBranding).set(updateData).where(eq(siteBranding.id, id));
   
   return getSiteBranding();
+}
+
+
+// Section Titles queries
+export async function getSectionTitle(sectionKey: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(sectionTitles).where(eq(sectionTitles.sectionKey, sectionKey)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getAllSectionTitles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(sectionTitles);
+}
+
+export async function createSectionTitle(title: InsertSectionTitle) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(sectionTitles).values(title);
+  return result;
+}
+
+export async function updateSectionTitle(id: number, title: Partial<InsertSectionTitle>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(title).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertSectionTitle>;
+  
+  await db.update(sectionTitles).set(updateData).where(eq(sectionTitles.id, id));
+  
+  return getSectionTitle(title.sectionKey || '');
+}
+
+export async function updateSectionTitleByKey(sectionKey: string, title: Partial<InsertSectionTitle>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(title).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertSectionTitle>;
+  
+  await db.update(sectionTitles).set(updateData).where(eq(sectionTitles.sectionKey, sectionKey));
+  
+  return getSectionTitle(sectionKey);
+}
+
+export async function deleteSectionTitle(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(sectionTitles).where(eq(sectionTitles.id, id));
 }

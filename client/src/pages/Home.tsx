@@ -18,6 +18,8 @@ export default function Home() {
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
   const { data: heroBackgrounds } = trpc.heroBackground.list.useQuery({});
   const { data: siteBranding } = trpc.siteBranding.get.useQuery();
+  const { data: allSectionTitles } = trpc.sectionTitles.list.useQuery();
+  const [sections, setSections] = useState<Record<string, { title: string; description: string }>>({});
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
@@ -31,6 +33,20 @@ export default function Home() {
       setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
     }
   }, [siteBranding]);
+
+  // 섹션 제목 데이터 로드
+  useEffect(() => {
+    if (allSectionTitles) {
+      const sectionMap: Record<string, any> = {};
+      allSectionTitles.forEach((section: any) => {
+        sectionMap[section.sectionKey] = {
+          title: section.title,
+          description: section.description || '',
+        };
+      });
+      setSections(sectionMap);
+    }
+  }, [allSectionTitles]);
 
   // 로컬 스토리지에서 설정 로드
   useEffect(() => {
@@ -140,10 +156,6 @@ export default function Home() {
           <div className="absolute inset-0 flex flex-col justify-center p-12 md:p-16 z-10">
             <div className="space-y-8 max-w-2xl">
               <div className="space-y-4 animate-fade-in" style={{animationDelay: '0.2s'}}>
-                <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2">
-                  <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-                  <span className="text-sm font-semibold text-blue-600">Professional Media Production</span>
-                </div>
               </div>
               <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
                 <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-white leading-none mb-4">
@@ -228,8 +240,8 @@ export default function Home() {
       <section className="bg-background border-t border-border">
         <div className="container py-24">
           <div className="mb-12">
-            <h2 className="mb-4 text-4xl font-bold tracking-tight">공연 영상</h2>
-            <p className="text-lg text-muted-foreground">최근 촬영된 공연 영상</p>
+            <h2 className="mb-4 text-4xl font-bold tracking-tight">{sections['concert_live']?.title || '공연 영상'}</h2>
+            <p className="text-lg text-muted-foreground">{sections['concert_live']?.description || '최근 췍영된 공연 영상'}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {concertPosts?.map((post) => (
@@ -265,8 +277,8 @@ export default function Home() {
       <section className="bg-background border-t border-border">
         <div className="container py-24">
           <div className="mb-12">
-            <h2 className="mb-4 text-4xl font-bold tracking-tight">영상 제작</h2>
-            <p className="text-lg text-muted-foreground">최근 제작된 영상 콘텐츠</p>
+            <h2 className="mb-4 text-4xl font-bold tracking-tight">{sections['making_film']?.title || '영상 제작'}</h2>
+            <p className="text-lg text-muted-foreground">{sections['making_film']?.description || '최근 제작된 영상 콘테나'}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filmPosts?.map((post) => (

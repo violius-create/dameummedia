@@ -231,7 +231,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 lg:grid-cols-7 overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-7 lg:grid-cols-8 overflow-x-auto">
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
             <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
@@ -239,6 +239,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="background">배경 관리</TabsTrigger>
             <TabsTrigger value="services">서비스 항목</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
+            <TabsTrigger value="sections">섹션 제목</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -582,6 +583,11 @@ export default function AdminDashboard() {
           <TabsContent value="branding" className="space-y-6">
             <AdminSiteBranding />
           </TabsContent>
+
+          {/* Section Titles Tab */}
+          <TabsContent value="sections" className="space-y-6">
+            <SectionTitlesTab />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
@@ -709,5 +715,103 @@ function AdminSiteBranding() {
         </Button>
       </CardContent>
     </Card>
+  );
+}
+
+
+// Section Titles Tab Component
+function SectionTitlesTab() {
+  const [sections, setSections] = useState<Record<string, { title: string; description: string }>>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: allSections } = trpc.sectionTitles.list.useQuery();
+  const updateMutation = trpc.sectionTitles.update.useMutation({
+    onSuccess: () => {
+      toast.success("섹션 제목이 저장되었습니다.");
+    },
+    onError: (error) => {
+      toast.error(`저장 실패: ${error.message}`);
+    },
+  });
+
+  useEffect(() => {
+    if (allSections) {
+      const sectionMap: Record<string, { title: string; description: string }> = {};
+      allSections.forEach(section => {
+        sectionMap[section.sectionKey] = {
+          title: section.title,
+          description: section.description || '',
+        };
+      });
+      setSections(sectionMap);
+      setIsLoading(false);
+    }
+  }, [allSections]);
+
+  const handleSectionUpdate = (sectionKey: string, field: 'title' | 'description', value: string) => {
+    setSections(prev => ({
+      ...prev,
+      [sectionKey]: {
+        ...prev[sectionKey],
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleSave = (sectionKey: string) => {
+    const section = sections[sectionKey];
+    updateMutation.mutate({
+      sectionKey,
+      title: section.title,
+      description: section.description,
+    });
+  };
+
+  const sectionKeys = ['hero_section', 'concert_live', 'making_film', 'information', 'price', 'reservation'];
+  const sectionLabels: Record<string, string> = {
+    'hero_section': '섹션 1 (메인)',
+    'concert_live': '공연 영상',
+    'making_film': '영상 제작',
+    'information': 'Information',
+    'price': 'Price',
+    'reservation': 'Reservation',
+  };
+
+  return (
+    <div className="space-y-6">
+      {sectionKeys.map(key => (
+        <Card key={key}>
+          <CardHeader>
+            <CardTitle>{sectionLabels[key]}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor={`${key}-title`}>제목</Label>
+              <Input
+                id={`${key}-title`}
+                placeholder="섹션 제목"
+                value={sections[key]?.title || ''}
+                onChange={(e) => handleSectionUpdate(key, 'title', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor={`${key}-description`}>설명</Label>
+              <Textarea
+                id={`${key}-description`}
+                placeholder="섹션 설명 (선택사항)"
+                value={sections[key]?.description || ''}
+                onChange={(e) => handleSectionUpdate(key, 'description', e.target.value)}
+                rows={4}
+              />
+            </div>
+            <Button
+              onClick={() => handleSave(key)}
+              disabled={updateMutation.isPending}
+            >
+              {updateMutation.isPending ? "저장 중..." : "저장"}
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   );
 }

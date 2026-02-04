@@ -413,6 +413,40 @@ export const appRouter = router({
         }
       }),
   }),
+
+  // Section Titles router
+  sectionTitles: router({
+    get: publicProcedure
+      .input(z.object({ sectionKey: z.string() }))
+      .query(async ({ input }) => {
+        return db.getSectionTitle(input.sectionKey);
+      }),
+    
+    list: publicProcedure
+      .query(async () => {
+        return db.getAllSectionTitles();
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ sectionKey: z.string(), title: z.string().optional(), description: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        const existing = await db.getSectionTitle(input.sectionKey);
+        if (existing) {
+          return db.updateSectionTitle(existing.id, {
+            title: input.title,
+            description: input.description,
+            updatedBy: ctx.user.id,
+          });
+        } else {
+          return db.createSectionTitle({
+            sectionKey: input.sectionKey,
+            title: input.title || '',
+            description: input.description,
+            updatedBy: ctx.user.id,
+          });
+        }
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

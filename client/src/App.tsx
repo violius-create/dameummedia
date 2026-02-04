@@ -25,12 +25,10 @@ import AdminServiceItems from "./pages/AdminServiceItems";
 function Navigation() {
   const { data: branding } = trpc.siteBranding.get.useQuery();
   const [logoUrl, setLogoUrl] = useState("");
-  const [subtitle, setSubtitle] = useState("YouTube Channel Growth Strategy");
 
   useEffect(() => {
     if (branding) {
       setLogoUrl(branding.logoUrl || "");
-      setSubtitle(branding.subtitle || "YouTube Channel Growth Strategy");
     }
   }, [branding]);
 
@@ -39,17 +37,6 @@ function Navigation() {
       <div className="container py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            {logoUrl ? (
-              <img src={logoUrl} alt="Logo" className="h-8 w-8 rounded" />
-            ) : (
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-white font-bold text-sm">담</span>
-              </div>
-            )}
-            <div>
-              <h1 className="text-lg font-bold tracking-tight">담음미디어</h1>
-              <p className="text-xs text-muted-foreground">{subtitle}</p>
-            </div>
           </div>
           <div className="flex items-center gap-4">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:bg-gray-300 hover:text-white px-2 py-1 rounded transition-colors">
