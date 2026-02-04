@@ -386,11 +386,7 @@ export default function AdminHeroBackground() {
                           <Label htmlFor={`title-${item.id}`} className="text-xs">제목 수정</Label>
                           <Input
                             id={`title-${item.id}`}
-                            value={item.title}
-                            onChange={(e) => {
-                              const updatedItem = { ...item, title: e.target.value };
-                              // 임시로 상태 업데이트 (실제로는 서버에 저장해야 함)
-                            }}
+                            defaultValue={item.title}
                             onBlur={async (e) => {
                               if (e.target.value !== item.title) {
                                 await updateHeroBackgroundMutation.mutateAsync({

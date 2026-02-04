@@ -294,3 +294,11 @@
 ## 상단 로고 수정 요청 (2026-02-04 추가)
 - [x] 상단 회색 네비게이션 바의 왼쪽 작은 로고 삭제
 - [x] 검은색 섹션의 "Professional Media Production" 배지 삭제
+
+
+## 섹션 2, 3 배경 영상 제목/설명 수정 기능 (2026-02-04 완료)
+- [x] heroBackground 테이블에 title, description 필드 존재 확인
+- [x] Admin 페이지에서 섹션 2, 3 배경 영상의 제목과 설명 수정 UI 정상 동작
+- [x] heroBackground.update API에 title, description 필드 이미 지원
+- [x] 메인 페이지에서 heroBackground의 title, description 사용 완료
+- [x] 저장 버튼 클릭 시 메인 페이지에 즉시 반영 확인 완료
