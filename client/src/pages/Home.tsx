@@ -66,11 +66,8 @@ export default function Home() {
       {/* Main Navigation Bar - White Background */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background">
         <div className="container py-4 flex items-center justify-between">
-          {/* Left: Logo */}
+          {/* Left: Logo - Hidden */}
           <div className="flex items-center gap-3">
-            {siteBranding?.logoUrl && (
-              <img src={siteBranding.logoUrl} alt="Logo" className="h-8 w-8 rounded" />
-            )}
           </div>
 
           {/* Center: Navigation Links */}
@@ -156,6 +153,9 @@ export default function Home() {
           <div className="absolute inset-0 flex flex-col justify-center p-12 md:p-16 z-10">
             <div className="space-y-8 max-w-2xl">
               <div className="space-y-4 animate-fade-in" style={{animationDelay: '0.2s'}}>
+                <span className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-400/50 rounded-full text-sm font-medium text-blue-300 backdrop-blur-sm">
+                  Professional Media Production
+                </span>
               </div>
               <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
                 <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-white leading-none mb-4">
