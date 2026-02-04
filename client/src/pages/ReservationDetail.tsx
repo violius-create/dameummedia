@@ -360,13 +360,28 @@ export default function ReservationDetail() {
                       id="eventDate"
                       type="date"
                       value={editData?.eventDate ? new Date(editData.eventDate).toISOString().split('T')[0] : ""}
-                      onChange={(e) => setEditData((prev: any) => ({ ...prev, eventDate: e.target.value }))}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, eventDate: e.target.value ? new Date(e.target.value) : null }))}
                       className="mt-2"
                     />
                   ) : (
                     <p className="mt-2 text-foreground font-medium">
                       {displayData.eventDate ? new Date(displayData.eventDate).toLocaleDateString('ko-KR') : "-"}
                     </p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded p-4 border border-green-200">
+                  <Label htmlFor="rehearsalTime" className="text-sm font-semibold text-gray-700">촬영 시간</Label>
+                  {isEditing ? (
+                    <Input
+                      id="rehearsalTime"
+                      type="time"
+                      value={editData?.rehearsalTime || ""}
+                      onChange={(e) => setEditData((prev: any) => ({ ...prev, rehearsalTime: e.target.value }))}
+                      className="mt-2"
+                    />
+                  ) : (
+                    <p className="mt-2 text-foreground font-medium">{displayData.rehearsalTime || "-"}</p>
                   )}
                 </div>
 
