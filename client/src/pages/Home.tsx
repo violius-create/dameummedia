@@ -30,15 +30,19 @@ export default function Home() {
   // siteBranding 데이터 로드
   useEffect(() => {
     if (siteBranding) {
-      setHeroTitle(siteBranding.title || '담음미디어');
       setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
     }
   }, [siteBranding]);
 
-  // 활성화된 메인 배경 영상의 설명 로드
+  // 활성화된 메인 배경 영상의 제목과 설명 로드
   useEffect(() => {
-    if (activeHeroBackground?.description) {
-      setHeroDescription(activeHeroBackground.description);
+    if (activeHeroBackground) {
+      if (activeHeroBackground.title) {
+        setHeroTitle(activeHeroBackground.title);
+      }
+      if (activeHeroBackground.description) {
+        setHeroDescription(activeHeroBackground.description);
+      }
     }
   }, [activeHeroBackground]);
 
