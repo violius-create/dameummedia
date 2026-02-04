@@ -330,3 +330,9 @@
 - [x] 두 번째 줄: 흰색 배경, 좌측에 Logo, 중앙에 메뉴 배치
 - [x] Logo 클릭 시 홈페이지로 이동
 - [x] 메뉴 항목: Information, Price, Concert Live, Making Film, Reservation
+
+## 네비게이션 바 최종 정리 (2026-02-04 완료)
+- [x] 회색 줄: SNS (Instagram, YouTube)와 로그인/로그아웃만 우측에 배치
+- [x] 흰색 줄: 좌측에 Logo, 중앙에 메뉴, 우측에 아무것도 없음
+- [x] Admin 버튼 제거 (회색 줄에서)
+- [x] 로그인/로그아웃 기능 구현

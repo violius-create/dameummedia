@@ -25,7 +25,7 @@ import AdminSectionTitles from "./pages/AdminSectionTitles";
 
 function Navigation() {
   const { data: branding } = trpc.siteBranding.get.useQuery();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const [logoUrl, setLogoUrl] = useState("");
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function Navigation() {
 
   return (
     <nav className="border-b border-border">
-      {/* First row: SNS + Admin */}
+      {/* First row: SNS + Login (gray background) */}
       <div className="bg-gray-100 border-b border-gray-200">
         <div className="container py-2 flex items-center justify-end gap-6">
           <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
@@ -45,19 +45,26 @@ function Navigation() {
           <a href={branding?.youtubeUrl || "https://youtube.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
             YouTube
           </a>
-          {isAuthenticated && user?.role === 'admin' && (
-            <a href="/admin" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
-              Admin
+          {isAuthenticated ? (
+            <button
+              onClick={() => logout()}
+              className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm"
+            >
+              Logout
+            </button>
+          ) : (
+            <a href="/login" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
+              Login
             </a>
           )}
         </div>
       </div>
       
-      {/* Second row: Logo + Menu */}
+      {/* Second row: Logo + Menu (white background) */}
       <div className="bg-white">
-        <div className="container py-4 flex items-center justify-between">
+        <div className="container py-4 flex items-center gap-12">
           {/* Left: Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
+          <div className="flex items-center gap-3 cursor-pointer flex-shrink-0" onClick={() => window.location.href = '/'}>
             {logoUrl && (
               <img src={logoUrl} alt="Logo" className="h-10 w-auto" />
             )}
@@ -67,7 +74,7 @@ function Navigation() {
           </div>
           
           {/* Center: Navigation menu */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 flex-1 justify-center">
             <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Information
             </a>
@@ -84,9 +91,6 @@ function Navigation() {
               Reservation
             </a>
           </div>
-          
-          {/* Right: Empty space for balance */}
-          <div className="w-20"></div>
         </div>
       </div>
     </nav>
