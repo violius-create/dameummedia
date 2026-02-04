@@ -1,0 +1,22 @@
+{
+  "query": "SELECT * FROM siteBranding",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT * FROM siteBranding",
+  "rows": [
+    {
+      "id": "1",
+      "logoUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/posts/1770139505075-dameum_W_large.png",
+      "logoFileKey": "NULL",
+      "title": "Dameum Media",
+      "subtitle": "Professional Media Production",
+      "uploadedBy": "1",
+      "createdAt": "2026-02-03 17:26:22",
+      "updatedAt": "2026-02-04 05:26:19",
+      "instagramUrl": "https://www.instagram.com/dameummedia/",
+      "youtubeUrl": "https://www.youtube.com/@dameum_media?app=desktop"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tlogoUrl\tlogoFileKey\ttitle\tsubtitle\tuploadedBy\tcreatedAt\tupdatedAt\tinstagramUrl\tyoutubeUrl\n1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663328344662/BvmmLkPh272eigDx9MFBhy/posts/1770139505075-dameum_W_large.png\tNULL\tDameum Media\tProfessional Media Production\t1\t2026-02-03 17:26:22\t2026-02-04 05:26:19\thttps://www.instagram.com/dameummedia/\thttps://www.youtube.com/@dameum_media?app=desktop\n",
+  "stderr": "",
+  "execution_time_ms": 1701
+}

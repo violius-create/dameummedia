@@ -302,3 +302,10 @@
 - [x] heroBackground.update API에 title, description 필드 이미 지원
 - [x] 메인 페이지에서 heroBackground의 title, description 사용 완료
 - [x] 저장 버튼 클릭 시 메인 페이지에 즉시 반영 확인 완료
+
+
+## Admin 메인 타이틀/부제 수정 문제 (2026-02-04 추가)
+- [ ] Admin 페이지의 "메인 타이틀", "부제" 필드 수정이 메인 페이지에 반영되지 않는 문제
+- [ ] Home.tsx에서 메인 타이틀 로드 로직 확인
+- [ ] API 응답 데이터 검증
+- [ ] Admin 페이지 저장 기능 동작 확인

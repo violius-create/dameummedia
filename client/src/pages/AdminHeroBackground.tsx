@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,7 +27,17 @@ export default function AdminHeroBackground() {
   const createGalleryMutation = trpc.gallery.create.useMutation();
   const createHeroBackgroundMutation = trpc.heroBackground.create.useMutation();
   const updateHeroBackgroundMutation = trpc.heroBackground.update.useMutation();
+  const updateSiteBrandingMutation = trpc.siteBranding.update.useMutation();
   const { data: heroBackgrounds, refetch } = trpc.heroBackground.list.useQuery({});
+  const { data: siteBranding } = trpc.siteBranding.get.useQuery();
+
+  // siteBranding 데이터 로드 시 상태 업데이트
+  useEffect(() => {
+    if (siteBranding) {
+      setHeroTitle(siteBranding.title || '담음미디어');
+      setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
+    }
+  }, [siteBranding]);
 
   // 관리자 권한 확인
   if (user?.role !== 'admin') {
@@ -327,16 +337,27 @@ export default function AdminHeroBackground() {
 
                 {/* 저장 버튼 */}
                 <Button
-                  onClick={() => {
+                  onClick={async () => {
                     setSavingSettings(true);
-                    // 로컬 스토리지에 저장 (임시 방식)
-                    localStorage.setItem('heroTitle', heroTitle);
-                    localStorage.setItem('heroSubtitle', heroSubtitle);
-                    localStorage.setItem('overlayOpacity', String(overlayOpacity));
-                    setTimeout(() => {
-                      setSavingSettings(false);
+                    try {
+                      // 데이터베이스에 저장
+                      await updateSiteBrandingMutation.mutateAsync({
+                        title: heroTitle,
+                        subtitle: heroSubtitle,
+                      });
+                      
+                      // 로컬 스토리지에도 저장 (백업)
+                      localStorage.setItem('heroTitle', heroTitle);
+                      localStorage.setItem('heroSubtitle', heroSubtitle);
+                      localStorage.setItem('overlayOpacity', String(overlayOpacity));
+                      
                       alert('설정이 저장되었습니다.');
-                    }, 500);
+                    } catch (error) {
+                      console.error('설정 저장 실패:', error);
+                      alert('설정 저장에 실패했습니다.');
+                    } finally {
+                      setSavingSettings(false);
+                    }
                   }}
                   disabled={savingSettings}
                   className="w-full"
