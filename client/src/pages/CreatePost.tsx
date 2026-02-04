@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, Upload } from "lucide-react";
 
 interface CreatePostProps {
   category?: string;
@@ -15,21 +15,42 @@ export default function CreatePost({ category = "concert" }: CreatePostProps) {
   const [, setLocation] = useLocation();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [videoUrl, setVideoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const uploadImageMutation = trpc.images.upload.useMutation();
   const createPostMutation = trpc.posts.create.useMutation({
     onSuccess: (post: any) => {
       setIsLoading(false);
       // 생성된 게시물의 상세 페이지로 이동
-      setLocation(`/posts/${post?.id || 1}`);
+      const postId = post?.id || post?.[0]?.id;
+      if (postId) {
+        setLocation(`/posts/${postId}`);
+      } else {
+        alert("게시물이 생성되었습니다.");
+        setLocation(getBackLink());
+      }
     },
     onError: (error) => {
       setIsLoading(false);
       alert(`게시물 작성 실패: ${error.message}`);
     },
   });
+
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      // 미리보기 생성
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagePreview(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,13 +66,52 @@ export default function CreatePost({ category = "concert" }: CreatePostProps) {
     }
 
     setIsLoading(true);
-    await createPostMutation.mutateAsync({
-      title: title.trim(),
-      content: content.trim(),
-      category,
-      imageUrl: imageUrl.trim() || undefined,
-      videoUrl: videoUrl.trim() || undefined,
-    });
+
+    try {
+      let imageUrl = "";
+
+      // 이미지 파일이 있으면 업로드
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          const fileData = (event.target?.result as string).split(",")[1]; // base64 데이터만 추출
+          
+          try {
+            const uploadResult = await uploadImageMutation.mutateAsync({
+              fileName: imageFile.name,
+              fileData: fileData,
+              mimeType: imageFile.type,
+            });
+            
+            imageUrl = uploadResult.fileUrl;
+
+            // 게시물 생성
+            await createPostMutation.mutateAsync({
+              title: title.trim(),
+              content: content.trim(),
+              category,
+              imageUrl: imageUrl || undefined,
+              videoUrl: videoUrl.trim() || undefined,
+            });
+          } catch (error) {
+            setIsLoading(false);
+            alert(`이미지 업로드 실패: ${error}`);
+          }
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        // 이미지 없이 게시물 생성
+        await createPostMutation.mutateAsync({
+          title: title.trim(),
+          content: content.trim(),
+          category,
+          videoUrl: videoUrl.trim() || undefined,
+        });
+      }
+    } catch (error) {
+      setIsLoading(false);
+      alert(`게시물 작성 실패: ${error}`);
+    }
   };
 
   const getCategoryLabel = () => {
@@ -132,17 +192,30 @@ export default function CreatePost({ category = "concert" }: CreatePostProps) {
                 />
               </div>
 
-              {/* Image URL */}
+              {/* Image File Upload */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">이미지 URL</label>
-                <Input
-                  type="url"
-                  placeholder="https://example.com/image.jpg"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  disabled={isLoading}
-                  className="w-full"
-                />
+                <label className="text-sm font-medium text-foreground">이미지 파일</label>
+                <div className="flex items-center gap-4">
+                  <label className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-border rounded-md cursor-pointer hover:bg-muted transition-colors">
+                    <Upload className="h-4 w-4" />
+                    <span className="text-sm">파일 선택</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageFileChange}
+                      disabled={isLoading}
+                      className="hidden"
+                    />
+                  </label>
+                  {imageFile && (
+                    <span className="text-sm text-muted-foreground">{imageFile.name}</span>
+                  )}
+                </div>
+                {imagePreview && (
+                  <div className="mt-4">
+                    <img src={imagePreview} alt="Preview" className="max-w-xs h-auto rounded-md" />
+                  </div>
+                )}
               </div>
 
               {/* Video URL */}

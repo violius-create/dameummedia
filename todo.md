@@ -392,3 +392,10 @@
 - [x] ConcertLiveGallery의 [글쓰기] 버튼을 새로운 게시물 작성 페이지로 링크 변경 (/concert-live/new)
 - [x] MakingFilmGallery의 [글쓰기] 버튼을 새로운 게시물 작성 페이지로 링크 변경 (/making-film/new)
 - [x] CreatePost 페이지 생성 (제목, 내용, 이미지 URL, 동영상 URL 입력 필드)
+
+## 게시글 조회 오류 및 이미지 업로드 개선 (2026-02-04 완료)
+- [x] PostDetail 페이지에서 게시글 조회 오류 해결
+- [x] 게시글 생성 후 조회 가능하도록 수정
+- [x] CreatePost 페이지 이미지 URL 입력을 파일 업로드로 변경
+- [x] 파일 업로드 시 S3에 저장 및 URL 반환 기능 구현
+- [x] 이미지 파일 미리보기 기능 추가
