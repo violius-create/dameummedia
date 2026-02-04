@@ -135,55 +135,8 @@ export default function Home() {
 
 
 
-      {/* Section 2: Concert Live Background */}
-      <section className="relative h-[400px] overflow-hidden bg-black">
-        <div className="relative w-full h-full">
-          {/* Background Image */}
-          <img
-            className="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1920&h=800&fit=crop"
-            alt="Concert Live Background"
-          />
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/60" />
-          {/* Text Content Overlay */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
-              {sections['concert_live']?.title || 'Concert Live'}
-            </h2>
-            {sections['concert_live']?.description && (
-              <p className="text-xl md:text-2xl text-gray-200 max-w-3xl">
-                {sections['concert_live'].description}
-              </p>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Section 3: Making Film Background */}
-      <section className="relative h-[400px] overflow-hidden bg-black">
-        <div className="relative w-full h-full">
-          {/* Background Image */}
-          <img
-            className="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=1920&h=800&fit=crop"
-            alt="Making Film Background"
-          />
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/60" />
-          {/* Text Content Overlay */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
-              {sections['making_film']?.title || 'Making Film'}
-            </h2>
-            {sections['making_film']?.description && (
-              <p className="text-xl md:text-2xl text-gray-200 max-w-3xl">
-                {sections['making_film'].description}
-              </p>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* Additional Hero Sections - Section 2 and 3 */}
+      {/* heroBackgrounds는 관리자 권한이 필요하므로 제거됨 */}
 
       {/* Concert Live Section */}
       <section className="bg-background border-t border-border">
