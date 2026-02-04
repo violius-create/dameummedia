@@ -161,7 +161,7 @@ export default function Home() {
                 <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
               </div>
               <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-md font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
-                고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
+                {heroSubtitle}
               </p>
             </div>
           </div>
