@@ -197,7 +197,9 @@ export default function Home() {
           <div className="mb-12">
             <a href="/concert-live" className="cursor-pointer hover:opacity-80 transition-opacity">
               <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['concert_live']?.title || '공연 영상'}</h2>
-              <p className="text-lg text-muted-foreground hover:text-foreground transition-colors">{sections['concert_live']?.description || '최근 췍영된 공연 영상'}</p>
+              {sections['concert_live']?.description && (
+                <p className="text-lg text-muted-foreground hover:text-foreground transition-colors">{sections['concert_live'].description}</p>
+              )}
             </a>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -236,7 +238,9 @@ export default function Home() {
           <div className="mb-12">
             <a href="/making-film" className="cursor-pointer hover:opacity-80 transition-opacity">
               <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['making_film']?.title || '영상 제작'}</h2>
-              <p className="text-lg text-muted-foreground hover:text-foreground transition-colors">{sections['making_film']?.description || '최근 제작된 영상 콘테나'}</p>
+              {sections['making_film']?.description && (
+                <p className="text-lg text-muted-foreground hover:text-foreground transition-colors">{sections['making_film'].description}</p>
+              )}
             </a>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
