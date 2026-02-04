@@ -17,15 +17,15 @@ export default function Home() {
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
-  const { data: heroBackgrounds } = trpc.heroBackground.list.useQuery({});
+  // heroBackground.list는 관리자 권한이 필요하므로 제거
+  // const { data: heroBackgrounds } = trpc.heroBackground.list.useQuery({});
   const { data: siteBranding } = trpc.siteBranding.get.useQuery();
   const { data: allSectionTitles } = trpc.sectionTitles.list.useQuery();
   const [sections, setSections] = useState<Record<string, { title: string; description: string }>>({});
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
-    console.log("heroBackgrounds:", heroBackgrounds);
-  }, [activeHeroBackground, heroBackgrounds]);
+  }, [activeHeroBackground]);
 
   // siteBranding 데이터 로드
   useEffect(() => {
@@ -135,61 +135,50 @@ export default function Home() {
 
 
 
-      {/* Additional Hero Sections - Section 2 and 3 */}
-      {/* Section 2 and 3 - Side by Side Grid */}
-      {heroBackgrounds && heroBackgrounds.length > 0 && (
-        <div className="grid grid-cols-2 gap-[10px] bg-white mt-[10px]">
-          {['section2', 'section3'].map((section) => {
-            const sectionBg = heroBackgrounds.find((bg: any) => bg.section === section && bg.isActive === 1);
-            if (!sectionBg) return null;
-            
-            return (
-              <div key={section} className="relative h-[350px] overflow-hidden">
-                {/* Media */}
-                <div className="relative w-full h-full">
-                  {sectionBg.type === 'video' ? (
-                    <video
-                      key={`video-${sectionBg.id}`}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                      src={sectionBg.mediaUrl}
-                    />
-                  ) : (
-                    <img
-                      key={`img-${sectionBg.id}`}
-                      className="w-full h-full object-cover"
-                      src={sectionBg.mediaUrl}
-                      alt={sectionBg.title}
-                    />
-                  )}
-                  
-                  {/* Text Overlay on Media */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent flex flex-col justify-center p-8">
-                    <h2 className="text-5xl font-bold tracking-tight text-white mb-3">
-                      {sectionBg.title || (section === 'section2' ? '공연 영상' : '영상 제작')}
-                    </h2>
-                    {sectionBg.description && (
-                      <p className="text-xl text-gray-100 line-clamp-2">
-                        {sectionBg.description}
-                      </p>
-                    )}
-                  </div>
+      {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
+      <section className="bg-background">
+        <div className="grid md:grid-cols-2">
+          {/* Section 2: Concert Live */}
+          <div className="relative h-[400px] overflow-hidden group cursor-pointer" onClick={() => navigate('/concert-live')}>
+            <img
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=600&fit=crop"
+              alt="Concert Live"
+            />
+            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+                {sections['concert_live']?.title || 'Concert Live'}
+              </h2>
+              {sections['concert_live']?.description && (
+                <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
+                  {sections['concert_live'].description}
+                </p>
+              )}
+            </div>
+          </div>
 
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
-                      <Play className="w-8 h-8 text-white fill-white" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {/* Section 3: Making Film */}
+          <div className="relative h-[400px] overflow-hidden group cursor-pointer" onClick={() => navigate('/making-film')}>
+            <img
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=800&h=600&fit=crop"
+              alt="Making Film"
+            />
+            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+                {sections['making_film']?.title || 'Making Film'}
+              </h2>
+              {sections['making_film']?.description && (
+                <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
+                  {sections['making_film'].description}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-      )}
+      </section>
 
       {/* Concert Live Section */}
       <section className="bg-background border-t border-border">
