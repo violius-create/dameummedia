@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 export default function PostDetail() {
   const { user, isAuthenticated } = useAuth();
-  const [, params] = useRoute("/post/:id");
+  const [, params] = useRoute("/posts/:id");
   const postId = params?.id ? parseInt(params.id) : null;
 
   const { data: post, isLoading } = trpc.posts.getById.useQuery(
@@ -229,7 +229,7 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
   return (
     <div className="grid gap-6 md:grid-cols-3">
       {filteredPosts.map((post: any) => (
-        <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/post/${post.id}`}>
+        <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
           <div className="relative h-40 w-full bg-muted flex items-center justify-center">
             {post.imageUrl ? (
               <img

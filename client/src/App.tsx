@@ -70,6 +70,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/posts/:id"} component={PostDetail} />
       <Route path={"/post/:id"} component={PostDetail} />
       <Route path={"/information"} component={Information} />
       <Route path={"/price"} component={Price} />

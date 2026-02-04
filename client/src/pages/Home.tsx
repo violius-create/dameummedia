@@ -233,29 +233,30 @@ export default function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {concertPosts?.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-3">
-                  <CardTitle className="line-clamp-2">{post.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-3">{post.content}</p>
-                  <Link href={`/concert-live/${post.id}`}>
-                    <Button variant="ghost" size="sm" className="mt-4">
-                      자세히 보기
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+              <Link key={post.id} href={`/posts/${post.id}`}>
+                <div className="group relative overflow-hidden rounded-lg h-64 bg-gray-200 cursor-pointer">
+                  {post.imageUrl ? (
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                      <Music className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
+                  
+                  {/* Text Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <h3 className="text-white font-bold text-lg line-clamp-2">{post.title}</h3>
+                    {post.content && (
+                      <p className="text-gray-200 text-sm line-clamp-2 mt-2">{post.content}</p>
+                    )}
+                  </div>
+                </div>
+              </Link>
             ))}
-          </div>
-          <div className="mt-8 text-center">
-            <Link href="/concert-live">
-              <Button variant="outline" size="lg">
-                모든 공연 영상 보기
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
@@ -269,29 +270,30 @@ export default function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filmPosts?.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-3">
-                  <CardTitle className="line-clamp-2">{post.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-3">{post.content}</p>
-                  <Link href={`/making-film/${post.id}`}>
-                    <Button variant="ghost" size="sm" className="mt-4">
-                      자세히 보기
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+              <Link key={post.id} href={`/posts/${post.id}`}>
+                <div className="group relative overflow-hidden rounded-lg h-64 bg-gray-200 cursor-pointer">
+                  {post.imageUrl ? (
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                      <Film className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
+                  
+                  {/* Text Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <h3 className="text-white font-bold text-lg line-clamp-2">{post.title}</h3>
+                    {post.content && (
+                      <p className="text-gray-200 text-sm line-clamp-2 mt-2">{post.content}</p>
+                    )}
+                  </div>
+                </div>
+              </Link>
             ))}
-          </div>
-          <div className="mt-8 text-center">
-            <Link href="/making-film">
-              <Button variant="outline" size="lg">
-                모든 영상 제작 보기
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
