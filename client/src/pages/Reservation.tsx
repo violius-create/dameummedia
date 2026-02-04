@@ -352,7 +352,7 @@ export default function Reservation() {
                       <Label>
                         결제방식
                       </Label>
-                      <RadioGroup value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })} className="flex flex-row gap-6">
+                      <RadioGroup value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })} className="flex flex-row gap-6 p-3 rounded-md bg-muted/30">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="card" id="payment-card" />
                           <Label htmlFor="payment-card" className="font-normal cursor-pointer">카드</Label>
@@ -372,7 +372,7 @@ export default function Reservation() {
                       <Label>
                         계산서 발행
                       </Label>
-                      <RadioGroup value={formData.receiptType} onValueChange={(value) => setFormData({ ...formData, receiptType: value })} className="flex flex-row gap-6">
+                      <RadioGroup value={formData.receiptType} onValueChange={(value) => setFormData({ ...formData, receiptType: value })} className="flex flex-row gap-6 p-3 rounded-md bg-muted/30">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="issued" id="receipt-issued" />
                           <Label htmlFor="receipt-issued" className="font-normal cursor-pointer">발행</Label>

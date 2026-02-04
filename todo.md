@@ -469,3 +469,9 @@
 - [x] 접수형태를 '계산서 발행'으로 변경
 - [x] 계산서 발행 하부 항목을 '발행', '미발행', '현금영수증'으로 변경
 - [x] 테스트 및 검증
+
+## 섹션 2, 3 복구 및 결제방식/계산서 발행 배경색 추가 (2026-02-04 완료)
+- [x] Home.tsx에 섹션 2, 3 복구 (Concert Live, Making Film 배경 영상)
+- [x] Reservation.tsx에 결제방식 항목에 연한 회색 배경 추가 (bg-muted/30, p-3, rounded-md)
+- [x] Reservation.tsx에 계산서 발행 항목에 연한 회색 배경 추가 (bg-muted/30, p-3, rounded-md)
+- [x] 테스트 및 검증

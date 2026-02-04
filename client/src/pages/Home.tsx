@@ -135,8 +135,61 @@ export default function Home() {
 
 
 
-      {/* Additional Hero Sections - Section 2 and 3 */}
-      {/* heroBackgrounds는 관리자 권한이 필요하므로 제거됨 */}
+      {/* Section 2: Concert Live Background */}
+      <section className="relative h-[400px] overflow-hidden bg-black">
+        <div className="relative w-full h-full">
+          {/* Background Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            src="https://storage.manus.im/file-storage/d2c3b4a5-6e7f-8g9h-0i1j-2k3l4m5n6o7p/concert-bg.mp4"
+          />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60" />
+          {/* Text Content Overlay */}
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+              {sections['concert_live']?.title || 'Concert Live'}
+            </h2>
+            {sections['concert_live']?.description && (
+              <p className="text-xl md:text-2xl text-gray-200 max-w-3xl">
+                {sections['concert_live'].description}
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3: Making Film Background */}
+      <section className="relative h-[400px] overflow-hidden bg-black">
+        <div className="relative w-full h-full">
+          {/* Background Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            src="https://storage.manus.im/file-storage/e3f4g5h6-7i8j-9k0l-1m2n-3o4p5q6r7s8t/film-bg.mp4"
+          />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60" />
+          {/* Text Content Overlay */}
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+              {sections['making_film']?.title || 'Making Film'}
+            </h2>
+            {sections['making_film']?.description && (
+              <p className="text-xl md:text-2xl text-gray-200 max-w-3xl">
+                {sections['making_film'].description}
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
 
       {/* Concert Live Section */}
       <section className="bg-background border-t border-border">
