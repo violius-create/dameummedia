@@ -56,10 +56,10 @@ function Navigation() {
           <a href="/price" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Price
           </a>
-          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
+          <a href="/concert-live" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Concert Live
           </a>
-          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
+          <a href="/making-film" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Making Film
           </a>
           <a href="/reservation" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">

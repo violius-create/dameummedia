@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trpc } from '@/lib/trpc';
-import { ArrowLeft, Upload, Loader2, CheckCircle2, Circle } from 'lucide-react';
+import { ArrowLeft, Upload, Loader2, CheckCircle2, Circle, Trash2 } from 'lucide-react';
 import { Link } from 'wouter';
 
 type SectionType = 'main' | 'section2' | 'section3';
@@ -27,6 +27,7 @@ export default function AdminHeroBackground() {
   const createGalleryMutation = trpc.gallery.create.useMutation();
   const createHeroBackgroundMutation = trpc.heroBackground.create.useMutation();
   const updateHeroBackgroundMutation = trpc.heroBackground.update.useMutation();
+  const deleteHeroBackgroundMutation = trpc.heroBackground.delete.useMutation();
   const updateSiteBrandingMutation = trpc.siteBranding.update.useMutation();
   const { data: heroBackgrounds, refetch } = trpc.heroBackground.list.useQuery({});
   const { data: siteBranding } = trpc.siteBranding.get.useQuery();
@@ -466,6 +467,19 @@ export default function AdminHeroBackground() {
                                 비활성화
                               </>
                             )}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={async () => {
+                              if (confirm('정말 삭제하시겠습니까?')) {
+                                await deleteHeroBackgroundMutation.mutateAsync({ id: item.id });
+                                refetch();
+                              }
+                            }}
+                            disabled={deleteHeroBackgroundMutation.isPending}
+                          >
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </div>

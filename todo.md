@@ -363,3 +363,9 @@
 - [x] 관리자 로그인 시 우측에 Admin 버튼 표시
 - [x] 네비게이션 메뉴 항목에 호버 효과 추가 (scale-105, underline)
 - [x] 모든 버튼에 호버 효과 추가 (scale-110)
+
+## 배경영상 삭제 버튼 및 네비게이션 개선 (2026-02-04 완료)
+- [x] AdminHeroBackground 페이지에 배경영상 삭제 버튼 추가
+- [x] PostDetail 페이지에 '목록보기' 버튼 추가
+- [x] App.tsx에서 Concert Live 링크를 /concert-live로 수정
+- [x] App.tsx에서 Making Film 링크를 /making-film으로 수정

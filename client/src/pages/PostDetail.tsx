@@ -72,12 +72,20 @@ export default function PostDetail() {
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container py-4">
           <div className="flex items-center justify-between">
-            <Link href="/">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                돌아가기
-              </Button>
-            </Link>
+            <div className="flex gap-2">
+              <Link href={post.category === 'concert' ? '/concert-live' : '/making-film'}>
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  목록보기
+                </Button>
+              </Link>
+              <Link href="/">
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  홈으로
+                </Button>
+              </Link>
+            </div>
             {isAuthenticated && user?.role === 'admin' && (
               <div className="flex gap-2">
                 <Link href={`/admin?editId=${post.id}`}>
