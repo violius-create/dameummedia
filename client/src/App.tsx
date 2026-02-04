@@ -50,40 +50,45 @@ function Navigation() {
         
         {/* Center: Navigation menu */}
         <div className="flex items-center gap-8 flex-1 justify-center">
-          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Information
           </a>
-          <a href="/price" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          <a href="/price" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Price
           </a>
-          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Concert Live
           </a>
-          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Making Film
           </a>
-          <a href="/reservation" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          <a href="/reservation" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 hover:scale-105 hover:underline">
             Reservation
           </a>
         </div>
         
         {/* Right: SNS + Login */}
         <div className="flex items-center gap-6 flex-shrink-0">
-          <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
+          <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm hover:scale-110">
             Instagram
           </a>
-          <a href={branding?.youtubeUrl || "https://youtube.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
+          <a href={branding?.youtubeUrl || "https://youtube.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm hover:scale-110">
             YouTube
           </a>
+          {isAuthenticated && user?.role === 'admin' && (
+            <a href="/admin" className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm hover:scale-110 px-3 py-1 border border-gray-700 rounded hover:bg-gray-700 hover:text-white">
+              Admin
+            </a>
+          )}
           {isAuthenticated ? (
             <button
               onClick={() => logout()}
-              className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm hover:scale-110"
             >
               Logout
             </button>
           ) : (
-            <a href={getLoginUrl()} className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
+            <a href={getLoginUrl()} className="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm hover:scale-110">
               Login
             </a>
           )}
