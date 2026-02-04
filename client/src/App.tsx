@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
-import { Instagram, Youtube } from "lucide-react";
+import { Instagram, Youtube, Search, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -25,6 +26,7 @@ import AdminSectionTitles from "./pages/AdminSectionTitles";
 
 function Navigation() {
   const { data: branding } = trpc.siteBranding.get.useQuery();
+  const { user, isAuthenticated } = useAuth();
   const [logoUrl, setLogoUrl] = useState("");
 
   useEffect(() => {
@@ -37,15 +39,43 @@ function Navigation() {
     <nav className="border-b border-border bg-gray-100">
       <div className="container py-4">
         <div className="flex items-center justify-between">
+          {/* Left: Logo */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
+            {logoUrl && (
+              <img src={logoUrl} alt="Logo" className="h-8 w-auto" />
+            )}
           </div>
+          
+          {/* Center: SNS Links */}
           <div className="flex items-center gap-4">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:bg-gray-300 hover:text-white px-2 py-1 rounded transition-colors">
-              <Instagram className="h-5 w-5" />
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              Instagram
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:bg-gray-300 hover:text-white px-2 py-1 rounded transition-colors">
-              <Youtube className="h-5 w-5" />
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+              YouTube
             </a>
+          </div>
+          
+          {/* Right: Search and Login */}
+          <div className="flex items-center gap-3">
+            <button className="text-gray-700 hover:text-gray-900 transition-colors">
+              <Search className="h-5 w-5" />
+            </button>
+            {isAuthenticated && user?.role === 'admin' && (
+              <a href="/admin" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+                Admin
+              </a>
+            )}
+            {isAuthenticated && (
+              <button
+                className="text-gray-700 hover:text-gray-900 transition-colors"
+                onClick={() => {
+                  trpc.auth.logout.useMutation().mutate();
+                }}
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            )}
           </div>
         </div>
       </div>
