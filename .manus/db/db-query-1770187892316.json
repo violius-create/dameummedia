@@ -1,0 +1,82 @@
+{
+  "query": "SELECT id, title, description, isActive, status, `order` FROM heroBackgrounds ORDER BY `order` DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, description, isActive, status, `order` FROM heroBackgrounds ORDER BY `order` DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "2",
+      "title": "자동 활성화 테스트 영상",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "30001",
+      "title": "12",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "30002",
+      "title": "13",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "60001",
+      "title": "13",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "90001",
+      "title": " 수정이 완료되었습니다! 이제 Admin 페이지에서 파일 업로드를 다시 시도해보세요. status 필드를 제외한 필드만 선택하도록 수정했으므로, \"Service item not found\" 에러가 나타나지 않을 것입니다.",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "90002",
+      "title": "현재는 제목만 표시되므로 각 섹션의 설명 텍스트를 Admin에서 편집할 수 있도록 개선",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "120001",
+      "title": "ㅇㅇㅇ",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "1",
+      "title": "테스트 배경 영상",
+      "description": "NULL",
+      "isActive": "0",
+      "status": "published",
+      "order": "0"
+    }
+  ],
+  "messages": [
+    "120002\t2번\t모든 것이 부드럽게 숨 쉬던 순간.",
+    "When everything breathed softly.\t0\tpublished\t0",
+    "150001\t메인화면\tSymphony No.1 in c minor, Op. 68",
+    "I. Un poco sostenuto - Allegro",
+    "II. Andante sostenuto",
+    "III. Un poco allegretto e grazioso",
+    "IV. adagio-Più andante-Allegro non troppo, ma con brio\t0\tpublished\t0"
+  ],
+  "stdout": "id\ttitle\tdescription\tisActive\tstatus\torder\n2\t자동 활성화 테스트 영상\tNULL\t0\tpublished\t0\n30001\t12\tNULL\t0\tpublished\t0\n30002\t13\tNULL\t0\tpublished\t0\n60001\t13\tNULL\t0\tpublished\t0\n90001\t 수정이 완료되었습니다! 이제 Admin 페이지에서 파일 업로드를 다시 시도해보세요. status 필드를 제외한 필드만 선택하도록 수정했으므로, \"Service item not found\" 에러가 나타나지 않을 것입니다.\tNULL\t0\tpublished\t0\n90002\t현재는 제목만 표시되므로 각 섹션의 설명 텍스트를 Admin에서 편집할 수 있도록 개선\tNULL\t0\tpublished\t0\n120001\tㅇㅇㅇ\tNULL\t0\tpublished\t0\n120002\t2번\t모든 것이 부드럽게 숨 쉬던 순간.\nWhen everything breathed softly.\t0\tpublished\t0\n150001\t메인화면\tSymphony No.1 in c minor, Op. 68\nI. Un poco sostenuto - Allegro\nII. Andante sostenuto\nIII. Un poco allegretto e grazioso\nIV. adagio-Più andante-Allegro non troppo, ma con brio\t0\tpublished\t0\n1\t테스트 배경 영상\tNULL\t0\tpublished\t0\n",
+  "stderr": "",
+  "execution_time_ms": 1601
+}

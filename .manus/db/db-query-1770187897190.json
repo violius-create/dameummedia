@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, title, description, isActive, status, `order` FROM heroBackgrounds WHERE isActive = 1 ORDER BY `order` DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, description, isActive, status, `order` FROM heroBackgrounds WHERE isActive = 1 ORDER BY `order` DESC;",
+  "rows": [
+    {
+      "id": "150003",
+      "title": "Project Movie",
+      "description": "movie2",
+      "isActive": "1",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "180001",
+      "title": "Music Video",
+      "description": "섹션2",
+      "isActive": "1",
+      "status": "published",
+      "order": "0"
+    },
+    {
+      "id": "210001",
+      "title": "Dameum Media",
+      "description": "Professional Media Production 2",
+      "isActive": "1",
+      "status": "published",
+      "order": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tdescription\tisActive\tstatus\torder\n150003\tProject Movie\tmovie2\t1\tpublished\t0\n180001\tMusic Video\t섹션2\t1\tpublished\t0\n210001\tDameum Media\tProfessional Media Production 2\t1\tpublished\t0\n",
+  "stderr": "",
+  "execution_time_ms": 1480
+}

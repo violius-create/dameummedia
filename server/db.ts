@@ -283,7 +283,7 @@ export async function getActiveHeroBackground() {
   const db = await getDb();
   if (!db) return null;
   
-  const result = await db.select().from(heroBackgrounds).where(and(eq(heroBackgrounds.isActive, 1), eq(heroBackgrounds.status, "published"))).orderBy(desc(heroBackgrounds.order)).limit(1);
+  const result = await db.select().from(heroBackgrounds).where(and(eq(heroBackgrounds.isActive, 1), eq(heroBackgrounds.status, "published"), eq(heroBackgrounds.section, "main"))).orderBy(desc(heroBackgrounds.order)).limit(1);
   return result.length > 0 ? result[0] : null;
 }
 
