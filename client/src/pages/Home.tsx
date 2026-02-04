@@ -173,63 +173,59 @@ export default function Home() {
 
 
       {/* Additional Hero Sections - Section 2 and 3 */}
+      {/* Section 2 and 3 - Side by Side Grid */}
       {heroBackgrounds && heroBackgrounds.length > 0 && (
-        <>
+        <div className="grid grid-cols-2 gap-0 bg-white mt-[10px]">
           {['section2', 'section3'].map((section) => {
             const sectionBg = heroBackgrounds.find((bg: any) => bg.section === section && bg.isActive === 1);
             if (!sectionBg) return null;
             
             return (
-              <section key={section} className="relative h-[350px] overflow-hidden bg-white mt-[10px]">
-                <div className="relative h-full flex">
-                  {/* Left Half - Media */}
-                  <div className="w-1/2 relative overflow-hidden">
-                    {sectionBg.type === 'video' ? (
-                      <video
-                        key={`video-${sectionBg.id}`}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                        src={sectionBg.mediaUrl}
-                      />
-                    ) : (
-                      <img
-                        key={`img-${sectionBg.id}`}
-                        className="w-full h-full object-cover"
-                        src={sectionBg.mediaUrl}
-                        alt={sectionBg.title}
-                      />
+              <div key={section} className="relative h-[350px] overflow-hidden">
+                {/* Media */}
+                <div className="relative w-full h-full">
+                  {sectionBg.type === 'video' ? (
+                    <video
+                      key={`video-${sectionBg.id}`}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                      src={sectionBg.mediaUrl}
+                    />
+                  ) : (
+                    <img
+                      key={`img-${sectionBg.id}`}
+                      className="w-full h-full object-cover"
+                      src={sectionBg.mediaUrl}
+                      alt={sectionBg.title}
+                    />
+                  )}
+                  
+                  {/* Text Overlay on Media */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent flex flex-col justify-center p-8">
+                    <h2 className="text-3xl font-bold tracking-tight text-white mb-3">
+                      {sectionBg.title}
+                    </h2>
+                    {sectionBg.description && (
+                      <p className="text-sm text-gray-100 line-clamp-2">
+                        {sectionBg.description}
+                      </p>
                     )}
-                    
-                    {/* Text Overlay on Media */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent flex flex-col justify-center p-8">
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">
-                        {sectionBg.title}
-                      </h2>
-                      {sectionBg.description && (
-                        <p className="text-base text-gray-100 line-clamp-3">
-                          {sectionBg.description}
-                        </p>
-                      )}
-                    </div>
+                  </div>
 
-                    {/* Play Button */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
-                        <Play className="w-8 h-8 text-white fill-white" />
-                      </div>
+                  {/* Play Button */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
+                      <Play className="w-8 h-8 text-white fill-white" />
                     </div>
                   </div>
-                  
-                  {/* Right Half - Empty or Additional Content */}
-                  <div className="w-1/2 bg-gray-50" />
                 </div>
-              </section>
+              </div>
             );
           })}
-        </>
+        </div>
       )}
 
       {/* Concert Live Section */}
