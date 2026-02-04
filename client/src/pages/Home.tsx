@@ -138,14 +138,11 @@ export default function Home() {
       {/* Section 2: Concert Live Background */}
       <section className="relative h-[400px] overflow-hidden bg-black">
         <div className="relative w-full h-full">
-          {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
+          {/* Background Image */}
+          <img
             className="w-full h-full object-cover"
-            src="https://storage.manus.im/file-storage/d2c3b4a5-6e7f-8g9h-0i1j-2k3l4m5n6o7p/concert-bg.mp4"
+            src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1920&h=800&fit=crop"
+            alt="Concert Live Background"
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
@@ -166,14 +163,11 @@ export default function Home() {
       {/* Section 3: Making Film Background */}
       <section className="relative h-[400px] overflow-hidden bg-black">
         <div className="relative w-full h-full">
-          {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
+          {/* Background Image */}
+          <img
             className="w-full h-full object-cover"
-            src="https://storage.manus.im/file-storage/e3f4g5h6-7i8j-9k0l-1m2n-3o4p5q6r7s8t/film-bg.mp4"
+            src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=1920&h=800&fit=crop"
+            alt="Making Film Background"
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
