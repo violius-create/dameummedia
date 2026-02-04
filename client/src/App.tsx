@@ -2,6 +2,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import { Instagram, Youtube, Search, LogOut } from "lucide-react";
+import { getLoginUrl } from "@/const";
 import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -82,7 +83,7 @@ function Navigation() {
               Logout
             </button>
           ) : (
-            <a href="/login" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
+            <a href={getLoginUrl()} className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
               Login
             </a>
           )}
