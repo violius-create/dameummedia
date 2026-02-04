@@ -137,9 +137,9 @@ export default function Home() {
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
       <section className="bg-background pt-[10px]">
-        <div className="grid md:grid-cols-2 gap-[10px] px-[10px]">
+        <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
-          <div className="relative h-[400px] overflow-hidden group cursor-pointer" onClick={() => navigate('/concert-live')}>
+          <div className="relative h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (
               section2Background.type === 'video' ? (
                 <video
@@ -167,18 +167,18 @@ export default function Home() {
             <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
-                {sections['concert_live']?.title || 'Concert Live'}
+                {section2Background?.title || 'Concert Live'}
               </h2>
-              {sections['concert_live']?.description && (
+              {section2Background?.description && (
                 <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
-                  {sections['concert_live'].description}
+                  {section2Background.description}
                 </p>
               )}
             </div>
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[400px] overflow-hidden group cursor-pointer" onClick={() => navigate('/making-film')}>
+          <div className="relative h-[400px] overflow-hidden group flex-1 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video
@@ -206,11 +206,11 @@ export default function Home() {
             <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
-                {sections['making_film']?.title || 'Making Film'}
+                {section3Background?.title || 'Making Film'}
               </h2>
-              {sections['making_film']?.description && (
+              {section3Background?.description && (
                 <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
-                  {sections['making_film'].description}
+                  {section3Background.description}
                 </p>
               )}
             </div>
