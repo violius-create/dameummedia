@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS sectionTitles (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  sectionKey VARCHAR(255) NOT NULL UNIQUE,\n  title VARCHAR(255) NOT NULL,\n  description TEXT,\n  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);\n\nINSERT INTO sectionTitles (sectionKey, title, description) VALUES\n('hero_section', '담음미디어', '고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.'),\n('concert_live', '공연 영상', '최근 촬영된 공연 영상'),\n('making_film', '영상 제작', '최근 제작된 영상 콘텐츠'),\n('information', 'Information', '담음미디어에 대한 정보'),\n('price', 'Price', '서비스 가격 정보'),\n('reservation', 'Reservation', '예약 정보');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute CREATE TABLE IF NOT EXISTS sectionTitles (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  sectionKey VARCHAR(255) NOT NULL UNIQUE,\n  title VARCHAR(255) NOT NULL,\n  description TEXT,\n  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);\n\nINSERT INTO sectionTitles (sectionKey, title, description) VALUES\n('hero_section', '담음미디어', '고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.'),\n('concert_live', '공연 영상', '최근 촬영된 공연 영상'),\n('making_film', '영상 제작', '최근 제작된 영상 콘텐츠'),\n('information', 'Information', '담음미디어에 대한 정보'),\n('price', 'Price', '서비스 가격 정보'),\n('reservation', 'Reservation', '예약 정보');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1985
+}
