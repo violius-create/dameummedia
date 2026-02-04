@@ -78,6 +78,8 @@ export const reservations = mysqlTable("reservations", {
   photographyStaff: varchar("photographyStaff", { length: 255 }),
   audioSettings: text("audioSettings"),
   projectMonitor: varchar("projectMonitor", { length: 255 }),
+  recordingType: varchar("recordingType", { length: 100 }),
+  specialRequirements: text("specialRequirements"),
   paymentMethod: mysqlEnum("paymentMethod", ["card", "transfer", "cash", "other"]),
   isPublic: int("isPublic").default(1),
   receiptType: mysqlEnum("receiptType", ["issued", "not_issued", "cash_receipt"]),
