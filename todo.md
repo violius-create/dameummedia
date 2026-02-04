@@ -447,3 +447,8 @@
 - [x] Information 페이지 디자인 및 구현 (히어로 섹션, 주요 경력, 주요 실적, 드라마 작업, CTA)
 - [x] App.tsx에 Information 라우트 연결 (이미 연결됨)
 - [x] 테스트 및 검증
+
+## SNS 아이콘 텍스트 및 롤오버 효과 (2026-02-04 완료)
+- [x] App.tsx에서 SNS 아이콘에 Instagram, Youtube 텍스트 추가
+- [x] SNS 아이콘에 네비게이션과 동일한 롤오버 효과 적용 (hover:bg-muted)
+- [x] 테스트 및 검증
