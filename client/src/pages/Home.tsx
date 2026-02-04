@@ -135,8 +135,50 @@ export default function Home() {
 
 
 
-      {/* Additional Hero Sections - Section 2 and 3 */}
-      {/* heroBackgrounds는 관리자 권한이 필요하므로 제거됨 */}
+      {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
+      <section className="bg-background">
+        <div className="grid md:grid-cols-2">
+          {/* Section 2: Concert Live */}
+          <div className="relative h-[400px] overflow-hidden group cursor-pointer" onClick={() => navigate('/concert-live')}>
+            <img
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=600&fit=crop"
+              alt="Concert Live"
+            />
+            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+                {sections['concert_live']?.title || 'Concert Live'}
+              </h2>
+              {sections['concert_live']?.description && (
+                <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
+                  {sections['concert_live'].description}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Section 3: Making Film */}
+          <div className="relative h-[400px] overflow-hidden group cursor-pointer" onClick={() => navigate('/making-film')}>
+            <img
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=800&h=600&fit=crop"
+              alt="Making Film"
+            />
+            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+                {sections['making_film']?.title || 'Making Film'}
+              </h2>
+              {sections['making_film']?.description && (
+                <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
+                  {sections['making_film'].description}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Concert Live Section */}
       <section className="bg-background border-t border-border">
