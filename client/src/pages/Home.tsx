@@ -102,69 +102,65 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Split-Screen Hero Section */}
-      <section className="relative h-[500px] overflow-hidden bg-white">
-        <div className="relative h-full flex items-center">
-          <div className="grid md:grid-cols-2 w-full h-full">
-            {/* Left Content - Text */}
-            <div className="z-10 space-y-8 p-12 md:p-16 flex flex-col justify-center">
-              <div className="space-y-4">
+      {/* Full Screen Hero Section */}
+      <section className="relative h-[500px] overflow-hidden bg-black">
+        <div className="relative w-full h-full">
+          {/* Background Media - Full Screen */}
+          {activeHeroBackground?.mediaUrl ? (
+            activeHeroBackground.type === 'video' ? (
+              <video
+                key={`video-${activeHeroBackground.id}`}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                src={activeHeroBackground.mediaUrl}
+              />
+            ) : (
+              <img
+                key={`img-${activeHeroBackground.id}`}
+                className="w-full h-full object-cover"
+                src={activeHeroBackground.mediaUrl}
+                alt="Hero Background"
+              />
+            )
+          ) : (
+            <img
+              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
+              alt="Professional Music Production"
+            />
+          )}
+
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+
+          {/* Text Content Overlay */}
+          <div className="absolute inset-0 flex flex-col justify-center p-12 md:p-16 z-10">
+            <div className="space-y-8 max-w-2xl">
+              <div className="space-y-4 animate-fade-in" style={{animationDelay: '0.2s'}}>
                 <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2">
                   <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
                   <span className="text-sm font-semibold text-blue-600">Professional Media Production</span>
                 </div>
               </div>
-              <div>
-                <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-black leading-none mb-4">
+              <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
+                <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-white leading-none mb-4">
                   {heroTitle}
                 </h2>
-                <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full" />
+                <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
               </div>
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-md font-light">
+              <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-md font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
                 고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
               </p>
             </div>
+          </div>
 
-            {/* Right Media - Full Height */}
-            <div className="relative h-full w-full overflow-hidden">
-              <div className="relative w-full h-full rounded-none overflow-hidden shadow-none border-none">
-                {/* Background Image - Show uploaded image or fallback */}
-                {activeHeroBackground?.mediaUrl ? (
-                  activeHeroBackground.type === 'video' ? (
-                    <video
-                      key={`video-${activeHeroBackground.id}`}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                      src={activeHeroBackground.mediaUrl}
-                    />
-                  ) : (
-                    <img
-                      key={`img-${activeHeroBackground.id}`}
-                      className="w-full h-full object-cover"
-                      src={activeHeroBackground.mediaUrl}
-                      alt="Hero Background"
-                    />
-                  )
-                ) : (
-                  <img
-                    className="w-full h-full object-cover"
-                    src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=1200&fit=crop"
-                    alt="Professional Music Production"
-                  />
-                )}
-
-
-
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
-                    <Play className="w-10 h-10 text-white fill-white" />
-                  </div>
-                </div>
-              </div>
+          {/* Play Button Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
+              <Play className="w-10 h-10 text-white fill-white" />
             </div>
           </div>
         </div>
@@ -175,7 +171,7 @@ export default function Home() {
       {/* Additional Hero Sections - Section 2 and 3 */}
       {/* Section 2 and 3 - Side by Side Grid */}
       {heroBackgrounds && heroBackgrounds.length > 0 && (
-        <div className="grid grid-cols-2 gap-0 bg-white mt-[10px]">
+        <div className="grid grid-cols-2 gap-[10px] bg-white mt-[10px]">
           {['section2', 'section3'].map((section) => {
             const sectionBg = heroBackgrounds.find((bg: any) => bg.section === section && bg.isActive === 1);
             if (!sectionBg) return null;
