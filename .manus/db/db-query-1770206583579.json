@@ -1,0 +1,69 @@
+{
+  "query": "SELECT * FROM pricePackages; SELECT * FROM priceAddOns;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT * FROM pricePackages; SELECT * FROM priceAddOns;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "simple",
+      "displayName": "1. Simple (심플)",
+      "description": "고품격의 공연 실황 촬영, 녹음",
+      "basePrice": "800000",
+      "cameraCount": "5~6",
+      "cameraType": "4K Camera",
+      "microphoneCount": "2",
+      "microphoneType": "Stereo Recording Mic",
+      "operatorCount": "1~2",
+      "targetAudience": "독주회, 소규모 실내악",
+      "order": "1",
+      "isActive": "1",
+      "status": "published",
+      "createdAt": "2026-02-04 11:52:19",
+      "updatedAt": "2026-02-04 11:52:19"
+    },
+    {
+      "id": "2",
+      "name": "economy",
+      "displayName": "2. Economy (이코노미)",
+      "description": "다수의 4K 카메라로 다양하고 생동감 있는 촬영",
+      "basePrice": "1500000",
+      "cameraCount": "8~10",
+      "cameraType": "4K Camera",
+      "microphoneCount": "2",
+      "microphoneType": "Stereo Recording Mic",
+      "operatorCount": "2~3",
+      "targetAudience": "중규모 공연, 실내악 앙상블",
+      "order": "2",
+      "isActive": "1",
+      "status": "published",
+      "createdAt": "2026-02-04 11:52:19",
+      "updatedAt": "2026-02-04 11:52:19"
+    },
+    {
+      "id": "3",
+      "name": "professional",
+      "displayName": "3. Professional (프로페셔널)",
+      "description": "리허설 촬영으로 더욱 디테일한 앵글 구현, 음반 수준의 고퀄리티 녹음",
+      "basePrice": "3200000",
+      "cameraCount": "9~12",
+      "cameraType": "4K-6K Cinema Camera",
+      "microphoneCount": "2~4",
+      "microphoneType": "Professional Recording Mic",
+      "operatorCount": "4~6",
+      "targetAudience": "대규모 공연, 오케스트라, 특별 프로젝트",
+      "order": "3",
+      "isActive": "1",
+      "status": "published",
+      "createdAt": "2026-02-04 11:52:19",
+      "updatedAt": "2026-02-04 11:52:19"
+    }
+  ],
+  "messages": [
+    "id\tname\tdescription\tprice\tcategory\torder\tisActive\tstatus\tcreatedAt\tupdatedAt",
+    "1\tstereo_recording\t스테레오 녹음\t100000\trecording\t1\t1\tpublished\t2026-02-04 11:52:20\t2026-02-04 11:52:20",
+    "2\tmulti_recording\t멀티 추가\t150000\trecording\t2\t1\tpublished\t2026-02-04 11:52:20\t2026-02-04 11:52:20",
+    "3\tfootball_miking\t피트볼 마이킹\t300000\trecording\t3\t1\tpublished\t2026-02-04 11:52:20\t2026-02-04 11:52:20"
+  ],
+  "stdout": "id\tname\tdisplayName\tdescription\tbasePrice\tcameraCount\tcameraType\tmicrophoneCount\tmicrophoneType\toperatorCount\ttargetAudience\torder\tisActive\tstatus\tcreatedAt\tupdatedAt\n1\tsimple\t1. Simple (심플)\t고품격의 공연 실황 촬영, 녹음\t800000\t5~6\t4K Camera\t2\tStereo Recording Mic\t1~2\t독주회, 소규모 실내악\t1\t1\tpublished\t2026-02-04 11:52:19\t2026-02-04 11:52:19\n2\teconomy\t2. Economy (이코노미)\t다수의 4K 카메라로 다양하고 생동감 있는 촬영\t1500000\t8~10\t4K Camera\t2\tStereo Recording Mic\t2~3\t중규모 공연, 실내악 앙상블\t2\t1\tpublished\t2026-02-04 11:52:19\t2026-02-04 11:52:19\n3\tprofessional\t3. Professional (프로페셔널)\t리허설 촬영으로 더욱 디테일한 앵글 구현, 음반 수준의 고퀄리티 녹음\t3200000\t9~12\t4K-6K Cinema Camera\t2~4\tProfessional Recording Mic\t4~6\t대규모 공연, 오케스트라, 특별 프로젝트\t3\t1\tpublished\t2026-02-04 11:52:19\t2026-02-04 11:52:19\nid\tname\tdescription\tprice\tcategory\torder\tisActive\tstatus\tcreatedAt\tupdatedAt\n1\tstereo_recording\t스테레오 녹음\t100000\trecording\t1\t1\tpublished\t2026-02-04 11:52:20\t2026-02-04 11:52:20\n2\tmulti_recording\t멀티 추가\t150000\trecording\t2\t1\tpublished\t2026-02-04 11:52:20\t2026-02-04 11:52:20\n3\tfootball_miking\t피트볼 마이킹\t300000\trecording\t3\t1\tpublished\t2026-02-04 11:52:20\t2026-02-04 11:52:20\n",
+  "stderr": "",
+  "execution_time_ms": 1800
+}

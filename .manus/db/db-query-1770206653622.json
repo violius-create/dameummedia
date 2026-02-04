@@ -1,0 +1,34 @@
+{
+  "query": "SELECT COUNT(*) as count FROM pricePackages; SELECT id, name, displayName FROM pricePackages ORDER BY `order`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT COUNT(*) as count FROM pricePackages; SELECT id, name, displayName FROM pricePackages ORDER BY `order`;",
+  "rows": [
+    {
+      "count": "6"
+    },
+    {
+      "count": "id\tname\tdisplayName"
+    },
+    {
+      "count": "1\tsimple\t1. Simple (심플)"
+    },
+    {
+      "count": "4\tsimple\t1. Simple (심플)"
+    },
+    {
+      "count": "2\teconomy\t2. Economy (이코노미)"
+    },
+    {
+      "count": "5\teconomy\t2. Economy (이코노미)"
+    },
+    {
+      "count": "3\tprofessional\t3. Professional (프로페셔널)"
+    },
+    {
+      "count": "6\tprofessional\t3. Professional (프로페셔널)"
+    }
+  ],
+  "messages": [],
+  "stdout": "count\n6\nid\tname\tdisplayName\n1\tsimple\t1. Simple (심플)\n4\tsimple\t1. Simple (심플)\n2\teconomy\t2. Economy (이코노미)\n5\teconomy\t2. Economy (이코노미)\n3\tprofessional\t3. Professional (프로페셔널)\n6\tprofessional\t3. Professional (프로페셔널)\n",
+  "stderr": "",
+  "execution_time_ms": 1765
+}

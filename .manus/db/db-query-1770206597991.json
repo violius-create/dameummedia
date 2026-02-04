@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO pricePackages (name, displayName, description, basePrice, cameraCount, cameraType, microphoneCount, microphoneType, operatorCount, targetAudience, `order`, isActive, status) VALUES\n('simple', '1. Simple (심플)', '편집비 포함', 800000, '5~6', '4K Camera', '2', 'Stereo Recording Mic', '1~2', '독주회, 소규모 실내악', 1, 1, 'published'),\n('economy', '2. Economy (이코노미)', '편집비 포함', 1500000, '8~10', '4K Camera', '2', 'Stereo Recording Mic', '2~3', '중규모 공연, 실내악 앙상블', 2, 1, 'published'),\n('professional', '3. Professional (프로페셔널)', '편집비 포함', 3200000, '9~12', '4K-6K Cinema Camera', '2~4', 'Professional Recording Mic', '4~6', '대규모 공연, 오케스트라, 특별 프로젝트', 3, 1, 'published');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute INSERT INTO pricePackages (name, displayName, description, basePrice, cameraCount, cameraType, microphoneCount, microphoneType, operatorCount, targetAudience, `order`, isActive, status) VALUES\n('simple', '1. Simple (심플)', '편집비 포함', 800000, '5~6', '4K Camera', '2', 'Stereo Recording Mic', '1~2', '독주회, 소규모 실내악', 1, 1, 'published'),\n('economy', '2. Economy (이코노미)', '편집비 포함', 1500000, '8~10', '4K Camera', '2', 'Stereo Recording Mic', '2~3', '중규모 공연, 실내악 앙상블', 2, 1, 'published'),\n('professional', '3. Professional (프로페셔널)', '편집비 포함', 3200000, '9~12', '4K-6K Cinema Camera', '2~4', 'Professional Recording Mic', '4~6', '대규모 공연, 오케스트라, 특별 프로젝트', 3, 1, 'published');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1679
+}

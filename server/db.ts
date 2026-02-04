@@ -478,3 +478,65 @@ export async function deleteSectionTitle(id: number) {
   
   return db.delete(sectionTitles).where(eq(sectionTitles.id, id));
 }
+
+// Price Packages functions
+export async function getPricePackages() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { pricePackages } = await import("../drizzle/schema");
+  return db.select().from(pricePackages).orderBy(pricePackages.order);
+}
+
+export async function getPricePackageById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const { pricePackages } = await import("../drizzle/schema");
+  const result = await db.select().from(pricePackages).where(eq(pricePackages.id, id));
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function updatePricePackage(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const { pricePackages } = await import("../drizzle/schema");
+  const updateData = Object.fromEntries(
+    Object.entries(data).filter(([, value]) => value !== undefined && value !== null)
+  );
+  
+  await db.update(pricePackages).set(updateData).where(eq(pricePackages.id, id));
+  return getPricePackageById(id);
+}
+
+// Price Add-ons functions
+export async function getPriceAddOns() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { priceAddOns } = await import("../drizzle/schema");
+  return db.select().from(priceAddOns).orderBy(priceAddOns.order);
+}
+
+export async function getPriceAddOnById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const { priceAddOns } = await import("../drizzle/schema");
+  const result = await db.select().from(priceAddOns).where(eq(priceAddOns.id, id));
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function updatePriceAddOn(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const { priceAddOns } = await import("../drizzle/schema");
+  const updateData = Object.fromEntries(
+    Object.entries(data).filter(([, value]) => value !== undefined && value !== null)
+  );
+  
+  await db.update(priceAddOns).set(updateData).where(eq(priceAddOns.id, id));
+  return getPriceAddOnById(id);
+}

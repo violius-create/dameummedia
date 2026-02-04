@@ -198,3 +198,43 @@ export const sectionTitles = mysqlTable("sectionTitles", {
 
 export type SectionTitle = typeof sectionTitles.$inferSelect;
 export type InsertSectionTitle = typeof sectionTitles.$inferInsert;
+
+// Price packages table for managing pricing tiers
+export const pricePackages = mysqlTable("pricePackages", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(), // Simple, Economy, Professional
+  displayName: varchar("displayName", { length: 255 }).notNull(), // Display name with Korean
+  description: text("description"), // Package description
+  basePrice: int("basePrice").notNull(), // Base price in KRW
+  cameraCount: varchar("cameraCount", { length: 100 }), // e.g., "5~6"
+  cameraType: varchar("cameraType", { length: 255 }), // e.g., "4K Camera"
+  microphoneCount: varchar("microphoneCount", { length: 100 }), // e.g., "2"
+  microphoneType: varchar("microphoneType", { length: 255 }), // e.g., "Stereo Recording Mic"
+  operatorCount: varchar("operatorCount", { length: 100 }), // e.g., "1~2"
+  targetAudience: text("targetAudience"), // Target audience description
+  order: int("order").default(0), // Display order
+  isActive: int("isActive").default(1), // 1 for active package
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PricePackage = typeof pricePackages.$inferSelect;
+export type InsertPricePackage = typeof pricePackages.$inferInsert;
+
+// Price add-ons table for managing additional services
+export const priceAddOns = mysqlTable("priceAddOns", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(), // e.g., "Stereo Recording"
+  description: text("description"), // Description
+  price: int("price").notNull(), // Price in KRW
+  category: varchar("category", { length: 100 }).notNull(), // e.g., "recording", "photography"
+  order: int("order").default(0), // Display order
+  isActive: int("isActive").default(1), // 1 for active add-on
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PriceAddOn = typeof priceAddOns.$inferSelect;
+export type InsertPriceAddOn = typeof priceAddOns.$inferInsert;

@@ -1,188 +1,193 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Check } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
+import { Check, ArrowRight } from "lucide-react";
+import { useState } from "react";
 
 export default function Price() {
-  const packages = [
-    {
-      name: "Basic",
-      description: "소규모 공연 및 이벤트",
-      price: "1,500,000",
-      features: [
-        "4K 촬영 (1대 카메라)",
-        "기본 음향 녹음",
-        "4시간 촬영",
-        "기본 편집",
-        "납기 2주",
-      ],
-    },
-    {
-      name: "Standard",
-      description: "중규모 공연 및 프로젝트",
-      price: "3,500,000",
-      features: [
-        "4K 촬영 (2대 카메라)",
-        "전문 음향 녹음",
-        "8시간 촬영",
-        "고급 편집",
-        "색보정 포함",
-        "납기 1주",
-      ],
-      featured: true,
-    },
-    {
-      name: "Premium",
-      description: "대규모 공연 및 특별 프로젝트",
-      price: "7,000,000",
-      features: [
-        "4K/8K 촬영 (3대 이상 카메라)",
-        "전문 음향 녹음 및 믹싱",
-        "전일 촬영",
-        "프리미엄 편집",
-        "컬러 그레이딩",
-        "특수 효과",
-        "마스터링",
-        "납기 협의",
-      ],
-    },
-  ];
+  const { user, isAuthenticated } = useAuth();
+  const { data: pricePackages, isLoading: packagesLoading } = trpc.prices.getPackages.useQuery();
+  const { data: addOns, isLoading: addOnsLoading } = trpc.prices.getAddOns.useQuery();
+  const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
 
-  const addOns = [
-    { name: "추가 카메라", price: "500,000" },
-    { name: "드론 촬영", price: "800,000" },
-    { name: "라이브 스트리밍", price: "1,000,000" },
-    { name: "음향 믹싱", price: "500,000" },
-    { name: "마스터링", price: "300,000" },
-    { name: "자막 제작", price: "200,000" },
-  ];
+  if (packagesLoading || addOnsLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">가격표를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('ko-KR', {
+      style: 'currency',
+      currency: 'KRW',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-        <div className="container py-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              돌아가기
-            </Button>
-          </Link>
-        </div>
-      </nav>
-
-      {/* Content */}
-      <div className="container py-16">
-        <div className="max-w-6xl mx-auto space-y-12">
-          {/* Header */}
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold">가격 안내</h1>
-            <p className="text-lg text-muted-foreground">
-              당신의 프로젝트 규모에 맞는 최적의 패키지를 선택하세요.
+      {/* Hero Section */}
+      <section className="relative h-64 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="container relative h-full flex items-center">
+          <div className="space-y-4">
+            <h1 className="text-5xl font-bold text-foreground">가격표</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">
+              담음미디어의 다양한 패키지를 확인하고 귀사의 필요에 맞는 서비스를 선택하세요.
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* Pricing Cards */}
-          <div className="grid gap-8 md:grid-cols-3">
-            {packages.map((pkg, index) => (
+      {/* Main Content */}
+      <section className="container py-16">
+        {/* Introduction */}
+        <div className="mb-16 space-y-4">
+          <h2 className="text-3xl font-bold text-foreground">공연 실황 촬영 및 녹음 패키지</h2>
+          <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+              <p>고품격의 공연 실황 촬영, 녹음</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+              <p>다수의 4K 카메라로 다양하고 생동감 있는 촬영</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+              <p>리허설 촬영으로 더욱 디테일한 앵글 구현</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+              <p>음반 수준의 고퀄리티 녹음</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Price Packages */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-foreground mb-8">서비스 패키지</h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            {pricePackages?.map((pkg, index) => (
               <Card
-                key={index}
-                className={`relative ${
-                  pkg.featured ? "ring-2 ring-primary md:scale-105" : ""
-                }`}
+                key={pkg.id}
+                className={`relative transition-all duration-300 hover:shadow-lg ${
+                  selectedPackage === pkg.id ? "ring-2 ring-primary" : ""
+                } ${index === 2 ? "md:scale-105 md:shadow-lg" : ""}`}
+                onClick={() => setSelectedPackage(pkg.id)}
               >
-                {pkg.featured && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                      인기
-                    </span>
+                {index === 2 && (
+                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-4 py-1 rounded-bl-lg text-sm font-semibold">
+                    추천
                   </div>
                 )}
                 <CardHeader>
-                  <CardTitle>{pkg.name}</CardTitle>
-                  <CardDescription>{pkg.description}</CardDescription>
+                  <CardTitle className="text-xl">{pkg.displayName}</CardTitle>
+                  <p className="text-sm text-muted-foreground mt-2">{pkg.targetAudience}</p>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                  {/* Price */}
                   <div>
-                    <span className="text-3xl font-bold">{pkg.price}</span>
-                    <span className="text-muted-foreground ml-2">원</span>
+                    <p className="text-sm text-muted-foreground mb-1">기본 가격</p>
+                    <p className="text-3xl font-bold text-primary">{formatPrice(pkg.basePrice)}</p>
+                    <p className="text-xs text-muted-foreground mt-1">편집비 포함</p>
                   </div>
-                  <ul className="space-y-3">
-                    {pkg.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+
+                  {/* Specifications */}
+                  <div className="space-y-4 border-t border-border pt-4">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground mb-1">카메라</p>
+                      <p className="text-sm text-muted-foreground">{pkg.cameraType}</p>
+                      <p className="text-sm text-muted-foreground">{pkg.cameraCount}대</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground mb-1">마이크</p>
+                      <p className="text-sm text-muted-foreground">{pkg.microphoneType}</p>
+                      <p className="text-sm text-muted-foreground">{pkg.microphoneCount}개</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground mb-1">스탭</p>
+                      <p className="text-sm text-muted-foreground">운영 스탭 {pkg.operatorCount}명</p>
+                    </div>
+                  </div>
+
+                  {/* CTA Button */}
                   <Link href="/reservation">
-                    <Button
-                      className="w-full"
-                      variant={pkg.featured ? "default" : "outline"}
-                    >
+                    <Button className="w-full" variant={index === 2 ? "default" : "outline"}>
                       예약하기
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </CardContent>
               </Card>
             ))}
           </div>
+        </div>
 
-          {/* Add-ons */}
-          <Card className="bg-card/50">
-            <CardHeader>
-              <CardTitle>추가 옵션</CardTitle>
-              <CardDescription>
-                기본 패키지에 추가할 수 있는 옵션들입니다.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
-                {addOns.map((addon, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                    <span className="font-medium">{addon.name}</span>
-                    <span className="text-primary font-semibold">{addon.price}원</span>
+        {/* Add-ons Section */}
+        {addOns && addOns.length > 0 && (
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-foreground mb-8">추가 옵션</h3>
+            <div className="bg-card border border-border rounded-lg p-8">
+              <div className="grid md:grid-cols-3 gap-6">
+                {addOns.map((addon) => (
+                  <div key={addon.id} className="space-y-2">
+                    <h4 className="font-semibold text-foreground">{addon.name}</h4>
+                    {addon.description && (
+                      <p className="text-sm text-muted-foreground">{addon.description}</p>
+                    )}
+                    <p className="text-lg font-bold text-primary">{formatPrice(addon.price)}</p>
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Notes */}
-          <Card className="bg-primary/5 border-primary/20">
-            <CardHeader>
-              <CardTitle>가격 안내</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm">
-              <p>
-                • 위의 가격은 기본 가격이며, 프로젝트의 특성에 따라 조정될 수 있습니다.
-              </p>
-              <p>
-                • 교통비, 숙박비 등 추가 비용은 별도로 계산됩니다.
-              </p>
-              <p>
-                • 선금 50%, 후금 50%로 결제합니다.
-              </p>
-              <p>
-                • 상세한 견적을 원하시면 예약 페이지에서 상담을 신청해주세요.
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* CTA */}
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold">맞춤형 견적을 받으세요</h3>
-            <p className="text-muted-foreground">
-              당신의 프로젝트에 맞는 정확한 견적을 제공받으세요.
-            </p>
-            <Link href="/reservation">
-              <Button size="lg">
-                상담 신청하기
-              </Button>
-            </Link>
+            </div>
           </div>
+        )}
+
+        {/* Important Notes */}
+        <div className="bg-muted/50 border border-border rounded-lg p-8 space-y-4">
+          <h3 className="text-xl font-bold text-foreground">공통사항</h3>
+          <ul className="space-y-2 text-muted-foreground">
+            <li className="flex items-start gap-3">
+              <span className="text-primary font-bold mt-1">•</span>
+              <span>리허설 때 필요 장면을 미리 촬영하여 더욱 다채롭고 다이나믹한 영상이 구현됩니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-primary font-bold mt-1">•</span>
+              <span>녹음 의뢰시, 리허설 녹음으로 본 공연의 실수 및 에러를 대체합니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-primary font-bold mt-1">•</span>
+              <span>공연 촬영시 카메라 세팅은 공연장의 환경과 제약에 따라 변동될 수 있습니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-primary font-bold mt-1">•</span>
+              <span>리허설 사진 촬영이 필요하시면 Reservation 게시판에 추가 신청 해주시기 바랍니다.</span>
+            </li>
+          </ul>
         </div>
-      </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-lg p-12 text-center space-y-4">
+          <h3 className="text-2xl font-bold text-foreground">궁금한 점이 있으신가요?</h3>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            담음미디어의 전문가 팀이 귀사의 프로젝트에 맞는 최적의 솔루션을 제안해드립니다.
+          </p>
+          <Link href="/reservation">
+            <Button size="lg" className="mt-4">
+              예약 문의하기
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

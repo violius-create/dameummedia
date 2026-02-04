@@ -236,6 +236,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="reservations">예약 관리</TabsTrigger>
             <TabsTrigger value="gallery">갤러리 관리</TabsTrigger>
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
+            <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
           </TabsList>
 
@@ -572,6 +573,11 @@ export default function AdminDashboard() {
             </Card>
           </div>
 
+          {/* Prices Tab */}
+          <TabsContent value="prices" className="space-y-6">
+            <AdminPrices />
+          </TabsContent>
+
           {/* Site Branding Tab */}
           <TabsContent value="branding" className="space-y-6">
             <AdminSiteBranding />
@@ -726,3 +732,270 @@ function AdminSiteBranding() {
   );
 }
 
+
+// Admin Prices Component
+function AdminPrices() {
+  const { data: packages, refetch: refetchPackages } = trpc.prices.getPackages.useQuery();
+  const { data: addOns, refetch: refetchAddOns } = trpc.prices.getAddOns.useQuery();
+  const [editingPackageId, setEditingPackageId] = useState<number | null>(null);
+  const [editingAddOnId, setEditingAddOnId] = useState<number | null>(null);
+  
+  const [packageFormData, setPackageFormData] = useState({
+    displayName: '',
+    basePrice: 0,
+    cameraCount: '',
+    cameraType: '',
+    microphoneCount: '',
+    microphoneType: '',
+    operatorCount: '',
+    targetAudience: '',
+  });
+  
+  const [addOnFormData, setAddOnFormData] = useState({
+    name: '',
+    description: '',
+    price: 0,
+  });
+
+  const updatePackageMutation = trpc.prices.updatePackage.useMutation({
+    onSuccess: () => {
+      toast.success("패키지가 업데이트되었습니다.");
+      setEditingPackageId(null);
+      refetchPackages();
+    },
+    onError: (error) => {
+      toast.error(`업데이트 실패: ${error.message}`);
+    },
+  });
+
+  const updateAddOnMutation = trpc.prices.updateAddOn.useMutation({
+    onSuccess: () => {
+      toast.success("추가 옵션이 업데이트되었습니다.");
+      setEditingAddOnId(null);
+      refetchAddOns();
+    },
+    onError: (error) => {
+      toast.error(`업데이트 실패: ${error.message}`);
+    },
+  });
+
+  const handleEditPackage = (pkg: any) => {
+    setEditingPackageId(pkg.id);
+    setPackageFormData({
+      displayName: pkg.displayName,
+      basePrice: pkg.basePrice,
+      cameraCount: pkg.cameraCount || '',
+      cameraType: pkg.cameraType || '',
+      microphoneCount: pkg.microphoneCount || '',
+      microphoneType: pkg.microphoneType || '',
+      operatorCount: pkg.operatorCount || '',
+      targetAudience: pkg.targetAudience || '',
+    });
+  };
+
+  const handleSavePackage = () => {
+    if (editingPackageId) {
+      updatePackageMutation.mutate({
+        id: editingPackageId,
+        ...packageFormData,
+      });
+    }
+  };
+
+  const handleEditAddOn = (addon: any) => {
+    setEditingAddOnId(addon.id);
+    setAddOnFormData({
+      name: addon.name,
+      description: addon.description || '',
+      price: addon.price,
+    });
+  };
+
+  const handleSaveAddOn = () => {
+    if (editingAddOnId) {
+      updateAddOnMutation.mutate({
+        id: editingAddOnId,
+        ...addOnFormData,
+      });
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Price Packages Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>가격 패키지 관리</CardTitle>
+          <CardDescription>
+            서비스 패키지의 가격과 사양을 관리합니다.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {packages?.map((pkg) => (
+            <Card key={pkg.id} className="p-4">
+              <div className="space-y-4">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold">{pkg.displayName}</h4>
+                    <p className="text-sm text-muted-foreground">{pkg.targetAudience}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEditPackage(pkg)}
+                  >
+                    수정
+                  </Button>
+                </div>
+
+                {editingPackageId === pkg.id && (
+                  <div className="space-y-4 border-t pt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>기본 가격</Label>
+                        <Input
+                          type="number"
+                          value={packageFormData.basePrice}
+                          onChange={(e) => setPackageFormData({...packageFormData, basePrice: parseInt(e.target.value)})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>카메라 수량</Label>
+                        <Input
+                          value={packageFormData.cameraCount}
+                          onChange={(e) => setPackageFormData({...packageFormData, cameraCount: e.target.value})}
+                          placeholder="예: 5~6"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>카메라 타입</Label>
+                        <Input
+                          value={packageFormData.cameraType}
+                          onChange={(e) => setPackageFormData({...packageFormData, cameraType: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>마이크 수량</Label>
+                        <Input
+                          value={packageFormData.microphoneCount}
+                          onChange={(e) => setPackageFormData({...packageFormData, microphoneCount: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>마이크 타입</Label>
+                        <Input
+                          value={packageFormData.microphoneType}
+                          onChange={(e) => setPackageFormData({...packageFormData, microphoneType: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>스탭 수량</Label>
+                        <Input
+                          value={packageFormData.operatorCount}
+                          onChange={(e) => setPackageFormData({...packageFormData, operatorCount: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>대상 고객</Label>
+                      <Textarea
+                        value={packageFormData.targetAudience}
+                        onChange={(e) => setPackageFormData({...packageFormData, targetAudience: e.target.value})}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleSavePackage}
+                        disabled={updatePackageMutation.isPending}
+                      >
+                        저장
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setEditingPackageId(null)}
+                      >
+                        취소
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))}
+        </CardContent>
+      </Card>
+
+      {/* Add-ons Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>추가 옵션 관리</CardTitle>
+          <CardDescription>
+            추가 옵션의 가격을 관리합니다.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {addOns?.map((addon) => (
+            <Card key={addon.id} className="p-4">
+              <div className="space-y-4">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold">{addon.name}</h4>
+                    <p className="text-sm text-muted-foreground">{addon.description}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEditAddOn(addon)}
+                  >
+                    수정
+                  </Button>
+                </div>
+
+                {editingAddOnId === addon.id && (
+                  <div className="space-y-4 border-t pt-4">
+                    <div className="space-y-2">
+                      <Label>옵션명</Label>
+                      <Input
+                        value={addOnFormData.name}
+                        onChange={(e) => setAddOnFormData({...addOnFormData, name: e.target.value})}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>설명</Label>
+                      <Input
+                        value={addOnFormData.description}
+                        onChange={(e) => setAddOnFormData({...addOnFormData, description: e.target.value})}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>가격</Label>
+                      <Input
+                        type="number"
+                        value={addOnFormData.price}
+                        onChange={(e) => setAddOnFormData({...addOnFormData, price: parseInt(e.target.value)})}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleSaveAddOn}
+                        disabled={updateAddOnMutation.isPending}
+                      >
+                        저장
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setEditingAddOnId(null)}
+                      >
+                        취소
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

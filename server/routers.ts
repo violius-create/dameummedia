@@ -414,6 +414,30 @@ export const appRouter = router({
       }),
   }),
 
+  // Prices router
+  prices: router({
+    getPackages: publicProcedure
+      .query(async () => {
+        return db.getPricePackages();
+      }),
+    
+    getAddOns: publicProcedure
+      .query(async () => {
+        return db.getPriceAddOns();
+      }),
+    
+    updatePackage: adminProcedure
+      .input(z.object({ id: z.number(), displayName: z.string().optional(), description: z.string().optional(), basePrice: z.number().optional(), cameraCount: z.string().optional(), cameraType: z.string().optional(), microphoneCount: z.string().optional(), microphoneType: z.string().optional(), operatorCount: z.string().optional(), targetAudience: z.string().optional() }))
+      .mutation(async ({ input }) => {
+        return db.updatePricePackage(input.id, input);
+      }),
+    
+    updateAddOn: adminProcedure
+      .input(z.object({ id: z.number(), name: z.string().optional(), description: z.string().optional(), price: z.number().optional() }))
+      .mutation(async ({ input }) => {
+        return db.updatePriceAddOn(input.id, input);
+      }),
+  }),
   // Section Titles router
   sectionTitles: router({
     get: publicProcedure
