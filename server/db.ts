@@ -287,6 +287,14 @@ export async function getActiveHeroBackground() {
   return result.length > 0 ? result[0] : null;
 }
 
+export async function getActiveHeroBackgroundBySection(section: "main" | "section2" | "section3") {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(heroBackgrounds).where(and(eq(heroBackgrounds.isActive, 1), eq(heroBackgrounds.status, "published"), eq(heroBackgrounds.section, section))).orderBy(desc(heroBackgrounds.order)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
 export async function getHeroBackgrounds(limit = 100, offset = 0) {
   const db = await getDb();
   if (!db) return [];

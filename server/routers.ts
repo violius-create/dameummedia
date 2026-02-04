@@ -280,6 +280,12 @@ export const appRouter = router({
         return db.getActiveHeroBackground();
       }),
     
+    getActiveBySection: publicProcedure
+      .input(z.enum(["main", "section2", "section3"]))
+      .query(async ({ input }) => {
+        return db.getActiveHeroBackgroundBySection(input);
+      }),
+    
     list: adminProcedure
       .input(z.object({ limit: z.number().default(100), offset: z.number().default(0) }))
       .query(async ({ input }) => {
