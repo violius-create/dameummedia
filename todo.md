@@ -404,3 +404,8 @@
 - [x] ConcertLiveGallery의 링크를 /post에서 /posts로 변경
 - [x] MakingFilmGallery의 링크를 /post에서 /posts로 변경
 - [x] PostDetail 페이지에서 라우트 파라미터 정상 동작 확인
+
+## 게시글 수정 페이지 라우트 오류 (2026-02-04 완료)
+- [x] PostDetail 페이지의 수정 버튼 링크 확인
+- [x] EditPost 페이지 생성 (이미지 파일 업로드 기능 포함)
+- [x] App.tsx에 EditPost 라우트 추가 (/posts/:id/edit)
