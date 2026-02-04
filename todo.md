@@ -377,3 +377,8 @@
 - [x] 게시판 갤러리 모바일 반응형 개선 (1열/2열/3열)
 - [x] PostDetail 페이지 모바일 반응형 개선
 - [x] 전체 페이지 모바일 반응형 테스트
+
+## 메인화면 센션 제목 링크 추가 (2026-02-04 완료)
+- [x] Home.tsx의 Concert Live 센션 제목을 /concert-live로 링크
+- [x] Home.tsx의 Making Film 센션 제목을 /making-film으로 링크
+- [x] 모든 센션 제목에 호버 효과 추가 (색상 변화, 투명도 변화)
