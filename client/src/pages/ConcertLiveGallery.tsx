@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { Music, ArrowRight, Trash2, Menu, X } from "lucide-react";
+import { Music, ArrowRight, Trash2, Menu, X, Plus } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import { useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -71,9 +71,20 @@ export default function ConcertLiveGallery() {
       <div className="container py-8 sm:py-16">
         {/* Header Section */}
         <div className="mb-8 sm:mb-16 space-y-4">
-          <div className="flex items-center gap-3 mb-6">
-            <Music className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
-            <span className="text-xs sm:text-sm font-semibold text-primary uppercase tracking-wider">Concert Live</span>
+          <div className="flex items-center justify-between gap-3 mb-6">
+            <div className="flex items-center gap-3">
+              <Music className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
+              <span className="text-xs sm:text-sm font-semibold text-primary uppercase tracking-wider">Concert Live</span>
+            </div>
+            {user?.role === 'admin' && (
+              <Button 
+                onClick={() => setLocation('/admin/service-items')}
+                className="flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                <span className="hidden sm:inline">글쓰기</span>
+              </Button>
+            )}
           </div>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">클래식 음악 공연</h2>
           <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">

@@ -129,12 +129,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Play Button Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
-              <Play className="w-10 h-10 text-white fill-white" />
-            </div>
-          </div>
+
         </div>
       </section>
 

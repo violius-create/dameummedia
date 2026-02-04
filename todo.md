@@ -382,3 +382,8 @@
 - [x] Home.tsx의 Concert Live 센션 제목을 /concert-live로 링크
 - [x] Home.tsx의 Making Film 센션 제목을 /making-film으로 링크
 - [x] 모든 센션 제목에 호버 효과 추가 (색상 변화, 투명도 변화)
+
+## 글쓰기 버튼 및 플레이 버튼 제거 (2026-02-04 완료)
+- [x] ConcertLiveGallery 페이지에 [글쓰기] 버튼 추가 (관리자만 보임)
+- [x] MakingFilmGallery 페이지에 [글쓰기] 버튼 추가 (관리자만 보임)
+- [x] Home.tsx의 메인 영상 가운데 플레이 버튼 아이콘 삭제
