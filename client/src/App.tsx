@@ -35,10 +35,39 @@ function Navigation() {
   }, [branding]);
 
   return (
-    <nav className="border-b border-border">
-      {/* First row: SNS + Login (gray background) */}
-      <div className="bg-gray-100 border-b border-gray-200">
-        <div className="container py-2 flex items-center justify-end gap-6">
+    <nav className="border-b border-border bg-gray-100">
+      <div className="container py-3 flex items-center justify-between">
+        {/* Left: Logo */}
+        <div className="flex items-center gap-3 cursor-pointer flex-shrink-0" onClick={() => window.location.href = '/'}>
+          {logoUrl && (
+            <img src={logoUrl} alt="Logo" className="h-10 w-auto" />
+          )}
+          {!logoUrl && (
+            <span className="text-2xl font-light text-gray-800">Logo</span>
+          )}
+        </div>
+        
+        {/* Center: Navigation menu */}
+        <div className="flex items-center gap-8 flex-1 justify-center">
+          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            Information
+          </a>
+          <a href="/price" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            Price
+          </a>
+          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            Concert Live
+          </a>
+          <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            Making Film
+          </a>
+          <a href="/reservation" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
+            Reservation
+          </a>
+        </div>
+        
+        {/* Right: SNS + Login */}
+        <div className="flex items-center gap-6 flex-shrink-0">
           <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors text-sm">
             Instagram
           </a>
@@ -57,40 +86,6 @@ function Navigation() {
               Login
             </a>
           )}
-        </div>
-      </div>
-      
-      {/* Second row: Logo + Menu (white background) */}
-      <div className="bg-white">
-        <div className="container py-4 flex items-center gap-12">
-          {/* Left: Logo */}
-          <div className="flex items-center gap-3 cursor-pointer flex-shrink-0" onClick={() => window.location.href = '/'}>
-            {logoUrl && (
-              <img src={logoUrl} alt="Logo" className="h-10 w-auto" />
-            )}
-            {!logoUrl && (
-              <span className="text-2xl font-light text-gray-800">Logo</span>
-            )}
-          </div>
-          
-          {/* Center: Navigation menu */}
-          <div className="flex items-center gap-8 flex-1 justify-center">
-            <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Information
-            </a>
-            <a href="/price" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Price
-            </a>
-            <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Concert Live
-            </a>
-            <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Making Film
-            </a>
-            <a href="/reservation" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
-              Reservation
-            </a>
-          </div>
         </div>
       </div>
     </nav>

@@ -336,3 +336,10 @@
 - [x] 흰색 줄: 좌측에 Logo, 중앙에 메뉴, 우측에 아무것도 없음
 - [x] Admin 버튼 제거 (회색 줄에서)
 - [x] 로그인/로그아웃 기능 구현
+
+## 네비게이션 바 1줄 통합 (2026-02-04 완료)
+- [x] 중복된 네비게이션 바 제거
+- [x] 좌측에 Logo 배치
+- [x] 중앙에 메뉴 배치 (Information, Price, Concert Live, Making Film, Reservation)
+- [x] 우측에 SNS (Instagram, YouTube) + Logout 배치
+- [x] 깔끔한 1줄 레이아웃 완성
