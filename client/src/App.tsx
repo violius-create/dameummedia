@@ -1,4 +1,10 @@
 import { Router as WouterRouter, Route, Switch } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
+import { LogOut, LogIn, Instagram, Youtube, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { getLoginUrl } from "@/const";
 
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
@@ -47,9 +53,189 @@ function Router() {
   );
 }
 
+function Navigation() {
+  const { user, isAuthenticated, logout } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
+      <div className="container py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/">
+            <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+              <div className="text-lg font-bold text-foreground">담음미디어</div>
+            </div>
+          </Link>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-8 justify-center flex-1">
+            <Link href="/information">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                Information
+              </Button>
+            </Link>
+            <Link href="/price">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                Price
+              </Button>
+            </Link>
+            <Link href="/concert-live">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                Concert Live
+              </Button>
+            </Link>
+            <Link href="/making-film">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                Making Film
+              </Button>
+            </Link>
+            <Link href="/reservation">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                Reservation
+              </Button>
+            </Link>
+          </div>
+
+          {/* Right Side - SNS and Auth */}
+          <div className="hidden md:flex items-center gap-4">
+            <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" size="icon">
+                <Instagram className="h-5 w-5" />
+              </Button>
+            </a>
+            <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" size="icon">
+                <Youtube className="h-5 w-5" />
+              </Button>
+            </a>
+            {isAuthenticated ? (
+              <>
+                {user?.role === 'admin' && (
+                  <Link href="/admin">
+                    <Button variant="outline" size="sm">
+                      Admin
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => logout()}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <a href={getLoginUrl()}>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </Button>
+              </a>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 space-y-2 pb-4">
+            <Link href="/information">
+              <Button variant="ghost" className="w-full justify-start text-foreground">
+                Information
+              </Button>
+            </Link>
+            <Link href="/price">
+              <Button variant="ghost" className="w-full justify-start text-foreground">
+                Price
+              </Button>
+            </Link>
+            <Link href="/concert-live">
+              <Button variant="ghost" className="w-full justify-start text-foreground">
+                Concert Live
+              </Button>
+            </Link>
+            <Link href="/making-film">
+              <Button variant="ghost" className="w-full justify-start text-foreground">
+                Making Film
+              </Button>
+            </Link>
+            <Link href="/reservation">
+              <Button variant="ghost" className="w-full justify-start text-foreground">
+                Reservation
+              </Button>
+            </Link>
+            <div className="pt-2 border-t border-border space-y-2">
+              <div className="flex gap-2">
+                <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1">
+                  <Button variant="ghost" size="sm" className="w-full">
+                    <Instagram className="h-4 w-4 mr-2" />
+                    Instagram
+                  </Button>
+                </a>
+                <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1">
+                  <Button variant="ghost" size="sm" className="w-full">
+                    <Youtube className="h-4 w-4 mr-2" />
+                    YouTube
+                  </Button>
+                </a>
+              </div>
+              {isAuthenticated ? (
+                <>
+                  {user?.role === 'admin' && (
+                    <Link href="/admin" className="block">
+                      <Button variant="outline" size="sm" className="w-full">
+                        Admin
+                      </Button>
+                    </Link>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => logout()}
+                    className="w-full flex items-center justify-center gap-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <a href={getLoginUrl()} className="block">
+                  <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-2">
+                    <LogIn className="h-4 w-4" />
+                    Login
+                  </Button>
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
+
 export default function App() {
   return (
     <WouterRouter>
+      <Navigation />
       <Router />
     </WouterRouter>
   );

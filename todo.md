@@ -409,3 +409,10 @@
 - [x] PostDetail 페이지의 수정 버튼 링크 확인
 - [x] EditPost 페이지 생성 (이미지 파일 업로드 기능 포함)
 - [x] App.tsx에 EditPost 라우트 추가 (/posts/:id/edit)
+
+## 게시글 수정 및 네비게이션 복구 (2026-02-04 완료)
+- [x] PostDetail 페이지의 수정 버튼 링크를 /posts/:id/edit으로 변경
+- [x] EditPost 페이지에서 게시물 수정 시 category 필드 추가
+- [x] App.tsx에 전체 페이지에 표시될 네비게이션 바 추가
+- [x] 네비게이션 바에 로고, 메뉴, SNS, 로그인/로그아웃 기능 구현
+- [x] 모바일 반응형 햄버거 메뉴 추가

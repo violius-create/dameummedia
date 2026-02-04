@@ -114,6 +114,7 @@ export default function EditPost() {
               content: content.trim(),
               imageUrl: imageUrl || undefined,
               videoUrl: videoUrl.trim() || undefined,
+              category: category,
             });
           } catch (error) {
             setIsLoading(false);
@@ -129,6 +130,7 @@ export default function EditPost() {
           content: content.trim(),
           imageUrl: imageUrl || undefined,
           videoUrl: videoUrl.trim() || undefined,
+          category: category,
         });
       }
     } catch (error) {

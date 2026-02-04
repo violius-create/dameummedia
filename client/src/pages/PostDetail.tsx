@@ -92,7 +92,7 @@ export default function PostDetail() {
             </div>
             {isAuthenticated && user?.role === 'admin' && (
               <div className="flex gap-2">
-                <Link href={`/admin?editId=${post.id}`}>
+                <Link href={`/posts/${post.id}/edit`}>
                   <Button variant="outline" size="sm">
                     <Edit className="mr-2 h-4 w-4" />
                     수정
