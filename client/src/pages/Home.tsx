@@ -168,11 +168,11 @@ export default function Home() {
                   
                   {/* Text Overlay on Media */}
                   <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent flex flex-col justify-center p-8">
-                    <h2 className="text-3xl font-bold tracking-tight text-white mb-3">
+                    <h2 className="text-5xl font-bold tracking-tight text-white mb-3">
                       {sectionBg.title || (section === 'section2' ? '공연 영상' : '영상 제작')}
                     </h2>
                     {sectionBg.description && (
-                      <p className="text-sm text-gray-100 line-clamp-2">
+                      <p className="text-xl text-gray-100 line-clamp-2">
                         {sectionBg.description}
                       </p>
                     )}
