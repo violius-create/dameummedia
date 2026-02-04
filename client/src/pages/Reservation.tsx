@@ -169,16 +169,41 @@ export default function Reservation() {
                       <Label htmlFor="eventType">
                         문류 <span className="text-red-500">*</span>
                       </Label>
-                      <Select value={formData.eventType} onValueChange={(value) => setFormData({ ...formData, eventType: value })}>
-                        <SelectTrigger id="eventType">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="concert">콘서트</SelectItem>
-                          <SelectItem value="film">영상 제작</SelectItem>
-                          <SelectItem value="other">기타</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="eventType"
+                            value="concert"
+                            checked={formData.eventType === "concert"}
+                            onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>콘서트</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="eventType"
+                            value="film"
+                            checked={formData.eventType === "film"}
+                            onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>영상 제작</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="eventType"
+                            value="other"
+                            checked={formData.eventType === "other"}
+                            onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>기타</span>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -351,31 +376,71 @@ export default function Reservation() {
                       <Label htmlFor="paymentMethod">
                         결제방식
                       </Label>
-                      <Select value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}>
-                        <SelectTrigger id="paymentMethod">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="card">카드</SelectItem>
-                          <SelectItem value="transfer">계좌이체</SelectItem>
-                          <SelectItem value="cash">현금</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="card"
+                            checked={formData.paymentMethod === "card"}
+                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>카드</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="transfer"
+                            checked={formData.paymentMethod === "transfer"}
+                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>계좌이체</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="cash"
+                            checked={formData.paymentMethod === "cash"}
+                            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>현금</span>
+                        </label>
+                      </div>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="receiptType">
                         접수형태
                       </Label>
-                      <Select value={formData.receiptType} onValueChange={(value) => setFormData({ ...formData, receiptType: value })}>
-                        <SelectTrigger id="receiptType">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="individual">개인</SelectItem>
-                          <SelectItem value="business">사업</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="receiptType"
+                            value="individual"
+                            checked={formData.receiptType === "individual"}
+                            onChange={(e) => setFormData({ ...formData, receiptType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>개인</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="receiptType"
+                            value="business"
+                            checked={formData.receiptType === "business"}
+                            onChange={(e) => setFormData({ ...formData, receiptType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>사업</span>
+                        </label>
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -408,15 +473,30 @@ export default function Reservation() {
                       <Label htmlFor="isPublic">
                         공개 허용
                       </Label>
-                      <Select value={formData.isPublic} onValueChange={(value) => setFormData({ ...formData, isPublic: value })}>
-                        <SelectTrigger id="isPublic">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1">허용</SelectItem>
-                          <SelectItem value="0">거부</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="isPublic"
+                            value="1"
+                            checked={formData.isPublic === "1"}
+                            onChange={(e) => setFormData({ ...formData, isPublic: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>허용</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="isPublic"
+                            value="0"
+                            checked={formData.isPublic === "0"}
+                            onChange={(e) => setFormData({ ...formData, isPublic: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>거부</span>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
