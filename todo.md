@@ -458,3 +458,8 @@
 - [x] Textarea 컴포넌트에 배경색 추가 (bg-muted/30)
 - [x] 제목과 작성란 구별 개선
 - [x] 테스트 및 검증
+
+## 메인 페이지 권한 오류 수정 (2026-02-04 완료)
+- [x] Home.tsx에서 관리자 권한이 필요한 API 호출 확인 (heroBackground.list)
+- [x] 권한 오류 수정 (heroBackground.list 호출 제거)
+- [x] 테스트 및 검증
