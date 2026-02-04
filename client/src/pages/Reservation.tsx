@@ -30,7 +30,7 @@ export default function Reservation() {
     projectMonitor: "",
     paymentMethod: "card",
     isPublic: "1",
-    receiptType: "individual",
+    receiptType: "issued",
     paidAmount: "",
     unpaidAmount: "",
     description: "",
@@ -415,30 +415,41 @@ export default function Reservation() {
 
                     <div className="space-y-2">
                       <Label htmlFor="receiptType">
-                        접수형태
+                        계산서발행
                       </Label>
                       <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
                             type="radio"
                             name="receiptType"
-                            value="individual"
-                            checked={formData.receiptType === "individual"}
+                            value="issued"
+                            checked={formData.receiptType === "issued"}
                             onChange={(e) => setFormData({ ...formData, receiptType: e.target.value })}
                             className="w-4 h-4"
                           />
-                          <span>개인</span>
+                          <span>발행</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
                             type="radio"
                             name="receiptType"
-                            value="business"
-                            checked={formData.receiptType === "business"}
+                            value="not_issued"
+                            checked={formData.receiptType === "not_issued"}
                             onChange={(e) => setFormData({ ...formData, receiptType: e.target.value })}
                             className="w-4 h-4"
                           />
-                          <span>사업</span>
+                          <span>미발행</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="receiptType"
+                            value="cash_receipt"
+                            checked={formData.receiptType === "cash_receipt"}
+                            onChange={(e) => setFormData({ ...formData, receiptType: e.target.value })}
+                            className="w-4 h-4"
+                          />
+                          <span>현금영수증</span>
                         </label>
                       </div>
                     </div>

@@ -80,7 +80,7 @@ export const reservations = mysqlTable("reservations", {
   projectMonitor: varchar("projectMonitor", { length: 255 }),
   paymentMethod: mysqlEnum("paymentMethod", ["card", "transfer", "cash", "other"]),
   isPublic: int("isPublic").default(1),
-  receiptType: mysqlEnum("receiptType", ["individual", "business", "other"]),
+  receiptType: mysqlEnum("receiptType", ["issued", "not_issued", "cash_receipt"]),
   paidAmount: int("paidAmount").default(0),
   unpaidAmount: int("unpaidAmount").default(0),
   description: text("description"),

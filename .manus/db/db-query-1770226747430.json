@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, receiptType FROM reservations;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, receiptType FROM reservations;",
+  "rows": [
+    {
+      "id": "1",
+      "receiptType": "NULL"
+    },
+    {
+      "id": "30001",
+      "receiptType": "individual"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\treceiptType\n1\tNULL\n30001\tindividual\n",
+  "stderr": "",
+  "execution_time_ms": 1536
+}

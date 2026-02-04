@@ -1,0 +1,1 @@
+ALTER TABLE `reservations` MODIFY COLUMN `receiptType` enum('issued','not_issued','cash_receipt');

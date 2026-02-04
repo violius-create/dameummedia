@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE reservations SET receiptType = 'issued' WHERE receiptType = 'individual';\nUPDATE reservations SET receiptType = 'not_issued' WHERE receiptType = 'business';\nALTER TABLE reservations MODIFY COLUMN receiptType ENUM('issued', 'not_issued', 'cash_receipt');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute UPDATE reservations SET receiptType = 'issued' WHERE receiptType = 'individual';\nUPDATE reservations SET receiptType = 'not_issued' WHERE receiptType = 'business';\nALTER TABLE reservations MODIFY COLUMN receiptType ENUM('issued', 'not_issued', 'cash_receipt');",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column '%s' at row %d"
+  ]
+}
