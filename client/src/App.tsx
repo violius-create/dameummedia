@@ -38,9 +38,16 @@ function Navigation() {
   return (
     <nav className="border-b border-border bg-gray-100">
       <div className="container py-4">
-        {/* First row: Navigation menu */}
-        <div className="flex items-center justify-between mb-4">
-          {/* Left: Navigation menu */}
+        {/* Navigation row */}
+        <div className="flex items-center justify-between">
+          {/* Left: Logo */}
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
+            {logoUrl && (
+              <img src={logoUrl} alt="Logo" className="h-10 w-auto" />
+            )}
+          </div>
+          
+          {/* Center: Navigation menu */}
           <div className="flex items-center gap-6">
             <a href="/" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Information
@@ -59,7 +66,7 @@ function Navigation() {
             </a>
           </div>
           
-          {/* Right: SNS Links + Admin + Logout */}
+          {/* Right: SNS Links + Admin */}
           <div className="flex items-center gap-4">
             <a href={branding?.instagramUrl || "https://instagram.com"} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
               Instagram
@@ -71,25 +78,6 @@ function Navigation() {
               <a href="/admin" className="text-gray-700 hover:text-gray-900 font-medium transition-colors">
                 Admin
               </a>
-            )}
-            {isAuthenticated && (
-              <button
-                className="text-gray-700 hover:text-gray-900 transition-colors"
-                onClick={() => {
-                  trpc.auth.logout.useMutation().mutate();
-                }}
-              >
-                <LogOut className="h-5 w-5" />
-              </button>
-            )}
-          </div>
-        </div>
-        
-        {/* Second row: Logo */}
-        <div className="flex items-center">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            {logoUrl && (
-              <img src={logoUrl} alt="Logo" className="h-12 w-auto" />
             )}
           </div>
         </div>
