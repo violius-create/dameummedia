@@ -103,36 +103,31 @@ export default function Home() {
       </nav>
 
       {/* Split-Screen Hero Section */}
-      <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
-        {/* Animated Background Elements */}
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
-
-        <div className="relative container h-full flex items-center">
-          <div className="grid md:grid-cols-12 gap-8 items-start md:items-center w-full">
-            {/* Left Content - Larger and More Prominent */}
-            <div className="md:col-span-5 z-10 space-y-8 pt-12 md:pt-0">
+      <section className="relative h-[500px] overflow-hidden bg-white">
+        <div className="relative h-full flex items-center">
+          <div className="grid md:grid-cols-2 w-full h-full">
+            {/* Left Content - Text */}
+            <div className="z-10 space-y-8 p-12 md:p-16 flex flex-col justify-center">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 px-4 py-2 border border-blue-400/30 backdrop-blur-sm">
-                  <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                  <span className="text-sm font-semibold text-blue-300">Professional Media Production</span>
+                <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2">
+                  <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                  <span className="text-sm font-semibold text-blue-600">Professional Media Production</span>
                 </div>
               </div>
               <div>
-                <h2 className="text-7xl md:text-8xl font-black tracking-tighter text-white leading-none mb-4">
+                <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-black leading-none mb-4">
                   {heroTitle}
                 </h2>
-                <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" />
+                <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full" />
               </div>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-md font-light">
                 고품질의 공연 촬영, 음향 녹음, 뮤직 비디오 제작 서비스. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
               </p>
             </div>
 
-            {/* Right Media - Overlapping and Dynamic */}
-            <div className="md:col-span-7 relative h-full flex items-end justify-end pb-8 md:pb-0">
-              <div className="relative w-full h-[380px] md:h-[480px] -mr-16 md:-mr-20 rounded-3xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
+            {/* Right Media - Full Height */}
+            <div className="relative h-full w-full overflow-hidden">
+              <div className="relative w-full h-full rounded-none overflow-hidden shadow-none border-none">
                 {/* Background Image - Show uploaded image or fallback */}
                 {activeHeroBackground?.mediaUrl ? (
                   activeHeroBackground.type === 'video' ? (
@@ -161,13 +156,7 @@ export default function Home() {
                   />
                 )}
 
-                {/* Overlay Gradient */}
-                <div 
-                  className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"
-                  style={{
-                    backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`
-                  }}
-                />
+
 
                 {/* Play Button Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -191,52 +180,51 @@ export default function Home() {
             if (!sectionBg) return null;
             
             return (
-              <section key={section} className="relative h-[350px] overflow-hidden bg-gray-100 mt-[10px]">
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-800/60 to-transparent" />
-                
-                <div className="relative container py-12 h-full flex items-center">
-                  <div className="grid md:grid-cols-2 gap-12 items-center w-full">
-                    <div className="z-10 space-y-6">
-                      <h2 className="text-5xl font-bold tracking-tight text-white">
+              <section key={section} className="relative h-[350px] overflow-hidden bg-white mt-[10px]">
+                <div className="relative h-full flex">
+                  {/* Left Half - Media */}
+                  <div className="w-1/2 relative overflow-hidden">
+                    {sectionBg.type === 'video' ? (
+                      <video
+                        key={`video-${sectionBg.id}`}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                        src={sectionBg.mediaUrl}
+                      />
+                    ) : (
+                      <img
+                        key={`img-${sectionBg.id}`}
+                        className="w-full h-full object-cover"
+                        src={sectionBg.mediaUrl}
+                        alt={sectionBg.title}
+                      />
+                    )}
+                    
+                    {/* Text Overlay on Media */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent flex flex-col justify-center p-8">
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">
                         {sectionBg.title}
                       </h2>
                       {sectionBg.description && (
-                        <p className="text-lg text-gray-100">
+                        <p className="text-base text-gray-100 line-clamp-3">
                           {sectionBg.description}
                         </p>
                       )}
-
                     </div>
 
-                    <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
-                      {sectionBg.type === 'video' ? (
-                        <video
-                          key={`video-${sectionBg.id}`}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          className="w-full h-full object-cover"
-                          src={sectionBg.mediaUrl}
-                        />
-                      ) : (
-                        <img
-                          key={`img-${sectionBg.id}`}
-                          className="w-full h-full object-cover"
-                          src={sectionBg.mediaUrl}
-                          alt={sectionBg.title}
-                        />
-                      )}
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
-
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
-                          <Play className="w-10 h-10 text-white fill-white" />
-                        </div>
+                    {/* Play Button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all cursor-pointer border border-white/30">
+                        <Play className="w-8 h-8 text-white fill-white" />
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Right Half - Empty or Additional Content */}
+                  <div className="w-1/2 bg-gray-50" />
                 </div>
               </section>
             );
