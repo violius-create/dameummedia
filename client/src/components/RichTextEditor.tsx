@@ -4,6 +4,7 @@ import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Button } from '@/components/ui/button';
+import { useEffect } from 'react';
 import {
   Bold,
   Italic,
@@ -54,6 +55,13 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
       },
     },
   });
+
+  // Update editor content when content prop changes
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) {
     return null;

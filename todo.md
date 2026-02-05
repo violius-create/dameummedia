@@ -658,3 +658,17 @@
 - [x] ReservationDetail 페이지에 에디터 및 HTML 렌더링 적용
 - [x] AdminDashboard TabsList에 "게시글 관리" 탭 추가
 - [x] 브라우저에서 리치 텍스트 에디터 정상 작동 확인
+
+
+## 공지사항 게시판 독립성 및 수정 기능 버그 수정 (2026-02-05)
+- [ ] NoticeGallery 페이지에서 category 필터링 확인 (notice만 표시되어야 함)
+- [ ] Making Film 게시물이 공지사항에 섞여 있는 문제 해결
+- [ ] 게시물 수정 기능이 작동하지 않는 버그 수정
+- [ ] EditPost 페이지에서 RichTextEditor 초기값 설정 확인
+
+
+## 공지사항 게시판 독립성 및 수정 기능 버그 수정 (2026-02-05)
+- [x] 공지사항 게시판 필터링 확인 (category: "notice"로 정상 필터링 작동)
+- [x] 게시물 수정 페이지에서 RichTextEditor에 기존 컨텐츠 로드 버그 수정 (useEffect 추가)
+- [x] EditPost 페이지에 카테고리 선택 드롭다운 추가
+- [x] PostDetail 페이지에서 notice 카테고리 지원 추가 (카테고리 표시 및 목록보기 링크)

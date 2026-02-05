@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft, Upload } from "lucide-react";
 
@@ -233,6 +234,21 @@ export default function EditPost() {
                   disabled={isLoading}
                   className="w-full"
                 />
+              </div>
+
+              {/* Category */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">카테고리 *</label>
+                <Select value={category} onValueChange={setCategory} disabled={isLoading}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="카테고리를 선택하세요" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="concert">Concert Live</SelectItem>
+                    <SelectItem value="film">Making Film</SelectItem>
+                    <SelectItem value="notice">공지사항</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Content */}

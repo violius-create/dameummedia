@@ -77,7 +77,7 @@ export default function PostDetail() {
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-              <Link href={post.category === 'concert' ? '/concert-live' : '/making-film'}>
+              <Link href={post.category === 'concert' ? '/concert-live' : post.category === 'notice' ? '/notice' : '/making-film'}>
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   목록보기
@@ -126,7 +126,7 @@ export default function PostDetail() {
                 <div className="flex items-center gap-2">
                   <Music className="h-5 w-5 text-primary" />
                   <span className="text-sm font-medium text-primary">
-                    {post.category === 'concert' ? 'Concert Live' : 'Making Film'}
+                    {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'}
                   </span>
                 </div>
                 <CardTitle className="text-4xl">{post.title}</CardTitle>
@@ -210,7 +210,7 @@ export default function PostDetail() {
 
           {/* Related Posts */}
           <div className="mt-16">
-            <h3 className="text-2xl font-bold mb-8">다른 {post.category === 'concert' ? 'Concert Live' : 'Making Film'} 보기</h3>
+            <h3 className="text-2xl font-bold mb-8">다른 {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'} 보기</h3>
             <RelatedPostsList category={post.category} currentPostId={post.id} />
           </div>
         </article>
@@ -232,7 +232,7 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
       <div className="text-center text-muted-foreground py-8">
         <Link href={category === 'concert' ? '/concert-live' : '/making-film'}>
           <Button variant="outline">
-            모든 {category === 'concert' ? 'Concert Live' : 'Making Film'} 보기
+            모든 {category === 'concert' ? 'Concert Live' : category === 'notice' ? '공지사항' : 'Making Film'} 보기
           </Button>
         </Link>
       </div>
