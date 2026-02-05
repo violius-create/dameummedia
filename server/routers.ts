@@ -484,6 +484,77 @@ export const appRouter = router({
         }
       }),
   }),
+
+  // Footer Settings router
+  footerSettings: router({
+    get: publicProcedure
+      .query(async () => {
+        return db.getFooterSettings();
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ companyName: z.string().optional(), copyrightText: z.string().optional(), address: z.string().optional(), phone: z.string().optional(), email: z.string().optional(), businessNumber: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        const existing = await db.getFooterSettings();
+        if (existing) {
+          return db.updateFooterSettings(existing.id, {
+            companyName: input.companyName,
+            copyrightText: input.copyrightText,
+            address: input.address,
+            phone: input.phone,
+            email: input.email,
+            businessNumber: input.businessNumber,
+            updatedBy: ctx.user.id,
+          });
+        } else {
+          return db.createFooterSettings({
+            companyName: input.companyName || '담음미디어',
+            copyrightText: input.copyrightText || 'All rights reserved.',
+            address: input.address,
+            phone: input.phone,
+            email: input.email,
+            businessNumber: input.businessNumber,
+            updatedBy: ctx.user.id,
+          });
+        }
+      }),
+  }),
+
+  // Board Layout Settings router
+  boardLayoutSettings: router({
+    get: publicProcedure
+      .input(z.object({ boardKey: z.string() }))
+      .query(async ({ input }) => {
+        return db.getBoardLayoutSettings(input.boardKey);
+      }),
+    
+    list: publicProcedure
+      .query(async () => {
+        return db.getAllBoardLayoutSettings();
+      }),
+    
+    update: adminProcedure
+      .input(z.object({ boardKey: z.string(), itemsPerPage: z.number().optional(), displayMode: z.string().optional(), containerWidth: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        const existing = await db.getBoardLayoutSettings(input.boardKey);
+        if (existing) {
+          return db.updateBoardLayoutSettings(existing.id, {
+            itemsPerPage: input.itemsPerPage,
+            displayMode: input.displayMode,
+            containerWidth: input.containerWidth,
+            updatedBy: ctx.user.id,
+          });
+        } else {
+          return db.createBoardLayoutSettings({
+            boardKey: input.boardKey,
+            itemsPerPage: input.itemsPerPage || 12,
+            displayMode: input.displayMode || 'gallery',
+            containerWidth: input.containerWidth || 'container',
+            updatedBy: ctx.user.id,
+          });
+        }
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -231,10 +231,12 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-3 overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-5 overflow-x-auto">
             <TabsTrigger value="images">이미지 관리</TabsTrigger>
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
+            <TabsTrigger value="footer">Footer 설정</TabsTrigger>
+            <TabsTrigger value="layout">게시판 레이아웃</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -538,38 +540,6 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          {/* Quick Access Buttons */}
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>배경 관리</CardTitle>
-                <CardDescription>메인 페이지 배경 영상 관리</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button 
-                  onClick={() => window.location.href = '/admin/hero-background'}
-                  className="w-full"
-                >
-                  배경 관리 페이지로 이동
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>섹션 제목</CardTitle>
-                <CardDescription>메인 페이지 섹션 제목 관리</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button 
-                  onClick={() => window.location.href = '/admin/section-titles'}
-                  className="w-full"
-                >
-                  섹션 제목 관리 페이지로 이동
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-
           {/* Prices Tab */}
           <TabsContent value="prices" className="space-y-6">
             <AdminPrices />
@@ -578,6 +548,46 @@ export default function AdminDashboard() {
           {/* Site Branding Tab */}
           <TabsContent value="branding" className="space-y-6">
             <AdminSiteBranding />
+          </TabsContent>
+
+          {/* Footer Settings Tab */}
+          <TabsContent value="footer" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Footer 설정</CardTitle>
+                <CardDescription>
+                  웹사이트 하단에 표시될 정보를 설정합니다.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button 
+                  onClick={() => window.location.href = '/admin/footer-settings'}
+                  className="w-full"
+                >
+                  Footer 설정 페이지로 이동
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Board Layout Settings Tab */}
+          <TabsContent value="layout" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>게시판 레이아웃 설정</CardTitle>
+                <CardDescription>
+                  게시판/갤러리의 게시물 개수, 표시 방법, 전체 폭을 설정합니다.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button 
+                  onClick={() => window.location.href = '/admin/board-layout-settings'}
+                  className="w-full"
+                >
+                  게시판 레이아웃 설정 페이지로 이동
+                </Button>
+              </CardContent>
+            </Card>
           </TabsContent>
 
 

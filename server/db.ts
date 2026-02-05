@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -547,4 +547,72 @@ export async function updatePriceAddOn(id: number, data: any) {
   
   await db.update(priceAddOns).set(updateData).where(eq(priceAddOns.id, id));
   return getPriceAddOnById(id);
+}
+
+// Footer Settings queries
+export async function getFooterSettings() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(footerSettings).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createFooterSettings(settings: InsertFooterSettings) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.insert(footerSettings).values(settings);
+  return getFooterSettings();
+}
+
+export async function updateFooterSettings(id: number, settings: Partial<InsertFooterSettings>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(settings).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertFooterSettings>;
+  
+  await db.update(footerSettings).set(updateData).where(eq(footerSettings.id, id));
+  
+  return getFooterSettings();
+}
+
+// Board Layout Settings queries
+export async function getBoardLayoutSettings(boardKey: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(boardLayoutSettings).where(eq(boardLayoutSettings.boardKey, boardKey)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getAllBoardLayoutSettings() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(boardLayoutSettings);
+}
+
+export async function createBoardLayoutSettings(settings: InsertBoardLayoutSettings) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.insert(boardLayoutSettings).values(settings);
+  return getBoardLayoutSettings(settings.boardKey);
+}
+
+export async function updateBoardLayoutSettings(id: number, settings: Partial<InsertBoardLayoutSettings>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData = Object.fromEntries(
+    Object.entries(settings).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertBoardLayoutSettings>;
+  
+  await db.update(boardLayoutSettings).set(updateData).where(eq(boardLayoutSettings.id, id));
+  
+  const result = await db.select().from(boardLayoutSettings).where(eq(boardLayoutSettings.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
 }

@@ -25,6 +25,8 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import AdminHeroBackground from "@/pages/AdminHeroBackground";
 import AdminServiceItems from "@/pages/AdminServiceItems";
 import AdminSectionTitles from "@/pages/AdminSectionTitles";
+import AdminFooterSettings from "@/pages/AdminFooterSettings";
+import AdminBoardLayoutSettings from "@/pages/AdminBoardLayoutSettings";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -46,6 +48,8 @@ function Router() {
       <Route path={"/admin/hero-background"} component={AdminHeroBackground} />
       <Route path={"/admin/service-items"} component={AdminServiceItems} />
       <Route path={"/admin/section-titles"} component={AdminSectionTitles} />
+      <Route path={"/admin/footer-settings"} component={AdminFooterSettings} />
+      <Route path={"/admin/board-layout-settings"} component={AdminBoardLayoutSettings} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />
       <Route path="/posts/:id/edit" component={EditPost} />

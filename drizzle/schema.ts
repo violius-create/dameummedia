@@ -203,6 +203,38 @@ export const sectionTitles = mysqlTable("sectionTitles", {
 export type SectionTitle = typeof sectionTitles.$inferSelect;
 export type InsertSectionTitle = typeof sectionTitles.$inferInsert;
 
+// Footer settings table for managing footer content
+export const footerSettings = mysqlTable("footerSettings", {
+  id: int("id").autoincrement().primaryKey(),
+  companyName: varchar("companyName", { length: 255 }).default("담음미디어").notNull(),
+  copyrightText: varchar("copyrightText", { length: 255 }).default("All rights reserved.").notNull(),
+  address: text("address"),
+  phone: varchar("phone", { length: 50 }),
+  email: varchar("email", { length: 255 }),
+  businessNumber: varchar("businessNumber", { length: 50 }),
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FooterSettings = typeof footerSettings.$inferSelect;
+export type InsertFooterSettings = typeof footerSettings.$inferInsert;
+
+// Board layout settings table for managing board/gallery display options
+export const boardLayoutSettings = mysqlTable("boardLayoutSettings", {
+  id: int("id").autoincrement().primaryKey(),
+  boardKey: varchar("boardKey", { length: 100 }).unique().notNull(), // concert_live, making_film, reservation
+  itemsPerPage: int("itemsPerPage").default(12).notNull(),
+  displayMode: varchar("displayMode", { length: 50 }).default("gallery").notNull(), // gallery, list
+  containerWidth: varchar("containerWidth", { length: 50 }).default("container").notNull(), // container, container-wide, full
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BoardLayoutSettings = typeof boardLayoutSettings.$inferSelect;
+export type InsertBoardLayoutSettings = typeof boardLayoutSettings.$inferInsert;
+
 // Price packages table for managing pricing tiers
 export const pricePackages = mysqlTable("pricePackages", {
   id: int("id").autoincrement().primaryKey(),
