@@ -252,7 +252,7 @@ export default function MakingFilmGallery() {
                     <div className="flex flex-col h-full">
                       <div 
                         className="relative w-full bg-muted flex items-center justify-center overflow-hidden"
-                        style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
+                        style={{ height: postHeight !== 'auto' ? postHeight : '300px' }}
                       >
                         {post.imageUrl ? (
                           <img
