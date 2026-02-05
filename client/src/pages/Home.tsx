@@ -14,8 +14,8 @@ export default function Home() {
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
   const [heroDescription, setHeroDescription] = useState('');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
-  const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
-  const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
+  const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 4 });
+  const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 4 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
   const { data: section2Background } = trpc.heroBackground.getActiveBySection.useQuery('section2');
   const { data: section3Background } = trpc.heroBackground.getActiveBySection.useQuery('section3');
@@ -229,29 +229,24 @@ export default function Home() {
               )}
             </a>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {concertPosts?.map((post) => (
               <Link key={post.id} href={`/posts/${post.id}`}>
-                <div className="group relative overflow-hidden rounded-lg h-64 bg-gray-200 cursor-pointer">
-                  {post.imageUrl ? (
-                    <img
-                      src={post.imageUrl}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                      <Music className="w-12 h-12 text-gray-400" />
-                    </div>
-                  )}
-                  
-                  {/* Text Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h3 className="text-white font-bold text-lg line-clamp-2">{post.title}</h3>
-                    {post.content && (
-                      <p className="text-gray-200 text-sm line-clamp-2 mt-2">{post.content}</p>
+                <div className="group cursor-pointer">
+                  <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
+                    {post.imageUrl ? (
+                      <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                        <Music className="w-12 h-12 text-gray-400" />
+                      </div>
                     )}
                   </div>
+                  <h3 className="mt-3 font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
                 </div>
               </Link>
             ))}
@@ -270,29 +265,24 @@ export default function Home() {
               )}
             </a>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {filmPosts?.map((post) => (
               <Link key={post.id} href={`/posts/${post.id}`}>
-                <div className="group relative overflow-hidden rounded-lg h-64 bg-gray-200 cursor-pointer">
-                  {post.imageUrl ? (
-                    <img
-                      src={post.imageUrl}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                      <Film className="w-12 h-12 text-gray-400" />
-                    </div>
-                  )}
-                  
-                  {/* Text Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h3 className="text-white font-bold text-lg line-clamp-2">{post.title}</h3>
-                    {post.content && (
-                      <p className="text-gray-200 text-sm line-clamp-2 mt-2">{post.content}</p>
+                <div className="group cursor-pointer">
+                  <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
+                    {post.imageUrl ? (
+                      <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                        <Film className="w-12 h-12 text-gray-400" />
+                      </div>
                     )}
                   </div>
+                  <h3 className="mt-3 font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
                 </div>
               </Link>
             ))}
