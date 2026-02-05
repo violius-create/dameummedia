@@ -18,6 +18,9 @@ export default function ConcertLiveGallery() {
   const displayMode = concertSettings?.displayMode || 'gallery';
   const containerWidth = concertSettings?.containerWidth || 'default';
 
+  // Load section title data
+  const { data: sectionTitle } = trpc.sectionTitles.get.useQuery({ sectionKey: 'concert_live' });
+
   const { data: posts, isLoading, refetch } = trpc.posts.list.useQuery({
     category: "concert",
     limit: postsPerPage,
@@ -96,10 +99,12 @@ export default function ConcertLiveGallery() {
               </Button>
             )}
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">클래식 음악 공연</h2>
-          <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
-            담음미디어가 기록한 다양한 클래식 음악 공연의 실황 영상과 사진입니다. 20년 이상의 경험으로 당신의 공연을 완벽하게 기록합니다.
-          </p>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '클래식 음악 공연'}</h2>
+          {sectionTitle?.description && (
+            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
+              {sectionTitle.description}
+            </p>
+          )}
         </div>
 
         {/* Admin Controls */}

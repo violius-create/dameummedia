@@ -17,6 +17,9 @@ export default function MakingFilmGallery() {
   const displayMode = filmSettings?.displayMode || 'gallery';
   const containerWidth = filmSettings?.containerWidth || 'default';
 
+  // Load section title data
+  const { data: sectionTitle } = trpc.sectionTitles.get.useQuery({ sectionKey: 'making_film' });
+
   const { data: posts, isLoading, refetch } = trpc.posts.list.useQuery({
     category: "film",
     limit: postsPerPage,
@@ -95,10 +98,12 @@ export default function MakingFilmGallery() {
               </Button>
             )}
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">영상 제작 과정</h2>
-          <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
-            담음미디어의 영상 제작 과정을 담은 영상입니다. 초영부터 편집, 마스터링까지 전문적인 영상 제작 서비스를 제공합니다.
-          </p>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '영상 제작 과정'}</h2>
+          {sectionTitle?.description && (
+            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
+              {sectionTitle.description}
+            </p>
+          )}
         </div>
 
         {/* Admin Controls */}

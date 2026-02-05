@@ -17,6 +17,9 @@ export default function NoticeGallery() {
   const displayMode = noticeSettings?.displayMode || 'list';
   const containerWidth = noticeSettings?.containerWidth || 'default';
 
+  // Load section title data
+  const { data: sectionTitle } = trpc.sectionTitles.get.useQuery({ sectionKey: 'notice' });
+
   const { data: posts, isLoading, refetch } = trpc.posts.list.useQuery({
     category: "notice",
     limit: postsPerPage,
@@ -95,10 +98,12 @@ export default function NoticeGallery() {
               </Button>
             )}
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">공지사항</h2>
-          <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
-            담음미디어의 주요 소식과 공지사항을 확인하세요.
-          </p>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '공지사항'}</h2>
+          {sectionTitle?.description && (
+            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
+              {sectionTitle.description}
+            </p>
+          )}
         </div>
 
         {/* Admin Controls */}

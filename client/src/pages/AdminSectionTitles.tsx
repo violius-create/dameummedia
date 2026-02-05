@@ -55,11 +55,12 @@ export default function AdminSectionTitles() {
     });
   };
 
-  const sectionKeys = ['hero_section', 'concert_live', 'making_film', 'information', 'price', 'reservation'];
+  const sectionKeys = ['hero_section', 'concert_live', 'making_film', 'notice', 'information', 'price', 'reservation'];
   const sectionLabels: Record<string, string> = {
     'hero_section': '섹션 1 (메인)',
     'concert_live': '공연 영상',
     'making_film': '영상 제작',
+    'notice': '공지사항',
     'information': 'Information',
     'price': 'Price',
     'reservation': 'Reservation',
