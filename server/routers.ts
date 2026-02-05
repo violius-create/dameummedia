@@ -534,7 +534,16 @@ export const appRouter = router({
       }),
     
     update: adminProcedure
-      .input(z.object({ boardKey: z.string(), itemsPerPage: z.number().optional(), displayMode: z.string().optional(), containerWidth: z.string().optional() }))
+      .input(z.object({ 
+        boardKey: z.string(), 
+        itemsPerPage: z.number().optional(), 
+        displayMode: z.string().optional(), 
+        containerWidth: z.string().optional(),
+        postWidth: z.string().optional(),
+        postHeight: z.string().optional(),
+        postMarginTop: z.string().optional(),
+        postTitleSize: z.string().optional(),
+      }))
       .mutation(async ({ input, ctx }) => {
         const existing = await db.getBoardLayoutSettings(input.boardKey);
         if (existing) {
@@ -542,6 +551,10 @@ export const appRouter = router({
             itemsPerPage: input.itemsPerPage,
             displayMode: input.displayMode,
             containerWidth: input.containerWidth,
+            postWidth: input.postWidth,
+            postHeight: input.postHeight,
+            postMarginTop: input.postMarginTop,
+            postTitleSize: input.postTitleSize,
             updatedBy: ctx.user.id,
           });
         } else {
@@ -550,6 +563,10 @@ export const appRouter = router({
             itemsPerPage: input.itemsPerPage || 12,
             displayMode: input.displayMode || 'gallery',
             containerWidth: input.containerWidth || 'container',
+            postWidth: input.postWidth || 'auto',
+            postHeight: input.postHeight || 'auto',
+            postMarginTop: input.postMarginTop || '0',
+            postTitleSize: input.postTitleSize || 'base',
             updatedBy: ctx.user.id,
           });
         }

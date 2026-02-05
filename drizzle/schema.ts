@@ -227,6 +227,11 @@ export const boardLayoutSettings = mysqlTable("boardLayoutSettings", {
   itemsPerPage: int("itemsPerPage").default(12).notNull(),
   displayMode: varchar("displayMode", { length: 50 }).default("gallery").notNull(), // gallery, list
   containerWidth: varchar("containerWidth", { length: 50 }).default("container").notNull(), // container, container-wide, full
+  // New layout settings for individual post items
+  postWidth: varchar("postWidth", { length: 50 }).default("auto"), // auto, full, 1/2, 1/3, 1/4
+  postHeight: varchar("postHeight", { length: 50 }).default("auto"), // auto, or specific value like "300px"
+  postMarginTop: varchar("postMarginTop", { length: 50 }).default("0"), // e.g., "0", "1rem", "2rem"
+  postTitleSize: varchar("postTitleSize", { length: 50 }).default("base"), // xs, sm, base, lg, xl, 2xl
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

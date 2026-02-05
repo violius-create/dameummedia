@@ -725,3 +725,30 @@
 - [x] MakingFilmGallery 페이지에서 "MAKING FILM" 레이블 삭제
 - [x] NoticeGallery 페이지에서 "NOTICE" 레이블 삭제
 - [x] 테스트 및 체크포인트 저장
+
+## 게시판 레이아웃 설정 확장 및 Footer 추가 (2026-02-05)
+- [ ] 데이터베이스 스키마에 게시물 폭/높이/여백/타이틀 사이즈 필드 추가
+- [ ] boardLayoutSettings API에 새로운 필드 추가
+- [ ] AdminBoardLayout 페이지에 새로운 설정 UI 추가
+- [ ] ConcertLiveGallery 페이지에 설정 적용
+- [ ] MakingFilmGallery 페이지에 설정 적용
+- [ ] NoticeGallery 페이지에 설정 적용
+- [ ] 게시판 리스트 페이지에 Footer 추가
+- [ ] 게시물 상세보기 페이지에 Footer 추가
+- [ ] 글쓰기 페이지에서 하단 게시물 목록 제거
+- [ ] 수정 페이지에서 하단 게시물 목록 제거
+- [ ] 테스트 및 체크포인트 저장
+
+
+## 게시판 레이아웃 설정 확장 및 Footer 추가 (2026-02-05)
+- [x] 데이터베이스 스키마에 게시물 폭/높이/여백/타이틀 사이즈 필드 추가
+- [x] boardLayoutSettings API에 새로운 필드 추가
+- [x] AdminBoardLayoutSettings 페이지에 새로운 설정 UI 추가
+- [x] ConcertLiveGallery 페이지에 설정 적용
+- [x] MakingFilmGallery 페이지에 설정 적용
+- [x] NoticeGallery 페이지에 설정 적용
+- [x] 게시판 리스트 페이지에 Footer 추가
+- [x] 게시물 상세보기 페이지에 Footer 추가
+- [x] 글쓰기 페이지에서 하단 게시물 목록 제거 (이미 없음)
+- [x] 수정 페이지에서 하단 게시물 목록 제거 (이미 없음)
+- [x] 테스트 및 체크포인트 저장

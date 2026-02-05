@@ -5,6 +5,7 @@ import { Film, ArrowRight, Trash2, Plus } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import { useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import Footer from "@/components/Footer";
 
 export default function MakingFilmGallery() {
   const [, setLocation] = useLocation();
@@ -16,6 +17,34 @@ export default function MakingFilmGallery() {
   const postsPerPage = filmSettings?.itemsPerPage || 12;
   const displayMode = filmSettings?.displayMode || 'gallery';
   const containerWidth = filmSettings?.containerWidth || 'default';
+  const postWidth = filmSettings?.postWidth || 'auto';
+  const postHeight = filmSettings?.postHeight || 'auto';
+  const postMarginTop = filmSettings?.postMarginTop || '0';
+  const postTitleSize = filmSettings?.postTitleSize || 'base';
+
+  // Convert postWidth to CSS class
+  const getWidthClass = (width: string) => {
+    switch(width) {
+      case 'full': return 'w-full';
+      case '1/2': return 'w-1/2';
+      case '1/3': return 'w-1/3';
+      case '1/4': return 'w-1/4';
+      default: return '';
+    }
+  };
+
+  // Convert postTitleSize to CSS class
+  const getTitleSizeClass = (size: string) => {
+    switch(size) {
+      case 'xs': return 'text-xs';
+      case 'sm': return 'text-sm';
+      case 'base': return 'text-base';
+      case 'lg': return 'text-lg';
+      case 'xl': return 'text-xl';
+      case '2xl': return 'text-2xl';
+      default: return 'text-base';
+    }
+  };
 
   // Load section title data
   const { data: sectionTitle } = trpc.sectionTitles.get.useQuery({ sectionKey: 'making_film' });
@@ -143,7 +172,14 @@ export default function MakingFilmGallery() {
             'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
           }`}>
             {posts.map((post) => (
-              <div key={post.id} className="relative group">
+              <div 
+                key={post.id} 
+                className={`relative group ${getWidthClass(postWidth)}`}
+                style={{
+                  marginTop: postMarginTop,
+                  height: postHeight !== 'auto' ? postHeight : undefined
+                }}
+              >
                 {user?.role === 'admin' && (
                   <div className="absolute top-2 left-2 z-10 bg-white rounded-lg p-2 shadow-md">
                     <input
@@ -194,7 +230,10 @@ export default function MakingFilmGallery() {
                   ) : (
                     // 갤러리형 레이아웃: 썸네일 위 + 내용 아래
                     <>
-                      <div className="relative h-40 sm:h-56 w-full bg-muted flex items-center justify-center overflow-hidden">
+                      <div 
+                        className="relative w-full bg-muted flex items-center justify-center overflow-hidden"
+                        style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
+                      >
                         {post.imageUrl ? (
                           <img
                             src={post.imageUrl}
@@ -209,7 +248,7 @@ export default function MakingFilmGallery() {
                         )}
                       </div>
                       <CardHeader className="flex-1 p-3 sm:p-6">
-                        <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-base sm:text-lg text-foreground">{post.title}</CardTitle>
+                        <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
                         <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{post.content}</CardDescription>
                       </CardHeader>
                       <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
@@ -235,6 +274,7 @@ export default function MakingFilmGallery() {
           </Card>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

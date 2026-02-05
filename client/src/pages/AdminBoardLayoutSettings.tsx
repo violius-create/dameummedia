@@ -17,6 +17,10 @@ export default function AdminBoardLayoutSettings() {
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [displayMode, setDisplayMode] = useState("gallery");
   const [containerWidth, setContainerWidth] = useState("container");
+  const [postWidth, setPostWidth] = useState("auto");
+  const [postHeight, setPostHeight] = useState("auto");
+  const [postMarginTop, setPostMarginTop] = useState("0");
+  const [postTitleSize, setPostTitleSize] = useState("base");
 
   const currentSettings = allSettings?.find(s => s.boardKey === selectedBoard);
 
@@ -25,11 +29,19 @@ export default function AdminBoardLayoutSettings() {
       setItemsPerPage(currentSettings.itemsPerPage);
       setDisplayMode(currentSettings.displayMode);
       setContainerWidth(currentSettings.containerWidth);
+      setPostWidth(currentSettings.postWidth || "auto");
+      setPostHeight(currentSettings.postHeight || "auto");
+      setPostMarginTop(currentSettings.postMarginTop || "0");
+      setPostTitleSize(currentSettings.postTitleSize || "base");
     } else {
       // Default values
       setItemsPerPage(12);
       setDisplayMode("gallery");
       setContainerWidth("container");
+      setPostWidth("auto");
+      setPostHeight("auto");
+      setPostMarginTop("0");
+      setPostTitleSize("base");
     }
   }, [currentSettings, selectedBoard]);
 
@@ -49,6 +61,10 @@ export default function AdminBoardLayoutSettings() {
       itemsPerPage,
       displayMode,
       containerWidth,
+      postWidth,
+      postHeight,
+      postMarginTop,
+      postTitleSize,
     });
   };
 
@@ -145,6 +161,77 @@ export default function AdminBoardLayoutSettings() {
               <p className="text-sm text-muted-foreground">
                 게시판 컨테이너의 최대 너비를 설정합니다.
               </p>
+            </div>
+
+            <div className="border-t pt-6 space-y-6">
+              <h3 className="text-lg font-semibold">게시물 아이템 설정</h3>
+              
+              <div className="space-y-2">
+                <Label htmlFor="postWidth">게시물의 폭</Label>
+                <Select value={postWidth} onValueChange={setPostWidth}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="auto">자동 (기본)</SelectItem>
+                    <SelectItem value="full">전체 폭 (100%)</SelectItem>
+                    <SelectItem value="1/2">1/2 (50%)</SelectItem>
+                    <SelectItem value="1/3">1/3 (33%)</SelectItem>
+                    <SelectItem value="1/4">1/4 (25%)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-muted-foreground">
+                  각 게시물 카드의 너비를 설정합니다.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="postHeight">게시물의 높이</Label>
+                <Input
+                  id="postHeight"
+                  type="text"
+                  value={postHeight}
+                  onChange={(e) => setPostHeight(e.target.value)}
+                  placeholder="auto, 300px, 20rem 등"
+                />
+                <p className="text-sm text-muted-foreground">
+                  각 게시물 카드의 높이를 설정합니다. (auto, 300px, 20rem 등)
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="postMarginTop">게시물의 위쪽 여백</Label>
+                <Input
+                  id="postMarginTop"
+                  type="text"
+                  value={postMarginTop}
+                  onChange={(e) => setPostMarginTop(e.target.value)}
+                  placeholder="0, 1rem, 2rem 등"
+                />
+                <p className="text-sm text-muted-foreground">
+                  각 게시물 카드의 위쪽 여백을 설정합니다. (0, 1rem, 2rem 등)
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="postTitleSize">게시물의 타이틀 사이즈</Label>
+                <Select value={postTitleSize} onValueChange={setPostTitleSize}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="xs">매우 작게 (xs)</SelectItem>
+                    <SelectItem value="sm">작게 (sm)</SelectItem>
+                    <SelectItem value="base">기본 (base)</SelectItem>
+                    <SelectItem value="lg">크게 (lg)</SelectItem>
+                    <SelectItem value="xl">매우 크게 (xl)</SelectItem>
+                    <SelectItem value="2xl">매우 매우 크게 (2xl)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-muted-foreground">
+                  각 게시물 카드의 제목 크기를 설정합니다.
+                </p>
+              </div>
             </div>
 
             <Button

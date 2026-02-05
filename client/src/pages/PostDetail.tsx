@@ -5,6 +5,7 @@ import { ArrowLeft, Music, Trash2, Edit } from "lucide-react";
 import { Link, useRoute } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import Footer from "@/components/Footer";
 
 export default function PostDetail() {
   const { user, isAuthenticated } = useAuth();
@@ -215,6 +216,7 @@ export default function PostDetail() {
           </div>
         </article>
       </div>
+      <Footer />
     </div>
   );
 }
