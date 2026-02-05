@@ -812,3 +812,11 @@
 - [x] MakingFilmGallery에 동일하게 적용
 - [x] NoticeGallery에 동일하게 적용
 - [x] 테스트 및 체크포인트 저장
+
+
+## 게시물 간격 미적용 버그 수정 (2026-02-05)
+- [x] ConcertLiveGallery에서 gap 적용 코드 확인
+- [x] gap 기본값 및 조건 로직 수정 (빈 문자열 처리)
+- [x] MakingFilmGallery에 동일하게 적용
+- [x] NoticeGallery에 동일하게 적용
+- [x] 테스트 및 체크포인트 저장

@@ -191,7 +191,7 @@ export default function MakingFilmGallery() {
               displayMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
               'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
             }`}
-            style={{ gap: postMarginTop || '2rem' }}
+            style={{ gap: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '2rem' }}
           >
             {posts.map((post) => (
               <div 

@@ -187,7 +187,7 @@ export default function NoticeGallery() {
         ) : posts && posts.length > 0 ? (
           <div 
             className="grid grid-cols-1"
-            style={{ gap: postMarginTop || '1.5rem' }}
+            style={{ gap: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1.5rem' }}
           >
             {posts.map((post) => (
               <div 
