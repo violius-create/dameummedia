@@ -86,7 +86,7 @@ function Navigation() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-5 justify-center flex-1">
+          <div className="hidden md:flex items-center gap-3 justify-center flex-1">
             <Link href="/information">
               <Button variant="ghost" className="text-foreground hover:bg-muted">
                 Information
@@ -120,15 +120,15 @@ function Navigation() {
           </div>
 
           {/* Right Side - SNS and Auth */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
             <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-foreground hover:bg-muted flex items-center gap-2">
+              <Button variant="ghost" className="text-muted-foreground hover:bg-muted flex items-center gap-1">
                 <Instagram className="h-5 w-5" />
                 <span>Instagram</span>
               </Button>
             </a>
             <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-foreground hover:bg-muted flex items-center gap-2">
+              <Button variant="ghost" className="text-muted-foreground hover:bg-muted flex items-center gap-1">
                 <Youtube className="h-5 w-5" />
                 <span>Youtube</span>
               </Button>

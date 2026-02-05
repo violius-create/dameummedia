@@ -313,7 +313,7 @@ export default function Home() {
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-2">
+                            <div className="flex items-center gap-2">
                               <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate">
                                 {reservation.eventName}
                               </h3>
@@ -323,12 +323,6 @@ export default function Home() {
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
-                              {reservation.description}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {reservation.clientName}
-                            </p>
                           </div>
                           <div className="text-xs text-muted-foreground whitespace-nowrap">
                             {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
