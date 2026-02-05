@@ -796,3 +796,11 @@
 - [x] MakingFilmGallery에 적용
 - [x] NoticeGallery에 적용
 - [x] 테스트 및 체크포인트 저장
+
+
+## 게시물 높이 변경 시 썸네일 크기 버그 수정 (2026-02-05)
+- [x] ConcertLiveGallery에서 썸네일 크기 적용 코드 확인
+- [x] MakingFilmGallery에서 썸네일 크기 적용 코드 확인
+- [x] NoticeGallery에서 썸네일 크기 적용 코드 확인
+- [x] 썸네일이 게시물 높이에 따라 자동으로 변하도록 수정
+- [x] 테스트 및 체크포인트 저장

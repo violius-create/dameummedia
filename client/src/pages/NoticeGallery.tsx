@@ -210,7 +210,7 @@ export default function NoticeGallery() {
                   style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
                   onClick={() => window.location.href = `/posts/${post.id}`}
                 >
-                  <div className="flex flex-col sm:flex-row sm:h-32">
+                  <div className="flex flex-col sm:flex-row h-full">
                     <div className="flex flex-col flex-1">
                       <CardHeader className="p-4 sm:p-6">
                         <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
