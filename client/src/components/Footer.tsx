@@ -6,7 +6,7 @@ export default function Footer() {
   if (!footerSettings) return null;
 
   return (
-    <footer className="border-t border-border bg-card mt-auto">
+    <footer className="border-t border-border bg-gray-100 mt-auto">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* 회사 정보 */}
@@ -35,9 +35,7 @@ export default function Footer() {
               {footerSettings.phone && (
                 <p className="flex items-center gap-2">
                   <span className="font-medium">전화:</span>
-                  <a href={`tel:${footerSettings.phone}`} className="hover:text-primary">
-                    {footerSettings.phone}
-                  </a>
+                  <span>{footerSettings.phone}</span>
                 </p>
               )}
               {footerSettings.email && (

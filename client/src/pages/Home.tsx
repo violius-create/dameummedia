@@ -291,41 +291,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-border text-white">
-        <div className="container py-24">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold tracking-tight">연락처</h2>
-              <p className="text-lg text-gray-300">
-                언제든지 연락주세요. 전문 팀이 당신의 프로젝트를 도와드리겠습니다.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-blue-400" />
-                  <span>violius@gmail.com</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-blue-400" />
-                  <span>문의 전화</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-blue-400" />
-                  <span>서울특별시</span>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold">빠른 예약</h3>
-              <p className="text-gray-300">
-                아래 버튼을 클릭하여 예약 페이지로 이동하세요.
-              </p>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <Footer />
     </div>
