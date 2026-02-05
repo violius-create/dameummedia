@@ -21,8 +21,6 @@ export default function AdminBoardLayoutSettings() {
   const [postHeight, setPostHeight] = useState("auto");
   const [postMarginTop, setPostMarginTop] = useState("0");
   const [postTitleSize, setPostTitleSize] = useState("base");
-  const [boardTitleSize, setBoardTitleSize] = useState("4xl");
-  const [boardTitleMarginTop, setBoardTitleMarginTop] = useState("0");
 
   const currentSettings = allSettings?.find(s => s.boardKey === selectedBoard);
 
@@ -35,8 +33,6 @@ export default function AdminBoardLayoutSettings() {
       setPostHeight(currentSettings.postHeight || "auto");
       setPostMarginTop(currentSettings.postMarginTop || "0");
       setPostTitleSize(currentSettings.postTitleSize || "base");
-      setBoardTitleSize(currentSettings.boardTitleSize || "4xl");
-      setBoardTitleMarginTop(currentSettings.boardTitleMarginTop || "0");
     } else {
       // Default values
       setItemsPerPage(12);
@@ -46,8 +42,6 @@ export default function AdminBoardLayoutSettings() {
       setPostHeight("auto");
       setPostMarginTop("0");
       setPostTitleSize("base");
-      setBoardTitleSize("4xl");
-      setBoardTitleMarginTop("0");
     }
   }, [currentSettings, selectedBoard]);
 
@@ -71,8 +65,6 @@ export default function AdminBoardLayoutSettings() {
       postHeight,
       postMarginTop,
       postTitleSize,
-      boardTitleSize,
-      boardTitleMarginTop,
     });
   };
 
@@ -238,39 +230,6 @@ export default function AdminBoardLayoutSettings() {
                 </Select>
                 <p className="text-sm text-muted-foreground">
                   각 게시물 카드의 제목 크기를 설정합니다.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="boardTitleSize">게시판 제목 크기</Label>
-                <Select value={boardTitleSize} onValueChange={setBoardTitleSize}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="2xl">작게 (2xl)</SelectItem>
-                    <SelectItem value="3xl">보통 (3xl)</SelectItem>
-                    <SelectItem value="4xl">크게 (4xl)</SelectItem>
-                    <SelectItem value="5xl">매우 크게 (5xl)</SelectItem>
-                    <SelectItem value="6xl">매우 매우 크게 (6xl)</SelectItem>
-                  </SelectContent>
-                </Select>
-                <p className="text-sm text-muted-foreground">
-                  게시판 상단의 제목 (Concert Live, Making Film 등) 크기를 설정합니다.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="boardTitleMarginTop">게시판 제목 위쪽 여백</Label>
-                <Input
-                  id="boardTitleMarginTop"
-                  type="text"
-                  value={boardTitleMarginTop}
-                  onChange={(e) => setBoardTitleMarginTop(e.target.value)}
-                  placeholder="0, 1rem, -0.5rem 등"
-                />
-                <p className="text-sm text-muted-foreground">
-                  게시판 상단 제목의 위쪽 여백을 설정합니다. (0, 1rem, 2rem, -0.5rem, -1rem 등 음수 가능)
                 </p>
               </div>
             </div>

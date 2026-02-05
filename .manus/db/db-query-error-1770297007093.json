@@ -1,8 +1,0 @@
-{
-  "query": "ALTER TABLE boardLayoutSettings \nADD COLUMN boardTitleSize VARCHAR(50) DEFAULT '4xl' AFTER postTitleSize,\nADD COLUMN boardTitleMarginTop VARCHAR(50) DEFAULT '0' AFTER boardTitleSize;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute ALTER TABLE boardLayoutSettings \nADD COLUMN boardTitleSize VARCHAR(50) DEFAULT '4xl' AFTER postTitleSize,\nADD COLUMN boardTitleMarginTop VARCHAR(50) DEFAULT '0' AFTER boardTitleSize;",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1054 (42S22) at line 1: Unknown column 'boardtitlesize' in 'boardLayoutSettings'"
-  ]
-}

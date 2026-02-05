@@ -21,20 +21,6 @@ export default function NoticeGallery() {
   const postHeight = noticeSettings?.postHeight || 'auto';
   const postMarginTop = noticeSettings?.postMarginTop || '0';
   const postTitleSize = noticeSettings?.postTitleSize || 'base';
-  const boardTitleSize = noticeSettings?.boardTitleSize || '4xl';
-  const boardTitleMarginTop = noticeSettings?.boardTitleMarginTop || '0';
-
-  // Convert boardTitleSize to CSS class
-  const getBoardTitleSizeClass = (size: string) => {
-    switch(size) {
-      case '2xl': return 'text-2xl sm:text-3xl md:text-4xl';
-      case '3xl': return 'text-3xl sm:text-4xl md:text-5xl';
-      case '4xl': return 'text-4xl sm:text-5xl md:text-6xl';
-      case '5xl': return 'text-5xl sm:text-6xl md:text-7xl';
-      case '6xl': return 'text-6xl sm:text-7xl md:text-8xl';
-      default: return 'text-4xl sm:text-5xl md:text-6xl';
-    }
-  };
 
   // Convert postWidth to CSS class
   const getWidthClass = (width: string) => {
@@ -137,12 +123,7 @@ export default function NoticeGallery() {
               </Button>
             </div>
           )}
-          <h2 
-            className={`${getBoardTitleSizeClass(boardTitleSize)} font-bold leading-tight text-foreground`}
-            style={{ marginTop: boardTitleMarginTop }}
-          >
-            {sectionTitle?.title || '공지사항'}
-          </h2>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '공지사항'}</h2>
           {sectionTitle?.description && (
             <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
               {sectionTitle.description}
@@ -185,14 +166,15 @@ export default function NoticeGallery() {
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div 
-            className="grid grid-cols-1"
-            style={{ gap: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1.5rem' }}
-          >
+          <div className="grid gap-4 sm:gap-6 grid-cols-1">
             {posts.map((post) => (
               <div 
                 key={post.id} 
                 className={`relative group ${getWidthClass(postWidth)}`}
+                style={{
+                  marginTop: postMarginTop,
+                  height: postHeight !== 'auto' ? postHeight : undefined
+                }}
               >
                 {user?.role === 'admin' && (
                   <div className="absolute top-2 left-2 z-10 bg-white rounded-lg p-2 shadow-md">
@@ -207,13 +189,9 @@ export default function NoticeGallery() {
                 )}
                 <Card
                   className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 border border-border"
-                  style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
                   onClick={() => window.location.href = `/posts/${post.id}`}
                 >
-                  <div 
-                    className="flex flex-col sm:flex-row h-full"
-                    style={{ gap: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1rem' }}
-                  >
+                  <div className="flex flex-col sm:flex-row sm:h-32">
                     <div className="flex flex-col flex-1">
                       <CardHeader className="p-4 sm:p-6">
                         <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>

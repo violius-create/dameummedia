@@ -232,9 +232,6 @@ export const boardLayoutSettings = mysqlTable("boardLayoutSettings", {
   postHeight: varchar("postHeight", { length: 50 }).default("auto"), // auto, or specific value like "300px"
   postMarginTop: varchar("postMarginTop", { length: 50 }).default("0"), // e.g., "0", "1rem", "2rem"
   postTitleSize: varchar("postTitleSize", { length: 50 }).default("base"), // xs, sm, base, lg, xl, 2xl
-  // Board title settings
-  boardTitleSize: varchar("boardTitleSize", { length: 50 }).default("4xl"), // 2xl, 3xl, 4xl, 5xl, 6xl
-  boardTitleMarginTop: varchar("boardTitleMarginTop", { length: 50 }).default("0"), // e.g., "0", "1rem", "2rem"
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
