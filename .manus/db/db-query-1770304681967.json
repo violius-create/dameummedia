@@ -1,0 +1,55 @@
+{
+  "query": "SHOW TABLES;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SHOW TABLES;",
+  "rows": [
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "boardLayoutSettings"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "comments"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "footerSettings"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "galleryItems"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "heroBackgrounds"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "images"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "posts"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "priceAddOns"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "pricePackages"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "reservations"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "sectionTitles"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "serviceItems"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "siteBranding"
+    },
+    {
+      "Tables_in_BvmmLkPh272eigDx9MFBhy": "users"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_BvmmLkPh272eigDx9MFBhy\n__drizzle_migrations\nboardLayoutSettings\ncomments\nfooterSettings\ngalleryItems\nheroBackgrounds\nimages\nposts\npriceAddOns\npricePackages\nreservations\nsectionTitles\nserviceItems\nsiteBranding\nusers\n",
+  "stderr": "",
+  "execution_time_ms": 1591
+}

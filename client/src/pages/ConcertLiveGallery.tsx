@@ -238,7 +238,7 @@ export default function ConcertLiveGallery() {
                     </div>
                   ) : (
                     // 갤러리형 레이아웃: 썸네일 위 + 내용 아래
-                    <>
+                    <div className="flex flex-col h-full">
                       <div 
                         className="relative w-full bg-muted flex items-center justify-center overflow-hidden"
                         style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
@@ -268,7 +268,7 @@ export default function ConcertLiveGallery() {
                           </Button>
                         </Link>
                       </CardContent>
-                    </>
+                    </div>
                   )}
                 </Card>
               </div>
