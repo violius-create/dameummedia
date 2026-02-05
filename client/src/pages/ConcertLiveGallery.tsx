@@ -215,7 +215,10 @@ export default function ConcertLiveGallery() {
                     <div className="flex flex-col sm:flex-row sm:h-48">
                       <div 
                         className="relative h-48 sm:w-64 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden"
-                        style={{ marginRight: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '2rem' }}
+                        style={{ 
+                          marginLeft: '20px',
+                          marginRight: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '2rem' 
+                        }}
                       >
                         {post.imageUrl ? (
                           <img
