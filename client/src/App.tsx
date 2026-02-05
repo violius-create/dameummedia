@@ -14,6 +14,7 @@ import CreatePost from "@/pages/CreatePost";
 import EditPost from "@/pages/EditPost";
 import ConcertLiveGallery from "@/pages/ConcertLiveGallery";
 import MakingFilmGallery from "@/pages/MakingFilmGallery";
+import NoticeGallery from "@/pages/NoticeGallery";
 import Information from "@/pages/Information";
 import Price from "@/pages/Price";
 import Reservation from "@/pages/Reservation";
@@ -42,6 +43,7 @@ function Router() {
       <Route path={"/reservation/:id"} component={ReservationDetail} />
       <Route path={"/concert-live"} component={ConcertLiveGallery} />
       <Route path={"/making-film"} component={MakingFilmGallery} />
+      <Route path={"/notice"} component={NoticeGallery} />
       <Route path={"/classical-music"} component={ClassicalMusicAnalysis} />
       <Route path={"/technical-content"} component={TechnicalContentAnalysis} />
       <Route path={"/admin"} component={AdminDashboard} />
@@ -52,6 +54,7 @@ function Router() {
       <Route path={"/admin/board-layout-settings"} component={AdminBoardLayoutSettings} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />
+      <Route path="/notice/new" component={(props) => <CreatePost {...props} category="notice" />} />
       <Route path="/posts/:id/edit" component={EditPost} />
       <Route component={NotFound} />
     </Switch>
@@ -107,6 +110,11 @@ function Navigation() {
             <Link href="/reservation">
               <Button variant="ghost" className="text-foreground hover:bg-muted">
                 Reservation
+              </Button>
+            </Link>
+            <Link href="/notice">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                Notice
               </Button>
             </Link>
           </div>

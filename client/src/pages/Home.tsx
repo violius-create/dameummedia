@@ -17,6 +17,8 @@ export default function Home() {
   const [overlayOpacity, setOverlayOpacity] = useState(40);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 4 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 4 });
+  const { data: reservationPosts } = trpc.reservations.list.useQuery({ limit: 5 });
+  const { data: noticePosts } = trpc.posts.list.useQuery({ category: 'notice', limit: 5 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
   const { data: section2Background } = trpc.heroBackground.getActiveBySection.useQuery('section2');
   const { data: section3Background } = trpc.heroBackground.getActiveBySection.useQuery('section3');
@@ -287,6 +289,100 @@ export default function Home() {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Reservation & Notice Preview Section */}
+      <section className="bg-background border-t border-border">
+        <div className="container py-24">
+          <div className="grid gap-12 md:grid-cols-2">
+            {/* Reservation Preview */}
+            <div>
+              <div className="mb-8">
+                <a href="/reservation" className="cursor-pointer hover:opacity-80 transition-opacity">
+                  <h2 className="text-3xl font-bold tracking-tight hover:text-primary transition-colors border-b-2 border-border pb-3 inline-block">
+                    Reservation
+                  </h2>
+                </a>
+              </div>
+              <div className="space-y-4">
+                {reservationPosts && reservationPosts.length > 0 ? (
+                  reservationPosts.map((reservation) => (
+                    <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
+                      <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate">
+                                {reservation.eventName}
+                              </h3>
+                              {reservation.status === 'completed' && (
+                                <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap">
+                                  작업완료
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                              {reservation.description}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {reservation.clientName}
+                            </p>
+                          </div>
+                          <div className="text-xs text-muted-foreground whitespace-nowrap">
+                            {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
+                              year: 'numeric',
+                              month: '2-digit',
+                              day: '2-digit'
+                            }).replace(/\. /g, '-').replace('.', '')}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-muted-foreground text-sm">예약 내역이 없습니다.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Notice Preview */}
+            <div>
+              <div className="mb-8">
+                <a href="/notice" className="cursor-pointer hover:opacity-80 transition-opacity">
+                  <h2 className="text-3xl font-bold tracking-tight hover:text-primary transition-colors border-b-2 border-border pb-3 inline-block">
+                    Notice
+                  </h2>
+                </a>
+              </div>
+              <div className="space-y-4">
+                {noticePosts && noticePosts.length > 0 ? (
+                  noticePosts.map((notice) => (
+                    <Link key={notice.id} href={`/posts/${notice.id}`}>
+                      <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate">
+                              {notice.title}
+                            </h3>
+                          </div>
+                          <div className="text-xs text-muted-foreground whitespace-nowrap">
+                            {new Date(notice.createdAt).toLocaleDateString('ko-KR', {
+                              year: 'numeric',
+                              month: '2-digit',
+                              day: '2-digit'
+                            }).replace(/\. /g, '-').replace('.', '')}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-muted-foreground text-sm">공지사항이 없습니다.</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
