@@ -796,3 +796,6 @@
 - [x] Instagram iframe의 스크롤바 숨기기 (scrolling="no" 설정)
 - [x] Instagram 섹션 폭을 메인 화면 전체 폭에 맞춤 (container 제거, w-full 사용)
 - [x] 상단의 'Instagram 담음미디어의 최신 소식을..' 제목 제거 (제목 섹션 전체 삭제)
+
+## Instagram 섹션 폭 조정 (2026-02-06 추가)
+- [x] Instagram 섹션 폭을 위의 Concert Live, Making Film 섹션과 동일하게 container 클래스로 변경
