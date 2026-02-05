@@ -791,3 +791,8 @@
 
 ## Instagram iframe React prop 오류 수정 (2026-02-06 추가)
 - [x] Home.tsx의 iframe에서 allowTransparency를 allowtransparency로 변경하여 React 경고 제거 (allowTransparency prop 제거로 해결)
+
+## Instagram 섹션 UI 개선 (2026-02-06 추가)
+- [x] Instagram iframe의 스크롤바 숨기기 (scrolling="no" 설정)
+- [x] Instagram 섹션 폭을 메인 화면 전체 폭에 맞춤 (container 제거, w-full 사용)
+- [x] 상단의 'Instagram 담음미디어의 최신 소식을..' 제목 제거 (제목 섹션 전체 삭제)
