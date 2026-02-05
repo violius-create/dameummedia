@@ -543,6 +543,8 @@ export const appRouter = router({
         postHeight: z.string().optional(),
         postMarginTop: z.string().optional(),
         postTitleSize: z.string().optional(),
+        boardTitleSize: z.string().optional(),
+        boardTitleMarginTop: z.string().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         const existing = await db.getBoardLayoutSettings(input.boardKey);
@@ -555,6 +557,8 @@ export const appRouter = router({
             postHeight: input.postHeight,
             postMarginTop: input.postMarginTop,
             postTitleSize: input.postTitleSize,
+            boardTitleSize: input.boardTitleSize,
+            boardTitleMarginTop: input.boardTitleMarginTop,
             updatedBy: ctx.user.id,
           });
         } else {

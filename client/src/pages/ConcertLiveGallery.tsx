@@ -22,6 +22,20 @@ export default function ConcertLiveGallery() {
   const postHeight = concertSettings?.postHeight || 'auto';
   const postMarginTop = concertSettings?.postMarginTop || '0';
   const postTitleSize = concertSettings?.postTitleSize || 'base';
+  const boardTitleSize = concertSettings?.boardTitleSize || '4xl';
+  const boardTitleMarginTop = concertSettings?.boardTitleMarginTop || '0';
+
+  // Convert boardTitleSize to CSS class
+  const getBoardTitleSizeClass = (size: string) => {
+    switch(size) {
+      case '2xl': return 'text-2xl sm:text-3xl md:text-4xl';
+      case '3xl': return 'text-3xl sm:text-4xl md:text-5xl';
+      case '4xl': return 'text-4xl sm:text-5xl md:text-6xl';
+      case '5xl': return 'text-5xl sm:text-6xl md:text-7xl';
+      case '6xl': return 'text-6xl sm:text-7xl md:text-8xl';
+      default: return 'text-4xl sm:text-5xl md:text-6xl';
+    }
+  };
 
   // Convert postWidth to CSS class
   const getWidthClass = (width: string) => {
@@ -124,7 +138,12 @@ export default function ConcertLiveGallery() {
               </Button>
             </div>
           )}
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '클래식 음악 공연'}</h2>
+          <h2 
+            className={`${getBoardTitleSizeClass(boardTitleSize)} font-bold leading-tight text-foreground`}
+            style={{ marginTop: boardTitleMarginTop }}
+          >
+            {sectionTitle?.title || '클래식 음악 공연'}
+          </h2>
           {sectionTitle?.description && (
             <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
               {sectionTitle.description}
@@ -215,7 +234,7 @@ export default function ConcertLiveGallery() {
                       </div>
                       <div className="flex flex-col flex-1">
                         <CardHeader className="p-4 sm:p-6">
-                          <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-lg sm:text-xl text-foreground">{post.title}</CardTitle>
+                          <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
                           <CardDescription className="line-clamp-3 sm:line-clamp-4 mt-2 text-sm">{post.content}</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 sm:p-6 pt-0 mt-auto">
@@ -230,9 +249,9 @@ export default function ConcertLiveGallery() {
                     </div>
                   ) : (
                     // 갤러리형 레이아웃: 썸네일 위 + 내용 아래
-                    <>
+                    <div className="flex flex-col h-full">
                       <div 
-                        className="relative w-full bg-muted flex items-center justify-center overflow-hidden"
+                        className="relative w-full flex-1 bg-muted flex items-center justify-center overflow-hidden"
                       >
                         {post.imageUrl ? (
                           <img
@@ -247,7 +266,7 @@ export default function ConcertLiveGallery() {
                           </div>
                         )}
                       </div>
-                      <CardHeader className="flex-1 p-3 sm:p-6">
+                      <CardHeader className="p-3 sm:p-6">
                         <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
                         <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{post.content}</CardDescription>
                       </CardHeader>
@@ -259,7 +278,7 @@ export default function ConcertLiveGallery() {
                           </Button>
                         </Link>
                       </CardContent>
-                    </>
+                    </div>
                   )}
                 </Card>
               </div>
