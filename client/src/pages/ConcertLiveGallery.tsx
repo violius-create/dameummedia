@@ -84,12 +84,8 @@ export default function ConcertLiveGallery() {
       } py-8 sm:py-16`}>
         {/* Header Section */}
         <div className="mb-4 sm:mb-8 space-y-4">
-          <div className="flex items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-3">
-              <Music className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
-              <span className="text-xs sm:text-sm font-semibold text-primary uppercase tracking-wider">Concert Live</span>
-            </div>
-            {user?.role === 'admin' && (
+          {user?.role === 'admin' && (
+            <div className="flex justify-end mb-6">
               <Button 
                 onClick={() => setLocation('/concert-live/new')}
                 className="flex items-center gap-2"
@@ -97,8 +93,8 @@ export default function ConcertLiveGallery() {
                 <Plus className="h-4 w-4" />
                 <span className="hidden sm:inline">글쓰기</span>
               </Button>
-            )}
-          </div>
+            </div>
+          )}
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '클래식 음악 공연'}</h2>
           {sectionTitle?.description && (
             <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">

@@ -719,3 +719,9 @@
 - [x] NoticeGallery 페이지에서 섹션 제목 데이터 사용
 - [x] AdminSectionTitles 페이지에 공지사항 항목 추가
 - [x] 테스트 및 체크포인트 저장
+
+## 게시판 페이지 상단 레이블 텍스트 삭제 (2026-02-05)
+- [x] ConcertLiveGallery 페이지에서 "CONCERT LIVE" 레이블 삭제
+- [x] MakingFilmGallery 페이지에서 "MAKING FILM" 레이블 삭제
+- [x] NoticeGallery 페이지에서 "NOTICE" 레이블 삭제
+- [x] 테스트 및 체크포인트 저장
