@@ -12,9 +12,15 @@ export default function ConcertLiveGallery() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Load board layout settings
+  const { data: concertSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey: 'concert_live' });
+  const postsPerPage = concertSettings?.itemsPerPage || 12;
+  const displayMode = concertSettings?.displayMode || 'gallery';
+  const containerWidth = concertSettings?.containerWidth || 'default';
+
   const { data: posts, isLoading, refetch } = trpc.posts.list.useQuery({
     category: "concert",
-    limit: 100,
+    limit: postsPerPage,
   });
 
   const deletePostMutation = trpc.posts.delete.useMutation({
@@ -68,7 +74,11 @@ export default function ConcertLiveGallery() {
         </div>
       </nav>
 
-      <div className="container py-8 sm:py-16">
+      <div className={`${
+        containerWidth === 'full' ? 'w-full px-4' :
+        containerWidth === 'container-wide' ? 'max-w-7xl mx-auto px-4' :
+        'container'
+      } py-8 sm:py-16`}>
         {/* Header Section */}
         <div className="mb-8 sm:mb-16 space-y-4">
           <div className="flex items-center justify-between gap-3 mb-6">
@@ -127,7 +137,11 @@ export default function ConcertLiveGallery() {
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={`grid gap-4 sm:gap-8 ${
+            displayMode === 'list' ? 'grid-cols-1' :
+            displayMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
+            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+          }`}>
             {posts.map((post) => (
               <div key={post.id} className="relative group">
                 {user?.role === 'admin' && (
@@ -145,32 +159,69 @@ export default function ConcertLiveGallery() {
                   className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 border border-border"
                   onClick={() => window.location.href = `/posts/${post.id}`}
                 >
-                  <div className="relative h-40 sm:h-56 w-full bg-muted flex items-center justify-center overflow-hidden">
-                    {post.imageUrl ? (
-                      <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="text-center text-muted-foreground">
-                        <Music className="h-8 sm:h-12 w-8 sm:w-12 mx-auto mb-2 opacity-50" />
-                        <p className="text-xs sm:text-sm">이미지 없음</p>
+                  {displayMode === 'list' ? (
+                    // 리스트형 레이아웃: 썸네일 왼쪽 + 내용 오른쪽
+                    <div className="flex flex-col sm:flex-row">
+                      <div className="relative h-48 sm:h-auto sm:w-64 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
+                        {post.imageUrl ? (
+                          <img
+                            src={post.imageUrl}
+                            alt={post.title}
+                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="text-center text-muted-foreground">
+                            <Music className="h-8 sm:h-12 w-8 sm:w-12 mx-auto mb-2 opacity-50" />
+                            <p className="text-xs sm:text-sm">이미지 없음</p>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <CardHeader className="flex-1 p-3 sm:p-6">
-                    <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-base sm:text-lg text-foreground">{post.title}</CardTitle>
-                    <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{post.content}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
-                    <Link href={`/post/${post.id}`}>
-                      <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary/10 text-foreground text-xs sm:text-sm">
-                        자세히 보기
-                        <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </CardContent>
+                      <div className="flex flex-col flex-1">
+                        <CardHeader className="p-4 sm:p-6">
+                          <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-lg sm:text-xl text-foreground">{post.title}</CardTitle>
+                          <CardDescription className="line-clamp-3 sm:line-clamp-4 mt-2 text-sm">{post.content}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-4 sm:p-6 pt-0 mt-auto">
+                          <Link href={`/post/${post.id}`}>
+                            <Button variant="ghost" size="sm" className="group-hover:bg-primary/10 text-foreground">
+                              자세히 보기
+                              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            </Button>
+                          </Link>
+                        </CardContent>
+                      </div>
+                    </div>
+                  ) : (
+                    // 갤러리형 레이아웃: 썸네일 위 + 내용 아래
+                    <>
+                      <div className="relative h-40 sm:h-56 w-full bg-muted flex items-center justify-center overflow-hidden">
+                        {post.imageUrl ? (
+                          <img
+                            src={post.imageUrl}
+                            alt={post.title}
+                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="text-center text-muted-foreground">
+                            <Music className="h-8 sm:h-12 w-8 sm:w-12 mx-auto mb-2 opacity-50" />
+                            <p className="text-xs sm:text-sm">이미지 없음</p>
+                          </div>
+                        )}
+                      </div>
+                      <CardHeader className="flex-1 p-3 sm:p-6">
+                        <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-base sm:text-lg text-foreground">{post.title}</CardTitle>
+                        <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{post.content}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
+                        <Link href={`/post/${post.id}`}>
+                          <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary/10 text-foreground text-xs sm:text-sm">
+                            자세히 보기
+                            <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </Link>
+                      </CardContent>
+                    </>
+                  )}
                 </Card>
               </div>
             ))}

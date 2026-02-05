@@ -1,0 +1,20 @@
+{
+  "query": "SELECT * FROM boardLayoutSettings;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT * FROM boardLayoutSettings;",
+  "rows": [
+    {
+      "id": "1",
+      "boardKey": "concert_live",
+      "itemsPerPage": "2",
+      "displayMode": "list",
+      "containerWidth": "container-wide",
+      "updatedBy": "1",
+      "createdAt": "2026-02-05 04:16:40",
+      "updatedAt": "2026-02-05 05:59:24"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tboardKey\titemsPerPage\tdisplayMode\tcontainerWidth\tupdatedBy\tcreatedAt\tupdatedAt\n1\tconcert_live\t2\tlist\tcontainer-wide\t1\t2026-02-05 04:16:40\t2026-02-05 05:59:24\n",
+  "stderr": "",
+  "execution_time_ms": 1643
+}
