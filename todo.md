@@ -788,3 +788,6 @@
 
 ## 메인 페이지에 Instagram 임베드 추가 (2026-02-06 추가)
 - [x] Home.tsx의 Making Film 섹션 아래에 Instagram 임베드 섹션 추가 (iframe으로 구현 완료)
+
+## Instagram iframe React prop 오류 수정 (2026-02-06 추가)
+- [x] Home.tsx의 iframe에서 allowTransparency를 allowtransparency로 변경하여 React 경고 제거 (allowTransparency prop 제거로 해결)

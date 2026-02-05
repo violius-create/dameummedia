@@ -307,7 +307,6 @@ export default function Home() {
             <div className="relative w-full" style={{ paddingBottom: '100%' }}>
               <iframe 
                 src="https://www.instagram.com/dameummedia/embed" 
-                allowTransparency={true}
                 frameBorder="0"
                 scrolling="yes"
                 className="absolute inset-0 w-full h-[90%] border-none overflow-hidden rounded-lg shadow-lg"
