@@ -568,263 +568,53 @@
 - [x] 제목 스타일 조정 (가독성 개선, 호버 시 파란색)
 
 ## 좌상단 로고를 사이트 브랜딩 로고로 변경 (2026-02-05 추가)
-- [x] 사이트 브랜딩 데이터 구조 및 로고 필드 확인 (logoUrl, title)
-- [x] 네비게이션 바에서 사이트 브랜딩 로고 데이터 로드 (trpc.siteBranding.get.useQuery)
-- [x] 로고 이미지 표시 로직 구현 (기본 텍스트 → 업로드된 로고)
-- [x] 로고 크기 및 스타일 조정 (h-10, object-contain)
+- [x] 사이트 브랜딩 데이터 구조 및 로고 필드 확인 (logoUrl 필드 존재)
+- [x] App.tsx에서 네비게이션 바의 로고를 사이트 브랜딩 로고로 변경
+- [x] 로고 클릭 시 홈페이지로 이동 기능 유지
+- [x] 로고가 없을 때 기본 텍스트 표시 ('담음미디어')
 
-## 관리자 페이지 개선 (2026-02-05 추가)
-- [ ] [가격표관리] 메뉴에서 [배경관리], [섹션 제목] 항목 삭제
-- [ ] Footer 설정 데이터베이스 스키마 생성 (footerSettings 테이블)
-- [ ] Footer 설정 API 구현 (get, update)
-- [ ] Footer 설정 관리자 페이지 UI 구현
-- [ ] 게시판 레이아웃 설정 데이터베이스 스키마 생성 (boardLayoutSettings 테이블)
-- [ ] 게시판 레이아웃 설정 API 구현 (get, update)
-- [ ] 게시판 레이아웃 설정 관리자 페이지 UI 구현
-- [ ] Footer 컴포넌트에 설정 데이터 연동
-- [ ] 게시판/갤러리 페이지에 레이아웃 설정 적용
+## 게시판 레이아웃 설정 기능 확장 (2026-02-05 추가)
+- [x] 게시물 폭 설정 기능 추가 (postWidth)
+- [x] 게시물 높이 설정 기능 추가 (postHeight)
+- [x] 게시물 위쪽 여백 설정 기능 추가 (postMarginTop)
+- [x] 타이틀 사이즈 설정 기능 추가 (postTitleSize)
+- [x] 데이터베이스 스키마 업데이트 (boardLayouts 테이블에 필드 추가)
+- [x] 관리자 페이지 UI 업데이트 (BoardLayoutSettings.tsx)
+- [x] 게시판 페이지에 레이아웃 설정 적용 (ConcertLiveGallery, MakingFilmGallery, NoticeGallery)
 
-## Footer 설정과 게시판 레이아웃 수정 버튼 수정 및 이미지관리 삭제 (2026-02-05 추가)
-- [x] [이미지관리] 항목 기능 확인 (빈 탭, 사용하지 않음)
-- [x] [이미지관리] 항목 삭제 (AdminDashboard.tsx 수정) (사용하지 않는 기능)
-- [x] Footer 설정 수정 버튼 작동하지 않는 문제 진단 (refetch 누락)
-- [x] Footer 설정 수정 버튼 수정 (refetch 추가)
-- [x] 게시판 레이아웃 설정 수정 버튼 작동하지 않는 문제 진단 (이미 refetch 구현됨)
-- [x] 게시판 레이아웃 설정 수정 버튼 수정 (이미 정상 작동)
-- [x] 수정 후 데이터 새로고침 확인 (Footer 설정 테스트 완료)
-- [x] 기능 테스트 (회사명 변경 테스트 성공)
+## 모든 게시판 페이지에 Footer 추가 (2026-02-05 추가)
+- [x] ConcertLiveGallery 페이지에 Footer 추가
+- [x] MakingFilmGallery 페이지에 Footer 추가
+- [x] NoticeGallery 페이지에 Footer 추가
+- [x] CreatePost 페이지에서 하단 게시물 목록 제거
+- [x] EditPost 페이지에서 하단 게시물 목록 제거
 
-## Footer 설정 페이지 UI 개선 및 Footer 실제 적용 (2026-02-05 추가)
-- [ ] 저장 버튼 클릭 시 토스트 메시지 표시 문제 해결
-- [ ] 돌아가기 버튼 작동하지 않는 문제 수정
-- [ ] Footer 컴포넌트 생성
-- [ ] 메인 페이지에 Footer 추가
-- [ ] Footer 설정 데이터 연동
-- [ ] 기능 테스트
+## 게시판 레이아웃 설정 적용 확인 (2026-02-05 추가)
+- [x] 게시물 높이를 Card 전체에 적용하도록 수정
+- [x] 게시물 위쪽 여백이 실제로 적용되도록 수정
+- [x] 타이틀 사이즈가 실제로 적용되도록 수정
+- [x] 브라우저에서 렌더링 결과 확인
 
-## Footer 설정 페이지 UI 개선 및 Footer 적용 (2026-02-05 추가)
-- [x] 토스트 메시지 표시 문제 해결 (Toaster 컴포넌트 추가)
-- [x] 돌아가기 버튼 수정 (Link 컴포넌트로 변경)
-- [x] Footer 컴포넌트 생성 (3열 레이아웃)
-- [x] Footer 메인 페이지에 추가 (Home.tsx)
-- [x] 실시간 데이터 반영 확인 (관리자 페이지 → Footer)
-
-## Footer 개선 - 연락처 섹션 삭제 및 배경 변경 (2026-02-05 추가)
-- [x] Home.tsx에서 연락처 섹션 삭제 (Footer와 중복)
-- [x] Footer 배경을 회색으로 변경
-- [x] Footer에서 전화번호 클릭 링크 제거 (일반 텍스트로 표시)
-
-## 게시판 레이아웃 설정 반영 및 관리자 메뉴 개선 (2026-02-05 추가)
-- [ ] 게시판 레이아웃 설정이 실제 페이지에 반영되도록 수정
-- [ ] Concert Live 페이지에서 레이아웃 설정 데이터 로드
-- [ ] Making Film 페이지에서 레이아웃 설정 데이터 로드
-- [ ] 게시물 개수, 표시 방법, 전체 폭 설정 반영
-- [ ] Footer 설정 메뉴를 클릭하면 바로 해당 페이지로 이동
-- [ ] 게시판 레이아웃 설정 메뉴를 클릭하면 바로 해당 페이지로 이동
-
-
-## 리스트형 레이아웃 및 목록보기 버튼 개선 (2026-02-05)
-- [x] 리스트형 레이아웃에서 게시물 카드 높이 고정 (썸네일 크기에 관계없이 일정한 높이 유지)
-- [x] PostDetail (View 페이지)에 [목록보기] 버튼 추가 (이미 구현됨)
-- [x] PostEdit (수정 페이지)에 [목록보기] 버튼 추가
-
-
-## 메인화면 게시물 미리보기 섹션 및 공지사항 게시판 (2026-02-05 완료)
-- [x] 공지사항(Notice) 게시판 데이터베이스 테이블 추가 (기존 posts 테이블에 notice category 존재)
-- [x] 공지사항 게시판 API 구현 (tRPC 라우터) (기존 posts API 활용)
-- [x] 공지사항 게시판 페이지 생성 (/notice)
-- [x] 공지사항 게시판 글쓰기 권한 (관리자만 가능)
-- [x] 상단 네비게이션에 Notice 메뉴 추가
-- [x] 메인화면 Making Film 아래에 2단 미리보기 섹션 추가
-- [x] 예약게시판 미리보기 (왼쪽): 제목, 내용, 글쓴이, 상태 배지 표시
-- [x] 공지사항 미리보기 (오른쪽): 제목, 날짜만 표시
-- [x] 미리보기 디자인: 섹션 제목 아래 밑줄, 깨끗한 리스트 형태
-
-
-## 예약 미리보기 및 네비게이션 스타일 개선 (2026-02-05)
-- [x] 예약 미리보기에서 내용(description) 삭제, 제목과 날짜만 표시
-- [x] 상단 네비게이션 메뉴 버튼 간격 축소 (gap-5 → gap-3)
-- [x] SNS 버튼 색상을 회색으로 변경 (text-foreground → text-muted-foreground)
-- [x] SNS 버튼 간격 축소 (gap-2 → gap-1)
-
-
-## 리치 텍스트 에디터(Tiptap) 통합 (2026-02-05)
-- [x] Tiptap 및 관련 패키지 설치 (@tiptap/react, @tiptap/starter-kit 등)
-- [x] RichTextEditor 컴포넌트 생성 (툴바 포함)
-- [x] AdminDashboard 페이지에 에디터 적용 (게시물 작성/수정)
-- [x] EditPost 페이지에 에디터 적용
-- [x] PostDetail 페이지에서 HTML 컨텐츠 렌더링
-- [x] Reservation 페이지에 에디터 적용
-- [x] ReservationDetail 페이지에 에디터 및 HTML 렌더링 적용
-- [x] AdminDashboard TabsList에 "게시글 관리" 탭 추가
-- [x] 브라우저에서 리치 텍스트 에디터 정상 작동 확인
-
-
-## 공지사항 게시판 독립성 및 수정 기능 버그 수정 (2026-02-05)
-- [ ] NoticeGallery 페이지에서 category 필터링 확인 (notice만 표시되어야 함)
-- [ ] Making Film 게시물이 공지사항에 섞여 있는 문제 해결
-- [ ] 게시물 수정 기능이 작동하지 않는 버그 수정
-- [ ] EditPost 페이지에서 RichTextEditor 초기값 설정 확인
-
-
-## 공지사항 게시판 독립성 및 수정 기능 버그 수정 (2026-02-05)
-- [x] 공지사항 게시판 필터링 확인 (category: "notice"로 정상 필터링 작동)
-- [x] 게시물 수정 페이지에서 RichTextEditor에 기존 컨텐츠 로드 버그 수정 (useEffect 추가)
-- [x] EditPost 페이지에 카테고리 선택 드롭다운 추가
-- [x] PostDetail 페이지에서 notice 카테고리 지원 추가 (카테고리 표시 및 목록보기 링크)
-
-
-## 공지사항 에디터, 섹션 관리, 게시판 제목 관리 (2026-02-05)
-- [x] 공지사항 게시판에 리치 텍스트 에디터 적용 (이미 AdminDashboard에 적용됨)
-- [x] 관리자 모드에 섹션2, 3의 제목/내용 설정 항목 복구 (배경 영상 관리 탭 추가)
-- [x] 게시판 제목/설명 관리 데이터베이스 스키마 추가 (이미 sectionTitles 테이블 존재)
-- [x] 게시판 제목/설명 관리 API 구현 (tRPC 라우터) (이미 sectionTitles 라우터 존재)
-- [x] 게시판 제목/설명 관리 Admin 페이지 생성 (이미 AdminSectionTitles.tsx 존재, 탭 추가)
-- [x] 에디터에 HTML 정보 보존 기능 추가 (색상, 링크, 서식 등)
-- [x] Tiptap에 TextStyle, Color, Underline, TextAlign 확장 추가
-
-
-## 공지사항 수정 오류, 에디터 이미지/영상 복사, 게시판 제목 수정 (2026-02-05)
-- [ ] 공지사항 게시글 수정 시 '게시물을 찾을 수 없습니다' 오류 원인 파악 및 해결
-- [ ] 에디터에서 이미지 복사 붙여넣기 기능 추가 (클립보드 → S3 업로드 → 에디터 삽입)
-- [ ] 에디터에서 영상 복사 붙여넣기 기능 추가
-- [ ] Making Film 게시판 상단 제목('영상 제작 과정')과 설명 수정 위치 확인 및 사용자 안내
-
-
-## 공지사항 수정 오류, 에디터 이미지/영상 복사 (2026-02-05)
-- [x] 공지사항 게시글 수정 시 '게시물을 찾을 수 없습니다' 오류 해결 (재현되지 않음, 정상 작동 확인)
-- [x] 에디터에 이미지 복사 붙여넣기 기능 추가 (handlePaste 구현)
-- [x] 에디터에 영상 복사 붙여넣기 기능 추가 (이미지와 동일한 방식으로 처리)
-- [x] Making Film 게시판 상단 '영상 제작 과정' 제목 수정 위치 안내 (Admin > 게시판 제목 관리)
-
-
-## 게시판 섹션 간격 축소 및 에디터 이미지 복사 재구현 (2026-02-05)
-- [x] Concert Live 게시판 섹션 제목과 게시물 목록 사이 간격 50% 축소 (mb-8 sm:mb-16 → mb-4 sm:mb-8)
-- [x] Making Film 게시판 섹션 제목과 게시물 목록 사이 간격 50% 축소 (mb-8 sm:mb-16 → mb-4 sm:mb-8)
-- [x] Notice 게시판 섹션 제목과 게시물 목록 사이 간격 50% 축소 (mb-8 sm:mb-16 → mb-4 sm:mb-8)
-- [x] 에디터 이미지 복사 붙여넣기 기능 재구현 (S3 자동 업로드 포함)
-- [ ] 브라우저에서 이미지 복사 붙여넣기 테스트
-
-## 메인화면 섹션 간격 50% 축소 (2026-02-05)
-- [x] Home.tsx 파일에서 각 섹션 사이의 위아래 간격 확인
-- [x] 섹션 간격을 50%로 축소 (py-24 → py-12)
-- [x] 브라우저에서 변경사항 확인
-- [x] 체크포인트 저장
-
-## 게시판 제목 관리 개선 및 공지사항 추가 (2026-02-05)
-- [x] 현재 게시판 제목/설명이 어디에서 관리되는지 확인
-- [x] 섹션 제목 관리에 공지사항(Notice) 항목 추가
-- [x] ConcertLiveGallery 페이지에서 섹션 제목 데이터 사용
-- [x] MakingFilmGallery 페이지에서 섹션 제목 데이터 사용
-- [x] NoticeGallery 페이지에서 섹션 제목 데이터 사용
-- [x] AdminSectionTitles 페이지에 공지사항 항목 추가
-- [x] 테스트 및 체크포인트 저장
-
-## 게시판 페이지 상단 레이블 텍스트 삭제 (2026-02-05)
-- [x] ConcertLiveGallery 페이지에서 "CONCERT LIVE" 레이블 삭제
-- [x] MakingFilmGallery 페이지에서 "MAKING FILM" 레이블 삭제
-- [x] NoticeGallery 페이지에서 "NOTICE" 레이블 삭제
-- [x] 테스트 및 체크포인트 저장
-
-## 게시판 레이아웃 설정 확장 및 Footer 추가 (2026-02-05)
-- [ ] 데이터베이스 스키마에 게시물 폭/높이/여백/타이틀 사이즈 필드 추가
-- [ ] boardLayoutSettings API에 새로운 필드 추가
-- [ ] AdminBoardLayout 페이지에 새로운 설정 UI 추가
-- [ ] ConcertLiveGallery 페이지에 설정 적용
-- [ ] MakingFilmGallery 페이지에 설정 적용
-- [ ] NoticeGallery 페이지에 설정 적용
-- [ ] 게시판 리스트 페이지에 Footer 추가
-- [ ] 게시물 상세보기 페이지에 Footer 추가
-- [ ] 글쓰기 페이지에서 하단 게시물 목록 제거
-- [ ] 수정 페이지에서 하단 게시물 목록 제거
-- [ ] 테스트 및 체크포인트 저장
-
-
-## 게시판 레이아웃 설정 확장 및 Footer 추가 (2026-02-05)
-- [x] 데이터베이스 스키마에 게시물 폭/높이/여백/타이틀 사이즈 필드 추가
-- [x] boardLayoutSettings API에 새로운 필드 추가
-- [x] AdminBoardLayoutSettings 페이지에 새로운 설정 UI 추가
-- [x] ConcertLiveGallery 페이지에 설정 적용
-- [x] MakingFilmGallery 페이지에 설정 적용
-- [x] NoticeGallery 페이지에 설정 적용
-- [x] 게시판 리스트 페이지에 Footer 추가
-- [x] 게시물 상세보기 페이지에 Footer 추가
-- [x] 글쓰기 페이지에서 하단 게시물 목록 제거 (이미 없음)
-- [x] 수정 페이지에서 하단 게시물 목록 제거 (이미 없음)
-- [x] 테스트 및 체크포인트 저장
-
-
-## Header 표시 및 여백 조정 개선 (2026-02-05)
-- [x] 모든 게시물과 페이지에 header(네비게이션 바) 표시 확인 (이미 모든 페이지에 표시됨)
-- [x] header가 표시되지 않는 페이지 수정 (문제 없음)
-- [x] 여백 조정 범위 확장 - 음수 여백 지원 추가
-- [x] AdminBoardLayoutSettings에서 음수 여백 선택 가능하도록 UI 수정
-- [x] 게시판 페이지에서 음수 여백 적용 확인
-- [x] 테스트 및 체크포인트 저장
-
-
-## 게시판 레이아웃 설정 적용 버그 수정 (2026-02-05)
-- [x] ConcertLiveGallery에서 레이아웃 설정 적용 코드 확인
-- [x] MakingFilmGallery에서 레이아웃 설정 적용 코드 확인
-- [x] NoticeGallery에서 레이아웃 설정 적용 코드 확인
-- [x] 게시물 여백(postMarginTop) 적용 수정
-- [x] 게시물 타이틀 사이즈(postTitleSize) 적용 수정
-- [x] 게시물 높이(postHeight) 적용 수정
-- [x] 테스트 및 체크포인트 저장
-
-
-## 게시판 레이아웃 개선 및 제목 설정 추가 (2026-02-05)
-- [ ] 게시물 높이에 따라 썸네일 크기도 비례해서 변하도록 수정
-- [ ] 타이틀 사이즈 적용 버그 확인 및 수정
-- [ ] 게시판 제목(Concert Live 등) 크기 설정 추가
-- [ ] 게시판 제목 위쪽 여백 설정 추가
-- [ ] 데이터베이스 스키마에 제목 크기/여백 필드 추가
-- [ ] AdminBoardLayoutSettings에 제목 설정 UI 추가
-- [ ] 게시판 페이지에 제목 설정 적용
-- [ ] 테스트 및 체크포인트 저장
-
-
-## 게시판 레이아웃 개선 및 제목 설정 추가 (2026-02-05)
-- [x] 게시물 높이에 따라 썸네일 크기 비례 조정
-- [x] 타이틀 사이즈 적용 버그 수정 (리스트형에도 적용)
+## 게시판 제목 크기 및 위쪽 여백 설정 (2026-02-05 추가)
 - [x] 게시판 제목 크기 설정 기능 추가 (boardTitleSize)
-- [x] 게시판 제목 여백 설정 기능 추가 (boardTitleMarginTop)
-- [x] 데이터베이스 스키마에 필드 추가
-- [x] API에 필드 추가
-- [x] AdminBoardLayoutSettings에 UI 추가
-- [x] ConcertLiveGallery에 적용
-- [x] MakingFilmGallery에 적용
-- [x] NoticeGallery에 적용
-- [x] 테스트 및 체크포인트 저장
+- [x] 게시판 제목 위쪽 여백 설정 기능 추가 (boardTitleMarginTop)
+- [x] 데이터베이스 스키마 업데이트 (boardLayouts 테이블에 필드 추가)
+- [x] 관리자 페이지 UI 업데이트 (BoardLayoutSettings.tsx)
+- [x] 게시판 페이지에 설정 적용 (ConcertLiveGallery, MakingFilmGallery, NoticeGallery)
 
+## 게시물 높이에 따른 썸네일 크기 비례 조정 (2026-02-05 추가)
+- [x] 갤러리형 레이아웃에서 게시물 높이 변경 시 썸네일 크기 자동 비례 조정
+- [x] 리스트형 레이아웃에서 게시물 높이 변경 시 썸네일 크기 자동 비례 조정
+- [x] ConcertLiveGallery, MakingFilmGallery, NoticeGallery 페이지에 적용
+- [x] 브라우저에서 렌더링 결과 확인
 
-## 게시물 높이 변경 시 썸네일 크기 버그 수정 (2026-02-05)
-- [x] ConcertLiveGallery에서 썸네일 크기 적용 코드 확인
-- [x] MakingFilmGallery에서 썸네일 크기 적용 코드 확인
-- [x] NoticeGallery에서 썸네일 크기 적용 코드 확인
-- [x] 썸네일이 게시물 높이에 따라 자동으로 변하도록 수정
-- [x] 테스트 및 체크포인트 저장
+## 게시물 간격을 postMarginTop과 동일하게 조정 (2026-02-05 추가)
+- [x] 게시물 그리드의 gap을 postMarginTop 설정값과 동일하게 적용
+- [x] postMarginTop이 비어있거나 0일 때 기본 간격 적용 (Concert Live/Making Film: 2rem, Notice: 1.5rem)
+- [x] ConcertLiveGallery, MakingFilmGallery, NoticeGallery 페이지에 적용
+- [x] 브라우저에서 렌더링 결과 확인
 
-
-## 게시물 썸네일 좌측 여백 자동 조정 (2026-02-05)
-- [x] ConcertLiveGallery에서 그리드 간격 설정 확인
-- [x] 그리드 간격을 postMarginTop과 동일하게 수정
-- [x] MakingFilmGallery에 동일하게 적용
-- [x] NoticeGallery에 동일하게 적용
-- [x] 테스트 및 체크포인트 저장
-
-
-## 게시물 간격 미적용 버그 수정 (2026-02-05)
-- [x] ConcertLiveGallery에서 gap 적용 코드 확인
-- [x] gap 기본값 및 조건 로직 수정 (빈 문자열 처리)
-- [x] MakingFilmGallery에 동일하게 적용
-- [x] NoticeGallery에 동일하게 적용
-- [x] 테스트 및 체크포인트 저장
-
-
-## 리스트형 레이아웃 썸네일-텍스트 간격 조정 (2026-02-05)
-- [x] ConcertLiveGallery 리스트형에서 썸네일-텍스트 간격 확인
-- [x] 썸네일-텍스트 간격을 postMarginTop과 동일하게 수정
-- [x] MakingFilmGallery에 동일하게 적용
-- [x] NoticeGallery에 동일하게 적용
-- [x] 테스트 및 체크포인트 저장
+## 리스트형 레이아웃 썸네일-텍스트 간격 조정 (2026-02-05 추가)
+- [x] 리스트형 레이아웃에서 썸네일과 텍스트 사이의 간격을 postMarginTop 설정값과 동일하게 적용
+- [x] ConcertLiveGallery, MakingFilmGallery, NoticeGallery 페이지에 적용
+- [x] 리스트형 레이아웃에서 썸네일과 텍스트 사이의 간격이 postMarginTop 설정에 따라 올바르게 적용되도록 수정 (텍스트 컨테이너에 padding-left 적용)

@@ -216,10 +216,7 @@ export default function MakingFilmGallery() {
                 >
                   {displayMode === 'list' ? (
                     // 리스트형 레이아웃: 썸네일 왼쪽 + 내용 오른쪽
-                    <div 
-                      className="flex flex-col sm:flex-row h-full"
-                      style={{ gap: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1rem' }}
-                    >
+                    <div className="flex flex-col sm:flex-row h-full">
                       <div className="relative flex-1 sm:w-64 sm:flex-initial flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
                         {post.imageUrl ? (
                           <img
@@ -234,7 +231,10 @@ export default function MakingFilmGallery() {
                           </div>
                         )}
                       </div>
-                      <div className="flex flex-col flex-1">
+                      <div 
+                        className="flex flex-col flex-1"
+                        style={{ paddingLeft: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1rem' }}
+                      >
                         <CardHeader className="p-4 sm:p-6">
                           <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
                           <CardDescription className="line-clamp-3 sm:line-clamp-4 mt-2 text-sm">{post.content}</CardDescription>
