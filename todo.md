@@ -672,3 +672,13 @@
 - [x] 게시물 수정 페이지에서 RichTextEditor에 기존 컨텐츠 로드 버그 수정 (useEffect 추가)
 - [x] EditPost 페이지에 카테고리 선택 드롭다운 추가
 - [x] PostDetail 페이지에서 notice 카테고리 지원 추가 (카테고리 표시 및 목록보기 링크)
+
+
+## 공지사항 에디터, 섹션 관리, 게시판 제목 관리 (2026-02-05)
+- [x] 공지사항 게시판에 리치 텍스트 에디터 적용 (이미 AdminDashboard에 적용됨)
+- [x] 관리자 모드에 섹션2, 3의 제목/내용 설정 항목 복구 (배경 영상 관리 탭 추가)
+- [x] 게시판 제목/설명 관리 데이터베이스 스키마 추가 (이미 sectionTitles 테이블 존재)
+- [x] 게시판 제목/설명 관리 API 구현 (tRPC 라우터) (이미 sectionTitles 라우터 존재)
+- [x] 게시판 제목/설명 관리 Admin 페이지 생성 (이미 AdminSectionTitles.tsx 존재, 탭 추가)
+- [x] 에디터에 HTML 정보 보존 기능 추가 (색상, 링크, 서식 등)
+- [x] Tiptap에 TextStyle, Color, Underline, TextAlign 확장 추가
