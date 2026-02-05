@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { LogOut, LogIn, Instagram, Youtube, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { getLoginUrl } from "@/const";
+import { trpc } from "@/lib/trpc";
 
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
@@ -56,6 +57,7 @@ function Router() {
 function Navigation() {
   const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: siteBranding } = trpc.siteBranding.get.useQuery();
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
@@ -64,7 +66,15 @@ function Navigation() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-              <div className="text-lg font-bold text-foreground">담음미디어</div>
+              {siteBranding?.logoUrl ? (
+                <img
+                  src={siteBranding.logoUrl}
+                  alt={siteBranding.title || '담음미디어'}
+                  className="h-10 w-auto object-contain"
+                />
+              ) : (
+                <div className="text-lg font-bold text-foreground">{siteBranding?.title || '담음미디어'}</div>
+              )}
             </div>
           </Link>
 
