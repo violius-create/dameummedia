@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Music, Award, Briefcase } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 export default function Information() {
   const [fadeIn, setFadeIn] = useState(false);
+  const { data: backgroundData } = trpc.heroBackground.getActiveBySection.useQuery('information');
 
   useEffect(() => {
     setFadeIn(true);
@@ -40,11 +42,28 @@ export default function Information() {
         <div className="relative w-full h-full">
           {/* Background Image */}
           <div className="absolute inset-0">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=400&fit=crop"
-              alt="Information Hero"
-              className="w-full h-full object-cover opacity-40"
-            />
+            {backgroundData?.type === 'image' ? (
+              <img
+                src={backgroundData.mediaUrl}
+                alt="Information Hero"
+                className="w-full h-full object-cover opacity-40"
+              />
+            ) : backgroundData?.type === 'video' ? (
+              <video
+                src={backgroundData.mediaUrl}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover opacity-40"
+              />
+            ) : (
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=400&fit=crop"
+                alt="Information Hero"
+                className="w-full h-full object-cover opacity-40"
+              />
+            )}
           </div>
           
           {/* Overlay */}

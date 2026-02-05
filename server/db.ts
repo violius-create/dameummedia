@@ -287,7 +287,7 @@ export async function getActiveHeroBackground() {
   return result.length > 0 ? result[0] : null;
 }
 
-export async function getActiveHeroBackgroundBySection(section: "main" | "section2" | "section3") {
+export async function getActiveHeroBackgroundBySection(section: "main" | "section2" | "section3" | "information") {
   const db = await getDb();
   if (!db) return null;
   

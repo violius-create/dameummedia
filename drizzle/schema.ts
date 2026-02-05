@@ -140,7 +140,7 @@ export const heroBackgrounds = mysqlTable("heroBackgrounds", {
   mediaUrl: text("mediaUrl").notNull(),
   fileKey: varchar("fileKey", { length: 255 }).notNull().unique(), // S3 file key
   uploadedBy: int("uploadedBy").notNull(),
-  section: mysqlEnum("section", ["main", "section2", "section3"]).default("main").notNull(), // Section identifier
+  section: mysqlEnum("section", ["main", "section2", "section3", "information"]).default("main").notNull(), // Section identifier
   isActive: int("isActive").default(1), // 1 for active background
   order: int("order").default(0), // For custom ordering
   status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),

@@ -8,7 +8,7 @@ import { trpc } from '@/lib/trpc';
 import { ArrowLeft, Upload, Loader2, CheckCircle2, Circle, Trash2 } from 'lucide-react';
 import { Link } from 'wouter';
 
-type SectionType = 'main' | 'section2' | 'section3';
+type SectionType = 'main' | 'section2' | 'section3' | 'information';
 
 export default function AdminHeroBackground() {
   const { user } = useAuth();
@@ -134,6 +134,8 @@ export default function AdminHeroBackground() {
         return '섹션 2 배경 영상';
       case 'section3':
         return '섹션 3 배경 영상';
+      case 'information':
+        return 'Information 배경 이미지';
     }
   };
 
@@ -145,6 +147,8 @@ export default function AdminHeroBackground() {
         return '메인 페이지 중간에 표시될 배경 영상을 업로드하세요.';
       case 'section3':
         return '메인 페이지 하단에 표시될 배경 영상을 업로드하세요.';
+      case 'information':
+        return 'Information 페이지 상단에 표시될 배경 이미지를 업로드하세요.';
     }
   };
 
@@ -171,7 +175,7 @@ export default function AdminHeroBackground() {
       <div className="container max-w-4xl py-8">
         {/* 섹션 선택 탭 */}
         <div className="flex gap-2 mb-8">
-          {(['main', 'section2', 'section3'] as SectionType[]).map((section) => (
+          {(['main', 'section2', 'section3', 'information'] as SectionType[]).map((section) => (
             <Button
               key={section}
               variant={selectedSection === section ? 'default' : 'outline'}

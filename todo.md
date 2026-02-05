@@ -799,3 +799,9 @@
 
 ## Instagram 섹션 폭 조정 (2026-02-06 추가)
 - [x] Instagram 섹션 폭을 위의 Concert Live, Making Film 섹션과 동일하게 container 클래스로 변경
+
+## Information 페이지 배경 이미지 관리 (2026-02-06 추가)
+- [x] 데이터베이스에 Information 페이지 배경 이미지 저장 테이블/필드 추가
+- [x] 백엔드 API 구현 (배경 이미지 조회/업데이트)
+- [x] Admin 페이지에 Information 배경 이미지 업로드 UI 추가
+- [x] Information 페이지에서 동적으로 배경 이미지 로드

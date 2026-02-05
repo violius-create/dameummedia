@@ -1,0 +1,1 @@
+ALTER TABLE `heroBackgrounds` MODIFY COLUMN `section` enum('main','section2','section3','information') NOT NULL DEFAULT 'main';
