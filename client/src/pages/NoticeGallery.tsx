@@ -172,8 +172,7 @@ export default function NoticeGallery() {
                 key={post.id} 
                 className={`relative group ${getWidthClass(postWidth)}`}
                 style={{
-                  marginTop: postMarginTop,
-                  height: postHeight !== 'auto' ? postHeight : undefined
+                  marginTop: postMarginTop
                 }}
               >
                 {user?.role === 'admin' && (
@@ -189,6 +188,7 @@ export default function NoticeGallery() {
                 )}
                 <Card
                   className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 border border-border"
+                  style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
                   onClick={() => window.location.href = `/posts/${post.id}`}
                 >
                   <div className="flex flex-col sm:flex-row sm:h-32">

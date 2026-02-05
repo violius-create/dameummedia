@@ -761,3 +761,13 @@
 - [x] AdminBoardLayoutSettings에서 음수 여백 선택 가능하도록 UI 수정
 - [x] 게시판 페이지에서 음수 여백 적용 확인
 - [x] 테스트 및 체크포인트 저장
+
+
+## 게시판 레이아웃 설정 적용 버그 수정 (2026-02-05)
+- [x] ConcertLiveGallery에서 레이아웃 설정 적용 코드 확인
+- [x] MakingFilmGallery에서 레이아웃 설정 적용 코드 확인
+- [x] NoticeGallery에서 레이아웃 설정 적용 코드 확인
+- [x] 게시물 여백(postMarginTop) 적용 수정
+- [x] 게시물 타이틀 사이즈(postTitleSize) 적용 수정
+- [x] 게시물 높이(postHeight) 적용 수정
+- [x] 테스트 및 체크포인트 저장

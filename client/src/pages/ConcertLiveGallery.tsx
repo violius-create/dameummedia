@@ -177,8 +177,7 @@ export default function ConcertLiveGallery() {
                 key={post.id} 
                 className={`relative group ${getWidthClass(postWidth)}`}
                 style={{
-                  marginTop: postMarginTop,
-                  height: postHeight !== 'auto' ? postHeight : undefined
+                  marginTop: postMarginTop
                 }}
               >
                 {user?.role === 'admin' && (
@@ -194,6 +193,7 @@ export default function ConcertLiveGallery() {
                 )}
                 <Card
                   className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 border border-border"
+                  style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
                   onClick={() => window.location.href = `/posts/${post.id}`}
                 >
                   {displayMode === 'list' ? (
@@ -233,7 +233,6 @@ export default function ConcertLiveGallery() {
                     <>
                       <div 
                         className="relative w-full bg-muted flex items-center justify-center overflow-hidden"
-                        style={{ height: postHeight !== 'auto' ? postHeight : undefined }}
                       >
                         {post.imageUrl ? (
                           <img
