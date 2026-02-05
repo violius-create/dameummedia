@@ -160,8 +160,8 @@ export default function MakingFilmGallery() {
                 >
                   {displayMode === 'list' ? (
                     // 리스트형 레이아웃: 썸네일 왼쪽 + 내용 오른쪽
-                    <div className="flex flex-col sm:flex-row">
-                      <div className="relative h-48 sm:h-auto sm:w-64 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
+                    <div className="flex flex-col sm:flex-row sm:h-48">
+                      <div className="relative h-48 sm:w-64 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
                         {post.imageUrl ? (
                           <img
                             src={post.imageUrl}

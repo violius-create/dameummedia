@@ -187,15 +187,26 @@ export default function EditPost() {
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-lg sm:text-xl font-bold text-foreground">{getCategoryLabel()} 수정</h1>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setLocation(getBackLink())} 
-              className="text-foreground"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              돌아가기
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setLocation(category === 'concert' ? '/concert-live' : '/making-film')} 
+                className="text-foreground"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                목록보기
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setLocation(getBackLink())} 
+                className="text-foreground"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                취소
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
