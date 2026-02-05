@@ -73,6 +73,37 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
       transformPastedHTML(html) {
         return html;
       },
+      // Handle image paste from clipboard
+      handlePaste: (view, event) => {
+        const items = event.clipboardData?.items;
+        if (!items) return false;
+
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          
+          // Handle image paste
+          if (item.type.indexOf('image') !== -1) {
+            event.preventDefault();
+            const file = item.getAsFile();
+            if (file) {
+              // Create a temporary URL for the image
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                const dataUrl = e.target?.result as string;
+                // Insert image with data URL (temporary)
+                // In production, you should upload to S3 and replace with the URL
+                view.state.tr.replaceSelectionWith(
+                  view.state.schema.nodes.image.create({ src: dataUrl })
+                );
+                view.dispatch(view.state.tr);
+              };
+              reader.readAsDataURL(file);
+            }
+            return true;
+          }
+        }
+        return false;
+      },
     },
   });
 
