@@ -19,7 +19,7 @@ export default function AdminDashboard() {
   const [location] = useLocation();
   
   // All hooks must be called before any conditional returns
-  const [activeTab, setActiveTab] = useState("images");
+  const [activeTab, setActiveTab] = useState("prices");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("notice");
@@ -231,8 +231,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-5 overflow-x-auto">
-            <TabsTrigger value="images">이미지 관리</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-4 overflow-x-auto">
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
             <TabsTrigger value="footer">Footer 설정</TabsTrigger>
@@ -529,16 +528,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           {/* Images Tab */}
-          <TabsContent value="images" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>이미지 관리</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">이미지 관리 기능</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
+
 
           {/* Prices Tab */}
           <TabsContent value="prices" className="space-y-6">

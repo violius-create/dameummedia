@@ -10,7 +10,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function AdminFooterSettings() {
   const { user, isAuthenticated } = useAuth();
-  const { data: footerSettings } = trpc.footerSettings.get.useQuery();
+  const { data: footerSettings, refetch } = trpc.footerSettings.get.useQuery();
   
   const [companyName, setCompanyName] = useState("");
   const [copyrightText, setCopyrightText] = useState("");
@@ -33,6 +33,7 @@ export default function AdminFooterSettings() {
   const updateMutation = trpc.footerSettings.update.useMutation({
     onSuccess: () => {
       toast.success("Footer 설정이 저장되었습니다.");
+      refetch();
     },
     onError: (error) => {
       toast.error(`저장 실패: ${error.message}`);
