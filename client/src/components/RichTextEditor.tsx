@@ -9,6 +9,7 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import { Button } from '@/components/ui/button';
 import { useEffect } from 'react';
+import { trpc } from '@/lib/trpc';
 import {
   Bold,
   Italic,
@@ -37,6 +38,8 @@ interface RichTextEditorProps {
 }
 
 export function RichTextEditor({ content, onChange, placeholder = '내용을 입력하세요...' }: RichTextEditorProps) {
+  const uploadImageMutation = trpc.images.upload.useMutation();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -86,16 +89,29 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
             event.preventDefault();
             const file = item.getAsFile();
             if (file) {
-              // Create a temporary URL for the image
+              // Read file as base64
               const reader = new FileReader();
-              reader.onload = (e) => {
+              reader.onload = async (e) => {
                 const dataUrl = e.target?.result as string;
-                // Insert image with data URL (temporary)
-                // In production, you should upload to S3 and replace with the URL
-                view.state.tr.replaceSelectionWith(
-                  view.state.schema.nodes.image.create({ src: dataUrl })
-                );
-                view.dispatch(view.state.tr);
+                const base64Data = dataUrl.split(',')[1]; // Remove data:image/...;base64, prefix
+                
+                try {
+                  // Upload to S3
+                  const result = await uploadImageMutation.mutateAsync({
+                    fileName: file.name || `pasted-image-${Date.now()}.png`,
+                    fileData: base64Data,
+                    mimeType: file.type,
+                  });
+                  
+                  // Insert image with S3 URL
+                  const { state, dispatch } = view;
+                  const node = state.schema.nodes.image.create({ src: result.fileUrl });
+                  const tr = state.tr.replaceSelectionWith(node);
+                  dispatch(tr);
+                } catch (error) {
+                  console.error('Failed to upload image:', error);
+                  alert('이미지 업로드에 실패했습니다.');
+                }
               };
               reader.readAsDataURL(file);
             }

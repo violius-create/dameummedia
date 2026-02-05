@@ -79,7 +79,7 @@ export default function MakingFilmGallery() {
         'container'
       } py-8 sm:py-16`}>
         {/* Header Section */}
-        <div className="mb-8 sm:mb-16 space-y-4">
+        <div className="mb-4 sm:mb-8 space-y-4">
           <div className="flex items-center justify-between gap-3 mb-6">
             <div className="flex items-center gap-3">
               <Film className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
