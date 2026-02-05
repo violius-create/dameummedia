@@ -216,7 +216,10 @@ export default function MakingFilmGallery() {
                 >
                   {displayMode === 'list' ? (
                     // 리스트형 레이아웃: 썸네일 왼쪽 + 내용 오른쪽
-                    <div className="flex flex-col sm:flex-row h-full">
+                    <div 
+                      className="flex flex-col sm:flex-row h-full"
+                      style={{ gap: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1rem' }}
+                    >
                       <div className="relative flex-1 sm:w-64 sm:flex-initial flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
                         {post.imageUrl ? (
                           <img

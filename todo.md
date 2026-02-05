@@ -820,3 +820,11 @@
 - [x] MakingFilmGallery에 동일하게 적용
 - [x] NoticeGallery에 동일하게 적용
 - [x] 테스트 및 체크포인트 저장
+
+
+## 리스트형 레이아웃 썸네일-텍스트 간격 조정 (2026-02-05)
+- [x] ConcertLiveGallery 리스트형에서 썸네일-텍스트 간격 확인
+- [x] 썸네일-텍스트 간격을 postMarginTop과 동일하게 수정
+- [x] MakingFilmGallery에 동일하게 적용
+- [x] NoticeGallery에 동일하게 적용
+- [x] 테스트 및 체크포인트 저장
