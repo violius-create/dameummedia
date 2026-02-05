@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -69,9 +70,11 @@ export default function AdminBoardLayoutSettings() {
       <div className="container py-8">
         <div className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold">게시판 레이아웃 설정</h1>
-          <Button variant="outline" onClick={() => window.history.back()}>
-            돌아가기
-          </Button>
+          <Link href="/admin">
+            <Button variant="outline">
+              돌아가기
+            </Button>
+          </Link>
         </div>
 
         <Card>

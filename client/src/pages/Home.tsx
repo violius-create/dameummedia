@@ -6,6 +6,7 @@ import { ArrowRight, Music, Film, Calendar, Mail, Phone, MapPin, LogOut, Play, S
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
@@ -326,11 +327,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-border text-gray-400 py-8">
-        <div className="container text-center">
-          <p>&copy; 2024 담음미디어. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
