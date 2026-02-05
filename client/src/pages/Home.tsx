@@ -223,7 +223,7 @@ export default function Home() {
 
       {/* Concert Live Section */}
       <section className="bg-background border-t border-border">
-        <div className="container py-24">
+        <div className="container py-12">
           <div className="mb-12">
             <a href="/concert-live" className="cursor-pointer hover:opacity-80 transition-opacity">
               <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['concert_live']?.title || '공연 영상'}</h2>
@@ -257,9 +257,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Making Film Section */}
+      {/* 예약/공지사항 미리보기 섹션 */}
       <section className="bg-background border-t border-border">
-        <div className="container py-24">
+        <div className="container py-12">
           <div className="mb-12">
             <a href="/making-film" className="cursor-pointer hover:opacity-80 transition-opacity">
               <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['making_film']?.title || '영상 제작'}</h2>
