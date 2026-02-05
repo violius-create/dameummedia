@@ -293,6 +293,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Instagram Feed Section */}
+      <section className="bg-background border-t border-border">
+        <div className="container py-12">
+          <div className="mb-8">
+            <a href="https://www.instagram.com/dameummedia" target="_blank" rel="noopener noreferrer" className="cursor-pointer hover:opacity-80 transition-opacity inline-flex items-center gap-2">
+              <Instagram className="w-8 h-8" />
+              <h2 className="text-4xl font-bold tracking-tight hover:text-primary transition-colors">Instagram</h2>
+            </a>
+            <p className="text-lg text-muted-foreground mt-2">담음미디어의 최신 소식을 인스타그램에서 확인하세요</p>
+          </div>
+          <div className="w-full max-w-4xl mx-auto">
+            <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+              <iframe 
+                src="https://www.instagram.com/dameummedia/embed" 
+                allowTransparency={true}
+                frameBorder="0"
+                scrolling="yes"
+                className="absolute inset-0 w-full h-[90%] border-none overflow-hidden rounded-lg shadow-lg"
+                title="Posts from Instagram"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Reservation & Notice Preview Section */}
       <section className="bg-background border-t border-border">
         <div className="container py-24">
