@@ -177,9 +177,10 @@ export default function PostDetail() {
               )}
 
               {/* Content */}
-              <div className="prose prose-sm max-w-none dark:prose-invert">
-                <p className="text-lg leading-relaxed whitespace-pre-wrap">{post.content}</p>
-              </div>
+              <div 
+                className="prose prose-sm max-w-none dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
 
               {/* Bottom Edit Button */}
               {isAuthenticated && user?.role === 'admin' && (
@@ -255,7 +256,10 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
           </div>
           <CardContent className="pt-4">
             <h4 className="font-semibold line-clamp-2 mb-2">{post.title}</h4>
-            <p className="text-sm text-muted-foreground line-clamp-2">{post.content}</p>
+            <div 
+              className="text-sm text-muted-foreground line-clamp-2"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           </CardContent>
         </Card>
       ))}

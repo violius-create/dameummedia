@@ -646,3 +646,15 @@
 - [x] 상단 네비게이션 메뉴 버튼 간격 축소 (gap-5 → gap-3)
 - [x] SNS 버튼 색상을 회색으로 변경 (text-foreground → text-muted-foreground)
 - [x] SNS 버튼 간격 축소 (gap-2 → gap-1)
+
+
+## 리치 텍스트 에디터(Tiptap) 통합 (2026-02-05)
+- [x] Tiptap 및 관련 패키지 설치 (@tiptap/react, @tiptap/starter-kit 등)
+- [x] RichTextEditor 컴포넌트 생성 (툴바 포함)
+- [x] AdminDashboard 페이지에 에디터 적용 (게시물 작성/수정)
+- [x] EditPost 페이지에 에디터 적용
+- [x] PostDetail 페이지에서 HTML 컨텐츠 렌더링
+- [x] Reservation 페이지에 에디터 적용
+- [x] ReservationDetail 페이지에 에디터 및 HTML 렌더링 적용
+- [x] AdminDashboard TabsList에 "게시글 관리" 탭 추가
+- [x] 브라우저에서 리치 텍스트 에디터 정상 작동 확인

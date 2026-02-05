@@ -3,6 +3,7 @@ import { useLocation, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft, Upload } from "lucide-react";
@@ -237,13 +238,10 @@ export default function EditPost() {
               {/* Content */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">내용 *</label>
-                <Textarea
-                  placeholder="게시물 내용을 입력하세요"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  disabled={isLoading}
-                  rows={8}
-                  className="w-full resize-none"
+                <RichTextEditor
+                  content={content}
+                  onChange={setContent}
+                  placeholder="게시물 내용을 입력하세요..."
                 />
               </div>
 

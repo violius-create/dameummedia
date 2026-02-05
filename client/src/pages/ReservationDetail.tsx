@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Edit2, Trash2, Loader2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
@@ -559,15 +560,18 @@ export default function ReservationDetail() {
                 <div className="bg-white rounded p-4 border border-red-200">
                   <Label htmlFor="description" className="text-sm font-semibold text-gray-700">프로그램 및 정보</Label>
                   {isEditing ? (
-                    <Textarea
-                      id="description"
-                      value={editData?.description || ""}
-                      onChange={(e) => setEditData((prev: any) => ({ ...prev, description: e.target.value }))}
-                      className="mt-2"
-                      rows={4}
-                    />
+                    <div className="mt-2">
+                      <RichTextEditor
+                        content={editData?.description || ""}
+                        onChange={(html) => setEditData((prev: any) => ({ ...prev, description: html }))}
+                        placeholder="프로그램 및 정보를 입력하세요..."
+                      />
+                    </div>
                   ) : (
-                    <p className="mt-2 text-foreground whitespace-pre-wrap">{displayData.description || "-"}</p>
+                    <div 
+                      className="mt-2 prose prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{ __html: displayData.description || "-" }}
+                    />
                   )}
                 </div>
 

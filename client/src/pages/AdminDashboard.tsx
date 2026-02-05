@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
@@ -231,8 +232,9 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-4 overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-5 overflow-x-auto">
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
+            <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
             <TabsTrigger value="footer" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/footer-settings'; }}>Footer 설정</TabsTrigger>
             <TabsTrigger value="layout" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/board-layout-settings'; }}>게시판 레이아웃</TabsTrigger>
@@ -274,12 +276,10 @@ export default function AdminDashboard() {
 
                 <div>
                   <Label htmlFor="content">내용</Label>
-                  <Textarea
-                    id="content"
-                    placeholder="게시글 내용"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    rows={6}
+                  <RichTextEditor
+                    content={content}
+                    onChange={setContent}
+                    placeholder="게시글 내용을 입력하세요..."
                   />
                 </div>
 

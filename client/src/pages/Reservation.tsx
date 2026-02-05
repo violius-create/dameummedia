@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
@@ -548,12 +549,10 @@ export default function Reservation() {
                     <Label htmlFor="description">
                       프로그램 및 정보
                     </Label>
-                    <Textarea
-                      id="description"
-                      placeholder="추가로 알려주실 사항이 있으신가요?"
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      rows={6}
+                    <RichTextEditor
+                      content={formData.description}
+                      onChange={(html) => setFormData({ ...formData, description: html })}
+                      placeholder="추가로 알려주실 사항을 입력하세요..."
                     />
                   </div>
                 </div>
