@@ -805,3 +805,7 @@
 - [x] 백엔드 API 구현 (배경 이미지 조회/업데이트)
 - [x] Admin 페이지에 Information 배경 이미지 업로드 UI 추가
 - [x] Information 페이지에서 동적으로 배경 이미지 로드
+
+## AdminHeroBackground 이미지 업로드 지원 (2026-02-06 추가)
+- [x] AdminHeroBackground 페이지에서 이미지 파일 업로드가 가능하도록 accept 속성 수정
+- [x] 이미지와 영상 모두 업로드 가능하도록 UI 개선

@@ -68,7 +68,7 @@ export default function AdminHeroBackground() {
 
   const handleUpload = async () => {
     if (!videoFile || !title) {
-      alert('제목과 영상을 선택해주세요.');
+      alert('제목과 파일을 선택해주세요.');
       return;
     }
 
@@ -94,18 +94,22 @@ export default function AdminHeroBackground() {
           mimeType: currentFile.type,
         });
 
+        // 파일 타입 감지 (image 또는 video)
+        const fileType = currentFile.type.startsWith('image/') ? 'image' : 'video';
+        
         // heroBackground 생성
         await createHeroBackgroundMutation.mutateAsync({
           title: currentTitle,
           description: currentDescription,
-          type: 'video',
+          type: fileType,
           mediaUrl: uploadResult.url,
           fileKey: uploadResult.fileKey,
           isActive: 1,
           section: currentSection,
         });
 
-        alert(`${currentSection === 'main' ? '메인' : currentSection === 'section2' ? '섹션 2' : '섹션 3'} 배경 영상이 업로드되었스니다.`);
+        const sectionName = currentSection === 'main' ? '메인' : currentSection === 'section2' ? '섹션 2' : currentSection === 'section3' ? '섹션 3' : 'Information';
+        alert(`${sectionName} 배경 ${fileType === 'image' ? '이미지' : '영상'}가 업로드되었습니다.`);
         setTitle('');
         setDescription('');
         setVideoFile(null);
@@ -221,28 +225,36 @@ export default function AdminHeroBackground() {
 
               {/* 파일 선택 */}
               <div>
-                <Label htmlFor="video">영상 파일 선택</Label>
+                <Label htmlFor="media">이미지 또는 영상 파일 선택</Label>
                 <Input
-                  id="video"
+                  id="media"
                   type="file"
-                  accept="video/*"
+                  accept="image/*,video/*"
                   onChange={handleFileChange}
                   className="mt-2"
                 />
                 <p className="text-sm text-muted-foreground mt-2">
-                  지원 형식: MP4, WebM, Ogg 등
+                  지원 형식: 이미지 (JPG, PNG, WebP 등), 영상 (MP4, WebM, Ogg 등)
                 </p>
               </div>
 
               {/* 미리보기 */}
-              {preview && (
+              {preview && videoFile && (
                 <div>
                   <Label>미리보기</Label>
-                  <video
-                    src={preview}
-                    controls
-                    className="w-full h-64 bg-black rounded-lg mt-2"
-                  />
+                  {videoFile.type.startsWith('image/') ? (
+                    <img
+                      src={preview}
+                      alt="미리보기"
+                      className="w-full h-64 object-cover rounded-lg mt-2"
+                    />
+                  ) : (
+                    <video
+                      src={preview}
+                      controls
+                      className="w-full h-64 bg-black rounded-lg mt-2"
+                    />
+                  )}
                 </div>
               )}
 
