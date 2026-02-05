@@ -206,10 +206,10 @@ export default function AdminBoardLayoutSettings() {
                   type="text"
                   value={postMarginTop}
                   onChange={(e) => setPostMarginTop(e.target.value)}
-                  placeholder="0, 1rem, 2rem 등"
+                  placeholder="0, 1rem, -0.5rem 등"
                 />
                 <p className="text-sm text-muted-foreground">
-                  각 게시물 카드의 위쪽 여백을 설정합니다. (0, 1rem, 2rem 등)
+                  각 게시물 카드의 위쪽 여백을 설정합니다. (0, 1rem, 2rem, -0.5rem, -1rem 등 음수 가능)
                 </p>
               </div>
 
