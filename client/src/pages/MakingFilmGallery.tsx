@@ -7,9 +7,18 @@ import { useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import Footer from "@/components/Footer";
 
-// HTML 태그를 제거하는 유틸리티 함수
+// HTML 태그를 제거하고 텍스트만 추출하는 유틸리티 함수
 const stripHtmlTags = (html: string): string => {
-  return html.replace(/<[^>]*>/g, '');
+  if (!html) return '';
+  // HTML 태그 제거
+  let text = html.replace(/<[^>]*>/g, '');
+  // HTML 엔티티 디코딩
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = text;
+  text = textarea.value;
+  // 여러 공백을 하나로 축소하고 앞뒤 공백 제거
+  text = text.replace(/\s+/g, ' ').trim();
+  return text;
 };
 
 export default function MakingFilmGallery() {
@@ -182,7 +191,7 @@ export default function MakingFilmGallery() {
                 className={`relative group ${getWidthClass(postWidth)}`}
                 style={{
                   marginTop: postMarginTop,
-                  height: postHeight !== 'auto' ? postHeight : undefined
+                  height: displayMode === 'list' && postHeight !== 'auto' ? postHeight : undefined
                 }}
               >
                 {user?.role === 'admin' && (
@@ -255,7 +264,7 @@ export default function MakingFilmGallery() {
                           </div>
                         )}
                       </div>
-                      <CardHeader className="flex-1 p-3 sm:p-6">
+                      <CardHeader className="flex-1 p-3 sm:p-6" style={{ marginTop: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1rem' }}>
                         <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
                         <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{stripHtmlTags(post.content)}</CardDescription>
                       </CardHeader>

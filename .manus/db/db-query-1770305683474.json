@@ -1,0 +1,15 @@
+{
+  "query": "SELECT id, title, content FROM posts WHERE title LIKE '%I could have danced%' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, content FROM posts WHERE title LIKE '%I could have danced%' LIMIT 1;",
+  "rows": [
+    {
+      "id": "240001",
+      "title": "[03] I could have danced all night / 서울연합윈드오케스트라 제2회 정기연주회",
+      "content": "<p>ㄴㄷㄱ혿ㄱ</p>"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcontent\n240001\t[03] I could have danced all night / 서울연합윈드오케스트라 제2회 정기연주회\t<p>ㄴㄷㄱ혿ㄱ</p>\n",
+  "stderr": "",
+  "execution_time_ms": 1596
+}
