@@ -185,18 +185,18 @@ export default function MakingFilmGallery() {
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div className={`grid gap-4 sm:gap-8 ${
-            displayMode === 'list' ? 'grid-cols-1' :
-            displayMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
-            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
-          }`}>
+          <div 
+            className={`grid ${
+              displayMode === 'list' ? 'grid-cols-1' :
+              displayMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
+              'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+            }`}
+            style={{ gap: postMarginTop || '2rem' }}
+          >
             {posts.map((post) => (
               <div 
                 key={post.id} 
                 className={`relative group ${getWidthClass(postWidth)}`}
-                style={{
-                  marginTop: postMarginTop
-                }}
               >
                 {user?.role === 'admin' && (
                   <div className="absolute top-2 left-2 z-10 bg-white rounded-lg p-2 shadow-md">

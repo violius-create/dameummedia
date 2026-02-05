@@ -185,14 +185,14 @@ export default function NoticeGallery() {
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div className="grid gap-4 sm:gap-6 grid-cols-1">
+          <div 
+            className="grid grid-cols-1"
+            style={{ gap: postMarginTop || '1.5rem' }}
+          >
             {posts.map((post) => (
               <div 
                 key={post.id} 
                 className={`relative group ${getWidthClass(postWidth)}`}
-                style={{
-                  marginTop: postMarginTop
-                }}
               >
                 {user?.role === 'admin' && (
                   <div className="absolute top-2 left-2 z-10 bg-white rounded-lg p-2 shadow-md">

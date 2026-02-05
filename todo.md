@@ -804,3 +804,11 @@
 - [x] NoticeGallery에서 썸네일 크기 적용 코드 확인
 - [x] 썸네일이 게시물 높이에 따라 자동으로 변하도록 수정
 - [x] 테스트 및 체크포인트 저장
+
+
+## 게시물 썸네일 좌측 여백 자동 조정 (2026-02-05)
+- [x] ConcertLiveGallery에서 그리드 간격 설정 확인
+- [x] 그리드 간격을 postMarginTop과 동일하게 수정
+- [x] MakingFilmGallery에 동일하게 적용
+- [x] NoticeGallery에 동일하게 적용
+- [x] 테스트 및 체크포인트 저장
