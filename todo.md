@@ -829,3 +829,9 @@
 ## 메인 화면 게시물 표시 개수 증가 (2026-02-06 추가)
 - [x] Concert Live 섹션 게시물 limit을 4개에서 6개로 증가
 - [x] Making Film 섹션 게시물 limit을 4개에서 6개로 증가
+
+## 관리자 페이지에서 썸네일 간격 조절 기능 (2026-02-06 추가)
+- [x] sectionTitles 테이블에 thumbnailGap 필드 추가
+- [x] 백엔드 API에서 thumbnailGap 저장/조회 기능 구현
+- [x] Admin 페이지에 Concert Live와 Making Film 섹션의 썸네일 간격 조절 UI 추가
+- [x] Home 페이지에서 동적으로 썸네일 간격 적용

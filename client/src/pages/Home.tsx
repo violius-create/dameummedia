@@ -24,7 +24,7 @@ export default function Home() {
   const { data: section3Background } = trpc.heroBackground.getActiveBySection.useQuery('section3');
   const { data: siteBranding } = trpc.siteBranding.get.useQuery();
   const { data: allSectionTitles } = trpc.sectionTitles.list.useQuery();
-  const [sections, setSections] = useState<Record<string, { title: string; description: string }>>({});
+  const [sections, setSections] = useState<Record<string, { title: string; description: string; thumbnailGap: number }>>({});
   const concertScrollRef = useRef<HTMLDivElement>(null);
   const filmScrollRef = useRef<HTMLDivElement>(null);
   
@@ -77,11 +77,12 @@ export default function Home() {
   // 섹션 제목 데이터 로드
   useEffect(() => {
     if (allSectionTitles) {
-      const sectionMap: Record<string, any> = {};
-      allSectionTitles.forEach((section: any) => {
+      const sectionMap: Record<string, { title: string; description: string; thumbnailGap: number }> = {};
+      allSectionTitles.forEach(section => {
         sectionMap[section.sectionKey] = {
           title: section.title,
           description: section.description || '',
+          thumbnailGap: section.thumbnailGap || 24,
         };
       });
       setSections(sectionMap);
@@ -269,8 +270,12 @@ export default function Home() {
           <div className="relative">
             <div 
               ref={(el) => { if (el) concertScrollRef.current = el; }}
-              className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide pb-4"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="flex overflow-x-auto scroll-smooth scrollbar-hide pb-4"
+              style={{ 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none',
+                gap: `${sections['concert_live']?.thumbnailGap || 24}px`
+              }}
             >
               {concertPosts?.map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
@@ -325,8 +330,12 @@ export default function Home() {
           <div className="relative">
             <div 
               ref={(el) => { if (el) filmScrollRef.current = el; }}
-              className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide pb-4"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="flex overflow-x-auto scroll-smooth scrollbar-hide pb-4"
+              style={{ 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none',
+                gap: `${sections['making_film']?.thumbnailGap || 24}px`
+              }}
             >
               {filmPosts?.map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>

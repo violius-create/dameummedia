@@ -1,0 +1,1 @@
+ALTER TABLE `sectionTitles` ADD `thumbnailGap` int DEFAULT 24;

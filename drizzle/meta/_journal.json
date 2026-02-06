@@ -78,6 +78,13 @@
       "when": 1770361963375,
       "tag": "0010_smooth_gauntlet",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1770368503869,
+      "tag": "0011_tiny_hercules",
+      "breakpoints": true
     }
   ]
 }
