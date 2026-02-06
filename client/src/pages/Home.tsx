@@ -301,14 +301,14 @@ export default function Home() {
             </div>
             <button
               onClick={() => scrollConcert('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
               aria-label="이전 슬라이드"
             >
               <ArrowRight className="w-6 h-6 rotate-180" />
             </button>
             <button
               onClick={() => scrollConcert('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
               aria-label="다음 슬라이드"
             >
               <ArrowRight className="w-6 h-6" />
@@ -361,14 +361,14 @@ export default function Home() {
             </div>
             <button
               onClick={() => scrollFilm('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
               aria-label="이전 슬라이드"
             >
               <ArrowRight className="w-6 h-6 rotate-180" />
             </button>
             <button
               onClick={() => scrollFilm('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
               aria-label="다음 슬라이드"
             >
               <ArrowRight className="w-6 h-6" />
@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full h-[2000px] sm:h-[1600px] md:h-[1200px] lg:h-[1000px]">
+          <div className="relative w-full" style={{ paddingBottom: '150%' }}>
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
