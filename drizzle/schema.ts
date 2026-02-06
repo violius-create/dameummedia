@@ -197,6 +197,7 @@ export const sectionTitles = mysqlTable("sectionTitles", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"), // Optional description for the section
   thumbnailGap: int("thumbnailGap").default(24), // Gap between thumbnails in pixels (default: 24px = gap-6)
+  thumbnailWidth: int("thumbnailWidth").default(280), // Width of thumbnails in pixels (default: 280px)
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

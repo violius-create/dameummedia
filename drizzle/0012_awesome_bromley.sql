@@ -1,0 +1,1 @@
+ALTER TABLE `sectionTitles` ADD `thumbnailWidth` int DEFAULT 280;

@@ -85,6 +85,13 @@
       "when": 1770368503869,
       "tag": "0011_tiny_hercules",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1770376939968,
+      "tag": "0012_awesome_bromley",
+      "breakpoints": true
     }
   ]
 }

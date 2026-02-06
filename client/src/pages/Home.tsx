@@ -24,7 +24,7 @@ export default function Home() {
   const { data: section3Background } = trpc.heroBackground.getActiveBySection.useQuery('section3');
   const { data: siteBranding } = trpc.siteBranding.get.useQuery();
   const { data: allSectionTitles } = trpc.sectionTitles.list.useQuery();
-  const [sections, setSections] = useState<Record<string, { title: string; description: string; thumbnailGap: number }>>({});
+  const [sections, setSections] = useState<Record<string, { title: string; description: string; thumbnailGap: number; thumbnailWidth: number }>>({});
   const concertScrollRef = useRef<HTMLDivElement>(null);
   const filmScrollRef = useRef<HTMLDivElement>(null);
   
@@ -77,12 +77,13 @@ export default function Home() {
   // 섹션 제목 데이터 로드
   useEffect(() => {
     if (allSectionTitles) {
-      const sectionMap: Record<string, { title: string; description: string; thumbnailGap: number }> = {};
+      const sectionMap: Record<string, { title: string; description: string; thumbnailGap: number; thumbnailWidth: number }> = {};
       allSectionTitles.forEach(section => {
         sectionMap[section.sectionKey] = {
           title: section.title,
           description: section.description || '',
           thumbnailGap: section.thumbnailGap || 24,
+          thumbnailWidth: section.thumbnailWidth || 280,
         };
       });
       setSections(sectionMap);
@@ -279,7 +280,7 @@ export default function Home() {
             >
               {concertPosts?.map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
-                  <div className="group cursor-pointer flex-shrink-0 w-[280px]">
+                  <div className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['concert_live']?.thumbnailWidth || 280}px` }}>
                     <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
                       {post.imageUrl ? (
                         <img
@@ -339,7 +340,7 @@ export default function Home() {
             >
               {filmPosts?.map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
-                  <div className="group cursor-pointer flex-shrink-0 w-[280px]">
+                  <div className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['making_film']?.thumbnailWidth || 280}px` }}>
                     <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
                       {post.imageUrl ? (
                         <img

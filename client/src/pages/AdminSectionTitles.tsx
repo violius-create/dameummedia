@@ -10,7 +10,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
 export default function AdminSectionTitles() {
-  const [sections, setSections] = useState<Record<string, { title: string; description: string; thumbnailGap: number }>>({});
+  const [sections, setSections] = useState<Record<string, { title: string; description: string; thumbnailGap: number; thumbnailWidth: number }>>({});
   const [isLoading, setIsLoading] = useState(true);
   const { data: allSections } = trpc.sectionTitles.list.useQuery();
   const updateMutation = trpc.sectionTitles.update.useMutation({
@@ -24,12 +24,13 @@ export default function AdminSectionTitles() {
 
   useEffect(() => {
     if (allSections) {
-      const sectionMap: Record<string, { title: string; description: string; thumbnailGap: number }> = {};
+      const sectionMap: Record<string, { title: string; description: string; thumbnailGap: number; thumbnailWidth: number }> = {};
       allSections.forEach(section => {
         sectionMap[section.sectionKey] = {
           title: section.title,
           description: section.description || '',
           thumbnailGap: section.thumbnailGap || 24,
+          thumbnailWidth: section.thumbnailWidth || 280,
         };
       });
       setSections(sectionMap);
@@ -37,7 +38,7 @@ export default function AdminSectionTitles() {
     }
   }, [allSections]);
 
-  const handleSectionUpdate = (sectionKey: string, field: 'title' | 'description' | 'thumbnailGap', value: string | number) => {
+  const handleSectionUpdate = (sectionKey: string, field: 'title' | 'description' | 'thumbnailGap' | 'thumbnailWidth', value: string | number) => {
     setSections(prev => ({
       ...prev,
       [sectionKey]: {
@@ -54,6 +55,7 @@ export default function AdminSectionTitles() {
       title: section.title,
       description: section.description,
       thumbnailGap: section.thumbnailGap,
+      thumbnailWidth: section.thumbnailWidth,
     });
   };
 
@@ -119,24 +121,44 @@ export default function AdminSectionTitles() {
                     />
                   </div>
                   {(key === 'concert_live' || key === 'making_film') && (
-                    <div>
-                      <Label htmlFor={`${key}-gap`}>썸네일 간격 (px): {sections[key]?.thumbnailGap || 24}px</Label>
-                      <input
-                        type="range"
-                        id={`${key}-gap`}
-                        min="0"
-                        max="48"
-                        step="2"
-                        value={sections[key]?.thumbnailGap || 24}
-                        onChange={(e) => handleSectionUpdate(key, 'thumbnailGap', parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                      />
-                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                        <span>0px</span>
-                        <span>24px</span>
-                        <span>48px</span>
+                    <>
+                      <div>
+                        <Label htmlFor={`${key}-gap`}>썸네일 간격 (px): {sections[key]?.thumbnailGap || 24}px</Label>
+                        <input
+                          type="range"
+                          id={`${key}-gap`}
+                          min="0"
+                          max="48"
+                          step="2"
+                          value={sections[key]?.thumbnailGap || 24}
+                          onChange={(e) => handleSectionUpdate(key, 'thumbnailGap', parseInt(e.target.value))}
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                          <span>0px</span>
+                          <span>24px</span>
+                          <span>48px</span>
+                        </div>
                       </div>
-                    </div>
+                      <div>
+                        <Label htmlFor={`${key}-width`}>썸네일 크기 (px): {sections[key]?.thumbnailWidth || 280}px</Label>
+                        <input
+                          type="range"
+                          id={`${key}-width`}
+                          min="200"
+                          max="400"
+                          step="10"
+                          value={sections[key]?.thumbnailWidth || 280}
+                          onChange={(e) => handleSectionUpdate(key, 'thumbnailWidth', parseInt(e.target.value))}
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                          <span>200px</span>
+                          <span>300px</span>
+                          <span>400px</span>
+                        </div>
+                      </div>
+                    </>
                   )}
                   <Button
                     onClick={() => handleSave(key)}

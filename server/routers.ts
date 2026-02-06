@@ -466,7 +466,7 @@ export const appRouter = router({
       }),
     
     update: adminProcedure
-      .input(z.object({ sectionKey: z.string(), title: z.string().optional(), description: z.string().optional(), thumbnailGap: z.number().optional() }))
+      .input(z.object({ sectionKey: z.string(), title: z.string().optional(), description: z.string().optional(), thumbnailGap: z.number().optional(), thumbnailWidth: z.number().optional() }))
       .mutation(async ({ input, ctx }) => {
         const existing = await db.getSectionTitle(input.sectionKey);
         if (existing) {
@@ -474,6 +474,7 @@ export const appRouter = router({
             title: input.title,
             description: input.description,
             thumbnailGap: input.thumbnailGap,
+            thumbnailWidth: input.thumbnailWidth,
             updatedBy: ctx.user.id,
           });
         } else {
@@ -482,6 +483,7 @@ export const appRouter = router({
             title: input.title || '',
             description: input.description,
             thumbnailGap: input.thumbnailGap,
+            thumbnailWidth: input.thumbnailWidth,
             updatedBy: ctx.user.id,
           });
         }
