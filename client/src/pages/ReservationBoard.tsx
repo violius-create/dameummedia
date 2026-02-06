@@ -145,12 +145,12 @@ export default function ReservationBoard() {
             <div className="border border-gray-200 rounded-lg overflow-hidden">
               {/* Table Header */}
               <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
-                <div className="grid grid-cols-5 gap-4 items-center text-sm font-semibold text-foreground">
-                  <div>번호</div>
-                  <div>행사명</div>
-                  <div>작성자</div>
-                  <div>날짜</div>
-                  <div>상태</div>
+                <div className="flex gap-4 items-center text-sm font-semibold text-foreground">
+                  <div className="w-[8%]">번호</div>
+                  <div className="w-[60%]">행사명</div>
+                  <div className="w-[12%]">작성자</div>
+                  <div className="w-[10%]">날짜</div>
+                  <div className="w-[10%] text-center">상태</div>
                 </div>
               </div>
 
@@ -159,20 +159,20 @@ export default function ReservationBoard() {
                 {filteredReservations.map((reservation: any, index: number) => (
                   <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
                     <div className="hover:bg-gray-50 transition-colors cursor-pointer">
-                      <div className="px-6 py-4 grid grid-cols-5 gap-4 items-center text-sm">
-                        <div className="text-foreground font-medium">
+                      <div className="px-6 py-4 flex gap-4 items-center text-sm">
+                        <div className="w-[8%] text-foreground font-medium">
                           {reservation.id}
                         </div>
-                        <div className="text-primary hover:underline">
+                        <div className="w-[60%] text-primary hover:underline">
                           {reservation.eventName || "제목 없음"}
                         </div>
-                        <div className="text-foreground">
+                        <div className="w-[12%] text-foreground">
                           {reservation.clientName || "-"}
                         </div>
-                        <div className="text-muted-foreground">
+                        <div className="w-[10%] text-muted-foreground">
                           {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
                         </div>
-                        <div className="flex justify-center">
+                        <div className="w-[10%] flex justify-center">
                           <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
                             {getStatusLabel(reservation.status)}
                           </span>
