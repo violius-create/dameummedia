@@ -18,6 +18,9 @@ export default function ReservationBoard() {
     offset: page * pageSize,
   });
 
+  // 섹션 제목 데이터 로드
+  const { data: sectionData } = trpc.sectionTitles.get.useQuery({ sectionKey: 'reservation' });
+
   const filteredReservations = reservations.filter((res: any) => 
     res.eventName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     res.clientName?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -118,9 +121,9 @@ export default function ReservationBoard() {
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-foreground">예약 게시판</h1>
+            <h1 className="text-4xl font-bold text-foreground">{sectionData?.title || '예약 게시판'}</h1>
             <p className="text-lg text-muted-foreground">
-              담음미디어의 예약 현황을 확인하세요.
+              {sectionData?.description || '담음미디어의 예약 현황을 확인하세요.'}
             </p>
           </div>
 

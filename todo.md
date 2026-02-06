@@ -841,3 +841,9 @@
 - [x] 백엔드 API에서 thumbnailWidth 저장/조회 기능 구현
 - [x] Admin 페이지에 Concert Live와 Making Film 섹션의 썸네일 크기 조절 UI 추가
 - [x] Home 페이지에서 동적으로 썸네일 크기 적용
+
+## 예약 게시판 페이지 설명 텍스트 편집 기능 (2026-02-06 추가)
+- [x] 예약 게시판 페이지 구조 확인 및 sectionTitles 연동 여부 파악
+- [x] 데이터베이스에 reservation 섹션 데이터 추가
+- [x] Admin 페이지에 예약 페이지 설명 텍스트 편집 UI 추가 (기존 AdminSectionTitles에 포함)
+- [x] 예약 페이지에서 동적으로 설명 텍스트 로드

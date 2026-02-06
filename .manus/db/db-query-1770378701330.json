@@ -1,0 +1,21 @@
+{
+  "query": "SELECT * FROM sectionTitles WHERE sectionKey='reservation';\nINSERT INTO sectionTitles (sectionKey, title, description, updatedBy) \nSELECT 'reservation', '예약 게시판', '담음미디어의 예약 현황을 확인하세요.', 1\nWHERE NOT EXISTS (SELECT 1 FROM sectionTitles WHERE sectionKey='reservation');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT * FROM sectionTitles WHERE sectionKey='reservation';\nINSERT INTO sectionTitles (sectionKey, title, description, updatedBy) \nSELECT 'reservation', '예약 게시판', '담음미디어의 예약 현황을 확인하세요.', 1\nWHERE NOT EXISTS (SELECT 1 FROM sectionTitles WHERE sectionKey='reservation');",
+  "rows": [
+    {
+      "id": "6",
+      "sectionKey": "reservation",
+      "title": "Reservation",
+      "description": "예약 정보",
+      "createdAt": "2026-02-04 04:39:01",
+      "updatedAt": "2026-02-04 04:39:01",
+      "updatedBy": "1",
+      "thumbnailGap": "24",
+      "thumbnailWidth": "280"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsectionKey\ttitle\tdescription\tcreatedAt\tupdatedAt\tupdatedBy\tthumbnailGap\tthumbnailWidth\n6\treservation\tReservation\t예약 정보\t2026-02-04 04:39:01\t2026-02-04 04:39:01\t1\t24\t280\n",
+  "stderr": "",
+  "execution_time_ms": 1777
+}
