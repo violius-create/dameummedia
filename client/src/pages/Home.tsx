@@ -378,14 +378,14 @@ export default function Home() {
       </section>
 
       {/* Instagram Feed Section */}
-      <section className="bg-background border-t border-border">
+      <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full" style={{ paddingBottom: '200%' }}>
+          <div className="relative w-full h-[1200px] sm:h-[1000px] md:h-[800px] lg:h-[600px]">
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
               scrolling="no"
-              className="absolute inset-0 w-full h-full border-none overflow-hidden"
+              className="absolute inset-0 w-full h-full border-none"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               title="Posts from Instagram"
             />
