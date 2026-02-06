@@ -820,3 +820,8 @@
 - [x] 각 섹션(main, section2, section3, information)별로 독립적인 overlayOpacity 상태 관리
 - [x] 섹션 전환 시 해당 섹션의 기존 배경 데이터에서 overlayOpacity 로드
 - [x] 업로드 시 현재 선택된 섹션의 투명도만 저장
+
+## 메인 화면 썸네일 좌우 스크롤 버튼 (2026-02-06 추가)
+- [x] Concert Live 섹션에 좌우 스크롤 버튼 추가
+- [x] Making Film 섹션에 좌우 스크롤 버튼 추가
+- [x] 반응형 디자인 적용 (flex 레이아웃으로 변경)

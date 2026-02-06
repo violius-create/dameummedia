@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +25,28 @@ export default function Home() {
   const { data: siteBranding } = trpc.siteBranding.get.useQuery();
   const { data: allSectionTitles } = trpc.sectionTitles.list.useQuery();
   const [sections, setSections] = useState<Record<string, { title: string; description: string }>>({});
+  const concertScrollRef = useRef<HTMLDivElement>(null);
+  const filmScrollRef = useRef<HTMLDivElement>(null);
+  
+  const scrollConcert = (direction: 'left' | 'right') => {
+    if (concertScrollRef.current) {
+      const scrollAmount = 300;
+      concertScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+  
+  const scrollFilm = (direction: 'left' | 'right') => {
+    if (filmScrollRef.current) {
+      const scrollAmount = 300;
+      filmScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
@@ -244,27 +266,47 @@ export default function Home() {
               )}
             </a>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {concertPosts?.map((post) => (
-              <Link key={post.id} href={`/posts/${post.id}`}>
-                <div className="group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
-                    {post.imageUrl ? (
-                      <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                        <Music className="w-12 h-12 text-gray-400" />
-                      </div>
-                    )}
+          <div className="relative">
+            <div 
+              ref={(el) => { if (el) concertScrollRef.current = el; }}
+              className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide pb-4"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {concertPosts?.map((post) => (
+                <Link key={post.id} href={`/posts/${post.id}`}>
+                  <div className="group cursor-pointer flex-shrink-0 w-[280px]">
+                    <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
+                      {post.imageUrl ? (
+                        <img
+                          src={post.imageUrl}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                          <Music className="w-12 h-12 text-gray-400" />
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="mt-3 font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
                   </div>
-                  <h3 className="mt-3 font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
+            <button
+              onClick={() => scrollConcert('left')}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              aria-label="이전 슬라이드"
+            >
+              <ArrowRight className="w-6 h-6 rotate-180" />
+            </button>
+            <button
+              onClick={() => scrollConcert('right')}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              aria-label="다음 슬라이드"
+            >
+              <ArrowRight className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </section>
@@ -280,27 +322,47 @@ export default function Home() {
               )}
             </a>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {filmPosts?.map((post) => (
-              <Link key={post.id} href={`/posts/${post.id}`}>
-                <div className="group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
-                    {post.imageUrl ? (
-                      <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                        <Film className="w-12 h-12 text-gray-400" />
-                      </div>
-                    )}
+          <div className="relative">
+            <div 
+              ref={(el) => { if (el) filmScrollRef.current = el; }}
+              className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide pb-4"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {filmPosts?.map((post) => (
+                <Link key={post.id} href={`/posts/${post.id}`}>
+                  <div className="group cursor-pointer flex-shrink-0 w-[280px]">
+                    <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
+                      {post.imageUrl ? (
+                        <img
+                          src={post.imageUrl}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                          <Film className="w-12 h-12 text-gray-400" />
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="mt-3 font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
                   </div>
-                  <h3 className="mt-3 font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
+            <button
+              onClick={() => scrollFilm('left')}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              aria-label="이전 슬라이드"
+            >
+              <ArrowRight className="w-6 h-6 rotate-180" />
+            </button>
+            <button
+              onClick={() => scrollFilm('right')}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
+              aria-label="다음 슬라이드"
+            >
+              <ArrowRight className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </section>
