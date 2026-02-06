@@ -169,10 +169,10 @@ export default function Home() {
 
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
-      <section className="bg-background pt-[10px] overflow-hidden">
+      <section className="bg-background pt-[10px]">
         <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
-          <div className="relative h-[400px] overflow-hidden group flex-1">
+          <div className="relative h-[500px] md:h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (
               section2Background.type === 'video' ? (
                 <video
@@ -214,7 +214,7 @@ export default function Home() {
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[400px] overflow-hidden group flex-1 mt-[10px] md:mt-0 md:ml-[10px]">
+          <div className="relative h-[500px] md:h-[400px] overflow-hidden group flex-1 mt-[10px] md:mt-0 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video
