@@ -170,7 +170,7 @@ export default function Home() {
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
       <section className="bg-background pt-[10px]">
-        <div className="flex md:flex-row flex-col gap-[10px] md:gap-0">
+        <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
           <div className="relative h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (
@@ -214,7 +214,7 @@ export default function Home() {
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[400px] overflow-hidden group flex-1 md:ml-[10px]">
+          <div className="relative h-[400px] overflow-hidden group flex-1 mt-[10px] md:mt-0 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video
@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full" style={{ paddingBottom: 'clamp(100%, 150vw, 200%)' }}>
+          <div className="relative w-full h-[1400px] sm:h-[1200px] md:h-[1000px] lg:h-[800px]">
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
