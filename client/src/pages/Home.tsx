@@ -214,7 +214,7 @@ export default function Home() {
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[500px] md:h-[400px] overflow-hidden group flex-1 mt-[10px] md:mt-0 md:ml-[10px]">
+          <div className="relative h-[500px] md:h-[400px] overflow-hidden group flex-1 mt-[20px] md:mt-0 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video
