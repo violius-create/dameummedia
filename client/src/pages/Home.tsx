@@ -169,7 +169,7 @@ export default function Home() {
 
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
-      <section className="bg-background pt-[10px]">
+      <section className="bg-background pt-[10px] overflow-hidden">
         <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
           <div className="relative h-[400px] overflow-hidden group flex-1">
