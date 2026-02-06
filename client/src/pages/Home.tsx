@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border">
         <div className="container py-12">
-          <div className="relative w-full" style={{ paddingBottom: '80%' }}>
+          <div className="relative w-full" style={{ paddingBottom: '200%' }}>
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
