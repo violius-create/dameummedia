@@ -15,8 +15,8 @@ export default function Home() {
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
   const [heroDescription, setHeroDescription] = useState('');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
-  const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 4 });
-  const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 4 });
+  const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
+  const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
   const { data: reservationPosts } = trpc.reservations.list.useQuery({ limit: 5 });
   const { data: noticePosts } = trpc.posts.list.useQuery({ category: 'notice', limit: 5 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();

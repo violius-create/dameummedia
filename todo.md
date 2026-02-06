@@ -825,3 +825,7 @@
 - [x] Concert Live 섹션에 좌우 스크롤 버튼 추가
 - [x] Making Film 섹션에 좌우 스크롤 버튼 추가
 - [x] 반응형 디자인 적용 (flex 레이아웃으로 변경)
+
+## 메인 화면 게시물 표시 개수 증가 (2026-02-06 추가)
+- [x] Concert Live 섹션 게시물 limit을 4개에서 6개로 증가
+- [x] Making Film 섹션 게시물 limit을 4개에서 6개로 증가
