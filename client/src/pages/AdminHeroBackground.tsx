@@ -79,6 +79,7 @@ export default function AdminHeroBackground() {
     const currentDescription = description;
     const currentFile = videoFile;
     const currentSection = selectedSection;
+    const currentOverlayOpacity = overlayOpacity;
     
     // 파일을 base64로 변환
     const reader = new FileReader();
@@ -105,6 +106,7 @@ export default function AdminHeroBackground() {
           mediaUrl: uploadResult.url,
           fileKey: uploadResult.fileKey,
           isActive: 1,
+          overlayOpacity: currentOverlayOpacity,
           section: currentSection,
         });
 
@@ -221,6 +223,26 @@ export default function AdminHeroBackground() {
                   onChange={(e) => setDescription(e.target.value)}
                   className="mt-2 w-full p-2 border border-border rounded-md min-h-[100px]"
                 />
+              </div>
+
+              {/* 오버레이 투명도 조절 */}
+              <div>
+                <Label htmlFor="overlayOpacity">텍스트 오버레이 투명도: {overlayOpacity}%</Label>
+                <div className="flex items-center gap-4 mt-2">
+                  <input
+                    id="overlayOpacity"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={overlayOpacity}
+                    onChange={(e) => setOverlayOpacity(Number(e.target.value))}
+                    className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                  />
+                  <span className="text-sm text-muted-foreground w-12 text-right">{overlayOpacity}%</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">
+                  배경 위의 검은 오버레이 투명도를 조절합니다. (0 = 투명, 100 = 불투명)
+                </p>
               </div>
 
               {/* 파일 선택 */}

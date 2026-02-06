@@ -1,0 +1,1 @@
+ALTER TABLE `heroBackgrounds` ADD `overlayOpacity` int DEFAULT 40;

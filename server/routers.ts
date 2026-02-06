@@ -300,7 +300,7 @@ export const appRouter = router({
       }),
     
     create: adminProcedure
-      .input(z.object({ title: z.string(), description: z.string().optional(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional(), isActive: z.number().optional(), section: z.enum(["main", "section2", "section3", "information"]).optional() }))
+      .input(z.object({ title: z.string(), description: z.string().optional(), type: z.enum(["image", "video"]), mediaUrl: z.string(), fileKey: z.string(), thumbnailUrl: z.string().optional(), isActive: z.number().optional(), overlayOpacity: z.number().optional(), section: z.enum(["main", "section2", "section3", "information"]).optional() }))
       .mutation(async ({ input, ctx }) => {
         // Deactivate other backgrounds in the same section if this one is active
         if (input.isActive === 1) {
@@ -321,6 +321,7 @@ export const appRouter = router({
           fileKey: input.fileKey,
           uploadedBy: ctx.user.id,
           isActive: input.isActive || 1,
+          overlayOpacity: input.overlayOpacity || 40,
           status: "published",
           section: (input.section || "main") as "main" | "section2" | "section3" | "information",
         });

@@ -46,6 +46,9 @@ export default function Home() {
       if (activeHeroBackground.description) {
         setHeroDescription(activeHeroBackground.description);
       }
+      if (activeHeroBackground.overlayOpacity !== undefined && activeHeroBackground.overlayOpacity !== null) {
+        setOverlayOpacity(activeHeroBackground.overlayOpacity);
+      }
     }
   }, [activeHeroBackground]);
 
@@ -111,7 +114,10 @@ export default function Home() {
           )}
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+          <div 
+            className="absolute inset-0 bg-black"
+            style={{ opacity: overlayOpacity / 100 }}
+          />
 
           {/* Text Content Overlay */}
           <div className="absolute inset-0 flex flex-col justify-center p-12 md:p-16 z-10">
@@ -167,7 +173,10 @@ export default function Home() {
                 alt="Concert Live"
               />
             )}
-            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+            <div 
+              className="absolute inset-0 bg-black transition-colors"
+              style={{ opacity: (section2Background?.overlayOpacity ?? 40) / 100 }}
+            />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
                 {section2Background?.title || 'Concert Live'}
@@ -206,7 +215,10 @@ export default function Home() {
                 alt="Making Film"
               />
             )}
-            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+            <div 
+              className="absolute inset-0 bg-black transition-colors"
+              style={{ opacity: (section3Background?.overlayOpacity ?? 40) / 100 }}
+            />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
                 {section3Background?.title || 'Making Film'}

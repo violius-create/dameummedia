@@ -142,6 +142,7 @@ export const heroBackgrounds = mysqlTable("heroBackgrounds", {
   uploadedBy: int("uploadedBy").notNull(),
   section: mysqlEnum("section", ["main", "section2", "section3", "information"]).default("main").notNull(), // Section identifier
   isActive: int("isActive").default(1), // 1 for active background
+  overlayOpacity: int("overlayOpacity").default(40), // Overlay opacity (0-100)
   order: int("order").default(0), // For custom ordering
   status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

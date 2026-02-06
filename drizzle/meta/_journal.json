@@ -71,6 +71,13 @@
       "when": 1770317363069,
       "tag": "0009_greedy_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1770361963375,
+      "tag": "0010_smooth_gauntlet",
+      "breakpoints": true
     }
   ]
 }
