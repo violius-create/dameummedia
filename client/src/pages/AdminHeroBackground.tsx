@@ -20,7 +20,12 @@ export default function AdminHeroBackground() {
   const [preview, setPreview] = useState<string>('');
   const [heroTitle, setHeroTitle] = useState('담음미디어');
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
-  const [overlayOpacity, setOverlayOpacity] = useState(40);
+  const [overlayOpacities, setOverlayOpacities] = useState<Record<SectionType, number>>({
+    main: 40,
+    section2: 40,
+    section3: 40,
+    information: 40,
+  });
   const [savingSettings, setSavingSettings] = useState(false);
 
   const uploadMutation = trpc.upload.uploadFile.useMutation();
@@ -39,6 +44,26 @@ export default function AdminHeroBackground() {
       setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
     }
   }, [siteBranding]);
+
+  // heroBackgrounds 데이터에서 섹션별 overlayOpacity 로드
+  useEffect(() => {
+    if (heroBackgrounds && heroBackgrounds.length > 0) {
+      const newOpacities: Record<SectionType, number> = {
+        main: 40,
+        section2: 40,
+        section3: 40,
+        information: 40,
+      };
+      
+      heroBackgrounds.forEach((bg: any) => {
+        if (bg.isActive === 1 && bg.section && bg.overlayOpacity !== null && bg.overlayOpacity !== undefined) {
+          newOpacities[bg.section as SectionType] = bg.overlayOpacity;
+        }
+      });
+      
+      setOverlayOpacities(newOpacities);
+    }
+  }, [heroBackgrounds]);
 
   // 관리자 권한 확인
   if (user?.role !== 'admin') {
@@ -79,7 +104,7 @@ export default function AdminHeroBackground() {
     const currentDescription = description;
     const currentFile = videoFile;
     const currentSection = selectedSection;
-    const currentOverlayOpacity = overlayOpacity;
+    const currentOverlayOpacity = overlayOpacities[currentSection];
     
     // 파일을 base64로 변환
     const reader = new FileReader();
@@ -227,18 +252,18 @@ export default function AdminHeroBackground() {
 
               {/* 오버레이 투명도 조절 */}
               <div>
-                <Label htmlFor="overlayOpacity">텍스트 오버레이 투명도: {overlayOpacity}%</Label>
+                <Label htmlFor="overlayOpacity">텍스트 오버레이 투명돀: {overlayOpacities[selectedSection]}%</Label>
                 <div className="flex items-center gap-4 mt-2">
                   <input
                     id="overlayOpacity"
                     type="range"
                     min="0"
                     max="100"
-                    value={overlayOpacity}
-                    onChange={(e) => setOverlayOpacity(Number(e.target.value))}
+                    value={overlayOpacities[selectedSection]}
+                    onChange={(e) => setOverlayOpacities(prev => ({ ...prev, [selectedSection]: Number(e.target.value) }))}
                     className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                   />
-                  <span className="text-sm text-muted-foreground w-12 text-right">{overlayOpacity}%</span>
+                  <span className="text-sm text-muted-foreground w-12 text-right">{overlayOpacities[selectedSection]}%</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">
                   배경 위의 검은 오버레이 투명도를 조절합니다. (0 = 투명, 100 = 불투명)
@@ -337,15 +362,15 @@ export default function AdminHeroBackground() {
 
                 {/* 오버레이 투명도 조정 */}
                 <div>
-                  <Label htmlFor="overlayOpacity">오버레이 투명도: {overlayOpacity}%</Label>
+                  <Label htmlFor="overlayOpacity">오버레이 투명도: {overlayOpacities[selectedSection]}%</Label>
                   <input
                     id="overlayOpacity"
                     type="range"
                     min="0"
                     max="100"
                     step="5"
-                    value={overlayOpacity}
-                    onChange={(e) => setOverlayOpacity(Number(e.target.value))}
+                    value={overlayOpacities[selectedSection]}
+                    onChange={(e) => setOverlayOpacities(prev => ({ ...prev, [selectedSection]: Number(e.target.value) }))}
                     className="w-full mt-2"
                   />
                   <p className="text-sm text-muted-foreground mt-2">0%: 투명 (영상 선명), 100%: 불투명 (검은색)</p>
@@ -363,7 +388,7 @@ export default function AdminHeroBackground() {
                     <div 
                       className="absolute inset-0 flex items-center justify-center"
                       style={{
-                        backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`,
+                        backgroundColor: `rgba(0, 0, 0, ${overlayOpacities[selectedSection] / 100})`,
                       }}
                     >
                       <div className="text-center text-white">
@@ -388,7 +413,7 @@ export default function AdminHeroBackground() {
                       // 로컬 스토리지에도 저장 (백업)
                       localStorage.setItem('heroTitle', heroTitle);
                       localStorage.setItem('heroSubtitle', heroSubtitle);
-                      localStorage.setItem('overlayOpacity', String(overlayOpacity));
+                      localStorage.setItem('overlayOpacities', JSON.stringify(overlayOpacities));
                       
                       alert('설정이 저장되었습니다.');
                     } catch (error) {

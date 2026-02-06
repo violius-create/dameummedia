@@ -815,3 +815,8 @@
 - [x] 투명도 값을 데이터베이스에 저장
 - [x] Home 페이지의 섹션 1, 2, 3에서 동적으로 투명도 적용
 - [x] 실시간 미리보기 기능 추가
+
+## AdminHeroBackground 섹션별 독립적인 투명도 관리 (2026-02-06 수정)
+- [x] 각 섹션(main, section2, section3, information)별로 독립적인 overlayOpacity 상태 관리
+- [x] 섹션 전환 시 해당 섹션의 기존 배경 데이터에서 overlayOpacity 로드
+- [x] 업로드 시 현재 선택된 섹션의 투명도만 저장
