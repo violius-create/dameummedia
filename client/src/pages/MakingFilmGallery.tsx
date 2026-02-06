@@ -185,10 +185,12 @@ export default function MakingFilmGallery() {
             displayMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
             'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
           }`}>
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <div 
                 key={post.id} 
-                className={`relative group ${getWidthClass(postWidth)}`}
+                className={`relative group ${getWidthClass(postWidth)} ${
+                  displayMode === 'list' ? (index % 2 === 0 ? 'bg-white' : 'bg-gray-100') : ''
+                }`}
                 style={{
                   marginTop: postMarginTop,
                   height: displayMode === 'list' && postHeight !== 'auto' ? postHeight : undefined

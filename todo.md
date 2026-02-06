@@ -855,3 +855,9 @@
 ## 예약 게시판 테이블 행 구분 스타일 (2026-02-06 추가)
 - [x] 테이블 행에 zebra striping(홀수/짝수 행 배경색 다르게) 적용
 - [x] 구분선 스타일 개선
+
+## 모든 게시판 및 최신글에 zebra striping 적용 (2026-02-06 추가)
+- [x] ConcertLiveGallery 페이지에 zebra striping 적용 (리스트형 레이아웃)
+- [x] MakingFilmGallery 페이지에 zebra striping 적용 (리스트형 레이아웃)
+- [x] Home 페이지 최신글 섹션은 가로 스크롤 형식이라 zebra striping 불필요
+- [x] 배경색을 더 진한 회색(bg-gray-100)으로 조정

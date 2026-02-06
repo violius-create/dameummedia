@@ -158,8 +158,8 @@ export default function ReservationBoard() {
               <div className="divide-y divide-gray-200">
                 {filteredReservations.map((reservation: any, index: number) => (
                   <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
-                    <div className={`hover:bg-gray-100 transition-colors cursor-pointer ${
-                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    <div className={`hover:bg-gray-200 transition-colors cursor-pointer ${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
                     }`}>
                       <div className="px-6 py-4 flex gap-4 items-center text-sm">
                         <div className="w-[8%] text-foreground font-medium">
