@@ -170,7 +170,7 @@ export default function Home() {
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
       <section className="bg-background pt-[10px]">
-        <div className="flex md:flex-row flex-col">
+        <div className="flex md:flex-row flex-col gap-[10px] md:gap-0">
           {/* Section 2: Concert Live */}
           <div className="relative h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (
@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full" style={{ paddingBottom: '150%' }}>
+          <div className="relative w-full" style={{ paddingBottom: 'clamp(100%, 150vw, 200%)' }}>
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
@@ -412,19 +412,19 @@ export default function Home() {
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
                         <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate">
+                          <div className="flex-1 min-w-0 overflow-hidden">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate max-w-full">
                                 {reservation.eventName}
                               </h3>
                               {reservation.status === 'completed' && (
-                                <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap">
+                                <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap flex-shrink-0">
                                   작업완료
                                 </span>
                               )}
                             </div>
                           </div>
-                          <div className="text-xs text-muted-foreground whitespace-nowrap">
+                          <div className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
                             {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
                               year: 'numeric',
                               month: '2-digit',

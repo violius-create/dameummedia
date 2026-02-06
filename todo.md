@@ -882,3 +882,8 @@
 - [x] Instagram 피드가 화면 크기에 따라 잘리는 문제 해결 (paddingBottom 150%로 비율 기반 변경)
 - [x] 모바일에서 좌우로 화면을 넘어가는 문제 수정 (스크롤 버튼 translate-x 제거)
 - [x] 전체 페이지 레이아웃 overflow 검증
+
+## 모바일 레이아웃 문제 수정 (2026-02-06 추가)
+- [x] 예약 최신글 제목이 길 경우 가로 스크롤 발생 문제 해결 (overflow-hidden, truncate, flex-wrap 적용)
+- [x] 모바일에서 섹션 2와 3이 겹치는 문제 수정 (gap-[10px] 추가)
+- [x] Instagram 피드 아래 여백 문제 해결 (clamp 함수로 반응형 비율 조정)
