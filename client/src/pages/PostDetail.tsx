@@ -119,19 +119,19 @@ export default function PostDetail() {
       </nav>
 
       {/* Content */}
-      <div className="container py-16">
+      <div className="container py-8 sm:py-16">
         <article className="max-w-3xl mx-auto">
           <Card>
             <CardHeader>
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <Music className="h-5 w-5 text-primary" />
-                  <span className="text-sm font-medium text-primary">
+                  <span className="text-xs sm:text-sm font-medium text-primary">
                     {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'}
                   </span>
                 </div>
-                <CardTitle className="text-4xl">{post.title}</CardTitle>
-                <div className="text-sm text-muted-foreground">
+                <CardTitle className="text-xl sm:text-4xl">{post.title}</CardTitle>
+                <div className="text-xs sm:text-sm text-muted-foreground">
                   {post.createdAt && new Date(post.createdAt).toLocaleDateString('ko-KR')}
                 </div>
               </div>
@@ -155,7 +155,7 @@ export default function PostDetail() {
                   {post.videoUrl.includes('youtube.com') || post.videoUrl.includes('youtu.be') ? (
                     <iframe
                       width="100%"
-                      height="500"
+                      height="300"
                       src={post.videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
                       title={post.title}
                       frameBorder="0"
@@ -179,7 +179,7 @@ export default function PostDetail() {
 
               {/* Content */}
               <div 
-                className="prose prose-sm max-w-none dark:prose-invert"
+                className="prose prose-sm max-w-none dark:prose-invert text-sm sm:text-base [&_h1]:text-lg [&_h1]:sm:text-2xl [&_h2]:text-base [&_h2]:sm:text-xl [&_h3]:text-sm [&_h3]:sm:text-lg [&_p]:text-sm [&_p]:sm:text-base [&_li]:text-sm [&_li]:sm:text-base"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
 
@@ -211,7 +211,7 @@ export default function PostDetail() {
 
           {/* Related Posts */}
           <div className="mt-16">
-            <h3 className="text-2xl font-bold mb-8">다른 {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'} 보기</h3>
+            <h3 className="text-lg sm:text-2xl font-bold mb-4 sm:mb-8">다른 {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'} 보기</h3>
             <RelatedPostsList category={post.category} currentPostId={post.id} />
           </div>
         </article>
@@ -257,9 +257,9 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
             )}
           </div>
           <CardContent className="pt-4">
-            <h4 className="font-semibold line-clamp-2 mb-2">{post.title}</h4>
+            <h4 className="font-semibold line-clamp-2 mb-2 text-xs sm:text-base">{post.title}</h4>
             <div 
-              className="text-sm text-muted-foreground line-clamp-2"
+              className="text-xs sm:text-sm text-muted-foreground line-clamp-2"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           </CardContent>

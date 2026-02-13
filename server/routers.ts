@@ -30,6 +30,15 @@ export const appRouter = router({
         }
         return db.getPosts(input.category, input.limit, input.offset);
       }),
+
+    count: publicProcedure
+      .input(z.object({ category: z.string().optional() }))
+      .query(async ({ input, ctx }) => {
+        if (ctx.user?.role === 'admin') {
+          return db.getAllPostsCount(input.category);
+        }
+        return db.getPostsCount(input.category);
+      }),
     
     getById: publicProcedure
       .input(z.object({ id: z.number() }))

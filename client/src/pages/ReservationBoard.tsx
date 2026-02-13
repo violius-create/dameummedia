@@ -121,8 +121,8 @@ export default function ReservationBoard() {
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-foreground">{sectionData?.title || '예약 게시판'}</h1>
-            <p className="text-lg text-muted-foreground">
+            <h1 className="text-2xl sm:text-4xl font-bold text-foreground">{sectionData?.title || '예약 게시판'}</h1>
+            <p className="text-sm sm:text-lg text-muted-foreground">
               {sectionData?.description || '담음미디어의 예약 현황을 확인하세요.'}
             </p>
           </div>
@@ -184,14 +184,14 @@ export default function ReservationBoard() {
                       {/* Mobile layout */}
                       <div className="md:hidden px-4 py-3">
                         <div className="flex items-center justify-between gap-2">
-                          <h3 className="text-sm font-medium text-primary truncate flex-1 min-w-0">
+                          <h3 className="text-xs sm:text-sm font-medium text-primary truncate flex-1 min-w-0">
                             {reservation.eventName || "제목 없음"}
                           </h3>
                           <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap flex-shrink-0 ${getStatusColor(reservation.status)}`}>
                             {getStatusLabel(reservation.status)}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-2 mt-1 text-[10px] sm:text-xs text-muted-foreground">
                           <span>{reservation.clientName || "-"}</span>
                           <span>·</span>
                           <span>{reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}</span>

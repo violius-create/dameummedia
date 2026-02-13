@@ -1,0 +1,150 @@
+{
+  "query": "SELECT id, title, category, status, createdAt FROM posts ORDER BY id DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, category, status, createdAt FROM posts ORDER BY id DESC LIMIT 20;",
+  "rows": [
+    {
+      "id": "390021",
+      "title": "드래프트 게시물",
+      "category": "concert",
+      "status": "draft",
+      "createdAt": "2026-02-13 19:43:50"
+    },
+    {
+      "id": "390020",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:50"
+    },
+    {
+      "id": "390019",
+      "title": "테스트 영상 제작",
+      "category": "film",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:49"
+    },
+    {
+      "id": "390018",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:49"
+    },
+    {
+      "id": "390017",
+      "title": "Original Title",
+      "category": "film",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:49"
+    },
+    {
+      "id": "390016",
+      "title": "Original Title",
+      "category": "concert",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:49"
+    },
+    {
+      "id": "390015",
+      "title": "테스트 공연 영상",
+      "category": "concert",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:48"
+    },
+    {
+      "id": "390014",
+      "title": "드래프트 게시물",
+      "category": "concert",
+      "status": "draft",
+      "createdAt": "2026-02-13 19:43:31"
+    },
+    {
+      "id": "390013",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:31"
+    },
+    {
+      "id": "390012",
+      "title": "테스트 영상 제작",
+      "category": "film",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:30"
+    },
+    {
+      "id": "390011",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:30"
+    },
+    {
+      "id": "390010",
+      "title": "Original Title",
+      "category": "film",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:30"
+    },
+    {
+      "id": "390009",
+      "title": "Original Title",
+      "category": "concert",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:30"
+    },
+    {
+      "id": "390008",
+      "title": "테스트 공연 영상",
+      "category": "concert",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:29"
+    },
+    {
+      "id": "390007",
+      "title": "드래프트 게시물",
+      "category": "concert",
+      "status": "draft",
+      "createdAt": "2026-02-13 19:43:14"
+    },
+    {
+      "id": "390006",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:13"
+    },
+    {
+      "id": "390005",
+      "title": "테스트 영상 제작",
+      "category": "film",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:13"
+    },
+    {
+      "id": "390004",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:12"
+    },
+    {
+      "id": "390003",
+      "title": "Original Title",
+      "category": "film",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:12"
+    },
+    {
+      "id": "390002",
+      "title": "Original Title",
+      "category": "concert",
+      "status": "published",
+      "createdAt": "2026-02-13 19:43:12"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcategory\tstatus\tcreatedAt\n390021\t드래프트 게시물\tconcert\tdraft\t2026-02-13 19:43:50\n390020\t이미지 없는 게시물\tnotice\tpublished\t2026-02-13 19:43:50\n390019\t테스트 영상 제작\tfilm\tpublished\t2026-02-13 19:43:49\n390018\tTest Title\tnotice\tpublished\t2026-02-13 19:43:49\n390017\tOriginal Title\tfilm\tpublished\t2026-02-13 19:43:49\n390016\tOriginal Title\tconcert\tpublished\t2026-02-13 19:43:49\n390015\t테스트 공연 영상\tconcert\tpublished\t2026-02-13 19:43:48\n390014\t드래프트 게시물\tconcert\tdraft\t2026-02-13 19:43:31\n390013\t이미지 없는 게시물\tnotice\tpublished\t2026-02-13 19:43:31\n390012\t테스트 영상 제작\tfilm\tpublished\t2026-02-13 19:43:30\n390011\tTest Title\tnotice\tpublished\t2026-02-13 19:43:30\n390010\tOriginal Title\tfilm\tpublished\t2026-02-13 19:43:30\n390009\tOriginal Title\tconcert\tpublished\t2026-02-13 19:43:30\n390008\t테스트 공연 영상\tconcert\tpublished\t2026-02-13 19:43:29\n390007\t드래프트 게시물\tconcert\tdraft\t2026-02-13 19:43:14\n390006\t이미지 없는 게시물\tnotice\tpublished\t2026-02-13 19:43:13\n390005\t테스트 영상 제작\tfilm\tpublished\t2026-02-13 19:43:13\n390004\tTest Title\tnotice\tpublished\t2026-02-13 19:43:12\n390003\tOriginal Title\tfilm\tpublished\t2026-02-13 19:43:12\n390002\tOriginal Title\tconcert\tpublished\t2026-02-13 19:43:12\n",
+  "stderr": "",
+  "execution_time_ms": 1526
+}

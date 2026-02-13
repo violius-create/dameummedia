@@ -1,0 +1,190 @@
+{
+  "query": "SELECT id, title, category, status FROM posts ORDER BY id DESC LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, category, status FROM posts ORDER BY id DESC LIMIT 30;",
+  "rows": [
+    {
+      "id": "390021",
+      "title": "드래프트 게시물",
+      "category": "concert",
+      "status": "draft"
+    },
+    {
+      "id": "390020",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "390019",
+      "title": "테스트 영상 제작",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "390018",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "390017",
+      "title": "Original Title",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "390016",
+      "title": "Original Title",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "390015",
+      "title": "테스트 공연 영상",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "390014",
+      "title": "드래프트 게시물",
+      "category": "concert",
+      "status": "draft"
+    },
+    {
+      "id": "390013",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "390012",
+      "title": "테스트 영상 제작",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "390011",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "390010",
+      "title": "Original Title",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "390009",
+      "title": "Original Title",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "390008",
+      "title": "테스트 공연 영상",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "390007",
+      "title": "드래프트 게시물",
+      "category": "concert",
+      "status": "draft"
+    },
+    {
+      "id": "390006",
+      "title": "이미지 없는 게시물",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "390005",
+      "title": "테스트 영상 제작",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "390004",
+      "title": "Test Title",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "390003",
+      "title": "Original Title",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "390002",
+      "title": "Original Title",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "390001",
+      "title": "테스트 공연 영상",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "360002",
+      "title": "5b2",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "360001",
+      "title": "23456",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "330001",
+      "title": "[Classic Solitude] G. Fauré-Après un rêve (꿈을 꾼 후에)",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "270001",
+      "title": "테스트",
+      "category": "notice",
+      "status": "published"
+    },
+    {
+      "id": "240001",
+      "title": "[03] I could have danced all night / 서울연합윈드오케스트라 제2회 정기연주회",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "210003",
+      "title": "[공연촬영] [국악관현악단 결] 해금 협주곡 '유영하는 달'(Floating Moon)",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "210002",
+      "title": "[Classic Solitude] Dmitri Shostakovich - Romance (from The Gadfly)",
+      "category": "film",
+      "status": "published"
+    },
+    {
+      "id": "210001",
+      "title": "연수구립소년소녀합창단 제2회 정기연주회",
+      "category": "concert",
+      "status": "published"
+    },
+    {
+      "id": "180002",
+      "title": "ㄷㄷ",
+      "category": "concert",
+      "status": "published"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcategory\tstatus\n390021\t드래프트 게시물\tconcert\tdraft\n390020\t이미지 없는 게시물\tnotice\tpublished\n390019\t테스트 영상 제작\tfilm\tpublished\n390018\tTest Title\tnotice\tpublished\n390017\tOriginal Title\tfilm\tpublished\n390016\tOriginal Title\tconcert\tpublished\n390015\t테스트 공연 영상\tconcert\tpublished\n390014\t드래프트 게시물\tconcert\tdraft\n390013\t이미지 없는 게시물\tnotice\tpublished\n390012\t테스트 영상 제작\tfilm\tpublished\n390011\tTest Title\tnotice\tpublished\n390010\tOriginal Title\tfilm\tpublished\n390009\tOriginal Title\tconcert\tpublished\n390008\t테스트 공연 영상\tconcert\tpublished\n390007\t드래프트 게시물\tconcert\tdraft\n390006\t이미지 없는 게시물\tnotice\tpublished\n390005\t테스트 영상 제작\tfilm\tpublished\n390004\tTest Title\tnotice\tpublished\n390003\tOriginal Title\tfilm\tpublished\n390002\tOriginal Title\tconcert\tpublished\n390001\t테스트 공연 영상\tconcert\tpublished\n360002\t5b2\tconcert\tpublished\n360001\t23456\tconcert\tpublished\n330001\t[Classic Solitude] G. Fauré-Après un rêve (꿈을 꾼 후에)\tfilm\tpublished\n270001\t테스트\tnotice\tpublished\n240001\t[03] I could have danced all night / 서울연합윈드오케스트라 제2회 정기연주회\tconcert\tpublished\n210003\t[공연촬영] [국악관현악단 결] 해금 협주곡 '유영하는 달'(Floating Moon)\tfilm\tpublished\n210002\t[Classic Solitude] Dmitri Shostakovich - Romance (from The Gadfly)\tfilm\tpublished\n210001\t연수구립소년소녀합창단 제2회 정기연주회\tconcert\tpublished\n180002\tㄷㄷ\tconcert\tpublished\n",
+  "stderr": "",
+  "execution_time_ms": 1493
+}

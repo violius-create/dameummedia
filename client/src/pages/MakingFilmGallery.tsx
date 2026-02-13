@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { Film, ArrowRight, Trash2, Plus } from "lucide-react";
+import { Film, ArrowRight, Trash2, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocation, Link } from "wouter";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import Footer from "@/components/Footer";
 
@@ -25,6 +25,7 @@ export default function MakingFilmGallery() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Load board layout settings
   const { data: filmSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey: 'making_film' });
@@ -63,9 +64,19 @@ export default function MakingFilmGallery() {
   // Load section title data
   const { data: sectionTitle } = trpc.sectionTitles.get.useQuery({ sectionKey: 'making_film' });
 
+  // Get total count for pagination
+  const { data: totalCount } = trpc.posts.count.useQuery({ category: 'film' });
+  const totalPages = useMemo(() => {
+    if (!totalCount) return 1;
+    return Math.max(1, Math.ceil(totalCount / postsPerPage));
+  }, [totalCount, postsPerPage]);
+
+  const offset = useMemo(() => (currentPage - 1) * postsPerPage, [currentPage, postsPerPage]);
+
   const { data: posts, isLoading, refetch } = trpc.posts.list.useQuery({
     category: "film",
     limit: postsPerPage,
+    offset,
   });
 
   const deletePostMutation = trpc.posts.delete.useMutation({
@@ -95,6 +106,29 @@ export default function MakingFilmGallery() {
     for (const id of selectedIds) {
       await deletePostMutation.mutateAsync({ id });
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSelectedIds([]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages: (number | '...')[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push('...');
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+      for (let i = start; i <= end; i++) pages.push(i);
+      if (currentPage < totalPages - 2) pages.push('...');
+      pages.push(totalPages);
+    }
+    return pages;
   };
 
   return (
@@ -137,9 +171,9 @@ export default function MakingFilmGallery() {
               </Button>
             </div>
           )}
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '영상 제작 과정'}</h2>
+          <h2 className="text-2xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '영상 제작 과정'}</h2>
           {sectionTitle?.description && (
-            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
+            <p className="text-sm sm:text-xl text-muted-foreground max-w-2xl">
               {sectionTitle.description}
             </p>
           )}
@@ -316,6 +350,47 @@ export default function MakingFilmGallery() {
               <p className="text-muted-foreground">아직 게시물이 없습니다.</p>
             </CardContent>
           </Card>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-1 sm:gap-2 mt-8 sm:mt-12">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="h-8 w-8 sm:h-9 sm:w-9 p-0"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            {getPageNumbers().map((page, idx) =>
+              page === '...' ? (
+                <span key={`ellipsis-${idx}`} className="px-1 sm:px-2 text-muted-foreground text-sm">...</span>
+              ) : (
+                <Button
+                  key={page}
+                  variant={currentPage === page ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handlePageChange(page)}
+                  className={`h-8 w-8 sm:h-9 sm:w-9 p-0 text-xs sm:text-sm ${
+                    currentPage === page ? 'font-bold' : ''
+                  }`}
+                >
+                  {page}
+                </Button>
+              )
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="h-8 w-8 sm:h-9 sm:w-9 p-0"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </div>
       <Footer />

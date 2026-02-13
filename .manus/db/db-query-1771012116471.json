@@ -1,0 +1,28 @@
+{
+  "query": "SELECT COUNT(*) as total FROM posts; SELECT category, status, COUNT(*) as cnt FROM posts GROUP BY category, status;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT COUNT(*) as total FROM posts; SELECT category, status, COUNT(*) as cnt FROM posts GROUP BY category, status;",
+  "rows": [
+    {
+      "total": "32"
+    },
+    {
+      "total": "category\tstatus\tcnt"
+    },
+    {
+      "total": "notice\tpublished\t7"
+    },
+    {
+      "total": "film\tpublished\t10"
+    },
+    {
+      "total": "concert\tpublished\t12"
+    },
+    {
+      "total": "concert\tdraft\t3"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n32\ncategory\tstatus\tcnt\nnotice\tpublished\t7\nfilm\tpublished\t10\nconcert\tpublished\t12\nconcert\tdraft\t3\n",
+  "stderr": "",
+  "execution_time_ms": 1725
+}

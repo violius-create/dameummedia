@@ -975,3 +975,12 @@
 - [x] 메인 페이지 Instagram 섹션을 자체 이미지 그리드로 교체 (iframe embed 제거)
 - [x] InstagramFeedSection 컴포넌트 구현 (호버 오버레이, 캡션 표시)
 - [x] instagramPosts vitest 테스트 작성 및 통과 (9개 테스트)
+
+
+## 게시판 페이지네이션 및 모바일 글자 크기 개선 (2026-02-14)
+- [x] Concert Live 게시판 리스트에 페이지네이션 인디케이터 추가
+- [x] Making Film 게시판 리스트에 페이지네이션 인디케이터 추가
+- [x] 모바일에서 게시물 상세 페이지(PostDetail) 본문 글자 크기 축소
+- [x] 모바일에서 공지(Notice) 게시판 글자 크기 축소
+- [x] 모바일에서 예약(Reservation) 게시판 글자 크기 축소
+- [x] 모바일에서 Concert Live/Making Film 리스트 글자 크기 축소

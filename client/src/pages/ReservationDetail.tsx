@@ -246,19 +246,19 @@ export default function ReservationDetail() {
       </nav>
 
       {/* Content */}
-      <div className="container py-16">
-        <div className="max-w-4xl mx-auto space-y-8">
+      <div className="container py-8 sm:py-16">
+        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           {/* Header */}
-          <div className="space-y-4 pb-6 border-b-2 border-gray-300">
-            <div className="flex items-center justify-between">
-              <h1 className="text-4xl font-bold text-foreground">
+          <div className="space-y-3 sm:space-y-4 pb-4 sm:pb-6 border-b-2 border-gray-300">
+            <div className="flex items-center justify-between gap-2">
+              <h1 className="text-xl sm:text-4xl font-bold text-foreground">
                 {displayData.eventName || "제목 없음"}
               </h1>
-              <span className={`px-4 py-2 rounded text-sm font-bold ${getStatusColor(displayData.status)}`}>
+              <span className={`px-2 sm:px-4 py-1 sm:py-2 rounded text-xs sm:text-sm font-bold whitespace-nowrap ${getStatusColor(displayData.status)}`}>
                 {getStatusLabel(displayData.status)}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               작성자: <span className="font-semibold text-foreground">{displayData.clientName}</span> | 작성일: <span className="font-semibold text-foreground">{new Date(displayData.createdAt).toLocaleDateString('ko-KR')}</span>
             </p>
           </div>
@@ -267,11 +267,11 @@ export default function ReservationDetail() {
           <div className="space-y-6">
             {/* Section 1: 기본 정보 */}
             <div className="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500">
-              <h3 className="text-lg font-bold text-blue-900 mb-6">📋 기본 정보</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-blue-900 mb-4 sm:mb-6">📋 기본 정보</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded p-4 border border-blue-200">
-                  <Label htmlFor="clientEmail" className="text-sm font-semibold text-gray-700">이메일</Label>
+                  <Label htmlFor="clientEmail" className="text-xs sm:text-sm font-semibold text-gray-700">이메일</Label>
                   {isEditing ? (
                     <Input
                       id="clientEmail"
@@ -281,12 +281,12 @@ export default function ReservationDetail() {
                       className="mt-2"
                     />
                   ) : (
-                    <p className="mt-2 text-foreground font-medium">{displayData.clientEmail}</p>
+                    <p className="mt-2 text-foreground font-medium text-sm sm:text-base">{displayData.clientEmail}</p>
                   )}
                 </div>
 
                 <div className="bg-white rounded p-4 border border-blue-200">
-                  <Label htmlFor="clientName" className="text-sm font-semibold text-gray-700">담당자 성함</Label>
+                  <Label htmlFor="clientName" className="text-xs sm:text-sm font-semibold text-gray-700">담당자 성함</Label>
                   {isEditing ? (
                     <Input
                       id="clientName"
@@ -295,12 +295,12 @@ export default function ReservationDetail() {
                       className="mt-2"
                     />
                   ) : (
-                    <p className="mt-2 text-foreground font-medium">{displayData.clientName}</p>
+                    <p className="mt-2 text-foreground font-medium text-sm sm:text-base">{displayData.clientName}</p>
                   )}
                 </div>
 
                 <div className="bg-white rounded p-4 border border-blue-200">
-                  <Label htmlFor="clientPhone" className="text-sm font-semibold text-gray-700">연락처</Label>
+                  <Label htmlFor="clientPhone" className="text-xs sm:text-sm font-semibold text-gray-700">연락처</Label>
                   {isEditing ? (
                     <Input
                       id="clientPhone"
@@ -309,12 +309,12 @@ export default function ReservationDetail() {
                       className="mt-2"
                     />
                   ) : (
-                    <p className="mt-2 text-foreground font-medium">{displayData.clientPhone || "-"}</p>
+                    <p className="mt-2 text-foreground font-medium text-sm sm:text-base">{displayData.clientPhone || "-"}</p>
                   )}
                 </div>
 
                 <div className="bg-white rounded p-4 border border-blue-200">
-                  <Label htmlFor="eventType" className="text-sm font-semibold text-gray-700">분류</Label>
+                  <Label htmlFor="eventType" className="text-xs sm:text-sm font-semibold text-gray-700">분류</Label>
                   {isEditing ? (
                     <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, eventType: value }))}>
                       <SelectTrigger id="eventType" className="mt-2">
@@ -342,11 +342,11 @@ export default function ReservationDetail() {
 
             {/* Section 2: 행사 정보 */}
             <div className="bg-green-50 rounded-lg p-6 border-l-4 border-green-500">
-              <h3 className="text-lg font-bold text-green-900 mb-6">🎬 행사 정보</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-green-900 mb-4 sm:mb-6">🎬 행사 정보</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded p-4 border border-green-200">
-                  <Label htmlFor="eventName" className="text-sm font-semibold text-gray-700">행사명</Label>
+                  <Label htmlFor="eventName" className="text-xs sm:text-sm font-semibold text-gray-700">행사명</Label>
                   {isEditing ? (
                     <Input
                       id="eventName"
@@ -356,12 +356,12 @@ export default function ReservationDetail() {
                       required
                     />
                   ) : (
-                    <p className="mt-2 text-foreground font-medium">{displayData.eventName}</p>
+                    <p className="mt-2 text-foreground font-medium text-sm sm:text-base">{displayData.eventName}</p>
                   )}
                 </div>
 
                 <div className="bg-white rounded p-4 border border-green-200">
-                  <Label htmlFor="eventDate" className="text-sm font-semibold text-gray-700">행사일</Label>
+                  <Label htmlFor="eventDate" className="text-xs sm:text-sm font-semibold text-gray-700">행사일</Label>
                   {isEditing ? (
                     <Input
                       id="eventDate"
@@ -378,7 +378,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-green-200">
-                  <Label htmlFor="rehearsalTime" className="text-sm font-semibold text-gray-700">촬영 시간</Label>
+                  <Label htmlFor="rehearsalTime" className="text-xs sm:text-sm font-semibold text-gray-700">촬영 시간</Label>
                   {isEditing ? (
                     <Input
                       id="rehearsalTime"
@@ -393,7 +393,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-green-200">
-                  <Label htmlFor="venue" className="text-sm font-semibold text-gray-700">장소</Label>
+                  <Label htmlFor="venue" className="text-xs sm:text-sm font-semibold text-gray-700">장소</Label>
                   {isEditing ? (
                     <Input
                       id="venue"
@@ -412,11 +412,11 @@ export default function ReservationDetail() {
 
             {/* Section 3: 결제 정보 */}
             <div className="bg-orange-50 rounded-lg p-6 border-l-4 border-orange-500">
-              <h3 className="text-lg font-bold text-orange-900 mb-6">💰 결제 정보</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-orange-900 mb-4 sm:mb-6">💰 결제 정보</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded p-4 border border-orange-200">
-                  <Label htmlFor="quotedAmount" className="text-sm font-semibold text-gray-700">견적액</Label>
+                  <Label htmlFor="quotedAmount" className="text-xs sm:text-sm font-semibold text-gray-700">견적액</Label>
                   {isEditing ? (
                     <Input
                       id="quotedAmount"
@@ -431,7 +431,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-orange-200">
-                  <Label htmlFor="paidAmount" className="text-sm font-semibold text-gray-700">결제액</Label>
+                  <Label htmlFor="paidAmount" className="text-xs sm:text-sm font-semibold text-gray-700">결제액</Label>
                   {isEditing ? (
                     <Input
                       id="paidAmount"
@@ -446,7 +446,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-orange-200">
-                  <Label className="text-sm font-semibold text-gray-700">잔금</Label>
+                  <Label className="text-xs sm:text-sm font-semibold text-gray-700">잔금</Label>
                   <p className="mt-2 text-foreground font-medium">{((displayData.quotedAmount || 0) - (displayData.paidAmount || 0)).toLocaleString()}원</p>
                 </div>
               </div>
@@ -454,11 +454,11 @@ export default function ReservationDetail() {
 
             {/* Section 4: 촬영 정보 */}
             <div className="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-500">
-              <h3 className="text-lg font-bold text-purple-900 mb-6">🎥 촬영 정보</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-purple-900 mb-4 sm:mb-6">🎥 촬영 정보</h3>
               
               <div className="grid grid-cols-1 gap-6">
                 <div className="bg-white rounded p-4 border border-purple-200">
-                  <Label htmlFor="recordingType" className="text-sm font-semibold text-gray-700">촬영 유형</Label>
+                  <Label htmlFor="recordingType" className="text-xs sm:text-sm font-semibold text-gray-700">촬영 유형</Label>
                   {isEditing ? (
                     <Select value={editData?.recordingType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, recordingType: value }))}>
                       <SelectTrigger id="recordingType" className="mt-2">
@@ -481,7 +481,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-purple-200">
-                  <Label htmlFor="paymentMethod" className="text-sm font-semibold text-gray-700">결제 방식</Label>
+                  <Label htmlFor="paymentMethod" className="text-xs sm:text-sm font-semibold text-gray-700">결제 방식</Label>
                   {isEditing ? (
                     <Select value={editData?.paymentMethod || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, paymentMethod: value }))}>
                       <SelectTrigger id="paymentMethod" className="mt-2">
@@ -498,7 +498,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-purple-200">
-                  <Label htmlFor="specialRequirements" className="text-sm font-semibold text-gray-700">특수 요청</Label>
+                  <Label htmlFor="specialRequirements" className="text-xs sm:text-sm font-semibold text-gray-700">특수 요청</Label>
                   {isEditing ? (
                     <Select value={editData?.specialRequirements || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, specialRequirements: value }))}>
                       <SelectTrigger id="specialRequirements" className="mt-2">
@@ -522,11 +522,11 @@ export default function ReservationDetail() {
 
             {/* Section 5: 추가 정보 */}
             <div className="bg-red-50 rounded-lg p-6 border-l-4 border-red-500">
-              <h3 className="text-lg font-bold text-red-900 mb-6">📝 추가 정보</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-red-900 mb-4 sm:mb-6">📝 추가 정보</h3>
               
               <div className="space-y-4">
                 <div className="bg-white rounded p-4 border border-red-200">
-                  <Label htmlFor="status" className="text-sm font-semibold text-gray-700">상태 {isAdmin && <span className="text-xs text-red-600">(관리자만 수정 가능)</span>}</Label>
+                  <Label htmlFor="status" className="text-xs sm:text-sm font-semibold text-gray-700">상태 {isAdmin && <span className="text-xs text-red-600">(관리자만 수정 가능)</span>}</Label>
                   {isEditing && isAdmin ? (
                     <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, status: value }))}>
                       <SelectTrigger id="status" className="mt-2">
@@ -558,7 +558,7 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-red-200">
-                  <Label htmlFor="description" className="text-sm font-semibold text-gray-700">프로그램 및 정보</Label>
+                  <Label htmlFor="description" className="text-xs sm:text-sm font-semibold text-gray-700">프로그램 및 정보</Label>
                   {isEditing ? (
                     <div className="mt-2">
                       <RichTextEditor
@@ -569,14 +569,14 @@ export default function ReservationDetail() {
                     </div>
                   ) : (
                     <div 
-                      className="mt-2 prose prose-sm max-w-none"
+                      className="mt-2 prose prose-sm max-w-none text-sm sm:text-base"
                       dangerouslySetInnerHTML={{ __html: displayData.description || "-" }}
                     />
                   )}
                 </div>
 
                 <div className="bg-white rounded p-4 border border-red-200">
-                  <Label htmlFor="attachments" className="text-sm font-semibold text-gray-700">파일첨부</Label>
+                  <Label htmlFor="attachments" className="text-xs sm:text-sm font-semibold text-gray-700">파일첨부</Label>
                   {isEditing ? (
                     <div className="mt-2">
                       <Input

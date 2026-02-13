@@ -1,4 +1,4 @@
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -110,6 +110,28 @@ export async function getAllPosts(category?: string, limit = 10, offset = 0) {
     : db.select().from(posts).orderBy(desc(posts.createdAt)).limit(limit).offset(offset);
   
   return query;
+}
+
+export async function getPostsCount(category?: string) {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  const result = category
+    ? await db.select({ count: sql<number>`count(*)` }).from(posts).where(and(eq(posts.category, category as any), eq(posts.status, 'published')))
+    : await db.select({ count: sql<number>`count(*)` }).from(posts).where(eq(posts.status, 'published'));
+  
+  return result[0]?.count ?? 0;
+}
+
+export async function getAllPostsCount(category?: string) {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  const result = category
+    ? await db.select({ count: sql<number>`count(*)` }).from(posts).where(eq(posts.category, category as any))
+    : await db.select({ count: sql<number>`count(*)` }).from(posts);
+  
+  return result[0]?.count ?? 0;
 }
 
 export async function getPostById(id: number) {

@@ -123,9 +123,9 @@ export default function NoticeGallery() {
               </Button>
             </div>
           )}
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '공지사항'}</h2>
+          <h2 className="text-2xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '공지사항'}</h2>
           {sectionTitle?.description && (
-            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl">
+            <p className="text-sm sm:text-xl text-muted-foreground max-w-2xl">
               {sectionTitle.description}
             </p>
           )}
@@ -194,8 +194,8 @@ export default function NoticeGallery() {
                   <div className="flex flex-col sm:flex-row sm:h-32">
                     <div className="flex flex-col flex-1">
                       <CardHeader className="p-4 sm:p-6">
-                        <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
-                        <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-sm">
+                        <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors text-sm sm:${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
+                        <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-1 sm:mt-2 text-xs sm:text-sm">
                           {new Date(post.createdAt).toLocaleDateString('ko-KR', {
                             year: 'numeric',
                             month: '2-digit',
