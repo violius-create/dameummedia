@@ -181,40 +181,40 @@ function Navigation() {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 space-y-2 pb-4">
-            <Link href="/information">
+            <Link href="/information" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="ghost" className="w-full justify-start text-foreground">
                 Information
               </Button>
             </Link>
-            <Link href="/price">
+            <Link href="/price" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="ghost" className="w-full justify-start text-foreground">
                 Price
               </Button>
             </Link>
-            <Link href="/concert-live">
+            <Link href="/concert-live" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="ghost" className="w-full justify-start text-foreground">
                 Concert Live
               </Button>
             </Link>
-            <Link href="/making-film">
+            <Link href="/making-film" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="ghost" className="w-full justify-start text-foreground">
                 Making Film
               </Button>
             </Link>
-            <Link href="/reservation">
+            <Link href="/reservation" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="ghost" className="w-full justify-start text-foreground">
                 Reservation
               </Button>
             </Link>
             <div className="pt-2 border-t border-border space-y-2">
               <div className="flex gap-2">
-                <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1">
+                <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" size="sm" className="w-full">
                     <Instagram className="h-4 w-4 mr-2" />
                     Instagram
                   </Button>
                 </a>
-                <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1">
+                <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" size="sm" className="w-full">
                     <Youtube className="h-4 w-4 mr-2" />
                     YouTube
@@ -224,7 +224,7 @@ function Navigation() {
               {isAuthenticated ? (
                 <>
                   {user?.role === 'admin' && (
-                    <Link href="/admin" className="block">
+                    <Link href="/admin" className="block" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="outline" size="sm" className="w-full">
                         Admin
                       </Button>
@@ -233,7 +233,7 @@ function Navigation() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => logout()}
+                    onClick={() => { logout(); setMobileMenuOpen(false); }}
                     className="w-full flex items-center justify-center gap-2"
                   >
                     <LogOut className="h-4 w-4" />
@@ -241,7 +241,7 @@ function Navigation() {
                   </Button>
                 </>
               ) : (
-                <a href={getLoginUrl()} className="block">
+                <a href={getLoginUrl()} className="block" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-2">
                     <LogIn className="h-4 w-4" />
                     Login

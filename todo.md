@@ -942,3 +942,7 @@
 - [x] Reservation 제목이 잘려서 우측 날짜가 안 보이는 문제 해결 (max-w-[calc(100%-90px)] 적용)
 - [x] 모바일 인스타그램 섹션 아래 여백 여전히 큰 문제 해결 (h-[420px]으로 축소)
 - [x] PC에서 인스타그램 섹션 아래 여백이 늘어난 문제 해결 (lg:h-[600px]으로 축소)
+
+## 모바일 UI 개선 3차 (2026-02-14 추가)
+- [x] Concert Live 모바일 레이아웃을 Making Film과 동일한 포맷으로 변경 (모바일 2열 갤러리, aspect-[4/3] 썸네일 + 제목 2줄)
+- [x] 햄버거 메뉴 항목 클릭 시 드롭다운 자동 닫기 (모든 Link/a/Button에 onClick으로 setMobileMenuOpen(false) 추가)

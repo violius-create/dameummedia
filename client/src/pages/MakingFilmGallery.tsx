@@ -180,10 +180,10 @@ export default function MakingFilmGallery() {
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div className={`grid gap-4 sm:gap-8 ${
-            displayMode === 'list' ? 'grid-cols-1' :
-            displayMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
-            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+          <div className={`grid gap-3 sm:gap-8 ${
+            displayMode === 'list' ? 'grid-cols-2 sm:grid-cols-1' :
+            displayMode === 'gallery' ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-3' :
+            'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4'
           }`}>
             {posts.map((post, index) => (
               <div 
@@ -212,49 +212,71 @@ export default function MakingFilmGallery() {
                   onClick={() => window.location.href = `/posts/${post.id}`}
                 >
                   {displayMode === 'list' ? (
-                    // 리스트형 레이아웃: 썸네일 왼쪽 + 내용 오른쪽
-                    <div className="flex flex-col sm:flex-row sm:h-48">
-                      <div 
-                        className="relative h-48 sm:w-64 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden"
-                        style={{ 
-                          marginLeft: '20px',
-                          marginRight: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '2rem' 
-                        }}
-                      >
-                        {post.imageUrl ? (
-                          <img
-                            src={post.imageUrl}
-                            alt={post.title}
-                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
-                        ) : (
-                          <div className="text-center text-muted-foreground">
-                            <Film className="h-8 sm:h-12 w-8 sm:w-12 mx-auto mb-2 opacity-50" />
-                            <p className="text-xs sm:text-sm">이미지 없음</p>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex flex-col flex-1">
-                        <CardHeader className="p-4 sm:p-6">
-                          <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-lg sm:text-xl text-foreground">{post.title}</CardTitle>
-                          <CardDescription className="line-clamp-3 sm:line-clamp-4 mt-2 text-sm">{stripHtmlTags(post.content)}</CardDescription>
+                    // 리스트형 레이아웃: 모바일은 갤러리형, PC는 썸네일+내용 가로배치
+                    <>
+                      {/* 모바일: 갤러리형 카드 */}
+                      <div className="flex flex-col h-full sm:hidden">
+                        <div className="relative w-full bg-muted flex items-center justify-center overflow-hidden aspect-[4/3]">
+                          {post.imageUrl ? (
+                            <img
+                              src={post.imageUrl}
+                              alt={post.title}
+                              className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div className="text-center text-muted-foreground">
+                              <Film className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p className="text-xs">이미지 없음</p>
+                            </div>
+                          )}
+                        </div>
+                        <CardHeader className="flex-1 p-2" style={{ marginTop: '0.5rem' }}>
+                          <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-xs text-foreground">{post.title}</CardTitle>
                         </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0 mt-auto">
-                          <Link href={`/post/${post.id}`}>
-                            <Button variant="ghost" size="sm" className="group-hover:bg-primary/10 text-foreground">
-                              자세히 보기
-                              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                            </Button>
-                          </Link>
-                        </CardContent>
                       </div>
-                    </div>
+                      {/* PC: 리스트형 */}
+                      <div className="hidden sm:flex flex-row h-48">
+                        <div 
+                          className="relative h-48 w-64 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden"
+                          style={{ 
+                            marginLeft: '20px',
+                            marginRight: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '2rem' 
+                          }}
+                        >
+                          {post.imageUrl ? (
+                            <img
+                              src={post.imageUrl}
+                              alt={post.title}
+                              className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div className="text-center text-muted-foreground">
+                              <Film className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                              <p className="text-sm">이미지 없음</p>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex flex-col flex-1">
+                          <CardHeader className="p-6">
+                            <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors text-xl text-foreground">{post.title}</CardTitle>
+                            <CardDescription className="line-clamp-4 mt-2 text-sm">{stripHtmlTags(post.content)}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0 mt-auto">
+                            <Link href={`/post/${post.id}`}>
+                              <Button variant="ghost" size="sm" className="group-hover:bg-primary/10 text-foreground">
+                                자세히 보기
+                                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                              </Button>
+                            </Link>
+                          </CardContent>
+                        </div>
+                      </div>
+                    </>
                   ) : (
                     // 갤러리형 레이아웃: 썸네일 위 + 내용 아래
                     <div className="flex flex-col h-full">
                       <div 
-                        className="relative w-full bg-muted flex items-center justify-center overflow-hidden"
-                        style={{ height: postHeight !== 'auto' ? postHeight : '300px' }}
+                        className="relative w-full bg-muted flex items-center justify-center overflow-hidden aspect-[4/3] sm:aspect-auto sm:h-[300px]"
                       >
                         {post.imageUrl ? (
                           <img
@@ -269,11 +291,11 @@ export default function MakingFilmGallery() {
                           </div>
                         )}
                       </div>
-                      <CardHeader className="flex-1 p-3 sm:p-6" style={{ marginTop: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '1rem' }}>
-                        <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors ${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
-                        <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{stripHtmlTags(post.content)}</CardDescription>
+                      <CardHeader className="flex-1 p-2 sm:p-6" style={{ marginTop: (postMarginTop && postMarginTop !== '0' && postMarginTop !== '0px' && postMarginTop !== '0rem') ? postMarginTop : '0.5rem' }}>
+                        <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors text-xs sm:${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
+                        <CardDescription className="hidden sm:block line-clamp-2 sm:line-clamp-3 mt-2 text-xs sm:text-sm">{stripHtmlTags(post.content)}</CardDescription>
                       </CardHeader>
-                      <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
+                      <CardContent className="hidden sm:block p-3 sm:p-6 pt-0 sm:pt-0">
                         <Link href={`/post/${post.id}`}>
                           <Button variant="ghost" size="sm" className="w-full group-hover:bg-primary/10 text-foreground text-xs sm:text-sm">
                             자세히 보기
