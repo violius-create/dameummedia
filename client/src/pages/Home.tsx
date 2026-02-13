@@ -172,7 +172,7 @@ export default function Home() {
       <section className="bg-background pt-[10px]">
         <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
-          <div className="relative h-[350px] md:h-[400px] overflow-hidden group flex-1">
+          <div className="relative h-[280px] md:h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (
               section2Background.type === 'video' ? (
                 <video
@@ -214,7 +214,7 @@ export default function Home() {
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[350px] md:h-[400px] overflow-hidden group flex-1 mt-[6px] md:mt-0 md:ml-[10px]">
+          <div className="relative h-[280px] md:h-[400px] overflow-hidden group flex-1 mt-[6px] md:mt-0 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video
@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full h-[1400px] sm:h-[1200px] md:h-[1100px] lg:h-[1100px]">
+          <div className="relative w-full h-[580px] sm:h-[700px] md:h-[900px] lg:h-[1100px]">
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
@@ -394,9 +394,9 @@ export default function Home() {
       </section>
 
       {/* Reservation & Notice Preview Section */}
-      <section className="bg-background border-t border-border">
+      <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-24">
-          <div className="grid gap-12 md:grid-cols-2">
+          <div className="grid gap-12 md:grid-cols-2 overflow-hidden">
             {/* Reservation Preview */}
             <div>
               <div className="mb-8">
@@ -411,19 +411,17 @@ export default function Home() {
                   reservationPosts.map((reservation) => (
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1 min-w-0 overflow-hidden">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate max-w-full">
-                                {reservation.eventName}
-                              </h3>
-                              {reservation.status === 'completed' && (
-                                <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap flex-shrink-0">
-                                  작업완료
-                                </span>
-                              )}
-                            </div>
+                        <div className="flex items-center justify-between gap-2 overflow-hidden">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate">
+                              {reservation.eventName}
+                            </h3>
                           </div>
+                          {reservation.status === 'completed' && (
+                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap flex-shrink-0">
+                              작업완료
+                            </span>
+                          )}
                           <div className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
                             {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
                               year: 'numeric',
@@ -455,13 +453,13 @@ export default function Home() {
                   noticePosts.map((notice) => (
                     <Link key={notice.id} href={`/posts/${notice.id}`}>
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
-                        <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-center justify-between gap-2 overflow-hidden">
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-base group-hover:text-primary transition-colors truncate">
+                            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate">
                               {notice.title}
                             </h3>
                           </div>
-                          <div className="text-xs text-muted-foreground whitespace-nowrap">
+                          <div className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
                             {new Date(notice.createdAt).toLocaleDateString('ko-KR', {
                               year: 'numeric',
                               month: '2-digit',

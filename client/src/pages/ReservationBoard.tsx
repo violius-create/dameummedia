@@ -142,9 +142,9 @@ export default function ReservationBoard() {
 
           {/* Reservations Table */}
           {filteredReservations && filteredReservations.length > 0 ? (
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
-              {/* Table Header */}
-              <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
+            <div className="border border-gray-200 rounded-lg overflow-hidden w-full">
+              {/* Table Header - hidden on mobile */}
+              <div className="bg-gray-50 border-b border-gray-200 px-4 md:px-6 py-4 hidden md:block">
                 <div className="flex gap-4 items-center text-sm font-semibold text-foreground">
                   <div className="w-[8%]">번호</div>
                   <div className="w-[60%]">행사명</div>
@@ -161,11 +161,12 @@ export default function ReservationBoard() {
                     <div className={`hover:bg-gray-200 transition-colors cursor-pointer ${
                       index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
                     }`}>
-                      <div className="px-6 py-4 flex gap-4 items-center text-sm">
+                      {/* Desktop layout */}
+                      <div className="hidden md:flex px-6 py-4 gap-4 items-center text-sm">
                         <div className="w-[8%] text-foreground font-medium">
                           {reservation.id}
                         </div>
-                        <div className="w-[60%] text-primary hover:underline">
+                        <div className="w-[60%] text-primary hover:underline truncate">
                           {reservation.eventName || "제목 없음"}
                         </div>
                         <div className="w-[12%] text-foreground">
@@ -178,6 +179,22 @@ export default function ReservationBoard() {
                           <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
                             {getStatusLabel(reservation.status)}
                           </span>
+                        </div>
+                      </div>
+                      {/* Mobile layout */}
+                      <div className="md:hidden px-4 py-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <h3 className="text-sm font-medium text-primary truncate flex-1 min-w-0">
+                            {reservation.eventName || "제목 없음"}
+                          </h3>
+                          <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap flex-shrink-0 ${getStatusColor(reservation.status)}`}>
+                            {getStatusLabel(reservation.status)}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                          <span>{reservation.clientName || "-"}</span>
+                          <span>·</span>
+                          <span>{reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}</span>
                         </div>
                       </div>
                     </div>
