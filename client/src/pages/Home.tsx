@@ -107,7 +107,7 @@ export default function Home() {
 
 
       {/* Full Screen Hero Section */}
-      <section className="relative h-[500px] overflow-hidden bg-black">
+      <section className="relative h-[60vw] sm:h-[400px] md:h-[500px] overflow-hidden bg-black">
         <div className="relative w-full h-full">
           {/* Background Media - Full Screen */}
           {activeHeroBackground?.mediaUrl ? (
@@ -144,18 +144,18 @@ export default function Home() {
           />
 
           {/* Text Content Overlay */}
-          <div className="absolute inset-0 flex flex-col justify-center p-12 md:p-16 z-10">
-            <div className="space-y-8 max-w-2xl">
+          <div className="absolute inset-0 flex flex-col justify-center p-6 sm:p-12 md:p-16 z-10">
+            <div className="space-y-4 sm:space-y-8 max-w-2xl">
               <div className="space-y-4 animate-fade-in" style={{animationDelay: '0.2s'}}>
               </div>
               <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
-                <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-white leading-none mb-4">
+                <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-2 sm:mb-4">
                   {heroTitle}
                 </h2>
-                <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
+                <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
               </div>
               {heroDescription && (
-                <p className="text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
+                <p className="text-sm sm:text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
                   {heroDescription}
                 </p>
               )}
@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full h-[420px] sm:h-[500px] md:h-[600px] lg:h-[600px]">
+          <div className="relative w-full" style={{ height: 'clamp(420px, 50vw, 700px)' }}>
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
@@ -412,15 +412,18 @@ export default function Home() {
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
                         <div className="flex items-center gap-2 w-full">
-                          <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate max-w-[calc(100%-90px)]">
+                          <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate max-w-[calc(100%-160px)] sm:max-w-[calc(100%-200px)]">
                             {reservation.eventName}
                           </h3>
-                          <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+                          <div className="ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0">
                             {reservation.status === 'completed' && (
                               <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap">
                                 작업완료
                               </span>
                             )}
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">
+                              {reservation.clientName}
+                            </span>
                             <span className="text-xs text-muted-foreground whitespace-nowrap">
                               {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
                                 year: 'numeric',

@@ -946,3 +946,8 @@
 ## 모바일 UI 개선 3차 (2026-02-14 추가)
 - [x] Concert Live 모바일 레이아웃을 Making Film과 동일한 포맷으로 변경 (모바일 2열 갤러리, aspect-[4/3] 썸네일 + 제목 2줄)
 - [x] 햄버거 메뉴 항목 클릭 시 드롭다운 자동 닫기 (모든 Link/a/Button에 onClick으로 setMobileMenuOpen(false) 추가)
+
+## 모바일/PC UI 개선 4차 (2026-02-14 추가)
+- [x] 모바일 섹션1 텍스트 잘림 - h-[60vw] sm:h-[400px] md:h-[500px] 적용, 텍스트 text-3xl sm:text-5xl md:text-7xl로 축소
+- [x] PC 인스타 섹션 높이를 상대적 단위로 변경 (clamp(420px, 50vw, 700px) 적용)
+- [x] Reservation 최신글 리스트에 작성자 이름 추가 (clientName 표시, 날짜 왼쪽에 작성자)
