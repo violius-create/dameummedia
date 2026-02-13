@@ -232,7 +232,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-7 lg:grid-cols-7 overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-8 lg:grid-cols-8 overflow-x-auto">
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
@@ -240,6 +240,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="section-titles" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/section-titles'; }}>게시판 제목 관리</TabsTrigger>
             <TabsTrigger value="footer" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/footer-settings'; }}>Footer 설정</TabsTrigger>
             <TabsTrigger value="layout" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/board-layout-settings'; }}>게시판 레이아웃</TabsTrigger>
+            <TabsTrigger value="instagram" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/instagram-posts'; }}>Instagram 관리</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}

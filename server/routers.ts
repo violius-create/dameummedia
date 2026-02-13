@@ -577,6 +577,57 @@ export const appRouter = router({
         }
       }),
   }),
+
+  // Instagram Posts router (manual feed management)
+  instagramPosts: router({
+    list: publicProcedure
+      .input(z.object({ onlyActive: z.boolean().default(true) }))
+      .query(({ input }) => db.getInstagramPosts(input.onlyActive)),
+
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(({ input }) => db.getInstagramPostById(input.id)),
+
+    create: adminProcedure
+      .input(z.object({
+        imageUrl: z.string(),
+        fileKey: z.string().optional(),
+        postUrl: z.string().optional(),
+        caption: z.string().optional(),
+        sortOrder: z.number().default(0),
+        isActive: z.number().default(1),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createInstagramPost({
+          imageUrl: input.imageUrl,
+          fileKey: input.fileKey,
+          postUrl: input.postUrl,
+          caption: input.caption,
+          sortOrder: input.sortOrder,
+          isActive: input.isActive,
+          uploadedBy: ctx.user.id,
+        });
+      }),
+
+    update: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        imageUrl: z.string().optional(),
+        fileKey: z.string().optional(),
+        postUrl: z.string().optional(),
+        caption: z.string().optional(),
+        sortOrder: z.number().optional(),
+        isActive: z.number().optional(),
+      }))
+      .mutation(({ input }) => {
+        const { id, ...data } = input;
+        return db.updateInstagramPost(id, data);
+      }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input }) => db.deleteInstagramPost(input.id)),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

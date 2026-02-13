@@ -616,3 +616,59 @@ export async function updateBoardLayoutSettings(id: number, settings: Partial<In
   const result = await db.select().from(boardLayoutSettings).where(eq(boardLayoutSettings.id, id)).limit(1);
   return result.length > 0 ? result[0] : null;
 }
+
+// Instagram Posts queries
+import { instagramPosts, InstagramPost, InsertInstagramPost } from "../drizzle/schema";
+import { asc } from "drizzle-orm";
+
+export async function getInstagramPosts(onlyActive = true) {
+  const db = await getDb();
+  if (!db) return [];
+
+  if (onlyActive) {
+    return db.select().from(instagramPosts)
+      .where(eq(instagramPosts.isActive, 1))
+      .orderBy(asc(instagramPosts.sortOrder), desc(instagramPosts.createdAt));
+  }
+  return db.select().from(instagramPosts)
+    .orderBy(asc(instagramPosts.sortOrder), desc(instagramPosts.createdAt));
+}
+
+export async function getInstagramPostById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const result = await db.select().from(instagramPosts).where(eq(instagramPosts.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createInstagramPost(post: InsertInstagramPost) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(instagramPosts).values(post);
+  const insertedId = (result as any)[0]?.insertId;
+  if (insertedId) {
+    return getInstagramPostById(insertedId);
+  }
+  return null;
+}
+
+export async function updateInstagramPost(id: number, post: Partial<InsertInstagramPost>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const updateData = Object.fromEntries(
+    Object.entries(post).filter(([, value]) => value !== undefined)
+  ) as Partial<InsertInstagramPost>;
+
+  await db.update(instagramPosts).set(updateData).where(eq(instagramPosts.id, id));
+  return getInstagramPostById(id);
+}
+
+export async function deleteInstagramPost(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  return db.delete(instagramPosts).where(eq(instagramPosts.id, id));
+}

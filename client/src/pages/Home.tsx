@@ -7,6 +7,7 @@ import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import Footer from "@/components/Footer";
+import { InstagramFeedSection } from "@/components/InstagramFeedSection";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
@@ -378,20 +379,7 @@ export default function Home() {
       </section>
 
       {/* Instagram Feed Section */}
-      <section className="bg-background border-t border-border overflow-hidden">
-        <div className="container py-12">
-          <div className="relative w-full" style={{ height: 'clamp(560px, 50vw, 700px)' }}>
-            <iframe 
-              src="https://www.instagram.com/dameummedia/embed" 
-              frameBorder="0"
-              scrolling="no"
-              className="absolute inset-0 w-full h-full border-none"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              title="Posts from Instagram"
-            />
-          </div>
-        </div>
-      </section>
+      <InstagramFeedSection />
 
       {/* Reservation & Notice Preview Section */}
       <section className="bg-background border-t border-border overflow-hidden">

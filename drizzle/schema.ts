@@ -282,3 +282,20 @@ export const priceAddOns = mysqlTable("priceAddOns", {
 
 export type PriceAddOn = typeof priceAddOns.$inferSelect;
 export type InsertPriceAddOn = typeof priceAddOns.$inferInsert;
+
+// Instagram posts table for manual Instagram feed management
+export const instagramPosts = mysqlTable("instagramPosts", {
+  id: int("id").autoincrement().primaryKey(),
+  imageUrl: text("imageUrl").notNull(), // S3 uploaded image URL
+  fileKey: varchar("fileKey", { length: 255 }), // S3 file key
+  postUrl: varchar("postUrl", { length: 500 }), // Link to original Instagram post
+  caption: text("caption"), // Optional caption / description
+  sortOrder: int("sortOrder").default(0).notNull(), // Display order (lower = first)
+  isActive: int("isActive").default(1).notNull(), // 1 = visible, 0 = hidden
+  uploadedBy: int("uploadedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type InstagramPost = typeof instagramPosts.$inferSelect;
+export type InsertInstagramPost = typeof instagramPosts.$inferInsert;

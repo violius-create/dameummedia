@@ -955,3 +955,23 @@
 ## 모바일/PC UI 개선 5차 (2026-02-14 추가)
 - [x] 모바일 Reservation 최신글에 작성자 표시 (모바일 2줄 구조: 제목/작성자+날짜, PC 1줄)
 - [x] 인스타 섹션 모바일 높이 증가 (clamp 최소값 420→560px로 증가)
+## 인스타그램 자체 이미지 그리드 구현 (2026-02-14 추가)
+- [ ] DB 스키마에 instagramPosts 테이블 추가 (이미지URL, 게시물링크, 캡션, 정렬순서)
+- [ ] DB 마이그레이션 실행
+- [ ] tRPC 라우터 및 DB 헬퍼 추가 (CRUD: 목록조회, 추가, 수정, 삭제)
+- [ ] Admin 페이지에 인스타 게시물 관리 UI 구현
+- [ ] 메인 페이지 인스타 섹션을 iframe에서 자체 이미지 그리드로 교체
+- [ ] 브라우저 테스트 및 체크포인트 저장
+
+
+## Instagram 게시물 직접 등록 기능 (2026-02-14)
+- [x] instagramPosts DB 테이블 추가 (이미지URL, 링크, 캡션, 정렬순서, 활성화 상태)
+- [x] instagramPosts tRPC 라우터 구현 (CRUD - 관리자 전용)
+- [x] instagramPosts DB 헬퍼 함수 구현
+- [x] Admin 페이지에 Instagram 관리 탭 추가 (/admin/instagram-posts)
+- [x] 이미지 업로드 + 캡션/링크/정렬순서 입력 폼
+- [x] 게시물 활성화/비활성화 토글
+- [x] 게시물 수정/삭제 기능
+- [x] 메인 페이지 Instagram 섹션을 자체 이미지 그리드로 교체 (iframe embed 제거)
+- [x] InstagramFeedSection 컴포넌트 구현 (호버 오버레이, 캡션 표시)
+- [x] instagramPosts vitest 테스트 작성 및 통과 (9개 테스트)
