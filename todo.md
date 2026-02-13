@@ -929,3 +929,6 @@
 - [x] 섹션 3의 여백 축소 (mt-[30px]→mt-[6px], pt-[20px] 제거)
 - [x] 섹션 2와 3의 높이를 동일하게 맞추기 (h-[350px] md:h-[400px])
 - [x] 섹션 2, 3 타이틀 폰트 크기 모바일에서 축소 (text-5xl→text-3xl, text-xl→text-lg)
+
+## PC Instagram 피드 아래쪽 잘림 문제 수정 (2026-02-13 추가)
+- [x] PC에서 Instagram 피드 아래쪽이 잘리는 문제 해결 (lg:800px→lg:1100px, md:1000px→1100px)

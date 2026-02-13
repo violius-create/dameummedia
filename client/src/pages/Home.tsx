@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full h-[1400px] sm:h-[1200px] md:h-[1000px] lg:h-[800px]">
+          <div className="relative w-full h-[1400px] sm:h-[1200px] md:h-[1100px] lg:h-[1100px]">
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
