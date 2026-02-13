@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full h-[580px] sm:h-[700px] md:h-[900px] lg:h-[1100px]">
+          <div className="relative w-full h-[420px] sm:h-[500px] md:h-[600px] lg:h-[600px]">
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
@@ -411,23 +411,23 @@ export default function Home() {
                   reservationPosts.map((reservation) => (
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
-                        <div className="flex items-center justify-between gap-2 overflow-hidden">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate">
-                              {reservation.eventName}
-                            </h3>
-                          </div>
-                          {reservation.status === 'completed' && (
-                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap flex-shrink-0">
-                              작업완료
+                        <div className="flex items-center gap-2 w-full">
+                          <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate max-w-[calc(100%-90px)]">
+                            {reservation.eventName}
+                          </h3>
+                          <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+                            {reservation.status === 'completed' && (
+                              <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap">
+                                작업완료
+                              </span>
+                            )}
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">
+                              {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                              }).replace(/\. /g, '-').replace('.', '')}
                             </span>
-                          )}
-                          <div className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
-                            {new Date(reservation.createdAt).toLocaleDateString('ko-KR', {
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit'
-                            }).replace(/\. /g, '-').replace('.', '')}
                           </div>
                         </div>
                       </div>
@@ -453,19 +453,17 @@ export default function Home() {
                   noticePosts.map((notice) => (
                     <Link key={notice.id} href={`/posts/${notice.id}`}>
                       <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
-                        <div className="flex items-center justify-between gap-2 overflow-hidden">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate">
-                              {notice.title}
-                            </h3>
-                          </div>
-                          <div className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
+                        <div className="flex items-center gap-2 w-full">
+                          <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate max-w-[calc(100%-90px)]">
+                            {notice.title}
+                          </h3>
+                          <span className="ml-auto text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
                             {new Date(notice.createdAt).toLocaleDateString('ko-KR', {
                               year: 'numeric',
                               month: '2-digit',
                               day: '2-digit'
                             }).replace(/\. /g, '-').replace('.', '')}
-                          </div>
+                          </span>
                         </div>
                       </div>
                     </Link>
