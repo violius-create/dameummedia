@@ -172,7 +172,7 @@ export default function Home() {
       <section className="bg-background pt-[10px]">
         <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
-          <div className="relative h-[600px] md:h-[400px] overflow-hidden group flex-1">
+          <div className="relative h-[350px] md:h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (
               section2Background.type === 'video' ? (
                 <video
@@ -202,11 +202,11 @@ export default function Home() {
               style={{ opacity: (section2Background?.overlayOpacity ?? 40) / 100 }}
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+              <h2 className="text-3xl md:text-6xl font-bold text-white mb-4">
                 {section2Background?.title || 'Concert Live'}
               </h2>
               {section2Background?.description && (
-                <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
+                <p className="text-lg md:text-2xl text-gray-200 max-w-xl">
                   {section2Background.description}
                 </p>
               )}
@@ -214,7 +214,7 @@ export default function Home() {
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[600px] md:h-[400px] overflow-hidden group flex-1 mt-[30px] md:mt-0 md:ml-[10px] pt-[20px] md:pt-0">
+          <div className="relative h-[350px] md:h-[400px] overflow-hidden group flex-1 mt-[6px] md:mt-0 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video
@@ -244,11 +244,11 @@ export default function Home() {
               style={{ opacity: (section3Background?.overlayOpacity ?? 40) / 100 }}
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+              <h2 className="text-3xl md:text-6xl font-bold text-white mb-4">
                 {section3Background?.title || 'Making Film'}
               </h2>
               {section3Background?.description && (
-                <p className="text-xl md:text-2xl text-gray-200 max-w-xl">
+                <p className="text-lg md:text-2xl text-gray-200 max-w-xl">
                   {section3Background.description}
                 </p>
               )}
