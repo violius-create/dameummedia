@@ -380,7 +380,7 @@ export default function Home() {
       {/* Instagram Feed Section */}
       <section className="bg-background border-t border-border overflow-hidden">
         <div className="container py-12">
-          <div className="relative w-full" style={{ height: 'clamp(420px, 50vw, 700px)' }}>
+          <div className="relative w-full" style={{ height: 'clamp(560px, 50vw, 700px)' }}>
             <iframe 
               src="https://www.instagram.com/dameummedia/embed" 
               frameBorder="0"
@@ -410,12 +410,13 @@ export default function Home() {
                 {reservationPosts && reservationPosts.length > 0 ? (
                   reservationPosts.map((reservation) => (
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
-                      <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
-                        <div className="flex items-center gap-2 w-full">
-                          <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate max-w-[calc(100%-160px)] sm:max-w-[calc(100%-200px)]">
+                      <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border overflow-hidden">
+                        {/* 모바일: 2줄 (제목 / 작성자+날짜), PC: 1줄 */}
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full">
+                          <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate sm:max-w-[calc(100%-200px)]">
                             {reservation.eventName}
                           </h3>
-                          <div className="ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                          <div className="sm:ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0">
                             {reservation.status === 'completed' && (
                               <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap">
                                 작업완료

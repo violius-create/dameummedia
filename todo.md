@@ -951,3 +951,7 @@
 - [x] 모바일 섹션1 텍스트 잘림 - h-[60vw] sm:h-[400px] md:h-[500px] 적용, 텍스트 text-3xl sm:text-5xl md:text-7xl로 축소
 - [x] PC 인스타 섹션 높이를 상대적 단위로 변경 (clamp(420px, 50vw, 700px) 적용)
 - [x] Reservation 최신글 리스트에 작성자 이름 추가 (clientName 표시, 날짜 왼쪽에 작성자)
+
+## 모바일/PC UI 개선 5차 (2026-02-14 추가)
+- [x] 모바일 Reservation 최신글에 작성자 표시 (모바일 2줄 구조: 제목/작성자+날짜, PC 1줄)
+- [x] 인스타 섹션 모바일 높이 증가 (clamp 최소값 420→560px로 증가)
