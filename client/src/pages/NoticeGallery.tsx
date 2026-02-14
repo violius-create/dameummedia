@@ -123,7 +123,7 @@ export default function NoticeGallery() {
               </Button>
             </div>
           )}
-          <h2 className="text-2xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || '공지사항'}</h2>
+          <h2 className="text-2xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || ''}</h2>
           {sectionTitle?.description && (
             <p className="text-sm sm:text-xl text-muted-foreground max-w-2xl">
               {sectionTitle.description}

@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, title, content, category FROM posts WHERE category = 'admin_board';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, content, category FROM posts WHERE category = 'admin_board';",
+  "rows": [
+    {
+      "id": "510001",
+      "title": "프로그래밍",
+      "content": "프로그래밍",
+      "category": "admin_board"
+    },
+    {
+      "id": "510002",
+      "title": "정보",
+      "content": "정보",
+      "category": "admin_board"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcontent\tcategory\n510001\t프로그래밍\t프로그래밍\tadmin_board\n510002\t정보\t정보\tadmin_board\n",
+  "stderr": "",
+  "execution_time_ms": 1530
+}

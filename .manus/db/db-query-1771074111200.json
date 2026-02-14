@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, title, category, createdAt FROM posts WHERE category = 'admin_board' ORDER BY createdAt DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, category, createdAt FROM posts WHERE category = 'admin_board' ORDER BY createdAt DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "510002",
+      "title": "정보",
+      "category": "admin_board",
+      "createdAt": "2026-02-14 07:45:45"
+    },
+    {
+      "id": "510001",
+      "title": "프로그래밍",
+      "category": "admin_board",
+      "createdAt": "2026-02-14 07:45:45"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcategory\tcreatedAt\n510002\t정보\tadmin_board\t2026-02-14 07:45:45\n510001\t프로그래밍\tadmin_board\t2026-02-14 07:45:45\n",
+  "stderr": "",
+  "execution_time_ms": 1534
+}

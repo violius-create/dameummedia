@@ -123,7 +123,7 @@ export default function ReservationBoard() {
           <div className="space-y-4">
             <h1 className="text-2xl sm:text-4xl font-bold text-foreground">{sectionData?.title || '예약 게시판'}</h1>
             <p className="text-sm sm:text-lg text-muted-foreground">
-              {sectionData?.description || '담음미디어의 예약 현황을 확인하세요.'}
+              {sectionData?.description || ''}
             </p>
           </div>
 

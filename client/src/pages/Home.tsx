@@ -12,8 +12,8 @@ import { InstagramFeedSection } from "@/components/InstagramFeedSection";
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const [, navigate] = useLocation();
-  const [heroTitle, setHeroTitle] = useState('담음미디어');
-  const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
+  const [heroTitle, setHeroTitle] = useState('');
+  const [heroSubtitle, setHeroSubtitle] = useState('');
   const [heroDescription, setHeroDescription] = useState('');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
   const [heroOpacity, setHeroOpacity] = useState(1);
@@ -244,7 +244,7 @@ export default function Home() {
   // siteBranding 데이터 로드
   useEffect(() => {
     if (siteBranding) {
-      setHeroSubtitle(siteBranding.subtitle || 'Professional Media Production');
+      setHeroSubtitle(siteBranding.subtitle || '');
     }
   }, [siteBranding]);
 
@@ -279,16 +279,7 @@ export default function Home() {
     }
   }, [allSectionTitles]);
 
-  // 로컬 스토리지에서 설정 로드
-  useEffect(() => {
-    const savedTitle = localStorage.getItem('heroTitle');
-    const savedSubtitle = localStorage.getItem('heroSubtitle');
-    const savedOpacity = localStorage.getItem('overlayOpacity');
-    
-    if (savedTitle) setHeroTitle(savedTitle);
-    if (savedSubtitle) setHeroSubtitle(savedSubtitle);
-    if (savedOpacity) setOverlayOpacity(Number(savedOpacity));
-  }, []);
+  // localStorage 로드 제거 - DB 데이터만 사용하여 FOUC 방지
 
   return (
     <div className="min-h-screen bg-background">
@@ -480,7 +471,7 @@ export default function Home() {
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
               <h2 className="text-3xl md:text-6xl font-bold text-white mb-4">
-                {section2Background?.title || 'Concert Live'}
+                {section2Background?.title || ''}
               </h2>
               {section2Background?.description && (
                 <p className="text-lg md:text-2xl text-gray-200 max-w-xl">
@@ -522,7 +513,7 @@ export default function Home() {
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 z-10">
               <h2 className="text-3xl md:text-6xl font-bold text-white mb-4">
-                {section3Background?.title || 'Making Film'}
+                {section3Background?.title || ''}
               </h2>
               {section3Background?.description && (
                 <p className="text-lg md:text-2xl text-gray-200 max-w-xl">
@@ -539,7 +530,7 @@ export default function Home() {
         <div className="container py-12">
           <div className="mb-12">
             <a href="/concert-live" className="cursor-pointer hover:opacity-80 transition-opacity">
-              <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['concert_live']?.title || '공연 영상'}</h2>
+              <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['concert_live']?.title || ''}</h2>
               {sections['concert_live']?.description && (
                 <p className="text-lg text-muted-foreground hover:text-foreground transition-colors">{sections['concert_live'].description}</p>
               )}
@@ -641,7 +632,7 @@ export default function Home() {
         <div className="container py-12">
           <div className="mb-12">
             <a href="/making-film" className="cursor-pointer hover:opacity-80 transition-opacity">
-              <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['making_film']?.title || '영상 제작'}</h2>
+              <h2 className="mb-4 text-4xl font-bold tracking-tight hover:text-primary transition-colors">{sections['making_film']?.title || ''}</h2>
               {sections['making_film']?.description && (
                 <p className="text-lg text-muted-foreground hover:text-foreground transition-colors">{sections['making_film'].description}</p>
               )}
