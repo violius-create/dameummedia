@@ -35,19 +35,22 @@ export default function Home() {
   const concertScrollRef = useRef<HTMLDivElement>(null);
   const filmScrollRef = useRef<HTMLDivElement>(null);
 
-  // Scroll fade effect for hero section
+  // Scroll fade effect for hero section - parallax with overlap
   useEffect(() => {
     const handleScroll = () => {
       if (heroSectionRef.current) {
         const rect = heroSectionRef.current.getBoundingClientRect();
-        const sectionHeight = rect.height;
+        const viewportHeight = window.innerHeight;
         const scrolled = -rect.top;
-        if (scrolled <= 0) {
+        // Start fading after scrolling past the viewport height
+        const fadeStart = viewportHeight * 0.3;
+        const fadeEnd = viewportHeight * 0.9;
+        if (scrolled <= fadeStart) {
           setHeroOpacity(1);
-        } else if (scrolled >= sectionHeight * 0.6) {
+        } else if (scrolled >= fadeEnd) {
           setHeroOpacity(0);
         } else {
-          setHeroOpacity(1 - (scrolled / (sectionHeight * 0.6)));
+          setHeroOpacity(1 - ((scrolled - fadeStart) / (fadeEnd - fadeStart)));
         }
       }
     };
@@ -150,16 +153,24 @@ export default function Home() {
 
 
 
-      {/* Full Screen Hero Section - 100vh with scroll fade */}
+      {/* Full Screen Hero Section - 100vh with parallax scroll */}
       <section 
         ref={heroSectionRef}
-        className="relative overflow-hidden bg-black"
-        style={{ height: '100vh' }}
+        className="relative bg-black"
+        style={{ height: '150vh' }}
       >
         <div 
-          className="sticky top-0 w-full transition-opacity duration-100"
-          style={{ height: '100vh', opacity: heroOpacity }}
+          className="sticky top-0 w-full"
+          style={{ height: '100vh' }}
         >
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: heroOpacity,
+              transform: `scale(${1 + (1 - heroOpacity) * 0.1})`,
+              transition: 'transform 0.05s linear',
+            }}
+          >
           {/* Background Media - Full Screen */}
           {activeHeroBackground?.mediaUrl ? (
             activeHeroBackground.type === 'video' ? (
@@ -194,40 +205,66 @@ export default function Home() {
             style={{ opacity: overlayOpacity / 100 }}
           />
 
-          {/* Text Content Overlay with Rotation */}
-          <div className="absolute inset-0 flex flex-col justify-center p-6 sm:p-12 md:p-16 z-10">
-            <div className="space-y-4 sm:space-y-8 max-w-3xl relative" style={{ minHeight: '200px' }}>
+          {/* Text Content Overlay with Rotation - Vertically Centered */}
+          <div className="absolute inset-0 flex items-center justify-start p-6 sm:p-12 md:p-16 z-10">
+            <div className="max-w-3xl relative w-full" style={{ minHeight: '250px' }}>
               {heroTexts.length > 0 ? (
-                heroTexts.map((text, index) => (
-                  <div
-                    key={index}
-                    className="absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-in-out"
-                    style={{
-                      opacity: currentTextIndex === index ? 1 : 0,
-                      transform: currentTextIndex === index ? 'translateY(0)' : 'translateY(20px)',
-                      pointerEvents: currentTextIndex === index ? 'auto' : 'none',
-                    }}
-                  >
-                    <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-2 sm:mb-4">
-                      {text.title}
-                    </h2>
-                    <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-4" />
-                    {text.description && (
-                      <p className="text-sm sm:text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light">
-                        {text.description}
-                      </p>
-                    )}
-                  </div>
-                ))
+                heroTexts.map((text, index) => {
+                  const isActive = currentTextIndex === index;
+                  return (
+                    <div
+                      key={index}
+                      className="absolute inset-0 flex flex-col justify-center"
+                      style={{
+                        opacity: isActive ? 1 : 0,
+                        transform: isActive 
+                          ? 'translateY(0) scale(1)' 
+                          : 'translateY(40px) scale(0.95)',
+                        filter: isActive ? 'blur(0px)' : 'blur(8px)',
+                        transition: 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                        pointerEvents: isActive ? 'auto' : 'none',
+                      }}
+                    >
+                      <h2 
+                        className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-3 sm:mb-5"
+                        style={{
+                          transform: isActive ? 'translateX(0)' : 'translateX(-30px)',
+                          transition: 'transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)',
+                        }}
+                      >
+                        {text.title}
+                      </h2>
+                      <div 
+                        className="h-1 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-5"
+                        style={{
+                          width: isActive ? '6rem' : '0rem',
+                          transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                        }}
+                      />
+                      {text.description && (
+                        <p 
+                          className="text-sm sm:text-lg md:text-2xl text-gray-200 leading-relaxed max-w-2xl font-light"
+                          style={{
+                            opacity: isActive ? 1 : 0,
+                            transform: isActive ? 'translateY(0)' : 'translateY(15px)',
+                            transition: 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s',
+                          }}
+                        >
+                          {text.description}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })
               ) : (
                 /* Fallback: use existing heroTitle/heroDescription */
                 <div className="flex flex-col justify-center">
-                  <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-2 sm:mb-4">
+                  <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-3 sm:mb-5">
                     {heroTitle}
                   </h2>
-                  <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-4" />
+                  <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-5" />
                   {heroDescription && (
-                    <p className="text-sm sm:text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light">
+                    <p className="text-sm sm:text-lg md:text-2xl text-gray-200 leading-relaxed max-w-2xl font-light">
                       {heroDescription}
                     </p>
                   )}
@@ -237,13 +274,19 @@ export default function Home() {
           </div>
 
 
+          </div>
         </div>
       </section>
 
-
-
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
-      <section className="bg-background pt-[10px]">
+      <section 
+        className="bg-background relative z-10"
+        style={{
+          marginTop: '-50vh',
+          borderRadius: '1.5rem 1.5rem 0 0',
+          boxShadow: '0 -20px 60px rgba(0,0,0,0.3)',
+        }}
+      >
         <div className="flex md:flex-row flex-col">
           {/* Section 2: Concert Live */}
           <div className="relative h-[280px] md:h-[400px] overflow-hidden group flex-1">

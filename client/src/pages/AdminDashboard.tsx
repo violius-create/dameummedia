@@ -252,7 +252,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-8 lg:grid-cols-8 overflow-x-auto">
+          <TabsList className="flex flex-wrap h-auto gap-1 w-full justify-start p-1">
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
