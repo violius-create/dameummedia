@@ -405,7 +405,7 @@ export default function Home() {
 
           {/* Scroll Down Indicator - dissolve fade arrows only */}
           <div 
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center scroll-indicator"
+            className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center scroll-indicator"
             style={{ 
               opacity: Math.min(heroOpacity, heroOpacity > 0.5 ? 1 : heroOpacity * 2),
               transition: 'opacity 0.3s ease',
@@ -413,15 +413,15 @@ export default function Home() {
           >
             <div className="scroll-dissolve-arrow">
               <svg 
-                width="32" height="32" viewBox="0 0 24 24" fill="none" 
+                width="48" height="48" viewBox="0 0 24 24" fill="none" 
                 className="text-white"
               >
                 <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <div className="scroll-dissolve-arrow" style={{ animationDelay: '1s', marginTop: '-10px' }}>
+            <div className="scroll-dissolve-arrow" style={{ animationDelay: '1s', marginTop: '-16px' }}>
               <svg 
-                width="32" height="32" viewBox="0 0 24 24" fill="none" 
+                width="48" height="48" viewBox="0 0 24 24" fill="none" 
                 className="text-white"
               >
                 <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
