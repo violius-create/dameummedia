@@ -214,4 +214,34 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Scroll Down Indicator Animation */
+  @keyframes scrollBounce {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(8px);
+      opacity: 0.5;
+    }
+  }
+
+  .scroll-bounce-indicator {
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+
+  .scroll-indicator {
+    pointer-events: none;
+  }
+
+  /* Typewriter Caret Blink Animation */
+  @keyframes blink-caret {
+    0%, 100% {
+      border-color: white;
+    }
+    50% {
+      border-color: transparent;
+    }
+  }
 }

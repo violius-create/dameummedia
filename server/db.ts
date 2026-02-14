@@ -760,6 +760,7 @@ export async function upsertHeroTextRotation(data: {
   text3Title: string;
   text3Description: string;
   intervalMs: number;
+  animationType: string;
   updatedBy: number;
 }) {
   const db = await getDb();

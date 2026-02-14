@@ -66,6 +66,145 @@ export default function Home() {
   ].filter(t => t.title && t.title.trim() !== '') : [];
 
   const rotationInterval = heroTextRotationData?.intervalMs || 2000;
+  const animationType = (heroTextRotationData as any)?.animationType || 'fadeSlideUp';
+
+  // Animation style generator based on animationType
+  const getAnimationStyles = (isActive: boolean) => {
+    const ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    switch (animationType) {
+      case 'fadeScale':
+        return {
+          container: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'scale(1)' : 'scale(0.8)',
+            filter: isActive ? 'blur(0px)' : 'blur(4px)',
+            transition: `opacity 0.8s ${ease}, transform 0.8s ${ease}, filter 0.8s ${ease}`,
+          },
+          title: {
+            transform: isActive ? 'scale(1)' : 'scale(1.1)',
+            transition: `transform 0.9s ${ease}`,
+          },
+          line: {
+            width: isActive ? '6rem' : '0rem',
+            transition: `width 0.6s ${ease} 0.2s`,
+          },
+          desc: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'scale(1)' : 'scale(0.9)',
+            transition: `opacity 0.7s ${ease} 0.15s, transform 0.7s ${ease} 0.15s`,
+          },
+        };
+      case 'slideLeft':
+        return {
+          container: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateX(0)' : 'translateX(-80px)',
+            transition: `opacity 0.7s ${ease}, transform 0.7s ${ease}`,
+          },
+          title: {
+            transform: isActive ? 'translateX(0)' : 'translateX(-40px)',
+            transition: `transform 0.8s ${ease} 0.1s`,
+          },
+          line: {
+            width: isActive ? '6rem' : '0rem',
+            transition: `width 0.5s ${ease} 0.3s`,
+          },
+          desc: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateX(0)' : 'translateX(-30px)',
+            transition: `opacity 0.6s ${ease} 0.2s, transform 0.6s ${ease} 0.2s`,
+          },
+        };
+      case 'typewriter':
+        return {
+          container: {
+            opacity: isActive ? 1 : 0,
+            transition: `opacity 0.3s ${ease}`,
+          },
+          title: {
+            borderRight: isActive ? '3px solid white' : '3px solid transparent',
+            animation: isActive ? 'blink-caret 0.75s step-end infinite' : 'none',
+            transition: `border-color 0.3s ${ease}`,
+          },
+          line: {
+            width: isActive ? '6rem' : '0rem',
+            transition: `width 0.4s ${ease} 0.5s`,
+          },
+          desc: {
+            opacity: isActive ? 1 : 0,
+            transition: `opacity 0.5s ${ease} 0.3s`,
+          },
+        };
+      case 'flipDown':
+        return {
+          container: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'perspective(600px) rotateX(0deg)' : 'perspective(600px) rotateX(-30deg)',
+            transformOrigin: 'top center',
+            transition: `opacity 0.7s ${ease}, transform 0.7s ${ease}`,
+          },
+          title: {
+            transform: isActive ? 'translateY(0)' : 'translateY(-20px)',
+            transition: `transform 0.8s ${ease}`,
+          },
+          line: {
+            width: isActive ? '6rem' : '0rem',
+            transition: `width 0.5s ${ease} 0.3s`,
+          },
+          desc: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'perspective(600px) rotateX(0deg)' : 'perspective(600px) rotateX(-15deg)',
+            transition: `opacity 0.6s ${ease} 0.2s, transform 0.6s ${ease} 0.2s`,
+          },
+        };
+      case 'glitch':
+        return {
+          container: {
+            opacity: isActive ? 1 : 0,
+            transition: `opacity 0.15s steps(3)`,
+          },
+          title: {
+            textShadow: isActive 
+              ? '0 0 0 transparent' 
+              : '2px 0 #ff0000, -2px 0 #00ff00',
+            transform: isActive ? 'skewX(0deg)' : 'skewX(-5deg)',
+            transition: `text-shadow 0.3s steps(5), transform 0.3s steps(3)`,
+          },
+          line: {
+            width: isActive ? '6rem' : '0rem',
+            transition: `width 0.3s steps(4) 0.1s`,
+          },
+          desc: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'skewX(0deg)' : 'skewX(3deg)',
+            transition: `opacity 0.2s steps(3) 0.1s, transform 0.2s steps(3) 0.1s`,
+          },
+        };
+      case 'fadeSlideUp':
+      default:
+        return {
+          container: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
+            filter: isActive ? 'blur(0px)' : 'blur(8px)',
+            transition: `opacity 0.8s ${ease}, transform 0.8s ${ease}, filter 0.8s ${ease}`,
+          },
+          title: {
+            transform: isActive ? 'translateX(0)' : 'translateX(-30px)',
+            transition: `transform 0.9s ${ease}`,
+          },
+          line: {
+            width: isActive ? '6rem' : '0rem',
+            transition: `width 0.6s ${ease} 0.2s`,
+          },
+          desc: {
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0)' : 'translateY(15px)',
+            transition: `opacity 0.7s ${ease} 0.15s, transform 0.7s ${ease} 0.15s`,
+          },
+        };
+    }
+  };
 
   useEffect(() => {
     if (heroTexts.length <= 1) return;
@@ -156,12 +295,16 @@ export default function Home() {
       {/* Full Screen Hero Section - 100vh with parallax scroll */}
       <section 
         ref={heroSectionRef}
-        className="relative bg-black"
-        style={{ height: '150vh' }}
+        className="relative"
+        style={{ height: '150vh', zIndex: 1, background: 'transparent' }}
       >
         <div 
-          className="sticky top-0 w-full"
-          style={{ height: '100vh' }}
+          className="sticky top-0 w-full overflow-hidden"
+          style={{ 
+            height: '100vh',
+            visibility: heroOpacity <= 0 ? 'hidden' : 'visible',
+            clipPath: heroOpacity <= 0 ? 'inset(0 0 100% 0)' : 'inset(0 0 0 0)',
+          }}
         >
           <div
             className="absolute inset-0"
@@ -169,6 +312,7 @@ export default function Home() {
               opacity: heroOpacity,
               transform: `scale(${1 + (1 - heroOpacity) * 0.1})`,
               transition: 'transform 0.05s linear',
+              willChange: 'opacity, transform',
             }}
           >
           {/* Background Media - Full Screen */}
@@ -211,44 +355,30 @@ export default function Home() {
               {heroTexts.length > 0 ? (
                 heroTexts.map((text, index) => {
                   const isActive = currentTextIndex === index;
+                  const styles = getAnimationStyles(isActive);
                   return (
                     <div
                       key={index}
                       className="absolute inset-0 flex flex-col justify-center"
                       style={{
-                        opacity: isActive ? 1 : 0,
-                        transform: isActive 
-                          ? 'translateY(0) scale(1)' 
-                          : 'translateY(40px) scale(0.95)',
-                        filter: isActive ? 'blur(0px)' : 'blur(8px)',
-                        transition: 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                        ...styles.container,
                         pointerEvents: isActive ? 'auto' : 'none',
                       }}
                     >
                       <h2 
                         className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-3 sm:mb-5"
-                        style={{
-                          transform: isActive ? 'translateX(0)' : 'translateX(-30px)',
-                          transition: 'transform 0.9s cubic-bezier(0.4, 0, 0.2, 1)',
-                        }}
+                        style={styles.title}
                       >
                         {text.title}
                       </h2>
                       <div 
                         className="h-1 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-5"
-                        style={{
-                          width: isActive ? '6rem' : '0rem',
-                          transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
-                        }}
+                        style={styles.line}
                       />
                       {text.description && (
                         <p 
                           className="text-sm sm:text-lg md:text-2xl text-gray-200 leading-relaxed max-w-2xl font-light"
-                          style={{
-                            opacity: isActive ? 1 : 0,
-                            transform: isActive ? 'translateY(0)' : 'translateY(15px)',
-                            transition: 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s',
-                          }}
+                          style={styles.desc}
                         >
                           {text.description}
                         </p>
@@ -273,6 +403,32 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Scroll Down Indicator */}
+          <div 
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 scroll-indicator"
+            style={{ 
+              opacity: Math.min(heroOpacity, heroOpacity > 0.5 ? 1 : heroOpacity * 2),
+              transition: 'opacity 0.3s ease',
+            }}
+          >
+            <span className="text-white/60 text-xs tracking-[0.25em] uppercase font-light">Scroll</span>
+            <div className="scroll-bounce-indicator">
+              <svg 
+                width="28" height="28" viewBox="0 0 24 24" fill="none" 
+                className="text-white/80"
+              >
+                <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="scroll-bounce-indicator" style={{ animationDelay: '0.15s', marginTop: '-12px' }}>
+              <svg 
+                width="28" height="28" viewBox="0 0 24 24" fill="none" 
+                className="text-white/40"
+              >
+                <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
 
           </div>
         </div>
@@ -280,11 +436,12 @@ export default function Home() {
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
       <section 
-        className="bg-background relative z-10"
+        className="bg-background relative"
         style={{
           marginTop: '-50vh',
           borderRadius: '1.5rem 1.5rem 0 0',
           boxShadow: '0 -20px 60px rgba(0,0,0,0.3)',
+          zIndex: 10,
         }}
       >
         <div className="flex md:flex-row flex-col">

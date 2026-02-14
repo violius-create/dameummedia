@@ -1,0 +1,58 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'heroTextRotation' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'heroTextRotation' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "int(11)"
+    },
+    {
+      "COLUMN_NAME": "text1Title",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "text1Description",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "text2Title",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "text2Description",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "text3Title",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "text3Description",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "intervalMs",
+      "COLUMN_TYPE": "int(11)"
+    },
+    {
+      "COLUMN_NAME": "updatedBy",
+      "COLUMN_TYPE": "int(11)"
+    },
+    {
+      "COLUMN_NAME": "createdAt",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updatedAt",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "animationType",
+      "COLUMN_TYPE": "varchar(50)"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\nid\tint(11)\ntext1Title\tvarchar(500)\ntext1Description\tvarchar(500)\ntext2Title\tvarchar(500)\ntext2Description\tvarchar(500)\ntext3Title\tvarchar(500)\ntext3Description\tvarchar(500)\nintervalMs\tint(11)\nupdatedBy\tint(11)\ncreatedAt\ttimestamp\nupdatedAt\ttimestamp\nanimationType\tvarchar(50)\n",
+  "stderr": "",
+  "execution_time_ms": 1538
+}

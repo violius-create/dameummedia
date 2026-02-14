@@ -1,0 +1,1 @@
+ALTER TABLE `heroTextRotation` ADD `animationType` varchar(50) DEFAULT 'fadeSlideUp' NOT NULL;

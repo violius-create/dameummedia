@@ -310,6 +310,7 @@ export const heroTextRotation = mysqlTable("heroTextRotation", {
   text3Title: varchar("text3Title", { length: 500 }).default(""),
   text3Description: varchar("text3Description", { length: 500 }).default(""),
   intervalMs: int("intervalMs").default(2000).notNull(), // Rotation interval in milliseconds
+  animationType: varchar("animationType", { length: 50 }).default("fadeSlideUp").notNull(), // Animation type for text transition
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

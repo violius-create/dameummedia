@@ -1,0 +1,106 @@
+{
+  "query": "DESCRIBE heroTextRotation;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute DESCRIBE heroTextRotation;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "text1Title",
+      "Type": "varchar(500)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Professional Media Production",
+      "Extra": ""
+    },
+    {
+      "Field": "text1Description",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "Record, Mixing, Mastering and Videos",
+      "Extra": ""
+    },
+    {
+      "Field": "text2Title",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "",
+      "Extra": ""
+    },
+    {
+      "Field": "text2Description",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "",
+      "Extra": ""
+    },
+    {
+      "Field": "text3Title",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "",
+      "Extra": ""
+    },
+    {
+      "Field": "text3Description",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "",
+      "Extra": ""
+    },
+    {
+      "Field": "intervalMs",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "2000",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedBy",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "createdAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "animationType",
+      "Type": "varchar(50)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "fadeSlideUp",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\ntext1Title\tvarchar(500)\tNO\t\tProfessional Media Production\t\ntext1Description\tvarchar(500)\tYES\t\tRecord, Mixing, Mastering and Videos\t\ntext2Title\tvarchar(500)\tYES\t\t\t\ntext2Description\tvarchar(500)\tYES\t\t\t\ntext3Title\tvarchar(500)\tYES\t\t\t\ntext3Description\tvarchar(500)\tYES\t\t\t\nintervalMs\tint(11)\tNO\t\t2000\t\nupdatedBy\tint(11)\tNO\t\tNULL\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nanimationType\tvarchar(50)\tNO\t\tfadeSlideUp\t\n",
+  "stderr": "",
+  "execution_time_ms": 1587
+}

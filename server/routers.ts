@@ -665,6 +665,7 @@ export const appRouter = router({
         text3Title: z.string(),
         text3Description: z.string(),
         intervalMs: z.number().min(500).max(30000),
+        animationType: z.string().default("fadeSlideUp"),
       }))
       .mutation(async ({ input, ctx }) => {
         return db.upsertHeroTextRotation({
