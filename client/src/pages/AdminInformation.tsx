@@ -149,16 +149,17 @@ export default function AdminInformation() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8 max-w-4xl">
-        <div className="flex items-center gap-4 mb-8">
-          <Link href="/admin">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </Link>
+        <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">Information 관리</h1>
-            <p className="text-muted-foreground">Information 페이지의 각 섹션 내용을 수정합니다.</p>
+            <p className="text-muted-foreground mt-1">Information 페이지의 각 섹션 내용을 수정합니다.</p>
           </div>
+          <Link href="/admin">
+            <Button variant="outline">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              돌아가기
+            </Button>
+          </Link>
         </div>
 
         <div className="space-y-6">

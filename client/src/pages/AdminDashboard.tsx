@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Upload, Trash2, Plus, X } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { FileUploadDropzone } from "@/components/FileUploadDropzone";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useEffect } from "react";
 
 export default function AdminDashboard() {
@@ -246,9 +246,11 @@ export default function AdminDashboard() {
       <div className="container py-8">
         <div className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold">관리자 대시보드</h1>
-          <Button variant="outline" onClick={() => window.history.back()}>
-            돌아가기
-          </Button>
+          <Link href="/">
+            <Button variant="outline">
+              돌아가기
+            </Button>
+          </Link>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

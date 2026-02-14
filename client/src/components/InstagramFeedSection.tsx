@@ -11,9 +11,9 @@ export function InstagramFeedSection() {
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const displayCount = siteBranding?.instagramDisplayCount ?? 10;
-  const posts = allPosts?.slice(0, displayCount) ?? [];
-  const totalPosts = allPosts?.length ?? 0;
-  const showScrollButtons = totalPosts > displayCount;
+  // Show ALL active posts, displayCount controls how many are visible at once (columns)
+  const posts = allPosts ?? [];
+  const needsScroll = posts.length > displayCount;
 
   // Check scroll position to show/hide buttons
   const updateScrollButtons = useCallback(() => {
@@ -26,10 +26,12 @@ export function InstagramFeedSection() {
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    updateScrollButtons();
+    // Delay initial check to ensure layout is complete
+    const timer = setTimeout(() => updateScrollButtons(), 100);
     el.addEventListener('scroll', updateScrollButtons, { passive: true });
     window.addEventListener('resize', updateScrollButtons);
     return () => {
+      clearTimeout(timer);
       el.removeEventListener('scroll', updateScrollButtons);
       window.removeEventListener('resize', updateScrollButtons);
     };
@@ -41,8 +43,7 @@ export function InstagramFeedSection() {
     if (!el) return;
     const firstCard = el.querySelector('[data-insta-card]') as HTMLElement;
     if (!firstCard) return;
-    // Card width + gap (gap is 8px = gap-2)
-    const gap = 8;
+    const gap = 8; // gap-2 = 8px
     const cardWidth = firstCard.offsetWidth + gap;
     el.scrollBy({
       left: direction === 'left' ? -cardWidth : cardWidth,
@@ -54,6 +55,10 @@ export function InstagramFeedSection() {
   if (!isLoading && (!allPosts || allPosts.length === 0)) {
     return null;
   }
+
+  // Calculate the visible columns based on displayCount
+  // The card width is determined by displayCount so that exactly displayCount cards fit in the container
+  const gapPx = 8; // gap-2
 
   return (
     <section className="bg-background border-t border-border overflow-hidden">
@@ -75,7 +80,7 @@ export function InstagramFeedSection() {
         {/* Loading State */}
         {isLoading && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-            {Array.from({ length: 10 }).map((_, i) => (
+            {Array.from({ length: displayCount }).map((_, i) => (
               <div
                 key={i}
                 className="aspect-square bg-muted animate-pulse rounded-sm"
@@ -84,12 +89,12 @@ export function InstagramFeedSection() {
           </div>
         )}
 
-        {/* Instagram Grid - Scrollable when posts exceed display count */}
+        {/* Instagram Grid */}
         {posts.length > 0 && (
           <div className="relative">
             <div
               ref={scrollRef}
-              className="flex gap-2 overflow-x-auto scroll-smooth pb-2"
+              className={`flex gap-2 pb-2 ${needsScroll ? 'overflow-x-auto scroll-smooth' : 'overflow-hidden'}`}
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
@@ -101,8 +106,7 @@ export function InstagramFeedSection() {
                   data-insta-card
                   className="relative flex-shrink-0 aspect-square overflow-hidden rounded-sm group cursor-pointer"
                   style={{
-                    // Responsive: 2 cols on mobile, 3 on sm, 4 on md, 5 on lg
-                    width: 'calc((100% - 8px) / 2)',
+                    width: `calc((100% - ${gapPx * (displayCount - 1)}px) / ${displayCount})`,
                   }}
                   onMouseEnter={() => setHoveredId(post.id)}
                   onMouseLeave={() => setHoveredId(null)}
@@ -136,8 +140,8 @@ export function InstagramFeedSection() {
               ))}
             </div>
 
-            {/* Scroll Buttons - only show when there are more posts than display count */}
-            {showScrollButtons && canScrollLeft && (
+            {/* Scroll Buttons - show when there are more posts than displayCount */}
+            {needsScroll && canScrollLeft && (
               <button
                 onClick={() => scrollByOneCard('left')}
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
@@ -146,7 +150,7 @@ export function InstagramFeedSection() {
                 <ChevronLeft className="w-6 h-6 text-gray-800" />
               </button>
             )}
-            {showScrollButtons && canScrollRight && (
+            {needsScroll && canScrollRight && (
               <button
                 onClick={() => scrollByOneCard('right')}
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all hover:scale-110 z-10"
@@ -158,28 +162,6 @@ export function InstagramFeedSection() {
           </div>
         )}
       </div>
-
-      {/* Hide scrollbar CSS */}
-      <style>{`
-        [data-insta-card] {
-          width: calc((100% - 8px) / 2) !important;
-        }
-        @media (min-width: 640px) {
-          [data-insta-card] {
-            width: calc((100% - 16px) / 3) !important;
-          }
-        }
-        @media (min-width: 768px) {
-          [data-insta-card] {
-            width: calc((100% - 24px) / 4) !important;
-          }
-        }
-        @media (min-width: 1024px) {
-          [data-insta-card] {
-            width: calc((100% - 32px) / 5) !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

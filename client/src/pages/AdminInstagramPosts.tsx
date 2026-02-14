@@ -9,7 +9,8 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { FileUploadDropzone } from "@/components/FileUploadDropzone";
-import { Plus, Trash2, ArrowUp, ArrowDown, ExternalLink, GripVertical, Eye, EyeOff, Instagram } from "lucide-react";
+import { Plus, Trash2, ArrowUp, ArrowDown, ExternalLink, GripVertical, Eye, EyeOff, Instagram, ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 
 export default function AdminInstagramPosts() {
   const { user, isAuthenticated } = useAuth();
@@ -157,9 +158,12 @@ export default function AdminInstagramPosts() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => window.history.back()}>
-              돌아가기
-            </Button>
+            <Link href="/admin">
+              <Button variant="outline">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                돌아가기
+              </Button>
+            </Link>
             <Button onClick={() => setShowAddForm(!showAddForm)}>
               <Plus className="h-4 w-4 mr-2" />
               게시물 추가

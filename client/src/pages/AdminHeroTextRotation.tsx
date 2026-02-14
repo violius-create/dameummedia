@@ -114,15 +114,15 @@ export default function AdminHeroTextRotation() {
 
   return (
     <div className="container py-8 max-w-4xl mx-auto">
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          관리자 대시보드
-        </Button>
+      <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">히어로 텍스트 로테이션 설정</h1>
-          <p className="text-sm text-muted-foreground">메인 화면 섹션1에 표시되는 텍스트를 최대 3개까지 설정하고 자동 전환 시간을 조절합니다.</p>
+          <h1 className="text-3xl font-bold">히어로 텍스트 로테이션 설정</h1>
+          <p className="text-sm text-muted-foreground mt-1">메인 화면 섹션1에 표시되는 텍스트를 최대 3개까지 설정하고 자동 전환 시간을 조절합니다.</p>
         </div>
+        <Button variant="outline" onClick={() => navigate("/admin")}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          돌아가기
+        </Button>
       </div>
 
       <div className="space-y-6">

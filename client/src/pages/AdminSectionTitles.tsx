@@ -72,25 +72,16 @@ export default function AdminSectionTitles() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-        <div className="container py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Link href="/admin">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  관리자 메뉴
-                </Button>
-              </Link>
-            </div>
-            <h1 className="text-lg font-bold">섹션 제목 관리</h1>
-            <div className="w-20" />
-          </div>
-        </div>
-      </nav>
-
       <div className="container max-w-4xl py-8">
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-3xl font-bold">섹션 제목 관리</h1>
+          <Link href="/admin">
+            <Button variant="outline">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              돌아가기
+            </Button>
+          </Link>
+        </div>
         {isLoading ? (
           <div className="text-center">로딩 중...</div>
         ) : (
