@@ -1,7 +1,9 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Music, Trash2, Edit } from "lucide-react";
+import { ArrowLeft, Music, Trash2, Edit, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useMemo } from "react";
+import { CardDescription } from "@/components/ui/card";
 import { Link, useRoute } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -120,7 +122,7 @@ export default function PostDetail() {
 
       {/* Content */}
       <div className="container py-8 sm:py-16">
-        <article className="max-w-3xl mx-auto">
+        <article className="mx-auto">
           <Card>
             <CardHeader>
               <div className="space-y-4">
@@ -186,7 +188,7 @@ export default function PostDetail() {
               {/* Bottom Edit Button */}
               {isAuthenticated && user?.role === 'admin' && (
                 <div className="flex gap-2 justify-center pt-8 border-t">
-                  <Link href={`/admin?editId=${post.id}`}>
+                  <Link href={`/posts/${post.id}/edit`}>
                     <Button variant="outline" className="hover:text-neutral-400 transition-colors">
                       <Edit className="mr-2 h-4 w-4" />
                       수정
@@ -222,17 +224,57 @@ export default function PostDetail() {
 }
 
 function RelatedPostsList({ category, currentPostId }: { category: string; currentPostId: number }) {
-  const { data: relatedPosts } = trpc.posts.list.useQuery({
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Load board layout settings to match list page
+  const boardKey = category === 'concert' ? 'concert_live' : category === 'making_film' ? 'making_film' : 'notice';
+  const { data: boardSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey });
+  const postsPerPage = boardSettings?.itemsPerPage || 12;
+  const displayMode = boardSettings?.displayMode || 'gallery';
+
+  const { data: allPosts } = trpc.posts.list.useQuery({
     category: category,
-    limit: 6,
+    limit: 200,
   });
 
-  const filteredPosts = relatedPosts?.filter((p: any) => p.id !== currentPostId).slice(0, 3) || [];
+  const { data: totalCountData } = trpc.posts.count.useQuery({ category });
+  
+  const filteredPosts = useMemo(() => 
+    allPosts?.filter((p: any) => p.id !== currentPostId) || [],
+    [allPosts, currentPostId]
+  );
+
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const paginatedPosts = useMemo(() => 
+    filteredPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage),
+    [filteredPosts, currentPage, postsPerPage]
+  );
+
+  const stripHtmlTags = (html: string): string => {
+    if (!html) return '';
+    let text = html.replace(/<[^>]*>/g, '');
+    text = text.replace(/\s+/g, ' ').trim();
+    return text;
+  };
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push('...');
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
+      if (currentPage < totalPages - 2) pages.push('...');
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   if (filteredPosts.length === 0) {
     return (
       <div className="text-center text-muted-foreground py-8">
-        <Link href={category === 'concert' ? '/concert-live' : '/making-film'}>
+        <Link href={category === 'concert' ? '/concert-live' : category === 'notice' ? '/notice' : '/making-film'}>
           <Button variant="outline">
             모든 {category === 'concert' ? 'Concert Live' : category === 'notice' ? '공지사항' : 'Making Film'} 보기
           </Button>
@@ -241,30 +283,94 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
     );
   }
 
+  const getCategoryPath = () => category === 'concert' ? '/concert-live' : category === 'notice' ? '/notice' : '/making-film';
+
   return (
-    <div className="grid gap-6 md:grid-cols-3">
-      {filteredPosts.map((post: any) => (
-        <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
-          <div className="relative h-40 w-full bg-muted flex items-center justify-center">
-            {post.imageUrl ? (
-              <img
-                src={post.imageUrl}
-                alt={post.title}
-                className="h-full w-full object-cover"
-              />
+    <div>
+      {displayMode === 'list' ? (
+        <div className="space-y-4">
+          {paginatedPosts.map((post: any) => (
+            <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
+              <div className="flex flex-col sm:flex-row h-auto sm:h-48">
+                <div className="relative w-full sm:w-64 h-40 sm:h-48 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
+                  {post.imageUrl ? (
+                    <img src={post.imageUrl} alt={post.title} className="h-full w-full object-cover" />
+                  ) : (
+                    <Music className="h-8 w-8 text-muted-foreground" />
+                  )}
+                </div>
+                <div className="flex flex-col flex-1 p-4 sm:p-6">
+                  <h4 className="font-semibold line-clamp-2 mb-2 text-sm sm:text-xl">{post.title}</h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3">{stripHtmlTags(post.content)}</p>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+          {paginatedPosts.map((post: any) => (
+            <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
+              <div className="relative h-40 sm:h-[300px] w-full bg-muted flex items-center justify-center overflow-hidden">
+                {post.imageUrl ? (
+                  <img src={post.imageUrl} alt={post.title} className="h-full w-full object-cover" />
+                ) : (
+                  <Music className="h-8 w-8 text-muted-foreground" />
+                )}
+              </div>
+              <CardContent className="pt-4">
+                <h4 className="font-semibold line-clamp-2 mb-2 text-xs sm:text-base">{post.title}</h4>
+                <p className="hidden sm:block text-xs sm:text-sm text-muted-foreground line-clamp-2">{stripHtmlTags(post.content)}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          {getPageNumbers().map((page, idx) => (
+            typeof page === 'number' ? (
+              <Button
+                key={idx}
+                variant={currentPage === page ? 'default' : 'outline'}
+                size="icon"
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </Button>
             ) : (
-              <Music className="h-8 w-8 text-muted-foreground" />
-            )}
-          </div>
-          <CardContent className="pt-4">
-            <h4 className="font-semibold line-clamp-2 mb-2 text-xs sm:text-base">{post.title}</h4>
-            <div 
-              className="text-xs sm:text-sm text-muted-foreground line-clamp-2"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-          </CardContent>
-        </Card>
-      ))}
+              <span key={idx} className="px-2 text-muted-foreground">...</span>
+            )
+          ))}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+
+      {/* View All Button */}
+      <div className="text-center mt-6">
+        <Link href={getCategoryPath()}>
+          <Button variant="outline">
+            모든 {category === 'concert' ? 'Concert Live' : category === 'notice' ? '공지사항' : 'Making Film'} 보기
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

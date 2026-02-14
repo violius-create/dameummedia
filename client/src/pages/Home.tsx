@@ -16,8 +16,8 @@ export default function Home() {
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
   const [heroDescription, setHeroDescription] = useState('');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
-  const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
-  const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
+  const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 50 });
+  const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 50 });
   const { data: featuredConcert } = trpc.posts.getFeatured.useQuery({ category: 'concert' });
   const { data: featuredFilm } = trpc.posts.getFeatured.useQuery({ category: 'film' });
   const { data: reservationPosts } = trpc.reservations.list.useQuery({ limit: 5 });
@@ -299,7 +299,7 @@ export default function Home() {
                   </div>
                   <div className="p-6 md:p-8 flex flex-col justify-center bg-neutral-900">
                     <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-400 w-fit">Featured</span>
-                    <h3 className="text-xl md:text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors line-clamp-2">{featuredConcert.title}</h3>
+                    <h3 className="text-2xl md:text-4xl font-bold mb-3 text-white group-hover:text-orange-500 transition-colors line-clamp-2">{featuredConcert.title}</h3>
                     <p className="text-sm text-neutral-400 line-clamp-4 mb-4 leading-relaxed">
                       {featuredConcert.content?.replace(/<[^>]*>/g, '').substring(0, 200)}
                     </p>
@@ -401,7 +401,7 @@ export default function Home() {
                   </div>
                   <div className="p-6 md:p-8 flex flex-col justify-center bg-neutral-900">
                     <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-400 w-fit">Featured</span>
-                    <h3 className="text-xl md:text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors line-clamp-2">{featuredFilm.title}</h3>
+                    <h3 className="text-2xl md:text-4xl font-bold mb-3 text-white group-hover:text-orange-500 transition-colors line-clamp-2">{featuredFilm.title}</h3>
                     <p className="text-sm text-neutral-400 line-clamp-4 mb-4 leading-relaxed">
                       {featuredFilm.content?.replace(/<[^>]*>/g, '').substring(0, 200)}
                     </p>

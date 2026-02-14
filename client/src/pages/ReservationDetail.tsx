@@ -248,7 +248,7 @@ export default function ReservationDetail() {
 
       {/* Content */}
       <div className="container py-8 sm:py-16">
-        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+        <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
           {/* Header */}
           <div className="space-y-3 sm:space-y-4 pb-4 sm:pb-6 border-b-2 border-gray-300">
             <div className="flex items-center justify-between gap-2">
