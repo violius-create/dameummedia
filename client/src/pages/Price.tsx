@@ -80,14 +80,9 @@ export default function Price() {
                 key={pkg.id}
                 className={`relative transition-all duration-300 hover:shadow-lg ${
                   selectedPackage === pkg.id ? "ring-2 ring-primary" : ""
-                } ${index === 2 ? "md:scale-105 md:shadow-lg" : ""}`}
+                }`}
                 onClick={() => setSelectedPackage(pkg.id)}
               >
-                {index === 2 && (
-                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-4 py-1 rounded-bl-lg text-sm font-semibold">
-                    추천
-                  </div>
-                )}
                 <CardHeader>
                   <CardTitle className="text-xl">{pkg.displayName}</CardTitle>
                   <p className="text-sm text-muted-foreground mt-2">{pkg.targetAudience}</p>

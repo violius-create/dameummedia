@@ -745,7 +745,7 @@ export default function Home() {
                   </h2>
                 </a>
               </div>
-              <div className="divide-y divide-gray-200">
+              <div className="[&>*+*]:border-t [&>*+*]:border-[#d1d5db]">
                 {reservationPosts && reservationPosts.length > 0 ? (
                   reservationPosts.map((reservation) => (
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
@@ -791,7 +791,7 @@ export default function Home() {
                   </h2>
                 </a>
               </div>
-              <div className="divide-y divide-gray-200">
+              <div className="[&>*+*]:border-t [&>*+*]:border-[#d1d5db]">
                 {noticePosts && noticePosts.length > 0 ? (
                   noticePosts.map((notice) => (
                     <Link key={notice.id} href={`/posts/${notice.id}`}>

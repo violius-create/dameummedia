@@ -37,7 +37,10 @@ export default function Reservation() {
     paidAmount: "",
     unpaidAmount: "",
     description: "",
+    attachments: "" as string,
   });
+
+  const uploadFileMutation = trpc.upload.uploadFile.useMutation();
 
   const createReservationMutation = trpc.reservations.create.useMutation({
     onSuccess: (data) => {
@@ -87,6 +90,7 @@ export default function Reservation() {
       paidAmount: formData.paidAmount ? parseInt(formData.paidAmount) : 0,
       unpaidAmount: formData.unpaidAmount ? parseInt(formData.unpaidAmount) : 0,
       description: formData.description,
+      attachments: formData.attachments || undefined,
       status: "pending",
     });
   };
@@ -561,6 +565,87 @@ export default function Reservation() {
                       onChange={(html) => setFormData({ ...formData, description: html })}
                       placeholder="추가로 알려주실 사항을 입력하세요..."
                     />
+                  </div>
+                </div>
+
+                {/* Section 6: 파일첨부 */}
+                <div className="space-y-6">
+                  <div className="bg-white rounded p-4 border-2 border-dashed border-blue-400 bg-blue-50">
+                    <Label htmlFor="attachments" className="text-sm font-semibold text-blue-800 flex items-center gap-2">
+                      <Upload className="h-4 w-4" />
+                      파일첨부
+                    </Label>
+                    <div className="mt-2">
+                      <Input
+                        id="attachments"
+                        type="file"
+                        multiple
+                        className="cursor-pointer bg-white border-blue-300 hover:border-blue-500 file:bg-blue-600 file:text-white file:border-0 file:rounded file:px-3 file:py-1 file:mr-3 file:cursor-pointer file:hover:bg-blue-700"
+                        onChange={async (e) => {
+                          const files = e.target.files;
+                          if (!files || files.length === 0) return;
+                          
+                          const uploadedUrls: string[] = [];
+                          
+                          for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const reader = new FileReader();
+                            
+                            await new Promise((resolve) => {
+                              reader.onload = async () => {
+                                try {
+                                  const base64 = reader.result as string;
+                                  const fileData = base64.split(',')[1];
+                                  
+                                  const result = await uploadFileMutation.mutateAsync({
+                                    fileName: file.name,
+                                    fileData,
+                                    mimeType: file.type,
+                                  });
+                                  
+                                  uploadedUrls.push(result.url);
+                                  resolve(null);
+                                } catch (error) {
+                                  console.error('File upload error:', error);
+                                  toast.error(`파일 업로드 실패: ${file.name}`);
+                                  resolve(null);
+                                }
+                              };
+                              reader.readAsDataURL(file);
+                            });
+                          }
+                          
+                          if (uploadedUrls.length > 0) {
+                            const existingAttachments = formData.attachments ? JSON.parse(formData.attachments) : [];
+                            const newAttachments = [...existingAttachments, ...uploadedUrls];
+                            setFormData((prev) => ({ ...prev, attachments: JSON.stringify(newAttachments) }));
+                            toast.success(`${uploadedUrls.length}개 파일이 업로드되었습니다.`);
+                          }
+                        }}
+                      />
+                      {formData.attachments && (
+                        <div className="mt-2 space-y-1">
+                          {JSON.parse(formData.attachments).map((url: string, index: number) => (
+                            <div key={index} className="flex items-center gap-2 text-sm">
+                              <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">
+                                첨부파일 {index + 1}
+                              </a>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const attachments = JSON.parse(formData.attachments);
+                                  const newAttachments = attachments.filter((_: string, i: number) => i !== index);
+                                  setFormData((prev) => ({ ...prev, attachments: newAttachments.length > 0 ? JSON.stringify(newAttachments) : "" }));
+                                }}
+                                className="text-red-600 hover:text-red-800 text-xs"
+                              >
+                                삭제
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 
