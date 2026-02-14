@@ -5,9 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { Youtube, Instagram } from "lucide-react";
 
 export default function AdminFooterSettings() {
   const { user, isAuthenticated } = useAuth();
@@ -19,6 +21,8 @@ export default function AdminFooterSettings() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [businessNumber, setBusinessNumber] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [instagramUrl, setInstagramUrl] = useState("");
 
   useEffect(() => {
     if (footerSettings) {
@@ -28,6 +32,8 @@ export default function AdminFooterSettings() {
       setPhone(footerSettings.phone || "");
       setEmail(footerSettings.email || "");
       setBusinessNumber(footerSettings.businessNumber || "");
+      setYoutubeUrl(footerSettings.youtubeUrl || "");
+      setInstagramUrl(footerSettings.instagramUrl || "");
     }
   }, [footerSettings]);
 
@@ -49,6 +55,8 @@ export default function AdminFooterSettings() {
       phone,
       email,
       businessNumber,
+      youtubeUrl,
+      instagramUrl,
     });
   };
 
@@ -145,6 +153,39 @@ export default function AdminFooterSettings() {
                 onChange={(e) => setBusinessNumber(e.target.value)}
                 placeholder="123-45-67890"
               />
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4">소셜 미디어</h3>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="youtubeUrl" className="flex items-center gap-2">
+                    <Youtube className="h-4 w-4 text-red-500" />
+                    YouTube URL
+                  </Label>
+                  <Input
+                    id="youtubeUrl"
+                    value={youtubeUrl}
+                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/@dameum_media"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="instagramUrl" className="flex items-center gap-2">
+                    <Instagram className="h-4 w-4 text-pink-500" />
+                    Instagram URL
+                  </Label>
+                  <Input
+                    id="instagramUrl"
+                    value={instagramUrl}
+                    onChange={(e) => setInstagramUrl(e.target.value)}
+                    placeholder="https://www.instagram.com/dameum_media/"
+                  />
+                </div>
+              </div>
             </div>
 
             <Button

@@ -533,7 +533,7 @@ export const appRouter = router({
       }),
     
     update: adminProcedure
-      .input(z.object({ companyName: z.string().optional(), copyrightText: z.string().optional(), address: z.string().optional(), phone: z.string().optional(), email: z.string().optional(), businessNumber: z.string().optional() }))
+      .input(z.object({ companyName: z.string().optional(), copyrightText: z.string().optional(), address: z.string().optional(), phone: z.string().optional(), email: z.string().optional(), businessNumber: z.string().optional(), youtubeUrl: z.string().optional(), instagramUrl: z.string().optional() }))
       .mutation(async ({ input, ctx }) => {
         const existing = await db.getFooterSettings();
         if (existing) {
@@ -544,6 +544,8 @@ export const appRouter = router({
             phone: input.phone,
             email: input.email,
             businessNumber: input.businessNumber,
+            youtubeUrl: input.youtubeUrl,
+            instagramUrl: input.instagramUrl,
             updatedBy: ctx.user.id,
           });
         } else {
@@ -554,6 +556,8 @@ export const appRouter = router({
             phone: input.phone,
             email: input.email,
             businessNumber: input.businessNumber,
+            youtubeUrl: input.youtubeUrl,
+            instagramUrl: input.instagramUrl,
             updatedBy: ctx.user.id,
           });
         }

@@ -217,6 +217,8 @@ export const footerSettings = mysqlTable("footerSettings", {
   phone: varchar("phone", { length: 50 }),
   email: varchar("email", { length: 255 }),
   businessNumber: varchar("businessNumber", { length: 50 }),
+  youtubeUrl: varchar("youtubeUrl", { length: 500 }),
+  instagramUrl: varchar("instagramUrl", { length: 500 }),
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

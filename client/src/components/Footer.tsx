@@ -1,4 +1,5 @@
 import { trpc } from "@/lib/trpc";
+import { Youtube, Instagram } from "lucide-react";
 
 export default function Footer() {
   const { data: footerSettings } = trpc.footerSettings.get.useQuery();
@@ -49,11 +50,35 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 빈 공간 (필요시 추가 정보) */}
+          {/* 소셜 미디어 */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">소셜 미디어</h3>
-            <div className="flex gap-4">
-              {/* 소셜 미디어 링크는 siteBranding에서 가져올 수 있음 */}
+            <div className="space-y-3">
+              {footerSettings.youtubeUrl && (
+                <a
+                  href={footerSettings.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Youtube className="h-5 w-5 text-red-500" />
+                  <span>YouTube</span>
+                </a>
+              )}
+              {footerSettings.instagramUrl && (
+                <a
+                  href={footerSettings.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Instagram className="h-5 w-5 text-pink-500" />
+                  <span>Instagram</span>
+                </a>
+              )}
+              {!footerSettings.youtubeUrl && !footerSettings.instagramUrl && (
+                <p className="text-sm text-muted-foreground">소셜 미디어 링크가 설정되지 않았습니다.</p>
+              )}
             </div>
           </div>
         </div>

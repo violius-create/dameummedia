@@ -279,60 +279,56 @@ export default function AdminBoard() {
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-0 divide-y divide-border rounded-lg border border-border overflow-hidden">
           {posts.map((post: any) => (
-            <Card
+            <div
               key={post.id}
-              className="hover:bg-muted/50 transition-colors cursor-pointer"
+              className="flex items-center justify-between px-4 py-2 hover:bg-muted/50 transition-colors cursor-pointer"
               onClick={() => setViewingId(post.id)}
             >
-              <CardContent className="py-4 px-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium truncate">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {new Date(post.createdAt).toLocaleDateString("ko-KR", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })}
-                      {post.viewCount > 0 && (
-                        <span className="ml-3">
-                          <Eye className="h-3 w-3 inline mr-1" />
-                          {post.viewCount}
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="flex gap-1 ml-4" onClick={(e) => e.stopPropagation()}>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      onClick={() => {
-                        setEditingId(post.id);
-                        setEditTitle(post.title);
-                        setEditContent(post.content);
-                      }}
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-destructive hover:text-destructive"
-                      onClick={() => {
-                        if (confirm("정말 삭제하시겠습니까?")) {
-                          deleteMutation.mutate({ id: post.id });
-                        }
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <h3 className="font-medium truncate text-sm">{post.title}</h3>
+                <span className="text-xs text-muted-foreground whitespace-nowrap">
+                  {new Date(post.createdAt).toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
+                </span>
+                {post.viewCount > 0 && (
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    <Eye className="h-3 w-3 inline mr-1" />
+                    {post.viewCount}
+                  </span>
+                )}
+              </div>
+              <div className="flex gap-1 ml-2" onClick={(e) => e.stopPropagation()}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => {
+                    setEditingId(post.id);
+                    setEditTitle(post.title);
+                    setEditContent(post.content);
+                  }}
+                >
+                  <Edit2 className="h-3.5 w-3.5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7 text-destructive hover:text-destructive"
+                  onClick={() => {
+                    if (confirm("정말 삭제하시겠습니까?")) {
+                      deleteMutation.mutate({ id: post.id });
+                    }
+                  }}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
       )}
