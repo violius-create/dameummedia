@@ -1,0 +1,178 @@
+{
+  "query": "SELECT id, sectionKey, title, SUBSTRING(description, 1, 50) as desc_preview FROM informationItems ORDER BY sectionKey, id LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, sectionKey, title, SUBSTRING(description, 1, 50) as desc_preview FROM informationItems ORDER BY sectionKey, id LIMIT 30;",
+  "rows": [
+    {
+      "id": "15",
+      "sectionKey": "about",
+      "title": "담음미디어소개",
+      "desc_preview": "담음미디어는|**|다년간 실제 연주 생활과 지휘자 경험을 한 운영자가 직접 녹음-촬영 및 "
+    },
+    {
+      "id": "16",
+      "sectionKey": "about",
+      "title": "담음미디어소개",
+      "desc_preview": "|**|전 대우전자(주) 중앙연구소 주임연구원"
+    },
+    {
+      "id": "17",
+      "sectionKey": "about",
+      "title": "회사소개",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "18",
+      "sectionKey": "about",
+      "title": "담음미디어소개",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "1",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "Business area|**| 내용부분은 1단~4단까지 선택이 가능합니다."
+    },
+    {
+      "id": "2",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "제목+내용|**|제목+내용 3단, 4단구성은 이미지를 원형으로 표시할 수 있습니다."
+    },
+    {
+      "id": "3",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "4",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "제목+내용 1단구성|**|각 컨텐츠 사이에 공백 또는 구분선을 두어 컨텐츠를 돋보이게 설정"
+    },
+    {
+      "id": "5",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "6",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "제목+내용 2단|**|테마크래프트(THEME CRAFT) 테마에서 제공하는 게시판 스킨의 "
+    },
+    {
+      "id": "7",
+      "sectionKey": "achievements",
+      "title": "테마크래프트 메뉴얼 사이트 바로가기",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "8",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "9",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "이미지배너2단|**||**|와이드 설정|**||**||**||**||**||**||**||"
+    },
+    {
+      "id": "10",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "11",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "12",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "이미지배너2단|**||**|와이드설정 해제|**||**||**||**||**||**||**"
+    },
+    {
+      "id": "13",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "14",
+      "sectionKey": "achievements",
+      "title": "사업분야",
+      "desc_preview": "|**|<p align=\"center\" style=\"text-align: center;\">"
+    },
+    {
+      "id": "19",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "고품격의 음악 영상 제작|**|대우전자(주) 중앙연구소 주임연구원"
+    },
+    {
+      "id": "20",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "|**|제목없이 내용과 이미지만 등록도 가능하며 제목과 내용, 또는 제목과, 이미지, 이미"
+    },
+    {
+      "id": "21",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "22",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "제목+내용 2단구성|**|테마크래프트(THEME CRAFT) 테마에서 제공하는 게시판 스킨"
+    },
+    {
+      "id": "23",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "제목+내용 3단구성|**|그누보드와 테마크래프트만 설치되어 있으면 HTML, CSS 코딩없"
+    },
+    {
+      "id": "24",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "25",
+      "sectionKey": "experiences",
+      "title": "테마크래프트 메뉴얼 사이트 바로가기",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "26",
+      "sectionKey": "experiences",
+      "title": "인사말",
+      "desc_preview": "|**||**||**||**||**||**||**||**||**||**||**||**||*"
+    },
+    {
+      "id": "27",
+      "sectionKey": "experiences",
+      "title": "Introducing",
+      "desc_preview": "|**||**||**|대우전자(주) 중앙연구소 주임연구원"
+    }
+  ],
+  "messages": [
+    "중대 루바토 오케스트라 비올라 및 지휘자 역",
+    "이미지와 내용",
+    "|**",
+    "중대 루바토 오케스트라 ",
+    "중대 루바토 오케스트라 비올라 및"
+  ],
+  "stdout": "id\tsectionKey\ttitle\tdesc_preview\n15\tabout\t담음미디어소개\t담음미디어는|**|다년간 실제 연주 생활과 지휘자 경험을 한 운영자가 직접 녹음-촬영 및 \n16\tabout\t담음미디어소개\t|**|전 대우전자(주) 중앙연구소 주임연구원\n중대 루바토 오케스트라 비올라 및 지휘자 역\n17\tabout\t회사소개\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n18\tabout\t담음미디어소개\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n1\tachievements\t사업분야\tBusiness area|**| 내용부분은 1단~4단까지 선택이 가능합니다.\n이미지와 내용\n2\tachievements\t사업분야\t제목+내용|**|제목+내용 3단, 4단구성은 이미지를 원형으로 표시할 수 있습니다.\n|**\n3\tachievements\t사업분야\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n4\tachievements\t사업분야\t제목+내용 1단구성|**|각 컨텐츠 사이에 공백 또는 구분선을 두어 컨텐츠를 돋보이게 설정\n5\tachievements\t사업분야\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n6\tachievements\t사업분야\t제목+내용 2단|**|테마크래프트(THEME CRAFT) 테마에서 제공하는 게시판 스킨의 \n7\tachievements\t테마크래프트 메뉴얼 사이트 바로가기\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n8\tachievements\t사업분야\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n9\tachievements\t사업분야\t이미지배너2단|**||**|와이드 설정|**||**||**||**||**||**||**||\n10\tachievements\t사업분야\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n11\tachievements\t사업분야\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n12\tachievements\t사업분야\t이미지배너2단|**||**|와이드설정 해제|**||**||**||**||**||**||**\n13\tachievements\t사업분야\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n14\tachievements\t사업분야\t|**|<p align=\"center\" style=\"text-align: center;\">\n19\texperiences\t인사말\t고품격의 음악 영상 제작|**|대우전자(주) 중앙연구소 주임연구원\n중대 루바토 오케스트라 \n20\texperiences\t인사말\t|**|제목없이 내용과 이미지만 등록도 가능하며 제목과 내용, 또는 제목과, 이미지, 이미\n21\texperiences\t인사말\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n22\texperiences\t인사말\t제목+내용 2단구성|**|테마크래프트(THEME CRAFT) 테마에서 제공하는 게시판 스킨\n23\texperiences\t인사말\t제목+내용 3단구성|**|그누보드와 테마크래프트만 설치되어 있으면 HTML, CSS 코딩없\n24\texperiences\t인사말\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n25\texperiences\t테마크래프트 메뉴얼 사이트 바로가기\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n26\texperiences\t인사말\t|**||**||**||**||**||**||**||**||**||**||**||**||*\n27\texperiences\tIntroducing\t|**||**||**|대우전자(주) 중앙연구소 주임연구원\n중대 루바토 오케스트라 비올라 및\n",
+  "stderr": "",
+  "execution_time_ms": 1566
+}

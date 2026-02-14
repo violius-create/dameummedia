@@ -1,0 +1,90 @@
+{
+  "query": "SELECT id, clientName, eventName, venue, eventDate, status FROM reservations ORDER BY id DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, clientName, eventName, venue, eventDate, status FROM reservations ORDER BY id DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "90867",
+      "clientName": "케이디오",
+      "eventName": "코리안 닥터스 오케스트라 (KDO)",
+      "venue": "부천아트홀",
+      "eventDate": "2025-11-09 00:00:00",
+      "status": "completed"
+    },
+    {
+      "id": "90866",
+      "clientName": "스트링즈",
+      "eventName": "새록새록 떠오르는 국악 이야기(스트링즈)",
+      "venue": "원주 그림책 도서관 1층 상상누리 다목적실",
+      "eventDate": "2025-11-02 00:00:00",
+      "status": "completed"
+    },
+    {
+      "id": "90865",
+      "clientName": "서울민향",
+      "eventName": "서울시민교향악단",
+      "venue": "부천아트센터",
+      "eventDate": "2025-09-28 00:00:00",
+      "status": "completed"
+    },
+    {
+      "id": "90864",
+      "clientName": "이진욱",
+      "eventName": "RAO (루바토 졸업생 오케스트라)",
+      "venue": "성남아트센터",
+      "eventDate": "NULL",
+      "status": "completed"
+    },
+    {
+      "id": "90863",
+      "clientName": "LGphilharmonic",
+      "eventName": "LG 필하모닉 오케스트라 14회 정기연주회",
+      "venue": "부천아트센터 콘서트홀",
+      "eventDate": "2025-05-19 16:11:34",
+      "status": "pending"
+    },
+    {
+      "id": "90862",
+      "clientName": "어니스트",
+      "eventName": "어니스트 필하모닉 오케스트라 제7회 정기연주회(마산 연주)",
+      "venue": "315 아트센터 대극장",
+      "eventDate": "2025-09-05 00:00:00",
+      "status": "in_progress"
+    },
+    {
+      "id": "90861",
+      "clientName": "염윤석",
+      "eventName": "경희의대간호대OB합창단 (사단법인 케이에이치엠씨)",
+      "venue": "세라믹팔레스홀",
+      "eventDate": "2025-01-15 17:13:08",
+      "status": "completed"
+    },
+    {
+      "id": "90860",
+      "clientName": "SNUGO13",
+      "eventName": "SNUGO",
+      "venue": "부천아트센터",
+      "eventDate": "2025-01-12 17:35:29",
+      "status": "completed"
+    },
+    {
+      "id": "90859",
+      "clientName": "이호성",
+      "eventName": "제3회 국악관현악단 결 정기연주회 'Conversion <逆>'",
+      "venue": "국립국악원 예악당",
+      "eventDate": "2025-02-15 00:00:00",
+      "status": "completed"
+    },
+    {
+      "id": "90858",
+      "clientName": "이종욱",
+      "eventName": "인천신포니에타",
+      "venue": "엘림아트센터 (인천 청라)",
+      "eventDate": "2024-11-15 16:43:34",
+      "status": "completed"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tclientName\teventName\tvenue\teventDate\tstatus\n90867\t케이디오\t코리안 닥터스 오케스트라 (KDO)\t부천아트홀\t2025-11-09 00:00:00\tcompleted\n90866\t스트링즈\t새록새록 떠오르는 국악 이야기(스트링즈)\t원주 그림책 도서관 1층 상상누리 다목적실\t2025-11-02 00:00:00\tcompleted\n90865\t서울민향\t서울시민교향악단\t부천아트센터\t2025-09-28 00:00:00\tcompleted\n90864\t이진욱\tRAO (루바토 졸업생 오케스트라)\t성남아트센터\tNULL\tcompleted\n90863\tLGphilharmonic\tLG 필하모닉 오케스트라 14회 정기연주회\t부천아트센터 콘서트홀\t2025-05-19 16:11:34\tpending\n90862\t어니스트\t어니스트 필하모닉 오케스트라 제7회 정기연주회(마산 연주)\t315 아트센터 대극장\t2025-09-05 00:00:00\tin_progress\n90861\t염윤석\t경희의대간호대OB합창단 (사단법인 케이에이치엠씨)\t세라믹팔레스홀\t2025-01-15 17:13:08\tcompleted\n90860\tSNUGO13\tSNUGO\t부천아트센터\t2025-01-12 17:35:29\tcompleted\n90859\t이호성\t제3회 국악관현악단 결 정기연주회 'Conversion <逆>'\t국립국악원 예악당\t2025-02-15 00:00:00\tcompleted\n90858\t이종욱\t인천신포니에타\t엘림아트센터 (인천 청라)\t2024-11-15 16:43:34\tcompleted\n",
+  "stderr": "",
+  "execution_time_ms": 1490
+}
