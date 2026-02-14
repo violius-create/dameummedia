@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { Bell, ArrowRight, Trash2, Plus } from "lucide-react";
-import { useLocation, Link } from "wouter";
+import { Bell, Trash2, Plus, Eye } from "lucide-react";
+import { useLocation } from "wouter";
 import { useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import Footer from "@/components/Footer";
@@ -15,36 +15,6 @@ export default function NoticeGallery() {
   // Load board layout settings
   const { data: noticeSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey: 'notice' });
   const postsPerPage = noticeSettings?.itemsPerPage || 20;
-  const displayMode = noticeSettings?.displayMode || 'list';
-  const containerWidth = noticeSettings?.containerWidth || 'default';
-  const postWidth = noticeSettings?.postWidth || 'auto';
-  const postHeight = noticeSettings?.postHeight || 'auto';
-  const postMarginTop = noticeSettings?.postMarginTop || '0';
-  const postTitleSize = noticeSettings?.postTitleSize || 'base';
-
-  // Convert postWidth to CSS class
-  const getWidthClass = (width: string) => {
-    switch(width) {
-      case 'full': return 'w-full';
-      case '1/2': return 'w-1/2';
-      case '1/3': return 'w-1/3';
-      case '1/4': return 'w-1/4';
-      default: return '';
-    }
-  };
-
-  // Convert postTitleSize to CSS class
-  const getTitleSizeClass = (size: string) => {
-    switch(size) {
-      case 'xs': return 'text-xs';
-      case 'sm': return 'text-sm';
-      case 'base': return 'text-base';
-      case 'lg': return 'text-lg';
-      case 'xl': return 'text-xl';
-      case '2xl': return 'text-2xl';
-      default: return 'text-base';
-    }
-  };
 
   // Load section title data
   const { data: sectionTitle } = trpc.sectionTitles.get.useQuery({ sectionKey: 'notice' });
@@ -93,36 +63,33 @@ export default function NoticeGallery() {
               <Bell className="h-6 w-6 text-primary hidden sm:block" />
               <h1 className="text-lg sm:text-xl font-bold text-foreground">Notice</h1>
             </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setLocation('/')} 
-              className="text-foreground"
-            >
-              돌아가기
-            </Button>
+            <div className="flex items-center gap-2">
+              {user?.role === 'admin' && (
+                <Button 
+                  onClick={() => setLocation('/notice/new')}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span className="hidden sm:inline">글쓰기</span>
+                </Button>
+              )}
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setLocation('/')} 
+                className="text-foreground"
+              >
+                돌아가기
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
 
-      <div className={`${
-        containerWidth === 'full' ? 'w-full px-4' :
-        containerWidth === 'container-wide' ? 'max-w-7xl mx-auto px-4' :
-        'container'
-      } py-8 sm:py-16`}>
+      <div className="container py-8 sm:py-16">
         {/* Header Section */}
         <div className="mb-4 sm:mb-8 space-y-4">
-          {user?.role === 'admin' && (
-            <div className="flex justify-end mb-6">
-              <Button 
-                onClick={() => setLocation('/notice/new')}
-                className="flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                <span className="hidden sm:inline">글쓰기</span>
-              </Button>
-            </div>
-          )}
           <h2 className="text-2xl sm:text-5xl md:text-6xl font-bold leading-tight text-foreground">{sectionTitle?.title || ''}</h2>
           {sectionTitle?.description && (
             <p className="text-sm sm:text-xl text-muted-foreground max-w-2xl">
@@ -160,52 +127,50 @@ export default function NoticeGallery() {
           </div>
         )}
 
-        {/* Posts List */}
+        {/* Posts List - Compact table-like layout */}
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <p className="text-muted-foreground">콘텐츠를 불러오는 중...</p>
           </div>
         ) : posts && posts.length > 0 ? (
-          <div className="grid gap-4 sm:gap-6 grid-cols-1">
+          <div className="space-y-0 divide-y divide-border rounded-lg border border-border overflow-hidden">
             {posts.map((post) => (
-              <div 
-                key={post.id} 
-                className={`relative group ${getWidthClass(postWidth)}`}
-                style={{
-                  marginTop: postMarginTop,
-                  height: postHeight !== 'auto' ? postHeight : undefined
-                }}
+              <div
+                key={post.id}
+                className="flex items-center px-4 py-2.5 hover:bg-muted/50 transition-colors cursor-pointer"
+                onClick={() => window.location.href = `/posts/${post.id}`}
               >
+                {/* Admin checkbox */}
                 {user?.role === 'admin' && (
-                  <div className="absolute top-2 left-2 z-10 bg-white rounded-lg p-2 shadow-md">
+                  <div className="mr-3" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(post.id)}
                       onChange={() => handleToggleSelect(post.id)}
                       className="w-4 h-4 cursor-pointer"
-                      onClick={(e) => e.stopPropagation()}
                     />
                   </div>
                 )}
-                <Card
-                  className="overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 border border-border"
-                  onClick={() => window.location.href = `/posts/${post.id}`}
-                >
-                  <div className="flex flex-col sm:flex-row sm:h-32">
-                    <div className="flex flex-col flex-1">
-                      <CardHeader className="p-4 sm:p-6">
-                        <CardTitle className={`line-clamp-2 group-hover:text-primary transition-colors text-sm sm:${getTitleSizeClass(postTitleSize)} text-foreground`}>{post.title}</CardTitle>
-                        <CardDescription className="line-clamp-2 sm:line-clamp-3 mt-1 sm:mt-2 text-xs sm:text-sm">
-                          {new Date(post.createdAt).toLocaleDateString('ko-KR', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit'
-                          })}
-                        </CardDescription>
-                      </CardHeader>
-                    </div>
-                  </div>
-                </Card>
+
+                {/* Title + Date + Views on same line */}
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <h3 className="font-medium truncate text-sm text-foreground group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {new Date(post.createdAt).toLocaleDateString("ko-KR", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </span>
+                  {(post as any).viewCount > 0 && (
+                    <span className="text-xs text-muted-foreground whitespace-nowrap flex items-center">
+                      <Eye className="h-3 w-3 mr-1" />
+                      {(post as any).viewCount}
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
           </div>

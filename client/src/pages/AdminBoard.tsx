@@ -3,12 +3,11 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { Plus, Edit2, Trash2, ArrowLeft, Eye, Shield, Loader2, Save, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Streamdown } from "streamdown";
 
 export default function AdminBoard() {
   const { user, isAuthenticated } = useAuth();
@@ -140,9 +139,10 @@ export default function AdminBoard() {
           </CardHeader>
           <Separator />
           <CardContent className="pt-6">
-            <div className="prose prose-sm max-w-none dark:prose-invert">
-              <Streamdown>{post.content}</Streamdown>
-            </div>
+            <div
+              className="prose prose-sm max-w-none dark:prose-invert"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           </CardContent>
         </Card>
       </div>
@@ -178,11 +178,10 @@ export default function AdminBoard() {
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
-            <Textarea
-              placeholder="내용을 입력하세요 (HTML 지원)"
-              value={newContent}
-              onChange={(e) => setNewContent(e.target.value)}
-              rows={8}
+            <RichTextEditor
+              content={newContent}
+              onChange={setNewContent}
+              placeholder="내용을 입력하세요..."
             />
             <div className="flex gap-2 justify-end">
               <Button
@@ -231,11 +230,10 @@ export default function AdminBoard() {
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
             />
-            <Textarea
-              placeholder="내용을 입력하세요 (HTML 지원)"
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              rows={8}
+            <RichTextEditor
+              content={editContent}
+              onChange={setEditContent}
+              placeholder="내용을 입력하세요..."
             />
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setEditingId(null)}>
