@@ -647,6 +647,7 @@ function AdminSiteBranding() {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [heroFadeStart, setHeroFadeStart] = useState(20);
   const [heroFadeEnd, setHeroFadeEnd] = useState(60);
+  const [instagramDisplayCount, setInstagramDisplayCount] = useState(10);
 
   useEffect(() => {
     if (branding) {
@@ -657,6 +658,7 @@ function AdminSiteBranding() {
       setYoutubeUrl(branding.youtubeUrl || "");
       setHeroFadeStart(branding.heroFadeStart ?? 20);
       setHeroFadeEnd(branding.heroFadeEnd ?? 60);
+      setInstagramDisplayCount(branding.instagramDisplayCount ?? 10);
     }
   }, [branding]);
 
@@ -678,6 +680,7 @@ function AdminSiteBranding() {
       youtubeUrl: youtubeUrl || undefined,
       heroFadeStart,
       heroFadeEnd,
+      instagramDisplayCount,
     });
   };
 
@@ -769,6 +772,27 @@ function AdminSiteBranding() {
             onChange={(e) => setYoutubeUrl(e.target.value)}
             placeholder="https://youtube.com/yourchannel"
           />
+        </div>
+
+        {/* Instagram Display Count */}
+        <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+          <div>
+            <Label className="text-base font-semibold">Instagram 표시 개수</Label>
+            <p className="text-sm text-muted-foreground mt-1">메인 페이지 Instagram 섹션에 표시할 게시물 수를 설정합니다.</p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="instagramDisplayCount">표시 개수: {instagramDisplayCount}개</Label>
+            <input
+              type="range"
+              id="instagramDisplayCount"
+              min={1}
+              max={50}
+              value={instagramDisplayCount}
+              onChange={(e) => setInstagramDisplayCount(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+            <p className="text-xs text-muted-foreground">1~50개 범위에서 설정 가능합니다. 게시물이 표시 개수보다 많으면 좌우 스크롤 버튼이 나타납니다.</p>
+          </div>
         </div>
 
         {/* Hero Fade Speed */}

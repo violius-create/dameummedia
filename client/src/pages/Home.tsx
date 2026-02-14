@@ -217,25 +217,22 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [heroTexts.length, rotationInterval]);
   
-  const scrollConcert = (direction: 'left' | 'right') => {
-    if (concertScrollRef.current) {
-      const scrollAmount = 300;
-      concertScrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
+  // Scroll exactly one card width (card width + gap) for precise alignment
+  const scrollByOneCard = (ref: React.RefObject<HTMLDivElement | null>, gap: number) => (direction: 'left' | 'right') => {
+    const el = ref.current;
+    if (!el) return;
+    // Find the first card child to get its actual width
+    const firstCard = el.querySelector('[data-scroll-card]') as HTMLElement;
+    if (!firstCard) return;
+    const cardWidth = firstCard.offsetWidth + gap;
+    el.scrollBy({
+      left: direction === 'left' ? -cardWidth : cardWidth,
+      behavior: 'smooth'
+    });
   };
-  
-  const scrollFilm = (direction: 'left' | 'right') => {
-    if (filmScrollRef.current) {
-      const scrollAmount = 300;
-      filmScrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
+
+  const scrollConcert = scrollByOneCard(concertScrollRef, sections['concert_live']?.thumbnailGap || 24);
+  const scrollFilm = scrollByOneCard(filmScrollRef, sections['making_film']?.thumbnailGap || 24);
   
   useEffect(() => {
     console.log("activeHeroBackground:", activeHeroBackground);
@@ -590,7 +587,7 @@ export default function Home() {
             >
               {concertPosts?.filter(p => p.id !== featuredConcert?.id).map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
-                  <div className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['concert_live']?.thumbnailWidth || 280}px` }}>
+                  <div data-scroll-card className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['concert_live']?.thumbnailWidth || 280}px` }}>
                     <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
                       {post.imageUrl ? (
                         <img
@@ -692,7 +689,7 @@ export default function Home() {
             >
               {filmPosts?.filter(p => p.id !== featuredFilm?.id).map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
-                  <div className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['making_film']?.thumbnailWidth || 280}px` }}>
+                  <div data-scroll-card className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['making_film']?.thumbnailWidth || 280}px` }}>
                     <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
                       {post.imageUrl ? (
                         <img

@@ -1,0 +1,1 @@
+ALTER TABLE `siteBranding` ADD `instagramDisplayCount` int DEFAULT 10;

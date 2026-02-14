@@ -433,7 +433,7 @@ export const appRouter = router({
       }),
     
     update: adminProcedure
-      .input(z.object({ logoUrl: z.string().optional(), logoFileKey: z.string().optional(), title: z.string().optional(), subtitle: z.string().optional(), instagramUrl: z.string().optional(), youtubeUrl: z.string().optional(), heroFadeStart: z.number().min(0).max(100).optional(), heroFadeEnd: z.number().min(0).max(100).optional() }))
+      .input(z.object({ logoUrl: z.string().optional(), logoFileKey: z.string().optional(), title: z.string().optional(), subtitle: z.string().optional(), instagramUrl: z.string().optional(), youtubeUrl: z.string().optional(), heroFadeStart: z.number().min(0).max(100).optional(), heroFadeEnd: z.number().min(0).max(100).optional(), instagramDisplayCount: z.number().min(1).max(50).optional() }))
       .mutation(async ({ input, ctx }) => {
         const existing = await db.getSiteBranding();
         if (existing) {
@@ -446,6 +446,7 @@ export const appRouter = router({
             youtubeUrl: input.youtubeUrl,
             heroFadeStart: input.heroFadeStart,
             heroFadeEnd: input.heroFadeEnd,
+            instagramDisplayCount: input.instagramDisplayCount,
           });
         } else {
           return db.createOrUpdateSiteBranding({
@@ -457,6 +458,7 @@ export const appRouter = router({
             youtubeUrl: input.youtubeUrl,
             heroFadeStart: input.heroFadeStart,
             heroFadeEnd: input.heroFadeEnd,
+            instagramDisplayCount: input.instagramDisplayCount,
             uploadedBy: ctx.user.id,
           });
         }
