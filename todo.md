@@ -1045,3 +1045,8 @@
 - [x] 가격표(Price) 항목 이름(Simple 등)도 대시보드에서 변경 가능하게 구현 - name 필드 편집 UI 추가
 - [x] 메인 스크롤 시 섹션2,3 사이에 보이는 흰색 띠를 투명하게 수정 - bg-background → bg-transparent
 - [x] 메인 스크롤 시 섹션2,3 하단에 섹션1 잔상이 남는 문제 해결 - fadeStart/fadeEnd 범위 조정으로 빠른 페이드아웃
+
+
+## 섹션 간격 및 잔상 속도 조정 (2026-02-14)
+- [x] 섹션2,3 사이 흰색 띠(간격) 원상복구 - background: var(--background)로 복구
+- [x] 섹션1 잔상 제거 속도를 조금 느리게 조정 - fadeStart 0.15→0.2, fadeEnd 0.5→0.6

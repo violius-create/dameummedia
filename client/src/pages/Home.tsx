@@ -43,8 +43,8 @@ export default function Home() {
         const viewportHeight = window.innerHeight;
         const scrolled = -rect.top;
         // Start fading after scrolling past the viewport height
-        const fadeStart = viewportHeight * 0.15;
-        const fadeEnd = viewportHeight * 0.5;
+        const fadeStart = viewportHeight * 0.2;
+        const fadeEnd = viewportHeight * 0.6;
         if (scrolled <= fadeStart) {
           setHeroOpacity(1);
         } else if (scrolled >= fadeEnd) {
@@ -441,7 +441,7 @@ export default function Home() {
           borderRadius: '1.5rem 1.5rem 0 0',
           boxShadow: '0 -20px 60px rgba(0,0,0,0.3)',
           zIndex: 10,
-          background: 'transparent',
+          background: 'var(--background)',
         }}
       >
         <div className="flex md:flex-row flex-col">
