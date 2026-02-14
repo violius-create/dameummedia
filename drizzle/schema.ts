@@ -182,6 +182,8 @@ export const siteBranding = mysqlTable("siteBranding", {
   subtitle: varchar("subtitle", { length: 255 }).default("Professional Media Production").notNull(), // Subtitle
   instagramUrl: varchar("instagramUrl", { length: 255 }).default("https://instagram.com"), // Instagram URL
   youtubeUrl: varchar("youtubeUrl", { length: 255 }).default("https://youtube.com"), // YouTube URL
+  heroFadeStart: int("heroFadeStart").default(20), // Hero fade start percentage (0-100, default 20%)
+  heroFadeEnd: int("heroFadeEnd").default(60), // Hero fade end percentage (0-100, default 60%)
   uploadedBy: int("uploadedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

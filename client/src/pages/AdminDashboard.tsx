@@ -645,6 +645,8 @@ function AdminSiteBranding() {
   const [subtitle, setSubtitle] = useState("");
   const [instagramUrl, setInstagramUrl] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [heroFadeStart, setHeroFadeStart] = useState(20);
+  const [heroFadeEnd, setHeroFadeEnd] = useState(60);
 
   useEffect(() => {
     if (branding) {
@@ -653,6 +655,8 @@ function AdminSiteBranding() {
       setSubtitle(branding.subtitle || "");
       setInstagramUrl(branding.instagramUrl || "");
       setYoutubeUrl(branding.youtubeUrl || "");
+      setHeroFadeStart(branding.heroFadeStart ?? 20);
+      setHeroFadeEnd(branding.heroFadeEnd ?? 60);
     }
   }, [branding]);
 
@@ -672,6 +676,8 @@ function AdminSiteBranding() {
       subtitle: subtitle || undefined,
       instagramUrl: instagramUrl || undefined,
       youtubeUrl: youtubeUrl || undefined,
+      heroFadeStart,
+      heroFadeEnd,
     });
   };
 
@@ -763,6 +769,43 @@ function AdminSiteBranding() {
             onChange={(e) => setYoutubeUrl(e.target.value)}
             placeholder="https://youtube.com/yourchannel"
           />
+        </div>
+
+        {/* Hero Fade Speed */}
+        <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+          <div>
+            <Label className="text-base font-semibold">섹션1 잔상 속도 설정</Label>
+            <p className="text-sm text-muted-foreground mt-1">스크롤 시 섹션1(히어로)이 사라지는 속도를 조절합니다. 값이 작을수록 빨리 사라집니다.</p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="heroFadeStart">페이드 시작 지점: {heroFadeStart}%</Label>
+            <input
+              type="range"
+              id="heroFadeStart"
+              min={0}
+              max={50}
+              value={heroFadeStart}
+              onChange={(e) => setHeroFadeStart(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+            <p className="text-xs text-muted-foreground">스크롤이 화면 높이의 {heroFadeStart}%에 도달하면 페이드 시작</p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="heroFadeEnd">페이드 완료 지점: {heroFadeEnd}%</Label>
+            <input
+              type="range"
+              id="heroFadeEnd"
+              min={30}
+              max={100}
+              value={heroFadeEnd}
+              onChange={(e) => setHeroFadeEnd(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+            <p className="text-xs text-muted-foreground">스크롤이 화면 높이의 {heroFadeEnd}%에 도달하면 완전히 사라짐</p>
+          </div>
+          <div className="text-sm text-muted-foreground bg-background p-3 rounded">
+            현재 설정: 스크롤 {heroFadeStart}% ~ {heroFadeEnd}% 구간에서 페이드아웃 (구간 길이: {heroFadeEnd - heroFadeStart}%)
+          </div>
         </div>
 
         {/* Save Button */}

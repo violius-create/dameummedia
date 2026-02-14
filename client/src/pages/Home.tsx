@@ -43,8 +43,10 @@ export default function Home() {
         const viewportHeight = window.innerHeight;
         const scrolled = -rect.top;
         // Start fading after scrolling past the viewport height
-        const fadeStart = viewportHeight * 0.2;
-        const fadeEnd = viewportHeight * 0.6;
+        const fadeStartPct = (siteBranding?.heroFadeStart ?? 20) / 100;
+        const fadeEndPct = (siteBranding?.heroFadeEnd ?? 60) / 100;
+        const fadeStart = viewportHeight * fadeStartPct;
+        const fadeEnd = viewportHeight * fadeEndPct;
         if (scrolled <= fadeStart) {
           setHeroOpacity(1);
         } else if (scrolled >= fadeEnd) {
@@ -55,8 +57,9 @@ export default function Home() {
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Apply immediately when settings change
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [siteBranding?.heroFadeStart, siteBranding?.heroFadeEnd]);
 
   // Hero text rotation
   const heroTexts = heroTextRotationData ? [
@@ -444,7 +447,7 @@ export default function Home() {
           background: 'var(--background)',
         }}
       >
-        <div className="flex md:flex-row flex-col">
+        <div className="flex md:flex-row flex-col gap-[10px] md:gap-0">
           {/* Section 2: Concert Live */}
           <div className="relative h-[280px] md:h-[400px] overflow-hidden group flex-1">
             {section2Background?.mediaUrl ? (

@@ -1050,3 +1050,7 @@
 ## 섹션 간격 및 잔상 속도 조정 (2026-02-14)
 - [x] 섹션2,3 사이 흰색 띠(간격) 원상복구 - background: var(--background)로 복구
 - [x] 섹션1 잔상 제거 속도를 조금 느리게 조정 - fadeStart 0.15→0.2, fadeEnd 0.5→0.6
+
+## 모바일 섹션 간격 및 잔상 속도 대시보드 설정 (2026-02-14)
+- [x] 모바일에서 섹션2(Concert Live)와 섹션3(Making Film) 사이 간격 추가 - gap-[10px] md:gap-0
+- [x] 잔상 속도(fadeStart/fadeEnd)를 관리자 대시보드에서 조절 가능하게 구현 - siteBranding DB + 슬라이더 UI
