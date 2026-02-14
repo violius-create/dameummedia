@@ -176,7 +176,7 @@ export default function ReservationDetail() {
       case 'editing':
         return '수정중';
       case 'completed':
-        return '최종';
+        return '작업완료';
       case 'cancelled':
         return '취소';
       default:
@@ -417,8 +417,8 @@ export default function ReservationDetail() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded p-4 border border-orange-200">
-                  <Label htmlFor="quotedAmount" className="text-xs sm:text-sm font-semibold text-gray-700">견적액</Label>
-                  {isEditing ? (
+                  <Label htmlFor="quotedAmount" className="text-xs sm:text-sm font-semibold text-gray-700">견적액 {isAdmin && <span className="text-xs text-red-600">(관리자만 수정 가능)</span>}</Label>
+                  {isEditing && isAdmin ? (
                     <Input
                       id="quotedAmount"
                       type="number"
@@ -432,8 +432,8 @@ export default function ReservationDetail() {
                 </div>
 
                 <div className="bg-white rounded p-4 border border-orange-200">
-                  <Label htmlFor="paidAmount" className="text-xs sm:text-sm font-semibold text-gray-700">결제액</Label>
-                  {isEditing ? (
+                  <Label htmlFor="paidAmount" className="text-xs sm:text-sm font-semibold text-gray-700">결제액 {isAdmin && <span className="text-xs text-red-600">(관리자만 수정 가능)</span>}</Label>
+                  {isEditing && isAdmin ? (
                     <Input
                       id="paidAmount"
                       type="number"
@@ -540,7 +540,7 @@ export default function ReservationDetail() {
                         <SelectItem value="work_pending">작업대기</SelectItem>
                         <SelectItem value="in_progress">작업중</SelectItem>
                         <SelectItem value="editing">수정중</SelectItem>
-                        <SelectItem value="completed">최종</SelectItem>
+                        <SelectItem value="completed">작업완료</SelectItem>
                         <SelectItem value="cancelled">취소</SelectItem>
                       </SelectContent>
                     </Select>
@@ -552,7 +552,7 @@ export default function ReservationDetail() {
                        displayData.status === 'work_pending' ? '작업대기' :
                        displayData.status === 'in_progress' ? '작업중' :
                        displayData.status === 'editing' ? '수정중' :
-                       displayData.status === 'completed' ? '최종' :
+                       displayData.status === 'completed' ? '작업완료' :
                        displayData.status === 'cancelled' ? '취소' : displayData.status}
                     </p>
                   )}
@@ -576,14 +576,18 @@ export default function ReservationDetail() {
                   )}
                 </div>
 
-                <div className="bg-white rounded p-4 border border-red-200">
-                  <Label htmlFor="attachments" className="text-xs sm:text-sm font-semibold text-gray-700">파일첨부</Label>
+                <div className="bg-white rounded p-4 border-2 border-dashed border-blue-400 bg-blue-50">
+                  <Label htmlFor="attachments" className="text-xs sm:text-sm font-semibold text-blue-800 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    파일첨부
+                  </Label>
                   {isEditing ? (
                     <div className="mt-2">
                       <Input
                         id="attachments"
                         type="file"
                         multiple
+                        className="cursor-pointer bg-white border-blue-300 hover:border-blue-500 file:bg-blue-600 file:text-white file:border-0 file:rounded file:px-3 file:py-1 file:mr-3 file:cursor-pointer file:hover:bg-blue-700"
                         onChange={async (e) => {
                           const files = e.target.files;
                           if (!files || files.length === 0) return;
@@ -625,7 +629,6 @@ export default function ReservationDetail() {
                             toast.success(`${uploadedUrls.length}개 파일이 업로드되었습니다.`);
                           }
                         }}
-                        className="cursor-pointer"
                       />
                       {editData?.attachments && (
                         <div className="mt-2 space-y-1">

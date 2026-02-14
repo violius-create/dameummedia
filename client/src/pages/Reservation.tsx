@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,12 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Upload } from "lucide-react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 export default function Reservation() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   const [formData, setFormData] = useState({
     clientName: "",
     clientEmail: "",
@@ -483,31 +486,35 @@ export default function Reservation() {
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="paidAmount">
-                        결제된 금액
-                      </Label>
-                      <Input
-                        id="paidAmount"
-                        type="number"
-                        placeholder="0"
-                        value={formData.paidAmount}
-                        onChange={(e) => setFormData({ ...formData, paidAmount: e.target.value })}
-                      />
-                    </div>
+                    {isAdmin && (
+                      <>
+                        <div className="space-y-2">
+                          <Label htmlFor="paidAmount">
+                            결제된 금액 <span className="text-xs text-red-600">(관리자 전용)</span>
+                          </Label>
+                          <Input
+                            id="paidAmount"
+                            type="number"
+                            placeholder="0"
+                            value={formData.paidAmount}
+                            onChange={(e) => setFormData({ ...formData, paidAmount: e.target.value })}
+                          />
+                        </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="unpaidAmount">
-                        미납 금액
-                      </Label>
-                      <Input
-                        id="unpaidAmount"
-                        type="number"
-                        placeholder="0"
-                        value={formData.unpaidAmount}
-                        onChange={(e) => setFormData({ ...formData, unpaidAmount: e.target.value })}
-                      />
-                    </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="unpaidAmount">
+                            미납 금액 <span className="text-xs text-red-600">(관리자 전용)</span>
+                          </Label>
+                          <Input
+                            id="unpaidAmount"
+                            type="number"
+                            placeholder="0"
+                            value={formData.unpaidAmount}
+                            onChange={(e) => setFormData({ ...formData, unpaidAmount: e.target.value })}
+                          />
+                        </div>
+                      </>
+                    )}
 
                     <div className="space-y-2">
                       <Label htmlFor="isPublic">

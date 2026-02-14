@@ -125,14 +125,6 @@ function Navigation() {
                 Notice
               </Button>
             </Link>
-            {user?.role === 'admin' && (
-              <Link href="/admin-board">
-                <Button variant="ghost" className="text-foreground hover:bg-muted flex items-center gap-1">
-                  <Shield className="h-4 w-4" />
-                  관리자게시판
-                </Button>
-              </Link>
-            )}
           </div>
 
           {/* Right Side - SNS and Auth */}
@@ -155,6 +147,14 @@ function Navigation() {
                   <Link href="/admin">
                     <Button variant="outline" size="sm" className="hover:text-neutral-400 transition-colors">
                       Admin
+                    </Button>
+                  </Link>
+                )}
+                {user?.role === 'admin' && (
+                  <Link href="/admin-board">
+                    <Button variant="outline" size="sm" className="hover:text-neutral-400 transition-colors flex items-center gap-1">
+                      <Shield className="h-3 w-3" />
+                      관리자게시판
                     </Button>
                   </Link>
                 )}
@@ -222,14 +222,6 @@ function Navigation() {
                 Reservation
               </Button>
             </Link>
-            {user?.role === 'admin' && (
-              <Link href="/admin-board" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-foreground flex items-center gap-1">
-                  <Shield className="h-4 w-4" />
-                  관리자게시판
-                </Button>
-              </Link>
-            )}
             <div className="pt-2 border-t border-border space-y-2">
               <div className="flex gap-2">
                 <a href={siteBranding?.instagramUrl || "https://www.instagram.com/dameum_media"} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
@@ -251,6 +243,14 @@ function Navigation() {
                     <Link href="/admin" className="block" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="outline" size="sm" className="w-full hover:text-neutral-400 transition-colors">
                         Admin
+                      </Button>
+                    </Link>
+                  )}
+                  {user?.role === 'admin' && (
+                    <Link href="/admin-board" className="block" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full hover:text-neutral-400 transition-colors flex items-center justify-center gap-1">
+                        <Shield className="h-3 w-3" />
+                        관리자게시판
                       </Button>
                     </Link>
                   )}

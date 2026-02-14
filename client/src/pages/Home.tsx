@@ -745,11 +745,11 @@ export default function Home() {
                   </h2>
                 </a>
               </div>
-              <div className="space-y-4">
+              <div className="divide-y divide-gray-200">
                 {reservationPosts && reservationPosts.length > 0 ? (
                   reservationPosts.map((reservation) => (
                     <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
-                      <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border overflow-hidden">
+                      <div className="group cursor-pointer px-4 py-3 hover:bg-muted/50 transition-colors overflow-hidden">
                         {/* 모바일: 2줄 (제목 / 작성자+날짜), PC: 1줄 */}
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full">
                           <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate sm:max-w-[calc(100%-200px)]">
@@ -791,11 +791,11 @@ export default function Home() {
                   </h2>
                 </a>
               </div>
-              <div className="space-y-4">
+              <div className="divide-y divide-gray-200">
                 {noticePosts && noticePosts.length > 0 ? (
                   noticePosts.map((notice) => (
                     <Link key={notice.id} href={`/posts/${notice.id}`}>
-                      <div className="group cursor-pointer p-4 rounded-lg hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
+                      <div className="group cursor-pointer px-4 py-3 hover:bg-muted/50 transition-colors">
                         <div className="flex items-center gap-2 w-full">
                           <h3 className="font-semibold text-sm group-hover:text-primary transition-colors truncate max-w-[calc(100%-90px)]">
                             {notice.title}

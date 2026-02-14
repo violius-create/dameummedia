@@ -1098,3 +1098,10 @@
 - [x] 관리자게시판 수정 페이지에 리치 텍스트 에디터 적용 (RichTextEditor 컴포넌트 재사용)
 - [x] Notice 게시판 줄간격 축소 (Card → 컴팩트 리스트 레이아웃)
 - [x] Notice 게시판 조회수와 날짜를 제목과 같은 줄에 표기
+
+## UI 개선 5건 (2026-02-14)
+- [x] Reservation 상태 옵션 "최종" → "작업완료"로 변경 (ReservationDetail, ReservationBoard)
+- [x] 견적액/결제액 항목 관리자만 작성 가능하도록 권한 설정 (isAdmin 조건 추가)
+- [x] 글쓰기 페이지 파일첨부 버튼 시각적 강조 (파란색 대시 테두리 + 아이콘 + 파란 배경)
+- [x] 메인화면 reservation/notice latest 섹션에 연한 회색 구분선 추가 (divide-y divide-gray-200)
+- [x] 상단 네비게이션 관리자게시판을 admin 버튼 우측으로 이동 (데스크톱/모바일 모두)

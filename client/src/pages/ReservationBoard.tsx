@@ -78,7 +78,7 @@ export default function ReservationBoard() {
       case 'editing':
         return '수정중';
       case 'completed':
-        return '최종';
+        return '작업완료';
       case 'cancelled':
         return '취소';
       default:
