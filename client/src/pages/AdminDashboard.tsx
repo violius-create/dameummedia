@@ -17,7 +17,7 @@ import { useEffect } from "react";
 
 export default function AdminDashboard() {
   const { user, isAuthenticated } = useAuth();
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   
   // All hooks must be called before any conditional returns
   const [activeTab, setActiveTab] = useState("prices");
@@ -258,13 +258,13 @@ export default function AdminDashboard() {
             <TabsTrigger value="prices">가격표 관리</TabsTrigger>
             <TabsTrigger value="posts">게시글 관리</TabsTrigger>
             <TabsTrigger value="branding">사이트 브랜딩</TabsTrigger>
-            <TabsTrigger value="background" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/hero-background'; }}>배경 영상 관리</TabsTrigger>
-            <TabsTrigger value="section-titles" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/section-titles'; }}>게시판 제목 관리</TabsTrigger>
-            <TabsTrigger value="footer" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/footer-settings'; }}>Footer 설정</TabsTrigger>
-            <TabsTrigger value="layout" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/board-layout-settings'; }}>게시판 레이아웃</TabsTrigger>
-            <TabsTrigger value="instagram" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/instagram-posts'; }}>Instagram 관리</TabsTrigger>
-            <TabsTrigger value="hero-text" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/hero-text-rotation'; }}>히어로 텍스트</TabsTrigger>
-            <TabsTrigger value="information" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/information'; }}>Information 관리</TabsTrigger>
+            <TabsTrigger value="background" onClick={() => navigate('/admin/hero-background')}>배경 영상 관리</TabsTrigger>
+            <TabsTrigger value="section-titles" onClick={() => navigate('/admin/section-titles')}>게시판 제목 관리</TabsTrigger>
+            <TabsTrigger value="footer" onClick={() => navigate('/admin/footer-settings')}>Footer 설정</TabsTrigger>
+            <TabsTrigger value="layout" onClick={() => navigate('/admin/board-layout-settings')}>게시판 레이아웃</TabsTrigger>
+            <TabsTrigger value="instagram" onClick={() => navigate('/admin/instagram-posts')}>Instagram 관리</TabsTrigger>
+            <TabsTrigger value="hero-text" onClick={() => navigate('/admin/hero-text-rotation')}>히어로 텍스트</TabsTrigger>
+            <TabsTrigger value="information" onClick={() => navigate('/admin/information')}>Information 관리</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
