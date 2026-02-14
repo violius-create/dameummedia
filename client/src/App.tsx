@@ -2,7 +2,7 @@ import { Router as WouterRouter, Route, Switch } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { LogOut, LogIn, Instagram, Youtube, Menu, X } from "lucide-react";
+import { LogOut, LogIn, Instagram, Youtube, Menu, X, Shield } from "lucide-react";
 import { useState } from "react";
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
@@ -31,6 +31,7 @@ import AdminBoardLayoutSettings from "@/pages/AdminBoardLayoutSettings";
 import AdminInstagramPosts from "@/pages/AdminInstagramPosts";
 import AdminHeroTextRotation from "@/pages/AdminHeroTextRotation";
 import AdminInformation from "@/pages/AdminInformation";
+import AdminBoard from "@/pages/AdminBoard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -58,6 +59,7 @@ function Router() {
       <Route path={"/admin/instagram-posts"} component={AdminInstagramPosts} />
         <Route path="/admin/hero-text-rotation" component={AdminHeroTextRotation} />
       <Route path="/admin/information" component={AdminInformation} />
+      <Route path="/admin-board" component={AdminBoard} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />
       <Route path="/notice/new" component={(props) => <CreatePost {...props} category="notice" />} />
@@ -123,6 +125,14 @@ function Navigation() {
                 Notice
               </Button>
             </Link>
+            {user?.role === 'admin' && (
+              <Link href="/admin-board">
+                <Button variant="ghost" className="text-foreground hover:bg-muted flex items-center gap-1">
+                  <Shield className="h-4 w-4" />
+                  관리자게시판
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Right Side - SNS and Auth */}
@@ -212,6 +222,14 @@ function Navigation() {
                 Reservation
               </Button>
             </Link>
+            {user?.role === 'admin' && (
+              <Link href="/admin-board" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-foreground flex items-center gap-1">
+                  <Shield className="h-4 w-4" />
+                  관리자게시판
+                </Button>
+              </Link>
+            )}
             <div className="pt-2 border-t border-border space-y-2">
               <div className="flex gap-2">
                 <a href={siteBranding?.instagramUrl || "https://www.instagram.com/dameum_media"} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>

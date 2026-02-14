@@ -25,6 +25,10 @@ export const appRouter = router({
     list: publicProcedure
       .input(z.object({ category: z.string().optional(), limit: z.number().default(10), offset: z.number().default(0) }))
       .query(async ({ input, ctx }) => {
+        // admin_board category is only accessible by admins
+        if (input.category === 'admin_board' && ctx.user?.role !== 'admin') {
+          return [];
+        }
         if (ctx.user?.role === 'admin') {
           return db.getAllPosts(input.category, input.limit, input.offset);
         }
@@ -34,6 +38,10 @@ export const appRouter = router({
     count: publicProcedure
       .input(z.object({ category: z.string().optional() }))
       .query(async ({ input, ctx }) => {
+        // admin_board category is only accessible by admins
+        if (input.category === 'admin_board' && ctx.user?.role !== 'admin') {
+          return 0;
+        }
         if (ctx.user?.role === 'admin') {
           return db.getAllPostsCount(input.category);
         }
@@ -45,6 +53,8 @@ export const appRouter = router({
       .query(async ({ input, ctx }) => {
         const post = await db.getPostById(input.id);
         if (!post) return null;
+        // admin_board posts are only accessible by admins
+        if (post.category === 'admin_board' && ctx.user?.role !== 'admin') return null;
         if (post.status === 'published') return post;
         if (ctx.user?.role === 'admin') return post;
         return null;

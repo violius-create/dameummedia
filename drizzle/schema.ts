@@ -30,7 +30,7 @@ export const posts = mysqlTable("posts", {
   id: int("id").autoincrement().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   content: text("content").notNull(),
-  category: mysqlEnum("category", ["notice", "portfolio", "review", "concert", "film"]).notNull(),
+  category: mysqlEnum("category", ["notice", "portfolio", "review", "concert", "film", "admin_board"]).notNull(),
   authorId: int("authorId").notNull(),
   imageUrl: text("imageUrl"),
   videoUrl: text("videoUrl"),

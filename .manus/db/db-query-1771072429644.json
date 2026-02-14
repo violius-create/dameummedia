@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE posts SET category = 'film' WHERE category = 'portfolio';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute UPDATE posts SET category = 'film' WHERE category = 'portfolio';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1554
+}

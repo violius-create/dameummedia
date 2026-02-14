@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, title, LEFT(content, 100) as content_preview, createdAt FROM posts WHERE category = 'admin_board' ORDER BY createdAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, LEFT(content, 100) as content_preview, createdAt FROM posts WHERE category = 'admin_board' ORDER BY createdAt DESC;",
+  "rows": [
+    {
+      "id": "510001",
+      "title": "프로그래밍",
+      "content_preview": "프로그래밍",
+      "createdAt": "2026-02-14 07:45:45"
+    },
+    {
+      "id": "510002",
+      "title": "정보",
+      "content_preview": "정보",
+      "createdAt": "2026-02-14 07:45:45"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tcontent_preview\tcreatedAt\n510001\t프로그래밍\t프로그래밍\t2026-02-14 07:45:45\n510002\t정보\t정보\t2026-02-14 07:45:45\n",
+  "stderr": "",
+  "execution_time_ms": 1772
+}

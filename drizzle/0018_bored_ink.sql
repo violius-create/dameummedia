@@ -1,0 +1,1 @@
+ALTER TABLE `posts` MODIFY COLUMN `category` enum('notice','portfolio','review','concert','film','admin_board') NOT NULL;

@@ -1,0 +1,26 @@
+{
+  "query": "SELECT category, COUNT(*) as cnt FROM posts GROUP BY category ORDER BY cnt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT category, COUNT(*) as cnt FROM posts GROUP BY category ORDER BY cnt DESC;",
+  "rows": [
+    {
+      "category": "film",
+      "cnt": "209"
+    },
+    {
+      "category": "concert",
+      "cnt": "162"
+    },
+    {
+      "category": "review",
+      "cnt": "18"
+    },
+    {
+      "category": "notice",
+      "cnt": "6"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tcnt\nfilm\t209\nconcert\t162\nreview\t18\nnotice\t6\n",
+  "stderr": "",
+  "execution_time_ms": 1510
+}
