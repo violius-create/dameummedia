@@ -16,6 +16,10 @@ export default function Home() {
   const [heroSubtitle, setHeroSubtitle] = useState('Professional Media Production');
   const [heroDescription, setHeroDescription] = useState('');
   const [overlayOpacity, setOverlayOpacity] = useState(40);
+  const [heroOpacity, setHeroOpacity] = useState(1);
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const { data: heroTextRotationData } = trpc.heroTextRotation.get.useQuery();
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 50 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 50 });
   const { data: featuredConcert } = trpc.posts.getFeatured.useQuery({ category: 'concert' });
@@ -30,6 +34,43 @@ export default function Home() {
   const [sections, setSections] = useState<Record<string, { title: string; description: string; thumbnailGap: number; thumbnailWidth: number }>>({});
   const concertScrollRef = useRef<HTMLDivElement>(null);
   const filmScrollRef = useRef<HTMLDivElement>(null);
+
+  // Scroll fade effect for hero section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroSectionRef.current) {
+        const rect = heroSectionRef.current.getBoundingClientRect();
+        const sectionHeight = rect.height;
+        const scrolled = -rect.top;
+        if (scrolled <= 0) {
+          setHeroOpacity(1);
+        } else if (scrolled >= sectionHeight * 0.6) {
+          setHeroOpacity(0);
+        } else {
+          setHeroOpacity(1 - (scrolled / (sectionHeight * 0.6)));
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Hero text rotation
+  const heroTexts = heroTextRotationData ? [
+    { title: heroTextRotationData.text1Title, description: heroTextRotationData.text1Description },
+    { title: heroTextRotationData.text2Title, description: heroTextRotationData.text2Description },
+    { title: heroTextRotationData.text3Title, description: heroTextRotationData.text3Description },
+  ].filter(t => t.title && t.title.trim() !== '') : [];
+
+  const rotationInterval = heroTextRotationData?.intervalMs || 2000;
+
+  useEffect(() => {
+    if (heroTexts.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentTextIndex(prev => (prev + 1) % heroTexts.length);
+    }, rotationInterval);
+    return () => clearInterval(timer);
+  }, [heroTexts.length, rotationInterval]);
   
   const scrollConcert = (direction: 'left' | 'right') => {
     if (concertScrollRef.current) {
@@ -109,9 +150,16 @@ export default function Home() {
 
 
 
-      {/* Full Screen Hero Section */}
-      <section className="relative h-[60vw] sm:h-[400px] md:h-[500px] overflow-hidden bg-black">
-        <div className="relative w-full h-full">
+      {/* Full Screen Hero Section - 100vh with scroll fade */}
+      <section 
+        ref={heroSectionRef}
+        className="relative overflow-hidden bg-black"
+        style={{ height: '100vh' }}
+      >
+        <div 
+          className="sticky top-0 w-full transition-opacity duration-100"
+          style={{ height: '100vh', opacity: heroOpacity }}
+        >
           {/* Background Media - Full Screen */}
           {activeHeroBackground?.mediaUrl ? (
             activeHeroBackground.type === 'video' ? (
@@ -146,21 +194,44 @@ export default function Home() {
             style={{ opacity: overlayOpacity / 100 }}
           />
 
-          {/* Text Content Overlay */}
+          {/* Text Content Overlay with Rotation */}
           <div className="absolute inset-0 flex flex-col justify-center p-6 sm:p-12 md:p-16 z-10">
-            <div className="space-y-4 sm:space-y-8 max-w-2xl">
-              <div className="space-y-4 animate-fade-in" style={{animationDelay: '0.2s'}}>
-              </div>
-              <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
-                <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-2 sm:mb-4">
-                  {heroTitle}
-                </h2>
-                <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
-              </div>
-              {heroDescription && (
-                <p className="text-sm sm:text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light animate-fade-in" style={{animationDelay: '0.6s'}}>
-                  {heroDescription}
-                </p>
+            <div className="space-y-4 sm:space-y-8 max-w-3xl relative" style={{ minHeight: '200px' }}>
+              {heroTexts.length > 0 ? (
+                heroTexts.map((text, index) => (
+                  <div
+                    key={index}
+                    className="absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-in-out"
+                    style={{
+                      opacity: currentTextIndex === index ? 1 : 0,
+                      transform: currentTextIndex === index ? 'translateY(0)' : 'translateY(20px)',
+                      pointerEvents: currentTextIndex === index ? 'auto' : 'none',
+                    }}
+                  >
+                    <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-2 sm:mb-4">
+                      {text.title}
+                    </h2>
+                    <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-4" />
+                    {text.description && (
+                      <p className="text-sm sm:text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light">
+                        {text.description}
+                      </p>
+                    )}
+                  </div>
+                ))
+              ) : (
+                /* Fallback: use existing heroTitle/heroDescription */
+                <div className="flex flex-col justify-center">
+                  <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-none mb-2 sm:mb-4">
+                    {heroTitle}
+                  </h2>
+                  <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full mb-4" />
+                  {heroDescription && (
+                    <p className="text-sm sm:text-lg md:text-2xl text-gray-100 leading-relaxed max-w-2xl font-light">
+                      {heroDescription}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           </div>

@@ -299,3 +299,21 @@ export const instagramPosts = mysqlTable("instagramPosts", {
 
 export type InstagramPost = typeof instagramPosts.$inferSelect;
 export type InsertInstagramPost = typeof instagramPosts.$inferInsert;
+
+// Hero text rotation settings for managing rotating text on section 1
+export const heroTextRotation = mysqlTable("heroTextRotation", {
+  id: int("id").autoincrement().primaryKey(),
+  text1Title: varchar("text1Title", { length: 500 }).default("Professional Media Production").notNull(),
+  text1Description: varchar("text1Description", { length: 500 }).default("Record, Mixing, Mastering and Videos"),
+  text2Title: varchar("text2Title", { length: 500 }).default(""),
+  text2Description: varchar("text2Description", { length: 500 }).default(""),
+  text3Title: varchar("text3Title", { length: 500 }).default(""),
+  text3Description: varchar("text3Description", { length: 500 }).default(""),
+  intervalMs: int("intervalMs").default(2000).notNull(), // Rotation interval in milliseconds
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type HeroTextRotation = typeof heroTextRotation.$inferSelect;
+export type InsertHeroTextRotation = typeof heroTextRotation.$inferInsert;

@@ -29,6 +29,7 @@ import AdminSectionTitles from "@/pages/AdminSectionTitles";
 import AdminFooterSettings from "@/pages/AdminFooterSettings";
 import AdminBoardLayoutSettings from "@/pages/AdminBoardLayoutSettings";
 import AdminInstagramPosts from "@/pages/AdminInstagramPosts";
+import AdminHeroTextRotation from "@/pages/AdminHeroTextRotation";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -54,6 +55,7 @@ function Router() {
       <Route path={"/admin/footer-settings"} component={AdminFooterSettings} />
       <Route path={"/admin/board-layout-settings"} component={AdminBoardLayoutSettings} />
       <Route path={"/admin/instagram-posts"} component={AdminInstagramPosts} />
+      <Route path={"/admin/hero-text-rotation"} component={AdminHeroTextRotation} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />
       <Route path="/notice/new" component={(props) => <CreatePost {...props} category="notice" />} />

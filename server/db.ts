@@ -1,6 +1,6 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, heroTextRotation, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings, HeroTextRotation, InsertHeroTextRotation } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -741,4 +741,35 @@ export async function unsetFeaturedPost(postId: number) {
     .where(eq(posts.id, postId));
 
   return getPostById(postId);
+}
+
+
+// ========== Hero Text Rotation ==========
+export async function getHeroTextRotation() {
+  const db = await getDb();
+  if (!db) return null;
+  const rows = await db.select().from(heroTextRotation).limit(1);
+  return rows[0] || null;
+}
+
+export async function upsertHeroTextRotation(data: {
+  text1Title: string;
+  text1Description: string;
+  text2Title: string;
+  text2Description: string;
+  text3Title: string;
+  text3Description: string;
+  intervalMs: number;
+  updatedBy: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const existing = await db.select().from(heroTextRotation).limit(1);
+  if (existing.length > 0) {
+    await db.update(heroTextRotation).set(data).where(eq(heroTextRotation.id, existing[0].id));
+    return { ...existing[0], ...data };
+  } else {
+    const result = await db.insert(heroTextRotation).values(data);
+    return { id: result[0].insertId, ...data };
+  }
 }

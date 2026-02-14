@@ -645,10 +645,33 @@ export const appRouter = router({
         return db.updateInstagramPost(id, data);
       }),
 
-    delete: adminProcedure
+     delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deleteInstagramPost(input.id)),
   }),
-});
 
+  // Hero Text Rotation
+  heroTextRotation: router({
+    get: publicProcedure
+      .query(async () => {
+        return db.getHeroTextRotation();
+      }),
+    update: adminProcedure
+      .input(z.object({
+        text1Title: z.string(),
+        text1Description: z.string(),
+        text2Title: z.string(),
+        text2Description: z.string(),
+        text3Title: z.string(),
+        text3Description: z.string(),
+        intervalMs: z.number().min(500).max(30000),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.upsertHeroTextRotation({
+          ...input,
+          updatedBy: ctx.user.id,
+        });
+      }),
+  }),
+});
 export type AppRouter = typeof appRouter;

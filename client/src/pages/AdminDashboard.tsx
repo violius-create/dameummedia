@@ -261,6 +261,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="footer" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/footer-settings'; }}>Footer 설정</TabsTrigger>
             <TabsTrigger value="layout" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/board-layout-settings'; }}>게시판 레이아웃</TabsTrigger>
             <TabsTrigger value="instagram" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/instagram-posts'; }}>Instagram 관리</TabsTrigger>
+            <TabsTrigger value="hero-text" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/hero-text-rotation'; }}>히어로 텍스트</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
