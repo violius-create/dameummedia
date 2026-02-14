@@ -153,26 +153,26 @@ export default function PostDetail() {
               {post.videoUrl && (
                 <div className="overflow-hidden rounded-lg">
                   {post.videoUrl.includes('youtube.com') || post.videoUrl.includes('youtu.be') ? (
-                    <iframe
-                      width="100%"
-                      height="300"
-                      src={post.videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
-                      title={post.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full"
-                    />
+                    <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                      <iframe
+                        src={post.videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
+                        title={post.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="absolute inset-0 w-full h-full"
+                      />
+                    </div>
                   ) : (
-                    <video
-                      width="100%"
-                      height="500"
-                      controls
-                      className="w-full"
-                    >
-                      <source src={post.videoUrl} />
-                      Your browser does not support the video tag.
-                    </video>
+                    <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                      <video
+                        controls
+                        className="absolute inset-0 w-full h-full object-contain bg-black"
+                      >
+                        <source src={post.videoUrl} />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
                   )}
                 </div>
               )}

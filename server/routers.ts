@@ -71,6 +71,18 @@ export const appRouter = router({
     delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deletePost(input.id)),
+
+    getFeatured: publicProcedure
+      .input(z.object({ category: z.string() }))
+      .query(({ input }) => db.getFeaturedPost(input.category)),
+
+    setFeatured: adminProcedure
+      .input(z.object({ postId: z.number(), category: z.string() }))
+      .mutation(({ input }) => db.setFeaturedPost(input.postId, input.category)),
+
+    unsetFeatured: adminProcedure
+      .input(z.object({ postId: z.number() }))
+      .mutation(({ input }) => db.unsetFeaturedPost(input.postId)),
   }),
   
   // Images router

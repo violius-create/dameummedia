@@ -18,6 +18,8 @@ export default function Home() {
   const [overlayOpacity, setOverlayOpacity] = useState(40);
   const { data: concertPosts } = trpc.posts.list.useQuery({ category: 'concert', limit: 6 });
   const { data: filmPosts } = trpc.posts.list.useQuery({ category: 'film', limit: 6 });
+  const { data: featuredConcert } = trpc.posts.getFeatured.useQuery({ category: 'concert' });
+  const { data: featuredFilm } = trpc.posts.getFeatured.useQuery({ category: 'film' });
   const { data: reservationPosts } = trpc.reservations.list.useQuery({ limit: 5 });
   const { data: noticePosts } = trpc.posts.list.useQuery({ category: 'notice', limit: 5 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
@@ -269,6 +271,48 @@ export default function Home() {
               )}
             </a>
           </div>
+
+          {/* Featured Concert Post */}
+          {featuredConcert && (
+            <Link href={`/posts/${featuredConcert.id}`}>
+              <div className="group cursor-pointer mb-8 rounded-xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all">
+                <div className="grid md:grid-cols-2">
+                  <div className="relative aspect-video md:aspect-auto md:h-full overflow-hidden bg-muted">
+                    {featuredConcert.imageUrl ? (
+                      <img
+                        src={featuredConcert.imageUrl}
+                        alt={featuredConcert.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full min-h-[240px] flex items-center justify-center bg-muted">
+                        <Play className="w-16 h-16 text-muted-foreground/40" />
+                      </div>
+                    )}
+                    {featuredConcert.imageUrl && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 md:p-8 flex flex-col justify-center">
+                    <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary w-fit">Featured</span>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">{featuredConcert.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                      {featuredConcert.content?.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                    </p>
+                    <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                      Watch Now <ArrowRight className="w-4 h-4 ml-1" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Regular Concert Posts Grid */}
           <div className="relative">
             <div 
               ref={(el) => { if (el) concertScrollRef.current = el; }}
@@ -279,7 +323,7 @@ export default function Home() {
                 gap: `${sections['concert_live']?.thumbnailGap || 24}px`
               }}
             >
-              {concertPosts?.map((post) => (
+              {concertPosts?.filter(p => p.id !== featuredConcert?.id).map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
                   <div className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['concert_live']?.thumbnailWidth || 280}px` }}>
                     <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">
@@ -318,7 +362,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 예약/공지사항 미리보기 섹션 */}
+      {/* Making Film Section */}
       <section className="bg-background border-t border-border">
         <div className="container py-12">
           <div className="mb-12">
@@ -329,6 +373,48 @@ export default function Home() {
               )}
             </a>
           </div>
+
+          {/* Featured Film Post */}
+          {featuredFilm && (
+            <Link href={`/posts/${featuredFilm.id}`}>
+              <div className="group cursor-pointer mb-8 rounded-xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all">
+                <div className="grid md:grid-cols-2">
+                  <div className="relative aspect-video md:aspect-auto md:h-full overflow-hidden bg-muted">
+                    {featuredFilm.imageUrl ? (
+                      <img
+                        src={featuredFilm.imageUrl}
+                        alt={featuredFilm.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full min-h-[240px] flex items-center justify-center bg-muted">
+                        <Play className="w-16 h-16 text-muted-foreground/40" />
+                      </div>
+                    )}
+                    {featuredFilm.imageUrl && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 md:p-8 flex flex-col justify-center">
+                    <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary w-fit">Featured</span>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">{featuredFilm.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                      {featuredFilm.content?.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                    </p>
+                    <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                      Watch Now <ArrowRight className="w-4 h-4 ml-1" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Regular Film Posts Grid */}
           <div className="relative">
             <div 
               ref={(el) => { if (el) filmScrollRef.current = el; }}
@@ -339,7 +425,7 @@ export default function Home() {
                 gap: `${sections['making_film']?.thumbnailGap || 24}px`
               }}
             >
-              {filmPosts?.map((post) => (
+              {filmPosts?.filter(p => p.id !== featuredFilm?.id).map((post) => (
                 <Link key={post.id} href={`/posts/${post.id}`}>
                   <div className="group cursor-pointer flex-shrink-0" style={{ width: `${sections['making_film']?.thumbnailWidth || 280}px` }}>
                     <div className="relative overflow-hidden rounded-lg h-64 bg-gray-200">

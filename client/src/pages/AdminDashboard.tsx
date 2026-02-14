@@ -126,6 +126,26 @@ export default function AdminDashboard() {
     },
   });
 
+  const setFeaturedMutation = trpc.posts.setFeatured.useMutation({
+    onSuccess: () => {
+      toast.success("Featured 게시물이 설정되었습니다.");
+      refetchPosts();
+    },
+    onError: (error) => {
+      toast.error(`Featured 설정 실패: ${error.message}`);
+    },
+  });
+
+  const unsetFeaturedMutation = trpc.posts.unsetFeatured.useMutation({
+    onSuccess: () => {
+      toast.success("Featured 설정이 해제되었습니다.");
+      refetchPosts();
+    },
+    onError: (error) => {
+      toast.error(`Featured 해제 실패: ${error.message}`);
+    },
+  });
+
   const handleTogglePostSelection = (postId: number) => {
     const newSelected = new Set(selectedPostIds);
     if (newSelected.has(postId)) {
@@ -378,11 +398,35 @@ export default function AdminDashboard() {
                           className="w-4 h-4"
                         />
                         <div>
-                          <h3 className="font-semibold">{post.title}</h3>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold">{post.title}</h3>
+                            {post.featured === 1 && (
+                              <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300">
+                                ★ Featured
+                              </span>
+                            )}
+                          </div>
                           <p className="text-sm text-muted-foreground">{post.category}</p>
                         </div>
                       </div>
                       <div className="flex gap-2">
+                        {(post.category === 'concert' || post.category === 'film') && (
+                          <Button
+                            size="sm"
+                            variant={post.featured === 1 ? "default" : "outline"}
+                            onClick={() => {
+                              if (post.featured === 1) {
+                                unsetFeaturedMutation.mutate({ postId: post.id });
+                              } else {
+                                setFeaturedMutation.mutate({ postId: post.id, category: post.category });
+                              }
+                            }}
+                            disabled={setFeaturedMutation.isPending || unsetFeaturedMutation.isPending}
+                            className="text-xs"
+                          >
+                            {post.featured === 1 ? '★ Featured 해제' : '☆ Featured'}
+                          </Button>
+                        )}
                         <Button
                           size="sm"
                           variant="outline"

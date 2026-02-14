@@ -984,3 +984,12 @@
 - [x] 모바일에서 공지(Notice) 게시판 글자 크기 축소
 - [x] 모바일에서 예약(Reservation) 게시판 글자 크기 축소
 - [x] 모바일에서 Concert Live/Making Film 리스트 글자 크기 축소
+
+
+## YouTube 반응형 및 Featured 게시물 기능 (2026-02-14)
+- [x] YouTube iframe 모바일 반응형 16:9 비율 자동 조절
+- [x] Featured 게시물 DB 스키마 추가 (posts 테이블에 isFeatured 필드)
+- [x] Featured 게시물 백엔드 API (조회/설정)
+- [x] 관리자 페이지에서 Featured 게시물 지정 UI
+- [x] 메인 화면 Concert Live 섹션에 Featured 게시물 넓게 표시
+- [x] 메인 화면 Making Film 섹션에 Featured 게시물 넓게 표시

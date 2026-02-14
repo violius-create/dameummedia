@@ -694,3 +694,51 @@ export async function deleteInstagramPost(id: number) {
 
   return db.delete(instagramPosts).where(eq(instagramPosts.id, id));
 }
+
+
+// Featured Posts queries
+export async function getFeaturedPost(category: string) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const result = await db.select().from(posts)
+    .where(and(
+      eq(posts.category, category as any),
+      eq(posts.featured, 1),
+      eq(posts.status, 'published')
+    ))
+    .orderBy(desc(posts.updatedAt))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function setFeaturedPost(postId: number, category: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // First, unset all featured posts in this category
+  await db.update(posts)
+    .set({ featured: 0 })
+    .where(and(
+      eq(posts.category, category as any),
+      eq(posts.featured, 1)
+    ));
+
+  // Then set the new featured post
+  await db.update(posts)
+    .set({ featured: 1 })
+    .where(eq(posts.id, postId));
+
+  return getPostById(postId);
+}
+
+export async function unsetFeaturedPost(postId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(posts)
+    .set({ featured: 0 })
+    .where(eq(posts.id, postId));
+
+  return getPostById(postId);
+}
