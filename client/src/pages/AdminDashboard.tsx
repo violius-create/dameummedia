@@ -262,6 +262,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="layout" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/board-layout-settings'; }}>게시판 레이아웃</TabsTrigger>
             <TabsTrigger value="instagram" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/instagram-posts'; }}>Instagram 관리</TabsTrigger>
             <TabsTrigger value="hero-text" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/hero-text-rotation'; }}>히어로 텍스트</TabsTrigger>
+            <TabsTrigger value="information" onClick={(e) => { e.preventDefault(); window.location.href = '/admin/information'; }}>Information 관리</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
@@ -786,6 +787,7 @@ function AdminPrices() {
   const [editingAddOnId, setEditingAddOnId] = useState<number | null>(null);
   
   const [packageFormData, setPackageFormData] = useState({
+    name: '',
     displayName: '',
     basePrice: 0,
     cameraCount: '',
@@ -827,6 +829,7 @@ function AdminPrices() {
   const handleEditPackage = (pkg: any) => {
     setEditingPackageId(pkg.id);
     setPackageFormData({
+      name: pkg.name || '',
       displayName: pkg.displayName,
       basePrice: pkg.basePrice,
       cameraCount: pkg.cameraCount || '',
@@ -896,6 +899,22 @@ function AdminPrices() {
                 {editingPackageId === pkg.id && (
                   <div className="space-y-4 border-t pt-4">
                     <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>패키지 이름 (영문)</Label>
+                        <Input
+                          value={packageFormData.name}
+                          onChange={(e) => setPackageFormData({...packageFormData, name: e.target.value})}
+                          placeholder="예: Simple, Economy, Professional"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>표시 이름</Label>
+                        <Input
+                          value={packageFormData.displayName}
+                          onChange={(e) => setPackageFormData({...packageFormData, displayName: e.target.value})}
+                          placeholder="예: Simple 패키지"
+                        />
+                      </div>
                       <div className="space-y-2">
                         <Label>기본 가격</Label>
                         <Input

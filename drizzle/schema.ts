@@ -318,3 +318,18 @@ export const heroTextRotation = mysqlTable("heroTextRotation", {
 
 export type HeroTextRotation = typeof heroTextRotation.$inferSelect;
 export type InsertHeroTextRotation = typeof heroTextRotation.$inferInsert;
+
+// Information page items table for managing about/experience/achievements content
+export const informationItems = mysqlTable("informationItems", {
+  id: int("id").autoincrement().primaryKey(),
+  sectionKey: varchar("sectionKey", { length: 100 }).notNull(), // about, experiences, achievements, dramaWorks
+  title: varchar("title", { length: 255 }).notNull(), // Section title
+  items: text("items").notNull(), // JSON array of strings
+  description: text("description"), // Optional section description
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type InformationItem = typeof informationItems.$inferSelect;
+export type InsertInformationItem = typeof informationItems.$inferInsert;

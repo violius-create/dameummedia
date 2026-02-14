@@ -113,6 +113,13 @@
       "when": 1771044324768,
       "tag": "0015_funny_sugar_man",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "5",
+      "when": 1771064479250,
+      "tag": "0016_hard_thor",
+      "breakpoints": true
     }
   ]
 }

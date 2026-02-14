@@ -43,8 +43,8 @@ export default function Home() {
         const viewportHeight = window.innerHeight;
         const scrolled = -rect.top;
         // Start fading after scrolling past the viewport height
-        const fadeStart = viewportHeight * 0.3;
-        const fadeEnd = viewportHeight * 0.9;
+        const fadeStart = viewportHeight * 0.15;
+        const fadeEnd = viewportHeight * 0.5;
         if (scrolled <= fadeStart) {
           setHeroOpacity(1);
         } else if (scrolled >= fadeEnd) {
@@ -435,12 +435,13 @@ export default function Home() {
 
       {/* Additional Hero Sections - Section 2 and 3 Side by Side */}
       <section 
-        className="bg-background relative"
+        className="relative"
         style={{
           marginTop: '-50vh',
           borderRadius: '1.5rem 1.5rem 0 0',
           boxShadow: '0 -20px 60px rgba(0,0,0,0.3)',
           zIndex: 10,
+          background: 'transparent',
         }}
       >
         <div className="flex md:flex-row flex-col">
@@ -487,7 +488,7 @@ export default function Home() {
           </div>
 
           {/* Section 3: Making Film */}
-          <div className="relative h-[280px] md:h-[400px] overflow-hidden group flex-1 mt-[6px] md:mt-0 md:ml-[10px]">
+          <div className="relative h-[280px] md:h-[400px] overflow-hidden group flex-1 md:ml-[10px]">
             {section3Background?.mediaUrl ? (
               section3Background.type === 'video' ? (
                 <video

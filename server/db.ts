@@ -1,6 +1,6 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, heroTextRotation, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings, HeroTextRotation, InsertHeroTextRotation } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, heroTextRotation, informationItems, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings, HeroTextRotation, InsertHeroTextRotation, InformationItem, InsertInformationItem } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -771,6 +771,40 @@ export async function upsertHeroTextRotation(data: {
     return { ...existing[0], ...data };
   } else {
     const result = await db.insert(heroTextRotation).values(data);
+    return { id: result[0].insertId, ...data };
+  }
+}
+
+
+// ========== Information Items ==========
+export async function getInformationItems() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(informationItems);
+}
+
+export async function getInformationItemBySection(sectionKey: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const rows = await db.select().from(informationItems).where(eq(informationItems.sectionKey, sectionKey)).limit(1);
+  return rows[0] || null;
+}
+
+export async function upsertInformationItem(data: {
+  sectionKey: string;
+  title: string;
+  items: string;
+  description?: string;
+  updatedBy: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const existing = await db.select().from(informationItems).where(eq(informationItems.sectionKey, data.sectionKey)).limit(1);
+  if (existing.length > 0) {
+    await db.update(informationItems).set(data).where(eq(informationItems.id, existing[0].id));
+    return { ...existing[0], ...data };
+  } else {
+    const result = await db.insert(informationItems).values(data);
     return { id: result[0].insertId, ...data };
   }
 }

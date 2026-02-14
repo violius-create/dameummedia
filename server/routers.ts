@@ -462,7 +462,7 @@ export const appRouter = router({
       }),
     
     updatePackage: adminProcedure
-      .input(z.object({ id: z.number(), displayName: z.string().optional(), description: z.string().optional(), basePrice: z.number().optional(), cameraCount: z.string().optional(), cameraType: z.string().optional(), microphoneCount: z.string().optional(), microphoneType: z.string().optional(), operatorCount: z.string().optional(), targetAudience: z.string().optional() }))
+      .input(z.object({ id: z.number(), name: z.string().optional(), displayName: z.string().optional(), description: z.string().optional(), basePrice: z.number().optional(), cameraCount: z.string().optional(), cameraType: z.string().optional(), microphoneCount: z.string().optional(), microphoneType: z.string().optional(), operatorCount: z.string().optional(), targetAudience: z.string().optional() }))
       .mutation(async ({ input }) => {
         return db.updatePricePackage(input.id, input);
       }),
@@ -648,6 +648,32 @@ export const appRouter = router({
      delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deleteInstagramPost(input.id)),
+  }),
+
+  // Information Items
+  informationItems: router({
+    list: publicProcedure
+      .query(async () => {
+        return db.getInformationItems();
+      }),
+    getBySection: publicProcedure
+      .input(z.object({ sectionKey: z.string() }))
+      .query(async ({ input }) => {
+        return db.getInformationItemBySection(input.sectionKey);
+      }),
+    upsert: adminProcedure
+      .input(z.object({
+        sectionKey: z.string(),
+        title: z.string(),
+        items: z.string(), // JSON array of strings
+        description: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.upsertInformationItem({
+          ...input,
+          updatedBy: ctx.user.id,
+        });
+      }),
   }),
 
   // Hero Text Rotation
