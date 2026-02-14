@@ -275,7 +275,7 @@ export default function Home() {
           {/* Featured Concert Post */}
           {featuredConcert && (
             <Link href={`/posts/${featuredConcert.id}`}>
-              <div className="group cursor-pointer mb-8 rounded-xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all">
+              <div className="group cursor-pointer mb-8 rounded-xl overflow-hidden border border-border/30 hover:border-primary/30 transition-all">
                 <div className="grid md:grid-cols-2">
                   <div className="relative aspect-video md:aspect-auto md:h-full overflow-hidden bg-muted">
                     {featuredConcert.imageUrl ? (
@@ -285,8 +285,8 @@ export default function Home() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full min-h-[240px] flex items-center justify-center bg-muted">
-                        <Play className="w-16 h-16 text-muted-foreground/40" />
+                      <div className="w-full h-full min-h-[240px] flex items-center justify-center bg-neutral-900">
+                        <Play className="w-16 h-16 text-neutral-500" />
                       </div>
                     )}
                     {featuredConcert.imageUrl && (
@@ -297,13 +297,13 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                  <div className="p-6 md:p-8 flex flex-col justify-center">
-                    <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary w-fit">Featured</span>
-                    <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">{featuredConcert.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                      {featuredConcert.content?.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                  <div className="p-6 md:p-8 flex flex-col justify-center bg-neutral-900">
+                    <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-400 w-fit">Featured</span>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors line-clamp-2">{featuredConcert.title}</h3>
+                    <p className="text-sm text-neutral-400 line-clamp-4 mb-4 leading-relaxed">
+                      {featuredConcert.content?.replace(/<[^>]*>/g, '').substring(0, 200)}
                     </p>
-                    <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                    <span className="inline-flex items-center text-sm font-semibold text-amber-400 group-hover:gap-2 transition-all">
                       Watch Now <ArrowRight className="w-4 h-4 ml-1" />
                     </span>
                   </div>
@@ -377,7 +377,7 @@ export default function Home() {
           {/* Featured Film Post */}
           {featuredFilm && (
             <Link href={`/posts/${featuredFilm.id}`}>
-              <div className="group cursor-pointer mb-8 rounded-xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all">
+              <div className="group cursor-pointer mb-8 rounded-xl overflow-hidden border border-border/30 hover:border-primary/30 transition-all">
                 <div className="grid md:grid-cols-2">
                   <div className="relative aspect-video md:aspect-auto md:h-full overflow-hidden bg-muted">
                     {featuredFilm.imageUrl ? (
@@ -387,8 +387,8 @@ export default function Home() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full min-h-[240px] flex items-center justify-center bg-muted">
-                        <Play className="w-16 h-16 text-muted-foreground/40" />
+                      <div className="w-full h-full min-h-[240px] flex items-center justify-center bg-neutral-900">
+                        <Play className="w-16 h-16 text-neutral-500" />
                       </div>
                     )}
                     {featuredFilm.imageUrl && (
@@ -399,13 +399,13 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                  <div className="p-6 md:p-8 flex flex-col justify-center">
-                    <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary w-fit">Featured</span>
-                    <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">{featuredFilm.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                      {featuredFilm.content?.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                  <div className="p-6 md:p-8 flex flex-col justify-center bg-neutral-900">
+                    <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-400 w-fit">Featured</span>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors line-clamp-2">{featuredFilm.title}</h3>
+                    <p className="text-sm text-neutral-400 line-clamp-4 mb-4 leading-relaxed">
+                      {featuredFilm.content?.replace(/<[^>]*>/g, '').substring(0, 200)}
                     </p>
-                    <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                    <span className="inline-flex items-center text-sm font-semibold text-amber-400 group-hover:gap-2 transition-all">
                       Watch Now <ArrowRight className="w-4 h-4 ml-1" />
                     </span>
                   </div>

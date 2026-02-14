@@ -157,7 +157,7 @@ export default function CreatePost({ category = "concert" }: CreatePostProps) {
       </nav>
 
       <div className="container py-8 sm:py-16">
-        <Card className="max-w-2xl mx-auto">
+        <Card className="max-w-5xl mx-auto">
           <CardHeader>
             <CardTitle>새 {getCategoryLabel()} 작성</CardTitle>
             <CardDescription>

@@ -214,7 +214,7 @@ export default function EditPost() {
       </nav>
 
       <div className="container py-8 sm:py-16">
-        <Card className="max-w-2xl mx-auto">
+        <Card className="max-w-5xl mx-auto">
           <CardHeader>
             <CardTitle>{getCategoryLabel()} 수정</CardTitle>
             <CardDescription>

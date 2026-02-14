@@ -205,6 +205,7 @@ export default function ReservationDetail() {
                     size="sm"
                     variant="outline"
                     onClick={handleEdit}
+                    className="hover:text-neutral-400 transition-colors"
                   >
                     <Edit2 className="mr-2 h-4 w-4" />
                     수정

@@ -993,3 +993,10 @@
 - [x] 관리자 페이지에서 Featured 게시물 지정 UI
 - [x] 메인 화면 Concert Live 섹션에 Featured 게시물 넓게 표시
 - [x] 메인 화면 Making Film 섹션에 Featured 게시물 넓게 표시
+
+
+## UI 개선 요청 (2026-02-14)
+- [x] Featured 카드 우측 텍스트 영역 배경을 블랙으로, 텍스트를 밝은 색으로 변경
+- [x] Featured 카드에 글 내용(본문)도 보이게 표시
+- [x] 모든 게시판 글쓰기 페이지 가로 넓이 확대
+- [x] Admin/Login/수정 버튼 호버 시 글자 색을 연한 회색으로 변경

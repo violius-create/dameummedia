@@ -139,7 +139,7 @@ function Navigation() {
               <>
                 {user?.role === 'admin' && (
                   <Link href="/admin">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="hover:text-neutral-400 transition-colors">
                       Admin
                     </Button>
                   </Link>
@@ -148,7 +148,7 @@ function Navigation() {
                   variant="outline"
                   size="sm"
                   onClick={() => logout()}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 hover:text-neutral-400 transition-colors"
                 >
                   <LogOut className="h-4 w-4" />
                   Logout
@@ -156,7 +156,7 @@ function Navigation() {
               </>
             ) : (
               <a href={getLoginUrl()}>
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                <Button variant="outline" size="sm" className="flex items-center gap-2 hover:text-neutral-400 transition-colors">
                   <LogIn className="h-4 w-4" />
                   Login
                 </Button>
@@ -227,7 +227,7 @@ function Navigation() {
                 <>
                   {user?.role === 'admin' && (
                     <Link href="/admin" className="block" onClick={() => setMobileMenuOpen(false)}>
-                      <Button variant="outline" size="sm" className="w-full">
+                      <Button variant="outline" size="sm" className="w-full hover:text-neutral-400 transition-colors">
                         Admin
                       </Button>
                     </Link>
@@ -236,7 +236,7 @@ function Navigation() {
                     variant="outline"
                     size="sm"
                     onClick={() => { logout(); setMobileMenuOpen(false); }}
-                    className="w-full flex items-center justify-center gap-2"
+                    className="w-full flex items-center justify-center gap-2 hover:text-neutral-400 transition-colors"
                   >
                     <LogOut className="h-4 w-4" />
                     Logout
@@ -244,7 +244,7 @@ function Navigation() {
                 </>
               ) : (
                 <a href={getLoginUrl()} className="block" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-2">
+                  <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-2 hover:text-neutral-400 transition-colors">
                     <LogIn className="h-4 w-4" />
                     Login
                   </Button>

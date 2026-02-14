@@ -94,7 +94,7 @@ export default function PostDetail() {
             {isAuthenticated && user?.role === 'admin' && (
               <div className="flex gap-2">
                 <Link href={`/posts/${post.id}/edit`}>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="hover:text-neutral-400 transition-colors">
                     <Edit className="mr-2 h-4 w-4" />
                     수정
                   </Button>
@@ -187,7 +187,7 @@ export default function PostDetail() {
               {isAuthenticated && user?.role === 'admin' && (
                 <div className="flex gap-2 justify-center pt-8 border-t">
                   <Link href={`/admin?editId=${post.id}`}>
-                    <Button variant="outline">
+                    <Button variant="outline" className="hover:text-neutral-400 transition-colors">
                       <Edit className="mr-2 h-4 w-4" />
                       수정
                     </Button>
