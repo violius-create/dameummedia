@@ -403,27 +403,26 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scroll Down Indicator */}
+          {/* Scroll Down Indicator - dissolve fade arrows only */}
           <div 
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 scroll-indicator"
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center scroll-indicator"
             style={{ 
               opacity: Math.min(heroOpacity, heroOpacity > 0.5 ? 1 : heroOpacity * 2),
               transition: 'opacity 0.3s ease',
             }}
           >
-            <span className="text-white/60 text-xs tracking-[0.25em] uppercase font-light">Scroll</span>
-            <div className="scroll-bounce-indicator">
+            <div className="scroll-dissolve-arrow">
               <svg 
-                width="28" height="28" viewBox="0 0 24 24" fill="none" 
-                className="text-white/80"
+                width="32" height="32" viewBox="0 0 24 24" fill="none" 
+                className="text-white"
               >
                 <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <div className="scroll-bounce-indicator" style={{ animationDelay: '0.15s', marginTop: '-12px' }}>
+            <div className="scroll-dissolve-arrow" style={{ animationDelay: '1s', marginTop: '-10px' }}>
               <svg 
-                width="28" height="28" viewBox="0 0 24 24" fill="none" 
-                className="text-white/40"
+                width="32" height="32" viewBox="0 0 24 24" fill="none" 
+                className="text-white"
               >
                 <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>

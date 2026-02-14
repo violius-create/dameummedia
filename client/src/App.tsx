@@ -125,13 +125,13 @@ function Navigation() {
 
           {/* Right Side - SNS and Auth */}
           <div className="hidden md:flex items-center gap-2">
-            <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer">
+            <a href={siteBranding?.instagramUrl || "https://www.instagram.com/dameum_media"} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-muted-foreground hover:bg-muted flex items-center gap-1">
                 <Instagram className="h-5 w-5" />
                 <span>Instagram</span>
               </Button>
             </a>
-            <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer">
+            <a href={siteBranding?.youtubeUrl || "https://www.youtube.com/@dameum_media"} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-muted-foreground hover:bg-muted flex items-center gap-1">
                 <Youtube className="h-5 w-5" />
                 <span>Youtube</span>
@@ -212,13 +212,13 @@ function Navigation() {
             </Link>
             <div className="pt-2 border-t border-border space-y-2">
               <div className="flex gap-2">
-                <a href="https://www.instagram.com/dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+                <a href={siteBranding?.instagramUrl || "https://www.instagram.com/dameum_media"} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" size="sm" className="w-full">
                     <Instagram className="h-4 w-4 mr-2" />
                     Instagram
                   </Button>
                 </a>
-                <a href="https://www.youtube.com/@dameum_media" target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+                <a href={siteBranding?.youtubeUrl || "https://www.youtube.com/@dameum_media"} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" size="sm" className="w-full">
                     <Youtube className="h-4 w-4 mr-2" />
                     YouTube

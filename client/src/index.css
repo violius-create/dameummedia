@@ -215,20 +215,32 @@
     display: none;
   }
 
-  /* Scroll Down Indicator Animation */
-  @keyframes scrollBounce {
-    0%, 100% {
+  /* Scroll Down Indicator - Slow Dissolve Fade Animation */
+  @keyframes scrollDissolve {
+    0% {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    20% {
+      opacity: 0.8;
       transform: translateY(0);
-      opacity: 1;
     }
     50% {
-      transform: translateY(8px);
-      opacity: 0.5;
+      opacity: 0.9;
+      transform: translateY(2px);
+    }
+    80% {
+      opacity: 0.3;
+      transform: translateY(6px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(10px);
     }
   }
 
-  .scroll-bounce-indicator {
-    animation: scrollBounce 2s ease-in-out infinite;
+  .scroll-dissolve-arrow {
+    animation: scrollDissolve 3s ease-in-out infinite;
   }
 
   .scroll-indicator {

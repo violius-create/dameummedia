@@ -1031,3 +1031,8 @@
 - [x] 스크롤 시 섹션1 잔상(빨간 표시 부분)이 남아서 같이 올라가는 문제 해결 - visibility hidden + clipPath 적용
 - [x] 섹션1 하단에 스크롤 다운 유도 아이콘(아래 방향 바운스 애니메이션) 추가 - 이중 쉐브론 + Scroll 텍스트
 - [x] 텍스트 애니메이션 여러 종류 구현 및 관리자 대시보드에서 선택 가능하도록 - 6가지 애니메이션 (fadeSlideUp, fadeScale, slideLeft, typewriter, flipDown, glitch)
+
+
+## 스크롤 인디케이터 및 인스타그램 링크 수정 (2026-02-14)
+- [x] 스크롤 인디케이터에서 글자(SCROLL) 제거, 화살표만 천천히 디졸브되며 깜박이도록 변경 - scrollDissolve 3s 애니메이션
+- [x] 상단 네비게이션 인스타그램 버튼이 관리자에서 설정한 주소로 연결되지 않는 문제 수정 - siteBranding DB 값 참조로 변경

@@ -1,0 +1,15 @@
+{
+  "query": "SELECT id, instagramUrl, youtubeUrl FROM siteBranding;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, instagramUrl, youtubeUrl FROM siteBranding;",
+  "rows": [
+    {
+      "id": "1",
+      "instagramUrl": "https://www.youtube.com/@dameum_media",
+      "youtubeUrl": "https://www.youtube.com/@dameum_media"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tinstagramUrl\tyoutubeUrl\n1\thttps://www.youtube.com/@dameum_media\thttps://www.youtube.com/@dameum_media\n",
+  "stderr": "",
+  "execution_time_ms": 1590
+}
