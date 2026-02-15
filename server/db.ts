@@ -1,4 +1,4 @@
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, sql, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, heroTextRotation, informationItems, reservationFormLabels, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings, HeroTextRotation, InsertHeroTextRotation, InformationItem, InsertInformationItem, ReservationFormLabels, InsertReservationFormLabels } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -235,6 +235,13 @@ export async function deleteReservation(id: number) {
   if (!db) throw new Error("Database not available");
   
   return db.delete(reservations).where(eq(reservations.id, id));
+}
+
+export async function deleteReservationsBulk(ids: number[]) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return db.delete(reservations).where(inArray(reservations.id, ids));
 }
 
 // Comment queries

@@ -208,9 +208,13 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .query(({ input }) => db.getReservationById(input.id)),
     
-    delete: publicProcedure
+    delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => db.deleteReservation(input.id)),
+
+    bulkDelete: adminProcedure
+      .input(z.object({ ids: z.array(z.number()).min(1) }))
+      .mutation(({ input }) => db.deleteReservationsBulk(input.ids)),
     
     updateStatus: adminProcedure
       .input(z.object({ id: z.number(), status: z.string() }))

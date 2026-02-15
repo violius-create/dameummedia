@@ -2,18 +2,25 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
-import { ArrowLeft, Plus, Search, Loader2, Trash2, Edit2 } from "lucide-react";
+import { ArrowLeft, Plus, Search, Loader2, Trash2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { toast } from "sonner";
 
 export default function ReservationBoard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
   const pageSize = 10;
 
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
+
+
   // 예약 목록 조회
-  const { data: reservations = [], isLoading } = trpc.reservations.list.useQuery({
+  const { data: reservations = [], isLoading, refetch } = trpc.reservations.list.useQuery({
     limit: pageSize,
     offset: page * pageSize,
   });
@@ -21,8 +28,20 @@ export default function ReservationBoard() {
   // 섹션 제목 데이터 로드
   const { data: sectionData } = trpc.sectionTitles.get.useQuery({ sectionKey: 'reservation' });
 
-  // 폼 라벨 데이터 로드 (진행상황 옵션 이름)
-  const { data: formLabels } = trpc.reservationFormLabels.get.useQuery();
+  // 일괄 삭제 mutation
+  const bulkDeleteMutation = trpc.reservations.bulkDelete.useMutation({
+    onSuccess: () => {
+      toast.success(`${selectedIds.length}건의 예약이 삭제되었습니다.`);
+      setSelectedIds([]);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`삭제 실패: ${error.message}`);
+    },
+    onSettled: () => {
+      setIsDeleting(false);
+    },
+  });
 
   const getProgressLabel = (status: string | null | undefined) => {
     if (!status) return '접수중';
@@ -60,50 +79,11 @@ export default function ReservationBoard() {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return 'bg-gray-100 text-gray-800';
-      case 'confirmed':
-        return 'bg-green-100 text-green-800';
-      case 'payment_completed':
-        return 'bg-black text-white';
-      case 'work_pending':
-        return 'bg-sky-100 text-sky-800';
-      case 'in_progress':
-        return 'bg-blue-100 text-blue-800';
-      case 'editing':
-        return 'bg-orange-100 text-orange-800';
-      case 'completed':
-        return 'bg-red-100 text-red-800';
-      case 'cancelled':
-        return 'bg-black text-white';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return '접수대기';
-      case 'confirmed':
-        return '예약완료';
-      case 'payment_completed':
-        return '결제완료';
-      case 'work_pending':
-        return '작업대기';
-      case 'in_progress':
-        return '작업중';
-      case 'editing':
-        return '수정중';
-      case 'completed':
-        return '작업완료';
-      case 'cancelled':
-        return '취소';
-      default:
-        return status;
-    }
+  const handleBulkDelete = () => {
+    if (selectedIds.length === 0) return;
+    if (!confirm(`선택한 ${selectedIds.length}건의 예약을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+    setIsDeleting(true);
+    bulkDeleteMutation.mutate({ ids: selectedIds });
   };
 
   if (isLoading) {
@@ -147,8 +127,8 @@ export default function ReservationBoard() {
             </p>
           </div>
 
-          {/* Search */}
-          <div className="flex gap-2">
+          {/* Search + Admin Actions */}
+          <div className="flex gap-2 items-center">
             <div className="flex-1 relative">
               <Input
                 placeholder="예약명, 담당자명으로 검색..."
@@ -158,6 +138,22 @@ export default function ReservationBoard() {
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             </div>
+            {isAdmin && selectedIds.length > 0 && (
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleBulkDelete}
+                disabled={isDeleting}
+                className="flex-shrink-0"
+              >
+                {isDeleting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="mr-2 h-4 w-4" />
+                )}
+                {selectedIds.length}건 삭제
+              </Button>
+            )}
           </div>
 
           {/* Reservations Table */}
@@ -166,8 +162,16 @@ export default function ReservationBoard() {
               {/* Table Header - hidden on mobile */}
               <div className="bg-gray-50 border-b border-gray-200 px-4 md:px-6 py-4 hidden md:block">
                 <div className="flex gap-4 items-center text-sm font-semibold text-foreground">
-                  <div className="w-[6%]">번호</div>
-                  <div className="w-[44%]">행사명</div>
+                  {isAdmin && (
+                    <div className="w-[4%] flex justify-center">
+                      <Checkbox
+                        checked={selectedIds.length === filteredReservations.length && filteredReservations.length > 0}
+                        onCheckedChange={toggleSelectAll}
+                      />
+                    </div>
+                  )}
+                  <div className={isAdmin ? "w-[5%]" : "w-[6%]"}>번호</div>
+                  <div className={isAdmin ? "w-[41%]" : "w-[44%]"}>행사명</div>
                   <div className="w-[14%]">작성자</div>
                   <div className="w-[16%]">날짜</div>
                   <div className="w-[20%] text-center">진행상황</div>
@@ -177,50 +181,71 @@ export default function ReservationBoard() {
               {/* Table Body */}
               <div className="divide-y divide-gray-200">
                 {filteredReservations.map((reservation: any, index: number) => (
-                  <Link key={reservation.id} href={`/reservation/${reservation.id}`}>
-                    <div className={`hover:bg-gray-200 transition-colors cursor-pointer ${
+                  <div
+                    key={reservation.id}
+                    className={`hover:bg-gray-200 transition-colors ${
                       index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
-                    }`}>
-                      {/* Desktop layout */}
-                      <div className="hidden md:flex px-6 py-4 gap-4 items-center text-sm">
-                        <div className="w-[6%] text-foreground font-medium">
-                          {reservation.id}
+                    } ${selectedIds.includes(reservation.id) ? 'bg-blue-50 hover:bg-blue-100' : ''}`}
+                  >
+                    {/* Desktop layout */}
+                    <div className="hidden md:flex px-6 py-4 gap-4 items-center text-sm">
+                      {isAdmin && (
+                        <div className="w-[4%] flex justify-center" onClick={(e) => e.stopPropagation()}>
+                          <Checkbox
+                            checked={selectedIds.includes(reservation.id)}
+                            onCheckedChange={() => toggleSelect(reservation.id)}
+                          />
                         </div>
-                        <div className="w-[44%] text-primary hover:underline truncate">
-                          {reservation.eventName || "제목 없음"}
-                        </div>
-                        <div className="w-[14%] text-foreground">
-                          {reservation.clientName || "-"}
-                        </div>
-                        <div className="w-[16%] text-muted-foreground">
-                          {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
-                        </div>
-                        <div className="w-[20%] flex justify-center">
-                          <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
-                            {getProgressLabel(reservation.progressStatus)}
-                          </span>
-                        </div>
+                      )}
+                      <div className={`${isAdmin ? "w-[5%]" : "w-[6%]"} text-foreground font-medium`}>
+                        {reservation.id}
                       </div>
-                      {/* Mobile layout */}
-                      <div className="md:hidden px-4 py-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <h3 className="text-xs sm:text-sm font-medium text-primary truncate flex-1 min-w-0">
-                            {reservation.eventName || "제목 없음"}
-                          </h3>
-                          <div className="flex gap-1 flex-shrink-0">
-                            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
-                              {getProgressLabel(reservation.progressStatus)}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 mt-1 text-[10px] sm:text-xs text-muted-foreground">
-                          <span>{reservation.clientName || "-"}</span>
-                          <span>·</span>
-                          <span>{reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}</span>
-                        </div>
+                      <Link href={`/reservation/${reservation.id}`} className={`${isAdmin ? "w-[41%]" : "w-[44%]"} text-primary hover:underline truncate cursor-pointer`}>
+                        {reservation.eventName || "제목 없음"}
+                      </Link>
+                      <div className="w-[14%] text-foreground">
+                        {reservation.clientName || "-"}
+                      </div>
+                      <div className="w-[16%] text-muted-foreground">
+                        {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
+                      </div>
+                      <div className="w-[20%] flex justify-center">
+                        <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
+                          {getProgressLabel(reservation.progressStatus)}
+                        </span>
                       </div>
                     </div>
-                  </Link>
+                    {/* Mobile layout */}
+                    <div className="md:hidden px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        {isAdmin && (
+                          <div onClick={(e) => e.stopPropagation()} className="flex-shrink-0">
+                            <Checkbox
+                              checked={selectedIds.includes(reservation.id)}
+                              onCheckedChange={() => toggleSelect(reservation.id)}
+                            />
+                          </div>
+                        )}
+                        <Link href={`/reservation/${reservation.id}`} className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <h3 className="text-xs sm:text-sm font-medium text-primary truncate flex-1 min-w-0">
+                              {reservation.eventName || "제목 없음"}
+                            </h3>
+                            <div className="flex gap-1 flex-shrink-0">
+                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
+                                {getProgressLabel(reservation.progressStatus)}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 mt-1 text-[10px] sm:text-xs text-muted-foreground">
+                            <span>{reservation.clientName || "-"}</span>
+                            <span>·</span>
+                            <span>{reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}</span>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

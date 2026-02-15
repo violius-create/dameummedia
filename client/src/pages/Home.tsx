@@ -771,9 +771,6 @@ export default function Home() {
                             {reservation.eventName}
                           </h3>
                           <div className="sm:ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0">
-                            <span className={`inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
-                              {getProgressLabel(reservation.progressStatus)}
-                            </span>
                             <span className="text-xs text-muted-foreground whitespace-nowrap">
                               {reservation.clientName}
                             </span>
@@ -783,6 +780,9 @@ export default function Home() {
                                 month: '2-digit',
                                 day: '2-digit'
                               }).replace(/\. /g, '-').replace('.', '')}
+                            </span>
+                            <span className={`inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
+                              {getProgressLabel(reservation.progressStatus)}
                             </span>
                           </div>
                         </div>
