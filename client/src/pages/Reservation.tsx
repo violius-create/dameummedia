@@ -89,7 +89,8 @@ export default function Reservation() {
       receiptType: formData.receiptType as any,
       quotedAmount: formData.quotedAmount ? parseInt(formData.quotedAmount) : 0,
       paidAmount: formData.paidAmount ? parseInt(formData.paidAmount) : 0,
-      unpaidAmount: formData.unpaidAmount ? parseInt(formData.unpaidAmount) : 0,
+      unpaidAmount: calculatedUnpaid,
+      progressStatus: (formData as any).progressStatus || undefined,
       description: formData.description,
       attachments: formData.attachments || undefined,
       linkUrl: formData.linkUrl || undefined,
@@ -121,7 +122,21 @@ export default function Reservation() {
     sub4_3: labels?.sub4_3Label || "견적액",
     sub4_4: labels?.sub4_4Label || "결제된 금액",
     sub4_5: labels?.sub4_5Label || "미납 금액",
+    sub4_6: labels?.sub4_6Label || "진행상황",
   };
+
+  // Progress status options from labels
+  const progressOptions = [
+    labels?.progressOption1 || "접수중",
+    labels?.progressOption2 || "예약완료",
+    labels?.progressOption3 || "준비중",
+    labels?.progressOption4 || "작업중",
+    labels?.progressOption5 || "작업완료",
+    labels?.progressOption6 || "취소",
+  ];
+
+  // Auto-calculate unpaid amount
+  const calculatedUnpaid = (parseInt(formData.quotedAmount) || 0) - (parseInt(formData.paidAmount) || 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -463,17 +478,34 @@ export default function Reservation() {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="unpaidAmount">
-                            {l.sub4_5} <span className="text-xs text-red-600">(관리자 전용)</span>
+                            {l.sub4_5} <span className="text-xs text-muted-foreground">(자동계산)</span>
                           </Label>
-                          <Input
-                            id="unpaidAmount"
-                            type="number"
-                            placeholder="0"
-                            value={formData.unpaidAmount}
-                            onChange={(e) => setFormData({ ...formData, unpaidAmount: e.target.value })}
-                          />
+                          <div className="flex items-center h-10 px-3 rounded-md border border-input bg-muted/50">
+                            <span className="text-sm font-semibold text-red-600">{calculatedUnpaid.toLocaleString()}원</span>
+                          </div>
                         </div>
                       </>
+                    )}
+                    {/* 진행상황 - 관리자만 */}
+                    {isAdmin && (
+                      <div className="space-y-2 md:col-span-2">
+                        <Label>{l.sub4_6} <span className="text-xs text-red-600">(관리자 전용)</span></Label>
+                        <div className="flex flex-wrap gap-4 p-3 bg-muted/30 rounded-md">
+                          {progressOptions.map((opt) => (
+                            <label key={opt} className="flex items-center gap-2 cursor-pointer">
+                              <input
+                                type="radio"
+                                name="progressStatus"
+                                value={opt}
+                                checked={(formData as any).progressStatus === opt}
+                                onChange={(e) => setFormData({ ...formData, progressStatus: e.target.value } as any)}
+                                className="w-4 h-4"
+                              />
+                              <span>{opt}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>

@@ -31,6 +31,13 @@ const DEFAULT_LABELS = {
   sub4_3Label: "견적액",
   sub4_4Label: "결제된 금액",
   sub4_5Label: "미납 금액",
+  sub4_6Label: "진행상황",
+  progressOption1: "접수중",
+  progressOption2: "예약완료",
+  progressOption3: "준비중",
+  progressOption4: "작업중",
+  progressOption5: "작업완료",
+  progressOption6: "취소",
 };
 
 type LabelKey = keyof typeof DEFAULT_LABELS;
@@ -73,6 +80,13 @@ export default function AdminReservationLabels() {
         sub4_3Label: labels.sub4_3Label || DEFAULT_LABELS.sub4_3Label,
         sub4_4Label: labels.sub4_4Label || DEFAULT_LABELS.sub4_4Label,
         sub4_5Label: labels.sub4_5Label || DEFAULT_LABELS.sub4_5Label,
+        sub4_6Label: labels.sub4_6Label || DEFAULT_LABELS.sub4_6Label,
+        progressOption1: labels.progressOption1 || DEFAULT_LABELS.progressOption1,
+        progressOption2: labels.progressOption2 || DEFAULT_LABELS.progressOption2,
+        progressOption3: labels.progressOption3 || DEFAULT_LABELS.progressOption3,
+        progressOption4: labels.progressOption4 || DEFAULT_LABELS.progressOption4,
+        progressOption5: labels.progressOption5 || DEFAULT_LABELS.progressOption5,
+        progressOption6: labels.progressOption6 || DEFAULT_LABELS.progressOption6,
       });
     }
   }, [labels]);
@@ -144,6 +158,7 @@ export default function AdminReservationLabels() {
         { key: "sub4_3Label" as LabelKey, default: DEFAULT_LABELS.sub4_3Label },
         { key: "sub4_4Label" as LabelKey, default: DEFAULT_LABELS.sub4_4Label },
         { key: "sub4_5Label" as LabelKey, default: DEFAULT_LABELS.sub4_5Label },
+        { key: "sub4_6Label" as LabelKey, default: DEFAULT_LABELS.sub4_6Label },
       ],
     },
     {
@@ -239,6 +254,43 @@ export default function AdminReservationLabels() {
                 </Card>
               );
             })}
+
+            {/* 진행상황 옵션 라벨 */}
+            <Card className="bg-amber-50 border-l-4 border-amber-500">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-500 text-white text-sm font-bold">
+                    ⚙
+                  </span>
+                  <div>
+                    <CardTitle className="text-lg text-amber-900">진행상황 옵션</CardTitle>
+                    <p className="text-xs text-amber-700 mt-1">예약의 진행상황 선택 항목을 수정합니다. 예약 폼과 상세 페이지에서 사용됩니다.</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {([
+                    { key: "progressOption1" as LabelKey, default: "접수중", num: 1 },
+                    { key: "progressOption2" as LabelKey, default: "예약완료", num: 2 },
+                    { key: "progressOption3" as LabelKey, default: "준비중", num: 3 },
+                    { key: "progressOption4" as LabelKey, default: "작업중", num: 4 },
+                    { key: "progressOption5" as LabelKey, default: "작업완료", num: 5 },
+                    { key: "progressOption6" as LabelKey, default: "취소", num: 6 },
+                  ]).map((opt) => (
+                    <div key={opt.key} className="bg-white rounded p-3 border border-amber-200">
+                      <Label className="text-xs text-muted-foreground">옵션 {opt.num} ({opt.default})</Label>
+                      <Input
+                        value={formData[opt.key]}
+                        onChange={(e) => handleChange(opt.key, e.target.value)}
+                        className="mt-1"
+                        placeholder={opt.default}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Bottom Save */}

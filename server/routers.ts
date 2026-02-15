@@ -164,6 +164,7 @@ export const appRouter = router({
         attachments: z.string().optional(),
         linkUrl: z.string().optional(),
         startTime: z.string().optional(),
+        progressStatus: z.string().optional(),
         status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
       }))
       .mutation(async ({ input }) => {
@@ -193,6 +194,7 @@ export const appRouter = router({
           description: input.description,
           attachments: input.attachments,
           linkUrl: input.linkUrl,
+          progressStatus: input.progressStatus,
           status: input.status as any,
         });
       }),
@@ -243,6 +245,7 @@ export const appRouter = router({
           attachments: z.string().optional(),
           linkUrl: z.string().optional(),
           startTime: z.string().optional(),
+          progressStatus: z.string().optional(),
           status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
         }),
       }))
@@ -278,6 +281,13 @@ export const appRouter = router({
         sub4_3Label: z.string().optional(),
         sub4_4Label: z.string().optional(),
         sub4_5Label: z.string().optional(),
+        sub4_6Label: z.string().optional(),
+        progressOption1: z.string().optional(),
+        progressOption2: z.string().optional(),
+        progressOption3: z.string().optional(),
+        progressOption4: z.string().optional(),
+        progressOption5: z.string().optional(),
+        progressOption6: z.string().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         return db.updateReservationFormLabels({ ...input, updatedBy: ctx.user.id });

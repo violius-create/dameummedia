@@ -90,6 +90,7 @@ export const reservations = mysqlTable("reservations", {
   attachments: text("attachments"), // JSON array of file URLs
   linkUrl: text("linkUrl"), // Link attachment URL
   startTime: varchar("startTime", { length: 100 }), // Event start time (separate from eventDate)
+  progressStatus: varchar("progressStatus", { length: 100 }).default("접수중"), // Progress status (dynamic options from labels)
   status: mysqlEnum("status", ["pending", "confirmed", "payment_completed", "work_pending", "in_progress", "editing", "completed", "cancelled"]).default("pending").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -128,6 +129,15 @@ export const reservationFormLabels = mysqlTable("reservationFormLabels", {
   sub4_3Label: varchar("sub4_3Label", { length: 100 }).default("견적액").notNull(),
   sub4_4Label: varchar("sub4_4Label", { length: 100 }).default("결제된 금액").notNull(),
   sub4_5Label: varchar("sub4_5Label", { length: 100 }).default("미납 금액").notNull(),
+  // Sub-item labels for 진행상황 (결제 정보 카테고리 내)
+  sub4_6Label: varchar("sub4_6Label", { length: 100 }).default("진행상황").notNull(),
+  // Progress status option labels (comma-separated default values)
+  progressOption1: varchar("progressOption1", { length: 100 }).default("접수중").notNull(),
+  progressOption2: varchar("progressOption2", { length: 100 }).default("예약완료").notNull(),
+  progressOption3: varchar("progressOption3", { length: 100 }).default("준비중").notNull(),
+  progressOption4: varchar("progressOption4", { length: 100 }).default("작업중").notNull(),
+  progressOption5: varchar("progressOption5", { length: 100 }).default("작업완료").notNull(),
+  progressOption6: varchar("progressOption6", { length: 100 }).default("취소").notNull(),
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

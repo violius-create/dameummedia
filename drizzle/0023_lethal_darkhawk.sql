@@ -1,0 +1,1 @@
+ALTER TABLE `reservations` ADD `progressStatus` varchar(100) DEFAULT '접수중';

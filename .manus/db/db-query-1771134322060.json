@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE reservationFormLabels \nADD COLUMN sub4_6Label varchar(100) NOT NULL DEFAULT '진행상황',\nADD COLUMN progressOption1 varchar(100) NOT NULL DEFAULT '접수중',\nADD COLUMN progressOption2 varchar(100) NOT NULL DEFAULT '예약완료',\nADD COLUMN progressOption3 varchar(100) NOT NULL DEFAULT '준비중',\nADD COLUMN progressOption4 varchar(100) NOT NULL DEFAULT '작업중',\nADD COLUMN progressOption5 varchar(100) NOT NULL DEFAULT '작업완료',\nADD COLUMN progressOption6 varchar(100) NOT NULL DEFAULT '취소';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute ALTER TABLE reservationFormLabels \nADD COLUMN sub4_6Label varchar(100) NOT NULL DEFAULT '진행상황',\nADD COLUMN progressOption1 varchar(100) NOT NULL DEFAULT '접수중',\nADD COLUMN progressOption2 varchar(100) NOT NULL DEFAULT '예약완료',\nADD COLUMN progressOption3 varchar(100) NOT NULL DEFAULT '준비중',\nADD COLUMN progressOption4 varchar(100) NOT NULL DEFAULT '작업중',\nADD COLUMN progressOption5 varchar(100) NOT NULL DEFAULT '작업완료',\nADD COLUMN progressOption6 varchar(100) NOT NULL DEFAULT '취소';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 4639
+}
