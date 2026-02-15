@@ -352,7 +352,7 @@ export default function ReservationDetail() {
                     </Button>
                   </>
                 )}
-            </div>
+              </div>
           </div>
         </div>
       </nav>

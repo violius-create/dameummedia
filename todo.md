@@ -1211,3 +1211,7 @@
 ## Making Film 게시물 복원 및 Information 제목 수정 (2026-02-15 추가 9)
 - [x] Making Film 게시판의 삭제된 최근 9개 게시물 복원 (film 카테고리 197개로 원본과 일치)
 - [x] Information 항목별 제목 수정 기능 확인 - 정상 작동 중 (테스트 완료)
+
+## 복원된 Making Film 게시물 썸네일/링크 복원 (2026-02-15 추가 10)
+- [x] 복원된 9개 게시물의 썸네일(imageUrl) 정보 복원 - YouTube 썸네일 자동 추출
+- [x] 복원된 9개 게시물의 링크(videoUrl) 정보 복원 - portfoliodata 게시판에서 스크래핑
