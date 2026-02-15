@@ -2,17 +2,28 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Wrench, ArrowLeft, Eye, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { RichTextEditor } from "@/components/RichTextEditor";
+import { Wrench, ArrowLeft, Eye, Loader2, ChevronLeft, ChevronRight, Plus, Edit2, Trash2, Upload } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
+import { toast } from "sonner";
+
+type ViewMode = 'list' | 'view' | 'create' | 'edit';
 
 export default function Atelier01() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const isAdmin = user?.role === 'admin';
   const [page, setPage] = useState(0);
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [viewingId, setViewingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [formTitle, setFormTitle] = useState('');
+  const [formContent, setFormContent] = useState('');
   const limit = 10;
+
+  const uploadFileMutation = trpc.upload.uploadFile.useMutation();
 
   // 관리자 전용 페이지 - 인증 로딩 중이면 로딩 표시
   if (authLoading) {
@@ -36,26 +47,169 @@ export default function Atelier01() {
     );
   }
 
-  const { data: posts, isLoading } = trpc.posts.list.useQuery({
+  const { data: posts, isLoading, refetch } = trpc.posts.list.useQuery({
     category: "atelier01",
     limit,
     offset: page * limit,
   });
 
-  const { data: totalCount } = trpc.posts.count.useQuery({
+  const { data: totalCount, refetch: refetchCount } = trpc.posts.count.useQuery({
     category: "atelier01",
+  });
+
+  const createMutation = trpc.posts.create.useMutation({
+    onSuccess: () => {
+      toast.success("게시글이 작성되었습니다.");
+      setViewMode('list');
+      setFormTitle('');
+      setFormContent('');
+      refetch();
+      refetchCount();
+    },
+    onError: (error) => {
+      toast.error(`작성 실패: ${error.message}`);
+    },
+  });
+
+  const updateMutation = trpc.posts.update.useMutation({
+    onSuccess: () => {
+      toast.success("게시글이 수정되었습니다.");
+      setViewMode('list');
+      setFormTitle('');
+      setFormContent('');
+      setEditingId(null);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`수정 실패: ${error.message}`);
+    },
+  });
+
+  const deleteMutation = trpc.posts.delete.useMutation({
+    onSuccess: () => {
+      toast.success("게시글이 삭제되었습니다.");
+      setViewMode('list');
+      setViewingId(null);
+      refetch();
+      refetchCount();
+    },
+    onError: (error) => {
+      toast.error(`삭제 실패: ${error.message}`);
+    },
   });
 
   const totalPages = totalCount ? Math.ceil(totalCount / limit) : 0;
 
+  const handleCreate = () => {
+    if (!formTitle.trim()) {
+      toast.error("제목을 입력해주세요.");
+      return;
+    }
+    createMutation.mutate({
+      title: formTitle,
+      content: formContent,
+      category: "atelier01",
+    });
+  };
+
+  const handleUpdate = () => {
+    if (!editingId) return;
+    if (!formTitle.trim()) {
+      toast.error("제목을 입력해주세요.");
+      return;
+    }
+    updateMutation.mutate({
+      id: editingId,
+      title: formTitle,
+      content: formContent,
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      deleteMutation.mutate({ id });
+    }
+  };
+
+  const startEdit = (post: any) => {
+    setEditingId(post.id);
+    setFormTitle(post.title);
+    setFormContent(post.content || '');
+    setViewMode('edit');
+  };
+
+  const startCreate = () => {
+    setFormTitle('');
+    setFormContent('');
+    setViewMode('create');
+  };
+
+  const goToList = () => {
+    setViewMode('list');
+    setViewingId(null);
+    setEditingId(null);
+    setFormTitle('');
+    setFormContent('');
+  };
+
+  // Create / Edit form
+  if (viewMode === 'create' || viewMode === 'edit') {
+    return (
+      <div className="container py-10 max-w-4xl">
+        <Button variant="ghost" className="mb-6" onClick={goToList}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          목록으로
+        </Button>
+        <Card>
+          <div className="p-6">
+            <h1 className="text-2xl font-bold mb-6">
+              {viewMode === 'create' ? '새 게시글 작성' : '게시글 수정'}
+            </h1>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium text-muted-foreground mb-1 block">제목</label>
+                <Input
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  placeholder="게시글 제목을 입력하세요"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-muted-foreground mb-1 block">내용</label>
+                <RichTextEditor
+                  content={formContent}
+                  onChange={setFormContent}
+                  placeholder="게시글 내용을 입력하세요..."
+                />
+              </div>
+              <div className="flex gap-2 pt-4">
+                <Button
+                  onClick={viewMode === 'create' ? handleCreate : handleUpdate}
+                  disabled={createMutation.isPending || updateMutation.isPending}
+                >
+                  {(createMutation.isPending || updateMutation.isPending) ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> 저장 중...</>
+                  ) : viewMode === 'create' ? '작성하기' : '수정하기'}
+                </Button>
+                <Button variant="outline" onClick={goToList}>
+                  취소
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   // View mode for a specific post
-  if (viewingId !== null) {
+  if (viewMode === 'view' && viewingId !== null) {
     const post = posts?.find((p: any) => p.id === viewingId);
     if (!post) {
       return (
         <div className="container py-10 text-center">
           <p className="text-muted-foreground">게시글을 찾을 수 없습니다.</p>
-          <Button variant="outline" className="mt-4" onClick={() => setViewingId(null)}>
+          <Button variant="outline" className="mt-4" onClick={goToList}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             목록으로
           </Button>
@@ -65,10 +219,22 @@ export default function Atelier01() {
 
     return (
       <div className="container py-10 max-w-4xl">
-        <Button variant="ghost" className="mb-6" onClick={() => setViewingId(null)}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          목록으로
-        </Button>
+        <div className="flex items-center justify-between mb-6">
+          <Button variant="ghost" onClick={goToList}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            목록으로
+          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={() => startEdit(post)}>
+              <Edit2 className="h-4 w-4 mr-1" />
+              수정
+            </Button>
+            <Button variant="destructive" size="sm" onClick={() => handleDelete(post.id)} disabled={deleteMutation.isPending}>
+              <Trash2 className="h-4 w-4 mr-1" />
+              삭제
+            </Button>
+          </div>
+        </div>
         <Card>
           <div className="p-6">
             <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
@@ -108,17 +274,24 @@ export default function Atelier01() {
     );
   }
 
+  // List mode
   return (
     <div className="container py-10 max-w-4xl">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <Wrench className="h-7 w-7 text-primary" />
-        <div>
-          <h1 className="text-2xl font-bold">DIY Atelier</h1>
-          <p className="text-sm text-muted-foreground">
-            직접 만드는 음향·영상 장비 DIY 프로젝트
-          </p>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          <Wrench className="h-7 w-7 text-primary" />
+          <div>
+            <h1 className="text-2xl font-bold">DIY Atelier</h1>
+            <p className="text-sm text-muted-foreground">
+              직접 만드는 음향·영상 장비 DIY 프로젝트
+            </p>
+          </div>
         </div>
+        <Button onClick={startCreate}>
+          <Plus className="h-4 w-4 mr-1" />
+          글쓰기
+        </Button>
       </div>
 
       {/* Total count */}
@@ -152,7 +325,7 @@ export default function Atelier01() {
             <div
               key={post.id}
               className="flex items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
-              onClick={() => setViewingId(post.id)}
+              onClick={() => { setViewingId(post.id); setViewMode('view'); }}
             >
               <span className="w-12 text-center text-sm text-muted-foreground">
                 {(totalCount || 0) - (page * limit + index)}

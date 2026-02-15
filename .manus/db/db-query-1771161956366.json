@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, boardKey, itemsPerPage, displayMode FROM boardLayoutSettings WHERE boardKey = 'reservation';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, boardKey, itemsPerPage, displayMode FROM boardLayoutSettings WHERE boardKey = 'reservation';",
+  "rows": [
+    {
+      "id": "60001",
+      "boardKey": "reservation",
+      "itemsPerPage": "20",
+      "displayMode": "list"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tboardKey\titemsPerPage\tdisplayMode\n60001\treservation\t20\tlist\n",
+  "stderr": "",
+  "execution_time_ms": 1551
+}

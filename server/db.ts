@@ -147,6 +147,10 @@ export async function createPost(post: InsertPost) {
   if (!db) throw new Error("Database not available");
   
   const result = await db.insert(posts).values(post);
+  const insertId = (result as any)[0]?.insertId;
+  if (insertId) {
+    return { id: insertId };
+  }
   return result;
 }
 

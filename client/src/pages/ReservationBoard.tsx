@@ -13,11 +13,13 @@ export default function ReservationBoard() {
   const [page, setPage] = useState(0);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
-  const pageSize = 10;
 
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
 
+  // 게시판 레이아웃 설정에서 페이지당 게시물 수 가져오기
+  const { data: boardSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey: 'reservation' });
+  const pageSize = boardSettings?.itemsPerPage || 10;
 
   // 예약 목록 조회
   const { data: reservations = [], isLoading, refetch } = trpc.reservations.list.useQuery({

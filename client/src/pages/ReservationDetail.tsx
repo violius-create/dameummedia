@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Edit2, Trash2, Loader2, Link2, ExternalLink, Upload } from "lucide-react";
+import { ArrowLeft, Edit2, Trash2, Loader2, Link2, ExternalLink, Upload, Lock } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useState, useMemo, useCallback, memo } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 
 // Move helper components OUTSIDE the main component to prevent DOM replacement on re-render
 const InfoRow = ({ label, value, labelColor = "text-muted-foreground" }: { label: string; value: React.ReactNode; labelColor?: string }) => (
@@ -85,11 +86,56 @@ export default function ReservationDetail() {
     },
   });
 
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+  const [guestPasswordInput, setGuestPasswordInput] = useState('');
+  const [verifiedGuestPassword, setVerifiedGuestPassword] = useState<string | null>(null);
+
+  const verifyPasswordMutation = trpc.reservations.verifyPassword.useMutation({
+    onSuccess: () => {
+      setVerifiedGuestPassword(guestPasswordInput);
+      setShowPasswordDialog(false);
+      setGuestPasswordInput('');
+      // Now enter edit mode
+      setEditData({ ...reservation });
+      setQuotedAmountStr(String(reservation?.quotedAmount ?? ''));
+      setPaidAmountStr(String(reservation?.paidAmount ?? ''));
+      setIsEditing(true);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleEdit = () => {
+    // Admin or owner (logged-in user who created the reservation) can edit directly
+    if (isAdmin || (user && reservation?.userId && user.id === reservation.userId)) {
+      setEditData({ ...reservation });
+      setQuotedAmountStr(String(reservation?.quotedAmount ?? ''));
+      setPaidAmountStr(String(reservation?.paidAmount ?? ''));
+      setIsEditing(true);
+      return;
+    }
+    
+    // If reservation has a guest password, show password dialog
+    if (reservation?.guestPassword) {
+      setShowPasswordDialog(true);
+      return;
+    }
+    
+    // No password set and not owner - still allow edit (legacy reservations without password)
     setEditData({ ...reservation });
     setQuotedAmountStr(String(reservation?.quotedAmount ?? ''));
     setPaidAmountStr(String(reservation?.paidAmount ?? ''));
     setIsEditing(true);
+  };
+
+  const handleVerifyPassword = () => {
+    if (!guestPasswordInput.trim()) {
+      toast.error('비밀번호를 입력해주세요.');
+      return;
+    }
+    if (!id) return;
+    verifyPasswordMutation.mutate({ id, password: guestPasswordInput });
   };
 
   const handleSave = async () => {
@@ -120,6 +166,7 @@ export default function ReservationDetail() {
 
     await updateMutation.mutateAsync({
       id: reservation.id,
+      guestPassword: verifiedGuestPassword || undefined,
       data: cleanedData,
     });
   };
@@ -785,6 +832,43 @@ export default function ReservationDetail() {
           </div>
         </div>
       </div>
+
+      {/* Password verification dialog for guest users */}
+      <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Lock className="h-5 w-5" />
+              비밀번호 확인
+            </DialogTitle>
+            <DialogDescription>
+              예약 작성 시 설정한 비밀번호를 입력해주세요.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              type="password"
+              placeholder="비밀번호 입력"
+              value={guestPasswordInput}
+              onChange={(e) => setGuestPasswordInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleVerifyPassword();
+              }}
+              autoFocus
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setShowPasswordDialog(false); setGuestPasswordInput(''); }}>
+              취소
+            </Button>
+            <Button onClick={handleVerifyPassword} disabled={verifyPasswordMutation.isPending}>
+              {verifyPasswordMutation.isPending ? (
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> 확인 중...</>
+              ) : '확인'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

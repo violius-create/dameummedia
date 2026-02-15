@@ -288,9 +288,30 @@ export const appRouter = router({
       .input(z.object({ id: z.number(), status: z.string() }))
       .mutation(({ input }) => db.updateReservation(input.id, { status: input.status as any })),
     
+    // Verify guest password for non-logged-in users
+    verifyPassword: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        password: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const reservation = await db.getReservationById(input.id);
+        if (!reservation) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: '예약을 찾을 수 없습니다.' });
+        }
+        if (!reservation.guestPassword) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: '이 예약에는 비밀번호가 설정되어 있지 않습니다.' });
+        }
+        if (reservation.guestPassword !== input.password) {
+          throw new TRPCError({ code: 'UNAUTHORIZED', message: '비밀번호가 일치하지 않습니다.' });
+        }
+        return { success: true };
+      }),
+
     update: publicProcedure
       .input(z.object({
         id: z.number(),
+        guestPassword: z.string().optional(),
         data: z.object({
           clientName: z.string().optional(),
           clientEmail: z.string().optional(),
@@ -322,7 +343,30 @@ export const appRouter = router({
           status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
         }),
       }))
-      .mutation(({ input }) => db.updateReservation(input.id, input.data)),
+      .mutation(async ({ input, ctx }) => {
+        const isAdmin = ctx.user?.role === 'admin';
+        const isOwner = ctx.user && (await db.getReservationById(input.id))?.userId === ctx.user.id;
+        
+        // Admin or owner can update without password
+        if (isAdmin || isOwner) {
+          return db.updateReservation(input.id, input.data);
+        }
+        
+        // Guest must provide password
+        if (!input.guestPassword) {
+          throw new TRPCError({ code: 'UNAUTHORIZED', message: '수정 권한이 없습니다. 비밀번호를 입력해주세요.' });
+        }
+        
+        const reservation = await db.getReservationById(input.id);
+        if (!reservation) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: '예약을 찾을 수 없습니다.' });
+        }
+        if (!reservation.guestPassword || reservation.guestPassword !== input.guestPassword) {
+          throw new TRPCError({ code: 'UNAUTHORIZED', message: '비밀번호가 일치하지 않습니다.' });
+        }
+        
+        return db.updateReservation(input.id, input.data);
+      }),
   }),
 
   // Reservation form labels router

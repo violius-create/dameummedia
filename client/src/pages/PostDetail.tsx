@@ -279,9 +279,10 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
   // Load board layout settings to match list page
   const boardKey = category === 'concert' ? 'concert_live' : category === 'making_film' ? 'making_film' : 'notice';
   const { data: boardSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey });
-  const postsPerPage = boardSettings?.itemsPerPage || 12;
   // Notice 카테고리는 항상 리스트 형식으로 표시
   const displayMode = category === 'notice' ? 'list' : (boardSettings?.displayMode || 'gallery');
+  // 상세 페이지 하단에서는 3줄만 표시 (갤러리: 3열x3행=9개, 리스트: 3개)
+  const postsPerPage = displayMode === 'gallery' ? 9 : 3;
 
   const { data: allPosts } = trpc.posts.list.useQuery({
     category: category,
