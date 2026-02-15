@@ -444,8 +444,8 @@ export default function ReservationDetail() {
                 {isEditing ? (
                   <div className="space-y-0">
                     <EditRow label={l.sub3_1} labelColor="text-purple-700">
-                      <Select value={editData?.eventType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, eventType: value }))}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
+                      <Select value={editData?.eventType || "photo"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, eventType: value }))}>
+                        <SelectTrigger><SelectValue placeholder="사진 촬영" /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="photo">사진 촬영</SelectItem>
                           <SelectItem value="concert">공연 촬영</SelectItem>
@@ -456,8 +456,8 @@ export default function ReservationDetail() {
                       </Select>
                     </EditRow>
                     <EditRow label={l.sub3_2} labelColor="text-purple-700">
-                      <Select value={editData?.recordingType || ""} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, recordingType: value }))}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
+                      <Select value={editData?.recordingType || "Photo"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, recordingType: value }))}>
+                        <SelectTrigger><SelectValue placeholder="Photo" /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Photo">Photo</SelectItem>
                           <SelectItem value="Solo">Solo</SelectItem>
@@ -548,7 +548,7 @@ export default function ReservationDetail() {
                     {/* 진행상황 - 관리자만 수정 */}
                     <EditRow label={l.sub4_6} labelColor="text-orange-700">
                       {isAdmin ? (
-                        <Select value={editData?.progressStatus || "접수중"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, progressStatus: value }))}>
+                        <Select value={editData?.progressStatus || "receiving"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, progressStatus: value }))}>
                           <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
                             {progressOptions.map((opt) => (
@@ -564,10 +564,10 @@ export default function ReservationDetail() {
                     {isAdmin ? (
                       <>
                         <EditRow label={`${l.sub4_3} ⚙`} labelColor="text-orange-700">
-                          <Input type="number" value={editData?.quotedAmount || 0} onChange={(e) => setEditData((prev: any) => ({ ...prev, quotedAmount: parseInt(e.target.value) || 0 }))} />
+                          <Input type="text" value={editData?.quotedAmount ?? ''} onChange={(e) => setEditData((prev: any) => ({ ...prev, quotedAmount: e.target.value === '' ? 0 : parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0 }))} />
                         </EditRow>
                         <EditRow label={`${l.sub4_4} ⚙`} labelColor="text-orange-700">
-                          <Input type="number" value={editData?.paidAmount || 0} onChange={(e) => setEditData((prev: any) => ({ ...prev, paidAmount: parseInt(e.target.value) || 0 }))} />
+                          <Input type="text" value={editData?.paidAmount ?? ''} onChange={(e) => setEditData((prev: any) => ({ ...prev, paidAmount: e.target.value === '' ? 0 : parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0 }))} />
                         </EditRow>
                         <div className="flex items-center gap-3 py-2 border-b border-gray-100">
                           <span className="text-xs sm:text-sm font-semibold text-orange-700 whitespace-nowrap min-w-[80px] sm:min-w-[120px]">{l.sub4_5}</span>

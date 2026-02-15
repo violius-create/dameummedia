@@ -189,6 +189,7 @@ export const appRouter = router({
           paymentMethod: input.paymentMethod as any,
           isPublic: input.isPublic,
           receiptType: input.receiptType as any,
+          quotedAmount: input.quotedAmount,
           paidAmount: input.paidAmount,
           unpaidAmount: input.unpaidAmount,
           description: input.description,

@@ -30,7 +30,7 @@ export default function Reservation() {
     rehearsalTime: "",
     // 작업 내용
     eventType: "photo",
-    recordingType: "",
+    recordingType: "Photo",
     specialRequirements: "",
     isPublic: "1",
     // 결제 정보
@@ -458,7 +458,7 @@ export default function Reservation() {
                           </Label>
                           <Input
                             id="quotedAmount"
-                            type="number"
+                            type="text"
                             placeholder="0"
                             value={formData.quotedAmount}
                             onChange={(e) => setFormData({ ...formData, quotedAmount: e.target.value })}
@@ -470,7 +470,7 @@ export default function Reservation() {
                           </Label>
                           <Input
                             id="paidAmount"
-                            type="number"
+                            type="text"
                             placeholder="0"
                             value={formData.paidAmount}
                             onChange={(e) => setFormData({ ...formData, paidAmount: e.target.value })}

@@ -25,6 +25,33 @@ export default function Home() {
   const { data: featuredConcert } = trpc.posts.getFeatured.useQuery({ category: 'concert' });
   const { data: featuredFilm } = trpc.posts.getFeatured.useQuery({ category: 'film' });
   const { data: reservationPosts } = trpc.reservations.list.useQuery({ limit: 5 });
+  const { data: formLabels } = trpc.reservationFormLabels.get.useQuery();
+
+  const getProgressLabel = (status: string | null | undefined) => {
+    if (!status) return null;
+    if (!formLabels) return status;
+    const map: Record<string, string> = {
+      'receiving': formLabels.progressOption1 || '접수중',
+      'reserved': formLabels.progressOption2 || '예약완료',
+      'preparing': formLabels.progressOption3 || '준비중',
+      'working': formLabels.progressOption4 || '작업중',
+      'done': formLabels.progressOption5 || '작업완료',
+      'cancelled': formLabels.progressOption6 || '취소',
+    };
+    return map[status] || status;
+  };
+
+  const getProgressColor = (status: string | null | undefined) => {
+    switch (status) {
+      case 'receiving': return 'bg-yellow-100 text-yellow-800';
+      case 'reserved': return 'bg-green-100 text-green-800';
+      case 'preparing': return 'bg-sky-100 text-sky-800';
+      case 'working': return 'bg-blue-100 text-blue-800';
+      case 'done': return 'bg-red-100 text-red-800';
+      case 'cancelled': return 'bg-gray-100 text-gray-800';
+      default: return '';
+    }
+  };
   const { data: noticePosts } = trpc.posts.list.useQuery({ category: 'notice', limit: 5 });
   const { data: activeHeroBackground } = trpc.heroBackground.getActive.useQuery();
   const { data: section2Background } = trpc.heroBackground.getActiveBySection.useQuery('section2');
@@ -753,9 +780,9 @@ export default function Home() {
                             {reservation.eventName}
                           </h3>
                           <div className="sm:ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0">
-                            {reservation.status === 'completed' && (
-                              <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary whitespace-nowrap">
-                                작업완료
+                            {reservation.progressStatus && (
+                              <span className={`inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
+                                {getProgressLabel(reservation.progressStatus)}
                               </span>
                             )}
                             <span className="text-xs text-muted-foreground whitespace-nowrap">

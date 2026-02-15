@@ -21,6 +21,35 @@ export default function ReservationBoard() {
   // 섹션 제목 데이터 로드
   const { data: sectionData } = trpc.sectionTitles.get.useQuery({ sectionKey: 'reservation' });
 
+  // 폼 라벨 데이터 로드 (진행상황 옵션 이름)
+  const { data: formLabels } = trpc.reservationFormLabels.get.useQuery();
+
+  const getProgressLabel = (status: string | null | undefined) => {
+    if (!status) return '-';
+    if (!formLabels) return status;
+    const map: Record<string, string> = {
+      'receiving': formLabels.progressOption1 || '접수중',
+      'reserved': formLabels.progressOption2 || '예약완료',
+      'preparing': formLabels.progressOption3 || '준비중',
+      'working': formLabels.progressOption4 || '작업중',
+      'done': formLabels.progressOption5 || '작업완료',
+      'cancelled': formLabels.progressOption6 || '취소',
+    };
+    return map[status] || status;
+  };
+
+  const getProgressColor = (status: string | null | undefined) => {
+    switch (status) {
+      case 'receiving': return 'bg-yellow-100 text-yellow-800';
+      case 'reserved': return 'bg-green-100 text-green-800';
+      case 'preparing': return 'bg-sky-100 text-sky-800';
+      case 'working': return 'bg-blue-100 text-blue-800';
+      case 'done': return 'bg-red-100 text-red-800';
+      case 'cancelled': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-600';
+    }
+  };
+
   const filteredReservations = reservations.filter((res: any) => 
     res.eventName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     res.clientName?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -146,11 +175,12 @@ export default function ReservationBoard() {
               {/* Table Header - hidden on mobile */}
               <div className="bg-gray-50 border-b border-gray-200 px-4 md:px-6 py-4 hidden md:block">
                 <div className="flex gap-4 items-center text-sm font-semibold text-foreground">
-                  <div className="w-[8%]">번호</div>
-                  <div className="w-[60%]">행사명</div>
+                  <div className="w-[6%]">번호</div>
+                  <div className="w-[42%]">행사명</div>
                   <div className="w-[12%]">작성자</div>
                   <div className="w-[10%]">날짜</div>
-                  <div className="w-[10%] text-center">상태</div>
+                  <div className="w-[15%] text-center">진행상황</div>
+                  <div className="w-[15%] text-center">상태</div>
                 </div>
               </div>
 
@@ -163,10 +193,10 @@ export default function ReservationBoard() {
                     }`}>
                       {/* Desktop layout */}
                       <div className="hidden md:flex px-6 py-4 gap-4 items-center text-sm">
-                        <div className="w-[8%] text-foreground font-medium">
+                        <div className="w-[6%] text-foreground font-medium">
                           {reservation.id}
                         </div>
-                        <div className="w-[60%] text-primary hover:underline truncate">
+                        <div className="w-[42%] text-primary hover:underline truncate">
                           {reservation.eventName || "제목 없음"}
                         </div>
                         <div className="w-[12%] text-foreground">
@@ -175,7 +205,12 @@ export default function ReservationBoard() {
                         <div className="w-[10%] text-muted-foreground">
                           {reservation.createdAt ? new Date(reservation.createdAt).toLocaleDateString('ko-KR') : "-"}
                         </div>
-                        <div className="w-[10%] flex justify-center">
+                        <div className="w-[15%] flex justify-center">
+                          <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
+                            {getProgressLabel(reservation.progressStatus)}
+                          </span>
+                        </div>
+                        <div className="w-[15%] flex justify-center">
                           <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
                             {getStatusLabel(reservation.status)}
                           </span>
@@ -187,9 +222,14 @@ export default function ReservationBoard() {
                           <h3 className="text-xs sm:text-sm font-medium text-primary truncate flex-1 min-w-0">
                             {reservation.eventName || "제목 없음"}
                           </h3>
-                          <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap flex-shrink-0 ${getStatusColor(reservation.status)}`}>
-                            {getStatusLabel(reservation.status)}
-                          </span>
+                          <div className="flex gap-1 flex-shrink-0">
+                            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap ${getProgressColor(reservation.progressStatus)}`}>
+                              {getProgressLabel(reservation.progressStatus)}
+                            </span>
+                            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
+                              {getStatusLabel(reservation.status)}
+                            </span>
+                          </div>
                         </div>
                         <div className="flex items-center gap-2 mt-1 text-[10px] sm:text-xs text-muted-foreground">
                           <span>{reservation.clientName || "-"}</span>
