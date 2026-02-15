@@ -36,15 +36,16 @@ export default function PostDetail() {
     { enabled: !!post }
   );
   const containerWidth = boardSettings?.containerWidth || 'container';
-  const getContainerClass = (width: string) => {
-    switch(width) {
-      case 'full': return 'w-full px-4';
-      case 'container-wide': return 'mx-auto px-4';
-      default: return 'container';
-    }
+  const getContainerClass = (cw: string) => {
+    if (cw === 'full') return 'w-full px-4';
+    if (cw === 'container') return 'container';
+    return 'mx-auto px-4';
   };
-  const getContainerStyle = (width: string): React.CSSProperties | undefined => {
-    if (width === 'container-wide') return { maxWidth: '1536px' };
+  const getContainerStyle = (cw: string): React.CSSProperties | undefined => {
+    if (cw === 'full' || cw === 'container') return undefined;
+    if (cw === 'container-wide') return { maxWidth: '1536px' };
+    const num = parseInt(cw);
+    if (!isNaN(num)) return { maxWidth: `${num}px` };
     return undefined;
   };
 
@@ -310,26 +311,27 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
   const postMarginTop = boardSettings?.postMarginTop || '0';
   const postTitleSize = boardSettings?.postTitleSize || 'base';
 
-  const getContainerClass = (width: string) => {
-    switch(width) {
-      case 'full': return 'w-full px-4';
-      case 'container-wide': return 'mx-auto px-4';
-      default: return 'container';
-    }
+  const getContainerClass = (cw: string) => {
+    if (cw === 'full') return 'w-full px-4';
+    if (cw === 'container') return 'container';
+    return 'mx-auto px-4';
   };
-  const getContainerStyle = (width: string): React.CSSProperties | undefined => {
-    if (width === 'container-wide') return { maxWidth: '1536px' };
+  const getContainerStyle = (cw: string): React.CSSProperties | undefined => {
+    if (cw === 'full' || cw === 'container') return undefined;
+    if (cw === 'container-wide') return { maxWidth: '1536px' };
+    const num = parseInt(cw);
+    if (!isNaN(num)) return { maxWidth: `${num}px` };
     return undefined;
   };
 
-  const getWidthClass = (width: string) => {
-    switch(width) {
-      case 'full': return 'w-full';
-      case '1/2': return 'w-1/2';
-      case '1/3': return 'w-1/3';
-      case '1/4': return 'w-1/4';
-      default: return '';
-    }
+  const getPostWidthStyle = (width: string): React.CSSProperties | undefined => {
+    if (width === 'auto' || !width) return undefined;
+    if (width === 'full') return { width: '100%' };
+    if (width === '1/2') return { width: '50%' };
+    if (width === '1/3') return { width: '33.333%' };
+    if (width === '1/4') return { width: '25%' };
+    if (width.endsWith('%') || width.endsWith('px') || width.endsWith('rem')) return { width };
+    return undefined;
   };
 
   const getTitleSizeClass = (size: string) => {
@@ -404,10 +406,10 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
           {paginatedPosts.map((post: any, index: number) => (
             <div
               key={post.id}
-              className={`${getWidthClass(postWidth)}`}
               style={{
                 marginTop: postMarginTop !== '0' ? postMarginTop : undefined,
-                height: postHeight !== 'auto' ? postHeight : undefined
+                height: postHeight !== 'auto' ? postHeight : undefined,
+                ...getPostWidthStyle(postWidth)
               }}
             >
               <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
@@ -433,9 +435,9 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
           {paginatedPosts.map((post: any) => (
             <div
               key={post.id}
-              className={`${getWidthClass(postWidth)}`}
               style={{
-                marginTop: postMarginTop !== '0' ? postMarginTop : undefined
+                marginTop: postMarginTop !== '0' ? postMarginTop : undefined,
+                ...getPostWidthStyle(postWidth)
               }}
             >
               <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>

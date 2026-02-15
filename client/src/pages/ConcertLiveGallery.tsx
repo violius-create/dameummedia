@@ -32,21 +32,35 @@ export default function ConcertLiveGallery() {
   const { data: concertSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey: 'concert_live' });
   const postsPerPage = concertSettings?.itemsPerPage || 12;
   const displayMode = concertSettings?.displayMode || 'gallery';
-  const containerWidth = concertSettings?.containerWidth || 'default';
+  const containerWidth = concertSettings?.containerWidth || 'container';
   const postWidth = concertSettings?.postWidth || 'auto';
   const postHeight = concertSettings?.postHeight || 'auto';
   const postMarginTop = concertSettings?.postMarginTop || '0';
   const postTitleSize = concertSettings?.postTitleSize || 'base';
 
-  // Convert postWidth to CSS class
-  const getWidthClass = (width: string) => {
-    switch(width) {
-      case 'full': return 'w-full';
-      case '1/2': return 'w-1/2';
-      case '1/3': return 'w-1/3';
-      case '1/4': return 'w-1/4';
-      default: return '';
-    }
+  // Convert postWidth to inline style (supports px values like "1400px" and percent values like "50%")
+  const getPostWidthStyle = (width: string): React.CSSProperties | undefined => {
+    if (width === 'auto' || !width) return undefined;
+    if (width === 'full') return { width: '100%' };
+    if (width === '1/2') return { width: '50%' };
+    if (width === '1/3') return { width: '33.333%' };
+    if (width === '1/4') return { width: '25%' };
+    if (width.endsWith('%') || width.endsWith('px') || width.endsWith('rem')) return { width };
+    return undefined;
+  };
+
+  // Convert containerWidth to class and style
+  const getContainerClass = (cw: string) => {
+    if (cw === 'full') return 'w-full px-4';
+    if (cw === 'container') return 'container';
+    return 'mx-auto px-4';
+  };
+  const getContainerStyle = (cw: string): React.CSSProperties | undefined => {
+    if (cw === 'full' || cw === 'container') return undefined;
+    if (cw === 'container-wide') return { maxWidth: '1536px' };
+    const num = parseInt(cw);
+    if (!isNaN(num)) return { maxWidth: `${num}px` };
+    return undefined;
   };
 
   // Convert postTitleSize to CSS class
@@ -154,11 +168,7 @@ export default function ConcertLiveGallery() {
         </div>
       </nav>
 
-      <div className={`${
-        containerWidth === 'full' ? 'w-full px-4' :
-        containerWidth === 'container-wide' ? 'mx-auto px-4' :
-        'container'
-      } py-8 sm:py-16`} style={containerWidth === 'container-wide' ? { maxWidth: '1536px' } : undefined}>
+      <div className={`${getContainerClass(containerWidth)} py-8 sm:py-16`} style={getContainerStyle(containerWidth)}>
         {/* Header Section */}
         <div className="mb-4 sm:mb-8 space-y-4">
           {user?.role === 'admin' && (
@@ -223,12 +233,13 @@ export default function ConcertLiveGallery() {
             {posts.map((post, index) => (
               <div 
                 key={post.id} 
-                className={`relative group ${getWidthClass(postWidth)} ${
+                className={`relative group ${
                   displayMode === 'list' ? (index % 2 === 0 ? 'bg-white' : 'bg-gray-100') : ''
                 }`}
                 style={{
                   marginTop: postMarginTop,
-                  height: displayMode === 'list' && postHeight !== 'auto' ? postHeight : undefined
+                  height: displayMode === 'list' && postHeight !== 'auto' ? postHeight : undefined,
+                  ...getPostWidthStyle(postWidth)
                 }}
               >
                 {user?.role === 'admin' && (

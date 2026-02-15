@@ -5,9 +5,47 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
+
+// Helper: parse containerWidth from DB value to slider value
+function parseContainerWidth(value: string): { isFull: boolean; px: number } {
+  if (value === "full") return { isFull: true, px: 1280 };
+  if (value === "container-wide") return { isFull: false, px: 1536 };
+  if (value === "container") return { isFull: false, px: 1280 };
+  // Try to parse px value like "1400px" or "1400"
+  const num = parseInt(value);
+  if (!isNaN(num) && num >= 600 && num <= 1920) return { isFull: false, px: num };
+  return { isFull: false, px: 1280 };
+}
+
+// Helper: convert slider value back to DB value
+function toContainerWidthValue(isFull: boolean, px: number): string {
+  if (isFull) return "full";
+  return `${px}px`;
+}
+
+// Helper: parse postWidth from DB value to slider value
+function parsePostWidth(value: string): { isAuto: boolean; percent: number } {
+  if (value === "auto" || !value) return { isAuto: true, percent: 33 };
+  if (value === "full") return { isAuto: false, percent: 100 };
+  if (value === "1/2") return { isAuto: false, percent: 50 };
+  if (value === "1/3") return { isAuto: false, percent: 33 };
+  if (value === "1/4") return { isAuto: false, percent: 25 };
+  // Try to parse percent value like "40%" or "40"
+  const num = parseInt(value);
+  if (!isNaN(num) && num >= 10 && num <= 100) return { isAuto: false, percent: num };
+  return { isAuto: true, percent: 33 };
+}
+
+// Helper: convert slider value back to DB value
+function toPostWidthValue(isAuto: boolean, percent: number): string {
+  if (isAuto) return "auto";
+  return `${percent}%`;
+}
 
 export default function AdminBoardLayoutSettings() {
   const { user, isAuthenticated } = useAuth();
@@ -16,8 +54,15 @@ export default function AdminBoardLayoutSettings() {
   const [selectedBoard, setSelectedBoard] = useState("concert_live");
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [displayMode, setDisplayMode] = useState("gallery");
-  const [containerWidth, setContainerWidth] = useState("container");
-  const [postWidth, setPostWidth] = useState("auto");
+  
+  // Container width: slider + full toggle
+  const [containerWidthPx, setContainerWidthPx] = useState(1280);
+  const [isFullWidth, setIsFullWidth] = useState(false);
+  
+  // Post width: slider + auto toggle
+  const [postWidthPercent, setPostWidthPercent] = useState(33);
+  const [isAutoPostWidth, setIsAutoPostWidth] = useState(true);
+  
   const [postHeight, setPostHeight] = useState("auto");
   const [postMarginTop, setPostMarginTop] = useState("0");
   const [postTitleSize, setPostTitleSize] = useState("base");
@@ -28,17 +73,25 @@ export default function AdminBoardLayoutSettings() {
     if (currentSettings) {
       setItemsPerPage(currentSettings.itemsPerPage);
       setDisplayMode(currentSettings.displayMode);
-      setContainerWidth(currentSettings.containerWidth);
-      setPostWidth(currentSettings.postWidth || "auto");
+      
+      const cw = parseContainerWidth(currentSettings.containerWidth);
+      setContainerWidthPx(cw.px);
+      setIsFullWidth(cw.isFull);
+      
+      const pw = parsePostWidth(currentSettings.postWidth || "auto");
+      setPostWidthPercent(pw.percent);
+      setIsAutoPostWidth(pw.isAuto);
+      
       setPostHeight(currentSettings.postHeight || "auto");
       setPostMarginTop(currentSettings.postMarginTop || "0");
       setPostTitleSize(currentSettings.postTitleSize || "base");
     } else {
-      // Default values
       setItemsPerPage(12);
       setDisplayMode("gallery");
-      setContainerWidth("container");
-      setPostWidth("auto");
+      setContainerWidthPx(1280);
+      setIsFullWidth(false);
+      setPostWidthPercent(33);
+      setIsAutoPostWidth(true);
       setPostHeight("auto");
       setPostMarginTop("0");
       setPostTitleSize("base");
@@ -60,8 +113,8 @@ export default function AdminBoardLayoutSettings() {
       boardKey: selectedBoard,
       itemsPerPage,
       displayMode,
-      containerWidth,
-      postWidth,
+      containerWidth: toContainerWidthValue(isFullWidth, containerWidthPx),
+      postWidth: toPostWidthValue(isAutoPostWidth, postWidthPercent),
       postHeight,
       postMarginTop,
       postTitleSize,
@@ -80,6 +133,10 @@ export default function AdminBoardLayoutSettings() {
       </div>
     );
   }
+
+  // Format display label for container width
+  const containerWidthLabel = isFullWidth ? "전체 폭 (100%)" : `${containerWidthPx}px`;
+  const postWidthLabel = isAutoPostWidth ? "자동 (기본)" : `${postWidthPercent}%`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -146,18 +203,39 @@ export default function AdminBoardLayoutSettings() {
               </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="containerWidth">전체 폭</Label>
-              <Select value={containerWidth} onValueChange={setContainerWidth}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="container">기본 (1280px)</SelectItem>
-                  <SelectItem value="container-wide">넓게 (1536px)</SelectItem>
-                  <SelectItem value="full">전체 폭</SelectItem>
-                </SelectContent>
-              </Select>
+            {/* Container Width - Slider */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label>전체 폭</Label>
+                <span className="text-sm font-medium text-primary">{containerWidthLabel}</span>
+              </div>
+              <div className="flex items-center gap-3 mb-2">
+                <Switch
+                  checked={isFullWidth}
+                  onCheckedChange={setIsFullWidth}
+                  id="fullWidthToggle"
+                />
+                <Label htmlFor="fullWidthToggle" className="text-sm text-muted-foreground cursor-pointer">
+                  전체 폭 (100%) 사용
+                </Label>
+              </div>
+              {!isFullWidth && (
+                <div className="space-y-2">
+                  <Slider
+                    value={[containerWidthPx]}
+                    onValueChange={(values) => setContainerWidthPx(values[0])}
+                    min={600}
+                    max={1920}
+                    step={10}
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>600px</span>
+                    <span>1280px</span>
+                    <span>1536px</span>
+                    <span>1920px</span>
+                  </div>
+                </div>
+              )}
               <p className="text-sm text-muted-foreground">
                 게시판 컨테이너의 최대 너비를 설정합니다.
               </p>
@@ -166,20 +244,40 @@ export default function AdminBoardLayoutSettings() {
             <div className="border-t pt-6 space-y-6">
               <h3 className="text-lg font-semibold">게시물 아이템 설정</h3>
               
-              <div className="space-y-2">
-                <Label htmlFor="postWidth">게시물의 폭</Label>
-                <Select value={postWidth} onValueChange={setPostWidth}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="auto">자동 (기본)</SelectItem>
-                    <SelectItem value="full">전체 폭 (100%)</SelectItem>
-                    <SelectItem value="1/2">1/2 (50%)</SelectItem>
-                    <SelectItem value="1/3">1/3 (33%)</SelectItem>
-                    <SelectItem value="1/4">1/4 (25%)</SelectItem>
-                  </SelectContent>
-                </Select>
+              {/* Post Width - Slider */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label>게시물의 폭</Label>
+                  <span className="text-sm font-medium text-primary">{postWidthLabel}</span>
+                </div>
+                <div className="flex items-center gap-3 mb-2">
+                  <Switch
+                    checked={isAutoPostWidth}
+                    onCheckedChange={setIsAutoPostWidth}
+                    id="autoPostWidthToggle"
+                  />
+                  <Label htmlFor="autoPostWidthToggle" className="text-sm text-muted-foreground cursor-pointer">
+                    자동 (기본) 사용
+                  </Label>
+                </div>
+                {!isAutoPostWidth && (
+                  <div className="space-y-2">
+                    <Slider
+                      value={[postWidthPercent]}
+                      onValueChange={(values) => setPostWidthPercent(values[0])}
+                      min={10}
+                      max={100}
+                      step={1}
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>10%</span>
+                      <span>25%</span>
+                      <span>50%</span>
+                      <span>75%</span>
+                      <span>100%</span>
+                    </div>
+                  </div>
+                )}
                 <p className="text-sm text-muted-foreground">
                   각 게시물 카드의 너비를 설정합니다.
                 </p>
@@ -259,7 +357,7 @@ export default function AdminBoardLayoutSettings() {
                       {setting.boardKey === "reservation" && "예약 게시판"}
                     </span>
                     <span className="text-muted-foreground">
-                      {setting.itemsPerPage}개 / {setting.displayMode === "gallery" ? "갤러리형" : "리스트형"} / {setting.containerWidth}
+                      {setting.itemsPerPage}개 / {setting.displayMode === "gallery" ? "갤러리형" : "리스트형"} / {setting.containerWidth} / 게시물폭: {setting.postWidth || "auto"}
                     </span>
                   </div>
                 ))

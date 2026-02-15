@@ -31,21 +31,38 @@ export default function MakingFilmGallery() {
   const { data: filmSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey: 'making_film' });
   const postsPerPage = filmSettings?.itemsPerPage || 12;
   const displayMode = filmSettings?.displayMode || 'gallery';
-  const containerWidth = filmSettings?.containerWidth || 'default';
+  const containerWidth = filmSettings?.containerWidth || 'container';
   const postWidth = filmSettings?.postWidth || 'auto';
   const postHeight = filmSettings?.postHeight || 'auto';
   const postMarginTop = filmSettings?.postMarginTop || '0';
   const postTitleSize = filmSettings?.postTitleSize || 'base';
 
-  // Convert postWidth to CSS class
-  const getWidthClass = (width: string) => {
-    switch(width) {
-      case 'full': return 'w-full';
-      case '1/2': return 'w-1/2';
-      case '1/3': return 'w-1/3';
-      case '1/4': return 'w-1/4';
-      default: return '';
-    }
+  // Convert postWidth to inline style (supports px values like "1400px" and percent values like "50%")
+  const getPostWidthStyle = (width: string): React.CSSProperties | undefined => {
+    if (width === 'auto' || !width) return undefined;
+    if (width === 'full') return { width: '100%' };
+    if (width === '1/2') return { width: '50%' };
+    if (width === '1/3') return { width: '33.333%' };
+    if (width === '1/4') return { width: '25%' };
+    // Support direct CSS values like "50%", "300px"
+    if (width.endsWith('%') || width.endsWith('px') || width.endsWith('rem')) return { width };
+    return undefined;
+  };
+
+  // Convert containerWidth to class and style
+  const getContainerClass = (cw: string) => {
+    if (cw === 'full') return 'w-full px-4';
+    // For px values or legacy named values, use mx-auto with padding
+    if (cw === 'container') return 'container';
+    return 'mx-auto px-4';
+  };
+  const getContainerStyle = (cw: string): React.CSSProperties | undefined => {
+    if (cw === 'full' || cw === 'container') return undefined;
+    if (cw === 'container-wide') return { maxWidth: '1536px' };
+    // Parse px value like "1400px"
+    const num = parseInt(cw);
+    if (!isNaN(num)) return { maxWidth: `${num}px` };
+    return undefined;
   };
 
   // Convert postTitleSize to CSS class
@@ -153,11 +170,7 @@ export default function MakingFilmGallery() {
         </div>
       </nav>
 
-      <div className={`${
-        containerWidth === 'full' ? 'w-full px-4' :
-        containerWidth === 'container-wide' ? 'mx-auto px-4' :
-        'container'
-      } py-8 sm:py-16`} style={containerWidth === 'container-wide' ? { maxWidth: '1536px' } : undefined}>
+      <div className={`${getContainerClass(containerWidth)} py-8 sm:py-16`} style={getContainerStyle(containerWidth)}>
         {/* Header Section */}
         <div className="mb-4 sm:mb-8 space-y-4">
           {user?.role === 'admin' && (
@@ -222,12 +235,13 @@ export default function MakingFilmGallery() {
             {posts.map((post, index) => (
               <div 
                 key={post.id} 
-                className={`relative group ${getWidthClass(postWidth)} ${
+                className={`relative group ${
                   displayMode === 'list' ? (index % 2 === 0 ? 'bg-white' : 'bg-gray-100') : ''
                 }`}
                 style={{
                   marginTop: postMarginTop,
-                  height: displayMode === 'list' && postHeight !== 'auto' ? postHeight : undefined
+                  height: displayMode === 'list' && postHeight !== 'auto' ? postHeight : undefined,
+                  ...getPostWidthStyle(postWidth)
                 }}
               >
                 {user?.role === 'admin' && (
