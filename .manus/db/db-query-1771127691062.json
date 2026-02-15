@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, category, title FROM posts WHERE content LIKE '%/data/file/%' OR content LIKE '%/data/cheditor%' LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, category, title FROM posts WHERE content LIKE '%/data/file/%' OR content LIKE '%/data/cheditor%' LIMIT 10",
+  "rows": [
+    {
+      "id": "480793",
+      "category": "film",
+      "title": "고려대학교 오케스트라 제26회 신춘음악회"
+    },
+    {
+      "id": "480803",
+      "category": "film",
+      "title": "올프렌즈 윈드앙상블 제4회 정기연주회"
+    },
+    {
+      "id": "480804",
+      "category": "film",
+      "title": "가수 주용하 싱글앨범 [너를 보내고]"
+    },
+    {
+      "id": "480805",
+      "category": "film",
+      "title": "광복 60주년 기념 온라인콘서트 기념음반"
+    },
+    {
+      "id": "480806",
+      "category": "film",
+      "title": "가수 엄진서 제2집 \"열애\""
+    },
+    {
+      "id": "480807",
+      "category": "film",
+      "title": "ERYM sextet 창단연주회"
+    },
+    {
+      "id": "480808",
+      "category": "film",
+      "title": "인천가톨릭청소년오케스트라 향상음악회"
+    },
+    {
+      "id": "480809",
+      "category": "film",
+      "title": "피아체볼레 제27회 정기연주회"
+    },
+    {
+      "id": "480810",
+      "category": "film",
+      "title": "유니스트링 카메라타 연주회"
+    },
+    {
+      "id": "480811",
+      "category": "film",
+      "title": "분당 민트오케스트라 제5회 정기연주회"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcategory\ttitle\n480793\tfilm\t고려대학교 오케스트라 제26회 신춘음악회\n480803\tfilm\t올프렌즈 윈드앙상블 제4회 정기연주회\n480804\tfilm\t가수 주용하 싱글앨범 [너를 보내고]\n480805\tfilm\t광복 60주년 기념 온라인콘서트 기념음반\n480806\tfilm\t가수 엄진서 제2집 \"열애\"\n480807\tfilm\tERYM sextet 창단연주회\n480808\tfilm\t인천가톨릭청소년오케스트라 향상음악회\n480809\tfilm\t피아체볼레 제27회 정기연주회\n480810\tfilm\t유니스트링 카메라타 연주회\n480811\tfilm\t분당 민트오케스트라 제5회 정기연주회\n",
+  "stderr": "",
+  "execution_time_ms": 1506
+}

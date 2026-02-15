@@ -1,0 +1,33 @@
+{
+  "query": "SELECT category, COUNT(*) as cnt FROM posts GROUP BY category; SELECT COUNT(*) as reservation_cnt FROM reservations;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT category, COUNT(*) as cnt FROM posts GROUP BY category; SELECT COUNT(*) as reservation_cnt FROM reservations;",
+  "rows": [
+    {
+      "category": "notice",
+      "cnt": "18"
+    },
+    {
+      "category": "concert",
+      "cnt": "168"
+    },
+    {
+      "category": "film",
+      "cnt": "213"
+    },
+    {
+      "category": "admin_board",
+      "cnt": "844"
+    },
+    {
+      "category": "review",
+      "cnt": "18"
+    }
+  ],
+  "messages": [
+    "reservation_cnt",
+    "293"
+  ],
+  "stdout": "category\tcnt\nnotice\t18\nconcert\t168\nfilm\t213\nadmin_board\t844\nreview\t18\nreservation_cnt\n293\n",
+  "stderr": "",
+  "execution_time_ms": 2401
+}

@@ -1128,3 +1128,10 @@
 - [x] 인스타 섹션 PC 최대 5개 고정, 반응형으로 화면 작아지면 개수 줄어들게
 - [x] 인스타 섹션 모바일 최대 3개 고정, 반응형으로 게시물 크기 유지
 - [x] 관리자 대시보드 하위 페이지(배경영상, 섹션제목, Footer, 게시판레이아웃, Instagram, 히어로텍스트, Information)에서 네비게이션 미표시 문제 수정
+
+## 예전 서버 첨부파일 마이그레이션 (2026-02-15 추가)
+- [x] live → Concert Live 첨부파일 S3 업로드 및 DB 연결 (298개)
+- [x] portfoliodata → Making Film 첨부파일 S3 업로드 및 DB 연결 (237개)
+- [x] working → 관리자게시판 첨부파일 S3 업로드 및 DB 연결 (172개)
+- [x] reservation → Reservation 첨부파일 S3 업로드 및 DB 연결 (32개)
+- [x] notice → Notice 첨부파일 S3 업로드 및 DB 연결 (3개)

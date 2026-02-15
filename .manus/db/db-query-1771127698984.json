@@ -1,0 +1,40 @@
+{
+  "query": "SELECT id, category, title, SUBSTRING_INDEX(SUBSTRING_INDEX(content, 'src=\"', -1), '\"', 1) as first_src FROM posts WHERE content LIKE '%src=\"%' AND category = 'concert' LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, category, title, SUBSTRING_INDEX(SUBSTRING_INDEX(content, 'src=\"', -1), '\"', 1) as first_src FROM posts WHERE content LIKE '%src=\"%' AND category = 'concert' LIMIT 5",
+  "rows": [
+    {
+      "id": "481022",
+      "category": "concert",
+      "title": "숙명여대 아마추어 오케스트라(S.O.Phi.A) 제8회 신입생 환영연주회",
+      "first_src": "../data/cheditor4/1308/blank_XpE37CABiOUUdGm.gif"
+    },
+    {
+      "id": "481023",
+      "category": "concert",
+      "title": "콰르텟엑스 <The Station> - LG CNS편",
+      "first_src": "../data/cheditor4/1308/200X200_TzYBNUJw4zjEW.jpg"
+    },
+    {
+      "id": "481024",
+      "category": "concert",
+      "title": "중앙대 아마추어 오케스트라(Rubato) 제26회 정기연주회",
+      "first_src": "../data/cheditor4/1308/poster_LeVm8AHP7dEwFLd.bmp"
+    },
+    {
+      "id": "481031",
+      "category": "concert",
+      "title": "베누스토(Venusto) 제9회 정기연주회",
+      "first_src": "../data/cheditor4/1308/venusto_poster_2_oETt1GKu.gif"
+    },
+    {
+      "id": "481032",
+      "category": "concert",
+      "title": "콰르텟엑스 <The Station> - 논현역편 II",
+      "first_src": "http://www.pphony.com/data/cheditor4/1308/200X200_srm8FkhbJzH.jpg"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcategory\ttitle\tfirst_src\n481022\tconcert\t숙명여대 아마추어 오케스트라(S.O.Phi.A) 제8회 신입생 환영연주회\t../data/cheditor4/1308/blank_XpE37CABiOUUdGm.gif\n481023\tconcert\t콰르텟엑스 <The Station> - LG CNS편\t../data/cheditor4/1308/200X200_TzYBNUJw4zjEW.jpg\n481024\tconcert\t중앙대 아마추어 오케스트라(Rubato) 제26회 정기연주회\t../data/cheditor4/1308/poster_LeVm8AHP7dEwFLd.bmp\n481031\tconcert\t베누스토(Venusto) 제9회 정기연주회\t../data/cheditor4/1308/venusto_poster_2_oETt1GKu.gif\n481032\tconcert\t콰르텟엑스 <The Station> - 논현역편 II\thttp://www.pphony.com/data/cheditor4/1308/200X200_srm8FkhbJzH.jpg\n",
+  "stderr": "",
+  "execution_time_ms": 1516
+}

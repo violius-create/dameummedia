@@ -1,0 +1,42 @@
+{
+  "query": "SELECT id, category, title, LEFT(content, 200) as content_preview, imageUrl FROM posts WHERE category = 'concert' ORDER BY id LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, category, title, LEFT(content, 200) as content_preview, imageUrl FROM posts WHERE category = 'concert' ORDER BY id LIMIT 5",
+  "rows": [
+    {
+      "id": "480975",
+      "category": "concert",
+      "title": "아브낭뜨 제46회 정기연주회",
+      "content_preview": "아브낭뜨 제46회 정기연주회 / 2013.5.24 / 연세대학교 대강당&nbsp;",
+      "imageUrl": "NULL"
+    },
+    {
+      "id": "480976",
+      "category": "concert",
+      "title": "민트 오케스트라 제3회 정기연주회",
+      "content_preview": "민트는 2000년 3월 음악을 통한 지역사회의 봉사활동을 목적으로 첫 발을 내민 분당 YMCA 아마추어 오케스트라로, MINT (Madams who are Inspired by the Noble Touch - 고귀하고 우아한 연주솜씨에 영감을 받은 주부들) 라는 별칭을 갖고 그 뜻에 걸맞는 활동을 위해 각자 기량을 다듬으며 음악을 교감하는 순수한 아마추어 ",
+      "imageUrl": "NULL"
+    },
+    {
+      "id": "480977",
+      "category": "concert",
+      "title": "고양시 음악협회 송년음악회",
+      "content_preview": "머나먼 북쪽 끝, 서울을 기점으로 집에서 완전 반대편의 객지까지 무거운 장비를 끌고 찾아간 까닭인 즉 사실 지인 협연자 때문이었으나...ㅠㅠ 어떤 공연이든 나의 손을 거쳐 음반화 하고 말겠다는 끊임없는 갈망과 열정 덕분이기도 합니다...<br><br>일산 쪽에 새로이 현대식 공연장을 짓고 있다는 말은 들었지만, 사실 고양문예회관의 수준에는 적잖이 실망을 감",
+      "imageUrl": "NULL"
+    },
+    {
+      "id": "480978",
+      "category": "concert",
+      "title": "테헤란밸리 오케스트라 송년음악회",
+      "content_preview": ".........",
+      "imageUrl": "NULL"
+    }
+  ],
+  "messages": [
+    "480979\tconcert\t엘가마스터스 오케스트라 - 익스트림 챔버나이트\t<div>&nbsp;</div>",
+    "<div>엘가마스터스 오케스트라와 콰르텟엑스의 공동기획 프로젝트!!!</div>",
+    "<div>엘가 인트로덕션 엔 알레그로 X버젼 <br />본윌리암스 탈리스판타지 <br />차이코프스키 세레나데1악장, 드보르작 세레나데5악장, <br />레스피기 파사칼리아, 엘가 세레나데 2악장,<br />멘델스죤의 8중주 오케스트라버젼 </d\tNULL"
+  ],
+  "stdout": "id\tcategory\ttitle\tcontent_preview\timageUrl\n480975\tconcert\t아브낭뜨 제46회 정기연주회\t아브낭뜨 제46회 정기연주회 / 2013.5.24 / 연세대학교 대강당&nbsp;\tNULL\n480976\tconcert\t민트 오케스트라 제3회 정기연주회\t민트는 2000년 3월 음악을 통한 지역사회의 봉사활동을 목적으로 첫 발을 내민 분당 YMCA 아마추어 오케스트라로, MINT (Madams who are Inspired by the Noble Touch - 고귀하고 우아한 연주솜씨에 영감을 받은 주부들) 라는 별칭을 갖고 그 뜻에 걸맞는 활동을 위해 각자 기량을 다듬으며 음악을 교감하는 순수한 아마추어 \tNULL\n480977\tconcert\t고양시 음악협회 송년음악회\t머나먼 북쪽 끝, 서울을 기점으로 집에서 완전 반대편의 객지까지 무거운 장비를 끌고 찾아간 까닭인 즉 사실 지인 협연자 때문이었으나...ㅠㅠ 어떤 공연이든 나의 손을 거쳐 음반화 하고 말겠다는 끊임없는 갈망과 열정 덕분이기도 합니다...<br><br>일산 쪽에 새로이 현대식 공연장을 짓고 있다는 말은 들었지만, 사실 고양문예회관의 수준에는 적잖이 실망을 감\tNULL\n480978\tconcert\t테헤란밸리 오케스트라 송년음악회\t.........\tNULL\n480979\tconcert\t엘가마스터스 오케스트라 - 익스트림 챔버나이트\t<div>&nbsp;</div>\n<div>엘가마스터스 오케스트라와 콰르텟엑스의 공동기획 프로젝트!!!</div>\n<div>엘가 인트로덕션 엔 알레그로 X버젼 <br />본윌리암스 탈리스판타지 <br />차이코프스키 세레나데1악장, 드보르작 세레나데5악장, <br />레스피기 파사칼리아, 엘가 세레나데 2악장,<br />멘델스죤의 8중주 오케스트라버젼 </d\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1563
+}

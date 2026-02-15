@@ -1,0 +1,40 @@
+{
+  "query": "SELECT category, COUNT(*) as total, SUM(CASE WHEN imageUrl IS NOT NULL AND imageUrl != '' THEN 1 ELSE 0 END) as with_image, SUM(CASE WHEN imageUrl IS NULL OR imageUrl = '' THEN 1 ELSE 0 END) as no_image FROM posts GROUP BY category",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT category, COUNT(*) as total, SUM(CASE WHEN imageUrl IS NOT NULL AND imageUrl != '' THEN 1 ELSE 0 END) as with_image, SUM(CASE WHEN imageUrl IS NULL OR imageUrl = '' THEN 1 ELSE 0 END) as no_image FROM posts GROUP BY category",
+  "rows": [
+    {
+      "category": "film",
+      "total": "213",
+      "with_image": "4",
+      "no_image": "209"
+    },
+    {
+      "category": "notice",
+      "total": "18",
+      "with_image": "0",
+      "no_image": "18"
+    },
+    {
+      "category": "concert",
+      "total": "168",
+      "with_image": "4",
+      "no_image": "164"
+    },
+    {
+      "category": "review",
+      "total": "18",
+      "with_image": "0",
+      "no_image": "18"
+    },
+    {
+      "category": "admin_board",
+      "total": "844",
+      "with_image": "0",
+      "no_image": "844"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\ttotal\twith_image\tno_image\nfilm\t213\t4\t209\nnotice\t18\t0\t18\nconcert\t168\t4\t164\nreview\t18\t0\t18\nadmin_board\t844\t0\t844\n",
+  "stderr": "",
+  "execution_time_ms": 1521
+}
