@@ -15,6 +15,8 @@ export const users = mysqlTable("users", {
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
+  username: varchar("username", { length: 64 }),
+  passwordHash: varchar("passwordHash", { length: 255 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -91,6 +93,7 @@ export const reservations = mysqlTable("reservations", {
   linkUrl: text("linkUrl"), // Link attachment URL
   startTime: varchar("startTime", { length: 100 }), // Event start time (separate from eventDate)
   progressStatus: varchar("progressStatus", { length: 100 }).default("접수중"), // Progress status (dynamic options from labels)
+  guestPassword: varchar("guestPassword", { length: 255 }), // Password for non-logged-in users
   status: mysqlEnum("status", ["pending", "confirmed", "payment_completed", "work_pending", "in_progress", "editing", "completed", "cancelled"]).default("pending").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

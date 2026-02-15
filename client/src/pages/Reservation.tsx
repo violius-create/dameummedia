@@ -44,6 +44,8 @@ export default function Reservation() {
     // 파일/링크 첨부
     attachments: "" as string,
     linkUrl: "",
+    // 비로그인 사용자 비밀번호
+    guestPassword: "",
   });
 
   const uploadFileMutation = trpc.upload.uploadFile.useMutation();
@@ -65,6 +67,12 @@ export default function Reservation() {
 
     if (!formData.clientName || !formData.clientEmail || !formData.eventName) {
       toast.error("필수 항목을 모두 입력해주세요.");
+      return;
+    }
+
+    // 비로그인 사용자는 비밀번호 필수
+    if (!user && !formData.guestPassword) {
+      toast.error("비로그인 상태에서는 비밀번호를 입력해주세요.");
       return;
     }
 
@@ -94,6 +102,7 @@ export default function Reservation() {
       description: formData.description,
       attachments: formData.attachments || undefined,
       linkUrl: formData.linkUrl || undefined,
+      guestPassword: !user ? formData.guestPassword : undefined,
       status: "pending",
     });
   };
@@ -252,6 +261,23 @@ export default function Reservation() {
                         required
                       />
                     </div>
+
+                    {/* 비로그인 사용자에게만 비밀번호 필드 표시 */}
+                    {!user && (
+                      <div className="space-y-2">
+                        <Label htmlFor="guestPassword">
+                          비밀번호 <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="guestPassword"
+                          type="password"
+                          placeholder="게시물 수정/삭제 시 필요합니다"
+                          value={formData.guestPassword}
+                          onChange={(e) => setFormData({ ...formData, guestPassword: e.target.value })}
+                          required
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 

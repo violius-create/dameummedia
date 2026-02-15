@@ -898,3 +898,37 @@ export async function updateReservationFormLabels(data: Partial<InsertReservatio
     return { id: result[0].insertId, ...data };
   }
 }
+
+
+// ===== Local Auth (Username/Password) =====
+
+export async function getUserByUsername(username: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createLocalUser(data: {
+  username: string;
+  name: string;
+  passwordHash: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Generate a unique openId for local users (prefix with "local_")
+  const openId = `local_${data.username}_${Date.now()}`;
+
+  const result = await db.insert(users).values({
+    openId,
+    username: data.username,
+    name: data.name,
+    passwordHash: data.passwordHash,
+    loginMethod: "local",
+    role: "user",
+    lastSignedIn: new Date(),
+  });
+
+  return { id: result[0].insertId, openId };
+}

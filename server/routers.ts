@@ -6,6 +6,8 @@ import { z } from "zod";
 import * as db from "./db";
 import { storagePut } from "./storage";
 import { TRPCError } from "@trpc/server";
+import bcrypt from "bcryptjs";
+import { sdk } from "./_core/sdk";
 
 export const appRouter = router({
   system: systemRouter,
@@ -18,6 +20,69 @@ export const appRouter = router({
         success: true,
       } as const;
     }),
+    register: publicProcedure
+      .input(z.object({
+        username: z.string().min(3, "아이디는 3자 이상이어야 합니다").max(30),
+        name: z.string().min(1, "이름을 입력해주세요").max(50),
+        password: z.string().min(4, "비밀번호는 4자 이상이어야 합니다"),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        // Check if username already exists
+        const existing = await db.getUserByUsername(input.username);
+        if (existing) {
+          throw new TRPCError({ code: "CONFLICT", message: "이미 사용 중인 아이디입니다" });
+        }
+
+        // Hash password
+        const passwordHash = await bcrypt.hash(input.password, 10);
+
+        // Create user
+        const { openId } = await db.createLocalUser({
+          username: input.username,
+          name: input.name,
+          passwordHash,
+        });
+
+        // Create session token
+        const sessionToken = await sdk.createSessionToken(openId, {
+          name: input.name,
+          expiresInMs: 365 * 24 * 60 * 60 * 1000,
+        });
+
+        // Set cookie
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: 365 * 24 * 60 * 60 * 1000 });
+
+        return { success: true };
+      }),
+    login: publicProcedure
+      .input(z.object({
+        username: z.string(),
+        password: z.string(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await db.getUserByUsername(input.username);
+        if (!user || !user.passwordHash) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "아이디 또는 비밀번호가 일치하지 않습니다" });
+        }
+
+        const valid = await bcrypt.compare(input.password, user.passwordHash);
+        if (!valid) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "아이디 또는 비밀번호가 일치하지 않습니다" });
+        }
+
+        // Create session token
+        const sessionToken = await sdk.createSessionToken(user.openId, {
+          name: user.name || "",
+          expiresInMs: 365 * 24 * 60 * 60 * 1000,
+        });
+
+        // Set cookie
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: 365 * 24 * 60 * 60 * 1000 });
+
+        return { success: true };
+      }),
   }),
 
   // Posts router
@@ -165,6 +230,7 @@ export const appRouter = router({
         linkUrl: z.string().optional(),
         startTime: z.string().optional(),
         progressStatus: z.string().optional(),
+        guestPassword: z.string().optional(),
         status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
       }))
       .mutation(async ({ input }) => {
@@ -196,6 +262,7 @@ export const appRouter = router({
           attachments: input.attachments,
           linkUrl: input.linkUrl,
           progressStatus: input.progressStatus,
+          guestPassword: input.guestPassword,
           status: input.status as any,
         });
       }),

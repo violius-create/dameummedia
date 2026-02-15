@@ -1,7 +1,7 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Music, Trash2, Edit, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, Music, Trash2, Edit, ChevronLeft, ChevronRight, Paperclip, Download } from "lucide-react";
 import { useState, useMemo } from "react";
 import { CardDescription } from "@/components/ui/card";
 import { Link, useRoute } from "wouter";
@@ -22,6 +22,12 @@ export default function PostDetail() {
   );
 
   console.log("PostDetail - post:", post, "error:", error, "isLoading:", isLoading);
+
+  // Fetch attached images for this post
+  const { data: attachedImages } = trpc.images.getByPostId.useQuery(
+    { postId: postId! },
+    { enabled: !!postId }
+  );
 
   const deletePostMutation = trpc.posts.delete.useMutation({
     onSuccess: () => {
@@ -80,7 +86,7 @@ export default function PostDetail() {
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-              <Link href={post.category === 'concert' ? '/concert-live' : post.category === 'notice' ? '/notice' : '/making-film'}>
+              <Link href={post.category === 'concert' ? '/concert-live' : post.category === 'notice' ? '/notice' : post.category === 'admin_board' ? '/admin-board' : '/making-film'}>
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   목록보기
@@ -129,7 +135,7 @@ export default function PostDetail() {
                 <div className="flex items-center gap-2">
                   <Music className="h-5 w-5 text-primary" />
                   <span className="text-xs sm:text-sm font-medium text-primary">
-                    {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'}
+                    {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : post.category === 'admin_board' ? '관리자게시판' : 'Making Film'}
                   </span>
                 </div>
                 <CardTitle className="text-xl sm:text-4xl">{post.title}</CardTitle>
@@ -185,6 +191,50 @@ export default function PostDetail() {
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
 
+              {/* Attached Images */}
+              {attachedImages && attachedImages.length > 0 && (
+                <div className="space-y-4 pt-4 border-t border-border">
+                  <h4 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                    <Paperclip className="h-4 w-4" />
+                    첨부파일 ({attachedImages.length})
+                  </h4>
+                  <div className="space-y-4">
+                    {attachedImages.map((img) => {
+                      const isImage = img.mimeType?.startsWith('image/');
+                      if (isImage) {
+                        return (
+                          <div key={img.id} className="space-y-1">
+                            <img
+                              src={img.fileUrl}
+                              alt={img.fileName}
+                              className="max-w-full h-auto rounded-lg border border-border"
+                            />
+                            <p className="text-xs text-muted-foreground">{img.fileName}</p>
+                          </div>
+                        );
+                      }
+                      return (
+                        <a
+                          key={img.id}
+                          href={img.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 p-3 rounded-lg border border-border hover:bg-accent transition-colors"
+                        >
+                          <Download className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm">{img.fileName}</span>
+                          {img.fileSize && (
+                            <span className="text-xs text-muted-foreground ml-auto">
+                              {(img.fileSize / 1024).toFixed(0)}KB
+                            </span>
+                          )}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               {/* Bottom Edit Button */}
               {isAuthenticated && user?.role === 'admin' && (
                 <div className="flex gap-2 justify-center pt-8 border-t">
@@ -213,7 +263,7 @@ export default function PostDetail() {
 
           {/* Related Posts */}
           <div className="mt-16">
-            <h3 className="text-lg sm:text-2xl font-bold mb-4 sm:mb-8">다른 {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : 'Making Film'} 보기</h3>
+            <h3 className="text-lg sm:text-2xl font-bold mb-4 sm:mb-8">다른 {post.category === 'concert' ? 'Concert Live' : post.category === 'notice' ? '공지사항' : post.category === 'admin_board' ? '관리자게시판' : 'Making Film'} 보기</h3>
             <RelatedPostsList category={post.category} currentPostId={post.id} />
           </div>
         </article>

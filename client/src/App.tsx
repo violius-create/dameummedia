@@ -33,11 +33,13 @@ import AdminHeroTextRotation from "@/pages/AdminHeroTextRotation";
 import AdminInformation from "@/pages/AdminInformation";
 import AdminBoard from "@/pages/AdminBoard";
 import AdminReservationLabels from "@/pages/AdminReservationLabels";
+import Login from "@/pages/Login";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
+      <Route path={"/login"} component={Login} />
       <Route path={"/"} component={Home} />
       <Route path={"/posts/:id"} component={PostDetail} />
       <Route path={"/post/:id"} component={PostDetail} />
@@ -171,12 +173,12 @@ function Navigation() {
                 </Button>
               </>
             ) : (
-              <a href={getLoginUrl()}>
+              <Link href="/login">
                 <Button variant="outline" size="sm" className="flex items-center gap-2 hover:text-neutral-400 transition-colors">
                   <LogIn className="h-4 w-4" />
                   Login
                 </Button>
-              </a>
+              </Link>
             )}
           </div>
 
@@ -267,12 +269,12 @@ function Navigation() {
                   </Button>
                 </>
               ) : (
-                <a href={getLoginUrl()} className="block" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-2 hover:text-neutral-400 transition-colors">
+                <Link href="/login">
+                  <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-2 hover:text-neutral-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     <LogIn className="h-4 w-4" />
                     Login
                   </Button>
-                </a>
+                </Link>
               )}
             </div>
           </div>
