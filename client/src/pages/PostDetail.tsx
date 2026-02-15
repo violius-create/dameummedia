@@ -372,7 +372,7 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
               </div>
               <CardContent className="pt-4">
                 <h4 className="font-semibold line-clamp-2 mb-2 text-xs sm:text-base">{post.title}</h4>
-                <p className="hidden sm:block text-xs sm:text-sm text-muted-foreground line-clamp-2">{stripHtmlTags(post.content)}</p>
+                <p className="hidden sm:line-clamp-3 text-xs sm:text-sm text-muted-foreground">{stripHtmlTags(post.content)}</p>
               </CardContent>
             </Card>
           ))}
