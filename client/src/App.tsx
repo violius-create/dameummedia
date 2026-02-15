@@ -34,6 +34,7 @@ import AdminInformation from "@/pages/AdminInformation";
 import AdminBoard from "@/pages/AdminBoard";
 import AdminReservationLabels from "@/pages/AdminReservationLabels";
 import Atelier01 from "@/pages/Atelier01";
+import MediaBoard from "@/pages/MediaBoard";
 import Login from "@/pages/Login";
 
 function Router() {
@@ -66,6 +67,7 @@ function Router() {
       <Route path="/admin/reservation-labels" component={AdminReservationLabels} />
       <Route path="/admin-board" component={AdminBoard} />
       <Route path="/atelier01" component={Atelier01} />
+      <Route path="/media-board" component={MediaBoard} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />
       <Route path="/notice/new" component={(props) => <CreatePost {...props} category="notice" />} />
