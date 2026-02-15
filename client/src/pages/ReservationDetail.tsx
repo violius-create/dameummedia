@@ -329,26 +329,30 @@ export default function ReservationDetail() {
               </Link>
             </div>
             <div className="flex gap-2">
-              {!isEditing ? (
-                <>
-                  <Button size="sm" variant="outline" onClick={handleEdit} className="hover:text-neutral-400 transition-colors">
-                    <Edit2 className="mr-2 h-4 w-4" />
-                    수정
-                  </Button>
-                  <Button size="sm" variant="destructive" onClick={handleDelete} disabled={deleteMutation.isPending}>
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    삭제
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button size="sm" onClick={handleSave} disabled={updateMutation.isPending}>
-                    저장
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={() => { setIsEditing(false); setEditData(null); }}>
-                    취소
-                  </Button>
-                </>
+              {(isAdmin || (user && reservation?.userId && user.id === reservation.userId)) && (
+                !isEditing ? (
+                  <>
+                    <Button size="sm" variant="outline" onClick={handleEdit} className="hover:text-neutral-400 transition-colors">
+                      <Edit2 className="mr-2 h-4 w-4" />
+                      수정
+                    </Button>
+                    {isAdmin && (
+                      <Button size="sm" variant="destructive" onClick={handleDelete} disabled={deleteMutation.isPending}>
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        삭제
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Button size="sm" onClick={handleSave} disabled={updateMutation.isPending}>
+                      저장
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => { setIsEditing(false); setEditData(null); }}>
+                      취소
+                    </Button>
+                  </>
+                )
               )}
             </div>
           </div>

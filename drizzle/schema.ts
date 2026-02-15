@@ -32,7 +32,7 @@ export const posts = mysqlTable("posts", {
   id: int("id").autoincrement().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   content: text("content").notNull(),
-  category: mysqlEnum("category", ["notice", "portfolio", "review", "concert", "film", "admin_board"]).notNull(),
+  category: mysqlEnum("category", ["notice", "portfolio", "review", "concert", "film", "admin_board", "atelier01"]).notNull(),
   authorId: int("authorId").notNull(),
   imageUrl: text("imageUrl"),
   videoUrl: text("videoUrl"),
@@ -94,6 +94,7 @@ export const reservations = mysqlTable("reservations", {
   startTime: varchar("startTime", { length: 100 }), // Event start time (separate from eventDate)
   progressStatus: varchar("progressStatus", { length: 100 }).default("접수중"), // Progress status (dynamic options from labels)
   guestPassword: varchar("guestPassword", { length: 255 }), // Password for non-logged-in users
+  userId: int("userId"), // Logged-in user who created the reservation
   status: mysqlEnum("status", ["pending", "confirmed", "payment_completed", "work_pending", "in_progress", "editing", "completed", "cancelled"]).default("pending").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

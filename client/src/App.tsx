@@ -33,6 +33,7 @@ import AdminHeroTextRotation from "@/pages/AdminHeroTextRotation";
 import AdminInformation from "@/pages/AdminInformation";
 import AdminBoard from "@/pages/AdminBoard";
 import AdminReservationLabels from "@/pages/AdminReservationLabels";
+import Atelier01 from "@/pages/Atelier01";
 import Login from "@/pages/Login";
 
 function Router() {
@@ -64,6 +65,7 @@ function Router() {
       <Route path="/admin/information" component={AdminInformation} />
       <Route path="/admin/reservation-labels" component={AdminReservationLabels} />
       <Route path="/admin-board" component={AdminBoard} />
+      <Route path="/atelier01" component={Atelier01} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />
       <Route path="/notice/new" component={(props) => <CreatePost {...props} category="notice" />} />
@@ -129,6 +131,11 @@ function Navigation() {
                 Notice
               </Button>
             </Link>
+            <Link href="/atelier01">
+              <Button variant="ghost" className="text-foreground hover:bg-muted">
+                DIY Atelier
+              </Button>
+            </Link>
           </div>
 
           {/* Right Side - SNS and Auth */}
@@ -154,14 +161,7 @@ function Navigation() {
                     </Button>
                   </Link>
                 )}
-                {user?.role === 'admin' && (
-                  <Link href="/admin-board">
-                    <Button variant="outline" size="sm" className="hover:text-neutral-400 transition-colors flex items-center gap-1">
-                      <Shield className="h-3 w-3" />
-                      Atelier01
-                    </Button>
-                  </Link>
-                )}
+
                 <Button
                   variant="outline"
                   size="sm"
@@ -226,6 +226,11 @@ function Navigation() {
                 Reservation
               </Button>
             </Link>
+            <Link href="/atelier01" onClick={() => setMobileMenuOpen(false)}>
+              <Button variant="ghost" className="w-full justify-start text-foreground">
+                DIY Atelier
+              </Button>
+            </Link>
             <div className="pt-2 border-t border-border space-y-2">
               <div className="flex gap-2">
                 <a href={siteBranding?.instagramUrl || "https://www.instagram.com/dameum_media"} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
@@ -250,14 +255,7 @@ function Navigation() {
                       </Button>
                     </Link>
                   )}
-                  {user?.role === 'admin' && (
-                    <Link href="/admin-board" className="block" onClick={() => setMobileMenuOpen(false)}>
-                      <Button variant="outline" size="sm" className="w-full hover:text-neutral-400 transition-colors flex items-center justify-center gap-1">
-                        <Shield className="h-3 w-3" />
-                        Atelier01
-                      </Button>
-                    </Link>
-                  )}
+
                   <Button
                     variant="outline"
                     size="sm"

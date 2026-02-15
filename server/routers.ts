@@ -233,10 +233,11 @@ export const appRouter = router({
         guestPassword: z.string().optional(),
         status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
       }))
-      .mutation(async ({ input }) => {
+        .mutation(async ({ input, ctx }) => {
         return db.createReservation({
           clientName: input.clientName,
           clientEmail: input.clientEmail,
+          userId: ctx.user?.id,
           clientPhone: input.clientPhone,
           eventName: input.eventName,
           eventType: input.eventType as any,
@@ -264,7 +265,7 @@ export const appRouter = router({
           progressStatus: input.progressStatus,
           guestPassword: input.guestPassword,
           status: input.status as any,
-        });
+        } as any);
       }),
     
     list: publicProcedure

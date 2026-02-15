@@ -1,0 +1,2 @@
+ALTER TABLE `posts` MODIFY COLUMN `category` enum('notice','portfolio','review','concert','film','admin_board','atelier01') NOT NULL;--> statement-breakpoint
+ALTER TABLE `reservations` ADD `userId` int;

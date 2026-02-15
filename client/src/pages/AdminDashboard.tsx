@@ -266,7 +266,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="hero-text" onClick={() => navigate('/admin/hero-text-rotation')}>히어로 텍스트</TabsTrigger>
             <TabsTrigger value="information" onClick={() => navigate('/admin/information')}>Information 관리</TabsTrigger>
             <TabsTrigger value="reservation-labels" onClick={() => navigate('/admin/reservation-labels')}>예약 폼 라벨</TabsTrigger>
-            <TabsTrigger value="admin-board" onClick={() => navigate('/admin-board')}>Atelier01</TabsTrigger>
+            <TabsTrigger value="admin-board" onClick={() => navigate('/admin-board')}>관리자게시판</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}
