@@ -1160,3 +1160,11 @@
 - [x] 모든 하위 드롭다운 메뉴 초기값을 첫 번째 항목으로 설정
 - [x] 견적액/결제금액 등 금액란 한 글자씩만 입력되는 문제 수정 (자유 텍스트 입력)
 - [x] reservations.create에서 quotedAmount 필드 누락 수정 (견적액 저장 안 되던 문제)
+
+## 예약 게시판 추가 버그 수정 (2026-02-15 추가)
+- [x] 금액 입력란(견적액/결제금액) 한 글자씩만 입력되는 문제 근본 수정 - ReservationDetail.tsx의 onChange 핸들러 문제
+- [x] 진행상황(progressStatus)과 상태(status) 컬럼을 하나로 통합 - progressStatus만 사용
+- [x] 예전 게시물(status만 있고 progressStatus 없는 데이터)에 progressStatus 값 매핑/마이그레이션
+- [x] ReservationBoard.tsx에서 상태 컬럼 제거하고 진행상황만 표시
+- [x] Home.tsx 메인 화면 latest 섹션에서도 통합된 진행상황 표시
+- [x] ReservationDetail.tsx 헤더에서 status 드롭다운을 progressStatus 배지로 교체

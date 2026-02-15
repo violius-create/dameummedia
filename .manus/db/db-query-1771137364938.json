@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, clientName, status, progressStatus FROM reservations ORDER BY id ASC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, clientName, status, progressStatus FROM reservations ORDER BY id ASC LIMIT 20;",
+  "rows": [
+    {
+      "id": "90575",
+      "clientName": "네모",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90576",
+      "clientName": "성남청향",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90577",
+      "clientName": "SNUPO",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90578",
+      "clientName": "경동초",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90579",
+      "clientName": "성남청향",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90580",
+      "clientName": "김지은",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90581",
+      "clientName": "sguni",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90582",
+      "clientName": "jumi",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90583",
+      "clientName": "고우오케스트라",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90584",
+      "clientName": "재12",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90585",
+      "clientName": "kuphil",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90586",
+      "clientName": "KHMO",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90587",
+      "clientName": "음유",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90588",
+      "clientName": "피아체",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90589",
+      "clientName": "sangwook",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90590",
+      "clientName": "유혜진",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90591",
+      "clientName": "단치오케",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90592",
+      "clientName": "밍ㅇ",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90593",
+      "clientName": "열이",
+      "status": "completed",
+      "progressStatus": "접수중"
+    },
+    {
+      "id": "90594",
+      "clientName": "연니",
+      "status": "completed",
+      "progressStatus": "접수중"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tclientName\tstatus\tprogressStatus\n90575\t네모\tcompleted\t접수중\n90576\t성남청향\tcompleted\t접수중\n90577\tSNUPO\tcompleted\t접수중\n90578\t경동초\tcompleted\t접수중\n90579\t성남청향\tcompleted\t접수중\n90580\t김지은\tcompleted\t접수중\n90581\tsguni\tcompleted\t접수중\n90582\tjumi\tcompleted\t접수중\n90583\t고우오케스트라\tcompleted\t접수중\n90584\t재12\tcompleted\t접수중\n90585\tkuphil\tcompleted\t접수중\n90586\tKHMO\tcompleted\t접수중\n90587\t음유\tcompleted\t접수중\n90588\t피아체\tcompleted\t접수중\n90589\tsangwook\tcompleted\t접수중\n90590\t유혜진\tcompleted\t접수중\n90591\t단치오케\tcompleted\t접수중\n90592\t밍ㅇ\tcompleted\t접수중\n90593\t열이\tcompleted\t접수중\n90594\t연니\tcompleted\t접수중\n",
+  "stderr": "",
+  "execution_time_ms": 1497
+}

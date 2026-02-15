@@ -1,0 +1,170 @@
+{
+  "query": "SELECT id, clientName, eventName, status, progressStatus, createdAt FROM reservations ORDER BY id ASC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, clientName, eventName, status, progressStatus, createdAt FROM reservations ORDER BY id ASC LIMIT 20;",
+  "rows": [
+    {
+      "id": "90575",
+      "clientName": "네모",
+      "eventName": "Mad 4 Quartet",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-03-19 17:58:30"
+    },
+    {
+      "id": "90576",
+      "clientName": "성남청향",
+      "eventName": "성남청소년교향악단",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-03-26 09:50:14"
+    },
+    {
+      "id": "90577",
+      "clientName": "SNUPO",
+      "eventName": "SNUPO",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-04-08 13:54:19"
+    },
+    {
+      "id": "90578",
+      "clientName": "경동초",
+      "eventName": "서울경동초등학교",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-04-17 15:41:55"
+    },
+    {
+      "id": "90579",
+      "clientName": "성남청향",
+      "eventName": "성남청소년오케스트라",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-04-21 17:11:00"
+    },
+    {
+      "id": "90580",
+      "clientName": "김지은",
+      "eventName": "서울대학교 합창단",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-05-13 17:05:27"
+    },
+    {
+      "id": "90581",
+      "clientName": "sguni",
+      "eventName": "서강대학교 아마추어 오케스트라 ACES",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-05-17 15:34:33"
+    },
+    {
+      "id": "90582",
+      "clientName": "jumi",
+      "eventName": "경희의대의전원간호대 합창부 KHMC",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-05-30 00:57:23"
+    },
+    {
+      "id": "90583",
+      "clientName": "고우오케스트라",
+      "eventName": "고우오케스트라",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-06-03 15:44:33"
+    },
+    {
+      "id": "90584",
+      "clientName": "재12",
+      "eventName": "연세대학교 아마추어 오케스트라 유포니아 제 26회 가을 정기 연주회",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-03 19:18:05"
+    },
+    {
+      "id": "90585",
+      "clientName": "kuphil",
+      "eventName": "kuphil",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-13 15:33:12"
+    },
+    {
+      "id": "90586",
+      "clientName": "KHMO",
+      "eventName": "MO",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-26 20:07:26"
+    },
+    {
+      "id": "90587",
+      "clientName": "음유",
+      "eventName": "고려대학교 관현악단",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-29 02:26:55"
+    },
+    {
+      "id": "90588",
+      "clientName": "피아체",
+      "eventName": "순천향대학교 의과대학 오케스트라 피아체볼레",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-29 16:49:27"
+    },
+    {
+      "id": "90589",
+      "clientName": "sangwook",
+      "eventName": "피아니스트 박상욱과 함께하는 한 여름 밤의 콘서트",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-29 23:24:07"
+    },
+    {
+      "id": "90590",
+      "clientName": "유혜진",
+      "eventName": "원광대학교 의과대학 관현악반",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-07-31 10:53:56"
+    },
+    {
+      "id": "90591",
+      "clientName": "단치오케",
+      "eventName": "단국 치대 오케스트라 \"덴타모닉스",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-08-04 15:05:10"
+    },
+    {
+      "id": "90592",
+      "clientName": "밍ㅇ",
+      "eventName": "경희대학교 한의과대학 오케스트라 선음",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-08-05 14:38:49"
+    },
+    {
+      "id": "90593",
+      "clientName": "열이",
+      "eventName": "인하오케스트라",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-08-23 20:06:52"
+    },
+    {
+      "id": "90594",
+      "clientName": "연니",
+      "eventName": "이화여대 아마추어 오케스트라 ESAOS",
+      "status": "completed",
+      "progressStatus": "접수중",
+      "createdAt": "2014-09-11 20:48:37"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tclientName\teventName\tstatus\tprogressStatus\tcreatedAt\n90575\t네모\tMad 4 Quartet\tcompleted\t접수중\t2014-03-19 17:58:30\n90576\t성남청향\t성남청소년교향악단\tcompleted\t접수중\t2014-03-26 09:50:14\n90577\tSNUPO\tSNUPO\tcompleted\t접수중\t2014-04-08 13:54:19\n90578\t경동초\t서울경동초등학교\tcompleted\t접수중\t2014-04-17 15:41:55\n90579\t성남청향\t성남청소년오케스트라\tcompleted\t접수중\t2014-04-21 17:11:00\n90580\t김지은\t서울대학교 합창단\tcompleted\t접수중\t2014-05-13 17:05:27\n90581\tsguni\t서강대학교 아마추어 오케스트라 ACES\tcompleted\t접수중\t2014-05-17 15:34:33\n90582\tjumi\t경희의대의전원간호대 합창부 KHMC\tcompleted\t접수중\t2014-05-30 00:57:23\n90583\t고우오케스트라\t고우오케스트라\tcompleted\t접수중\t2014-06-03 15:44:33\n90584\t재12\t연세대학교 아마추어 오케스트라 유포니아 제 26회 가을 정기 연주회\tcompleted\t접수중\t2014-07-03 19:18:05\n90585\tkuphil\tkuphil\tcompleted\t접수중\t2014-07-13 15:33:12\n90586\tKHMO\tMO\tcompleted\t접수중\t2014-07-26 20:07:26\n90587\t음유\t고려대학교 관현악단\tcompleted\t접수중\t2014-07-29 02:26:55\n90588\t피아체\t순천향대학교 의과대학 오케스트라 피아체볼레\tcompleted\t접수중\t2014-07-29 16:49:27\n90589\tsangwook\t피아니스트 박상욱과 함께하는 한 여름 밤의 콘서트\tcompleted\t접수중\t2014-07-29 23:24:07\n90590\t유혜진\t원광대학교 의과대학 관현악반\tcompleted\t접수중\t2014-07-31 10:53:56\n90591\t단치오케\t단국 치대 오케스트라 \"덴타모닉스\tcompleted\t접수중\t2014-08-04 15:05:10\n90592\t밍ㅇ\t경희대학교 한의과대학 오케스트라 선음\tcompleted\t접수중\t2014-08-05 14:38:49\n90593\t열이\t인하오케스트라\tcompleted\t접수중\t2014-08-23 20:06:52\n90594\t연니\t이화여대 아마추어 오케스트라 ESAOS\tcompleted\t접수중\t2014-09-11 20:48:37\n",
+  "stderr": "",
+  "execution_time_ms": 1608
+}

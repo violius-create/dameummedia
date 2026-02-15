@@ -318,27 +318,22 @@ export default function ReservationDetail() {
               <h1 className="text-xl sm:text-4xl font-bold text-foreground">
                 {displayData.eventName || "제목 없음"}
               </h1>
-              {isEditing && isAdmin ? (
-                <Select value={editData?.status || "pending"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, status: value }))}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="pending">접수대기</SelectItem>
-                    <SelectItem value="confirmed">예약완료</SelectItem>
-                    <SelectItem value="payment_completed">결제완료</SelectItem>
-                    <SelectItem value="work_pending">작업대기</SelectItem>
-                    <SelectItem value="in_progress">작업중</SelectItem>
-                    <SelectItem value="editing">수정중</SelectItem>
-                    <SelectItem value="completed">작업완료</SelectItem>
-                    <SelectItem value="cancelled">취소</SelectItem>
-                  </SelectContent>
-                </Select>
-              ) : (
-                <span className={`px-2 sm:px-4 py-1 sm:py-2 rounded text-xs sm:text-sm font-bold whitespace-nowrap ${getStatusColor(displayData.status)}`}>
-                  {getStatusLabel(displayData.status)}
-                </span>
-              )}
+              {
+                (() => {
+                  const progressVal = displayData.progressStatus || '접수중';
+                  const pColor = progressVal === '취소' ? 'bg-gray-400 text-white' :
+                    progressVal === '작업완료' ? 'bg-red-100 text-red-800' :
+                    progressVal === '작업중' ? 'bg-blue-100 text-blue-800' :
+                    progressVal === '준비중' ? 'bg-sky-100 text-sky-800' :
+                    progressVal === '예약완료' ? 'bg-green-100 text-green-800' :
+                    'bg-yellow-100 text-yellow-800';
+                  return (
+                    <span className={`px-2 sm:px-4 py-1 sm:py-2 rounded text-xs sm:text-sm font-bold whitespace-nowrap ${pColor}`}>
+                      {progressVal}
+                    </span>
+                  );
+                })()
+              }
             </div>
             <p className="text-xs sm:text-sm text-muted-foreground">
               작성자: <span className="font-semibold text-foreground">{displayData.clientName}</span> | 작성일: <span className="font-semibold text-foreground">{new Date(displayData.createdAt).toLocaleDateString('ko-KR')}</span>
@@ -564,10 +559,10 @@ export default function ReservationDetail() {
                     {isAdmin ? (
                       <>
                         <EditRow label={`${l.sub4_3} ⚙`} labelColor="text-orange-700">
-                          <Input type="text" value={editData?.quotedAmount ?? ''} onChange={(e) => setEditData((prev: any) => ({ ...prev, quotedAmount: e.target.value === '' ? 0 : parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0 }))} />
+                          <Input type="text" inputMode="numeric" value={editData?._quotedAmountStr ?? String(editData?.quotedAmount ?? '')} onChange={(e) => { const raw = e.target.value; const numericOnly = raw.replace(/[^0-9]/g, ''); setEditData((prev: any) => ({ ...prev, _quotedAmountStr: raw, quotedAmount: numericOnly === '' ? 0 : parseInt(numericOnly) })); }} placeholder="숫자 입력" />
                         </EditRow>
                         <EditRow label={`${l.sub4_4} ⚙`} labelColor="text-orange-700">
-                          <Input type="text" value={editData?.paidAmount ?? ''} onChange={(e) => setEditData((prev: any) => ({ ...prev, paidAmount: e.target.value === '' ? 0 : parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0 }))} />
+                          <Input type="text" inputMode="numeric" value={editData?._paidAmountStr ?? String(editData?.paidAmount ?? '')} onChange={(e) => { const raw = e.target.value; const numericOnly = raw.replace(/[^0-9]/g, ''); setEditData((prev: any) => ({ ...prev, _paidAmountStr: raw, paidAmount: numericOnly === '' ? 0 : parseInt(numericOnly) })); }} placeholder="숫자 입력" />
                         </EditRow>
                         <div className="flex items-center gap-3 py-2 border-b border-gray-100">
                           <span className="text-xs sm:text-sm font-semibold text-orange-700 whitespace-nowrap min-w-[80px] sm:min-w-[120px]">{l.sub4_5}</span>
