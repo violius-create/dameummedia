@@ -158,7 +158,7 @@ function Navigation() {
                   <Link href="/admin-board">
                     <Button variant="outline" size="sm" className="hover:text-neutral-400 transition-colors flex items-center gap-1">
                       <Shield className="h-3 w-3" />
-                      관리자게시판
+                      Atelier01
                     </Button>
                   </Link>
                 )}
@@ -254,7 +254,7 @@ function Navigation() {
                     <Link href="/admin-board" className="block" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="outline" size="sm" className="w-full hover:text-neutral-400 transition-colors flex items-center justify-center gap-1">
                         <Shield className="h-3 w-3" />
-                        관리자게시판
+                        Atelier01
                       </Button>
                     </Link>
                   )}

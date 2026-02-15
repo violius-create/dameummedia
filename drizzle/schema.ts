@@ -66,7 +66,7 @@ export type InsertImage = typeof images.$inferInsert;
 export const reservations = mysqlTable("reservations", {
   id: int("id").autoincrement().primaryKey(),
   clientName: varchar("clientName", { length: 255 }).notNull(),
-  clientEmail: varchar("clientEmail", { length: 320 }).notNull(),
+  clientEmail: varchar("clientEmail", { length: 320 }),
   clientPhone: varchar("clientPhone", { length: 20 }),
   eventName: varchar("eventName", { length: 255 }).notNull(),
   eventType: mysqlEnum("eventType", ["photo", "concert", "video", "music_video", "other"]).notNull(),

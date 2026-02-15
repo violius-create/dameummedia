@@ -1186,3 +1186,8 @@
 - [x] PostDetail에서 첨부 이미지를 본문 하단에 갤러리로 표시
 - [x] 회원가입 페이지 구현 (아이디, 이름, 비밀번호) - /login 라우트
 - [x] 예약 작성 시 비로그인 상태에서 비밀번호 필수 항목 추가 (guestPassword)
+
+## 추가 수정 (2026-02-15 추가 5)
+- [x] atelier01 게시판이 별도 라우트로 표시되도록 수정 - 네비게이션에 "Atelier01" 버튼 추가, /admin-board 라우트 연결
+- [x] 로그인 사용자 예약 시 이름 자동 불러오기 - useEffect로 user 로드 후 clientName 자동 설정
+- [x] 예약 신청서에서 이메일 항목 제거 - UI/formData/서버/DB 모두 optional로 변경

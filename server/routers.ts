@@ -204,7 +204,7 @@ export const appRouter = router({
     create: publicProcedure
       .input(z.object({
         clientName: z.string(),
-        clientEmail: z.string(),
+        clientEmail: z.string().optional(),
         clientPhone: z.string().optional(),
         eventName: z.string(),
         eventType: z.enum(['photo', 'concert', 'video', 'music_video', 'other']),

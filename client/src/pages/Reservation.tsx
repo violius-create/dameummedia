@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,11 +17,13 @@ export default function Reservation() {
   // Load dynamic form labels
   const { data: labels } = trpc.reservationFormLabels.get.useQuery();
 
+  // 로그인 사용자의 이름을 자동으로 채우기
+  const initialClientName = user?.name || "";
+
   const [formData, setFormData] = useState({
     // 담당자 정보
-    clientName: "",
+    clientName: initialClientName,
     clientPhone: "",
-    clientEmail: "",
     // 행사 정보
     eventName: "",
     venue: "",
@@ -48,6 +50,13 @@ export default function Reservation() {
     guestPassword: "",
   });
 
+  // user가 비동기로 로드된 후 이름 자동 채우기
+  useEffect(() => {
+    if (user?.name && !formData.clientName) {
+      setFormData(prev => ({ ...prev, clientName: user.name || "" }));
+    }
+  }, [user]);
+
   const uploadFileMutation = trpc.upload.uploadFile.useMutation();
 
   const createReservationMutation = trpc.reservations.create.useMutation({
@@ -65,7 +74,7 @@ export default function Reservation() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.clientName || !formData.clientEmail || !formData.eventName) {
+    if (!formData.clientName || !formData.eventName) {
       toast.error("필수 항목을 모두 입력해주세요.");
       return;
     }
@@ -82,7 +91,6 @@ export default function Reservation() {
 
     createReservationMutation.mutate({
       clientName: formData.clientName,
-      clientEmail: formData.clientEmail,
       clientPhone: formData.clientPhone,
       eventName: formData.eventName,
       eventType: formData.eventType as any,
@@ -116,7 +124,6 @@ export default function Reservation() {
     cat5: labels?.cat5Label || "프로그램 및 요청사항",
     sub1_1: labels?.sub1_1Label || "담당자 성함",
     sub1_2: labels?.sub1_2Label || "연락처",
-    sub1_3: labels?.sub1_3Label || "이메일",
     sub2_1: labels?.sub2_1Label || "행사명",
     sub2_2: labels?.sub2_2Label || "장소",
     sub2_3: labels?.sub2_3Label || "행사 날짜",
@@ -245,20 +252,6 @@ export default function Reservation() {
                         placeholder="010-1234-5678"
                         value={formData.clientPhone}
                         onChange={(e) => setFormData({ ...formData, clientPhone: e.target.value })}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="clientEmail">
-                        {l.sub1_3} <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="clientEmail"
-                        type="email"
-                        placeholder="example@email.com"
-                        value={formData.clientEmail}
-                        onChange={(e) => setFormData({ ...formData, clientEmail: e.target.value })}
-                        required
                       />
                     </div>
 
