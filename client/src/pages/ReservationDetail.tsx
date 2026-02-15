@@ -8,12 +8,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, Edit2, Trash2, Loader2, Link2, ExternalLink, Upload } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
+
+// Move helper components OUTSIDE the main component to prevent DOM replacement on re-render
+const InfoRow = ({ label, value, labelColor = "text-muted-foreground" }: { label: string; value: React.ReactNode; labelColor?: string }) => (
+  <div className="flex items-baseline gap-3 py-2 border-b border-gray-100 last:border-b-0">
+    <span className={`text-xs sm:text-sm font-semibold ${labelColor} whitespace-nowrap min-w-[80px] sm:min-w-[120px]`}>{label}</span>
+    <span className="text-sm sm:text-base text-foreground font-medium flex-1">{value || "-"}</span>
+  </div>
+);
+
+const EditRow = ({ label, children, labelColor = "text-muted-foreground" }: { label: string; children: React.ReactNode; labelColor?: string }) => (
+  <div className="flex items-center gap-3 py-2 border-b border-gray-100 last:border-b-0">
+    <span className={`text-xs sm:text-sm font-semibold ${labelColor} whitespace-nowrap min-w-[80px] sm:min-w-[120px]`}>{label}</span>
+    <div className="flex-1">{children}</div>
+  </div>
+);
+
+// Isolated amount input component to prevent parent re-renders from destroying the input DOM
+const AmountInput = memo(({ initialValue, onValueChange, placeholder }: { initialValue: string; onValueChange: (val: string) => void; placeholder: string }) => {
+  const [localValue, setLocalValue] = useState(initialValue);
+  return (
+    <Input
+      value={localValue}
+      onChange={(e) => {
+        setLocalValue(e.target.value);
+        onValueChange(e.target.value);
+      }}
+      placeholder={placeholder}
+    />
+  );
+});
+AmountInput.displayName = 'AmountInput';
 
 export default function ReservationDetail() {
   const [, params] = useRoute("/reservation/:id");
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<any>(null);
+  const [quotedAmountStr, setQuotedAmountStr] = useState('');
+  const [paidAmountStr, setPaidAmountStr] = useState('');
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
 
@@ -54,6 +87,8 @@ export default function ReservationDetail() {
 
   const handleEdit = () => {
     setEditData({ ...reservation });
+    setQuotedAmountStr(String(reservation?.quotedAmount ?? ''));
+    setPaidAmountStr(String(reservation?.paidAmount ?? ''));
     setIsEditing(true);
   };
 
@@ -66,6 +101,10 @@ export default function ReservationDetail() {
       toast.error("예약 정보를 찾을 수 없습니다.");
       return;
     }
+
+    // Sync amount string states back to editData before saving
+    editData.quotedAmount = quotedAmountStr === '' ? 0 : parseInt(quotedAmountStr.replace(/[^0-9]/g, '')) || 0;
+    editData.paidAmount = paidAmountStr === '' ? 0 : parseInt(paidAmountStr.replace(/[^0-9]/g, '')) || 0;
 
     const readOnlyFields = ['id', 'createdAt', 'updatedAt'];
 
@@ -131,6 +170,43 @@ export default function ReservationDetail() {
     labels?.progressOption5 || "작업완료",
     labels?.progressOption6 || "취소",
   ], [labels]);
+
+  // Radio/checkbox option labels from DB
+  const eventTypeOptions = useMemo(() => [
+    { value: "photo", label: labels?.eventTypeOption1 || "사진 촬영" },
+    { value: "concert", label: labels?.eventTypeOption2 || "공연 촬영" },
+    { value: "video", label: labels?.eventTypeOption3 || "영상 제작" },
+    { value: "music_video", label: labels?.eventTypeOption4 || "뮤직비디오 제작" },
+    { value: "other", label: labels?.eventTypeOption5 || "기타" },
+  ], [labels]);
+  const recordingTypeOptions = useMemo(() => [
+    labels?.recordingTypeOption1 || "Photo",
+    labels?.recordingTypeOption2 || "Solo",
+    labels?.recordingTypeOption3 || "Recording",
+    labels?.recordingTypeOption4 || "Simple",
+    labels?.recordingTypeOption5 || "Basic",
+    labels?.recordingTypeOption6 || "Professional",
+  ], [labels]);
+  const specialReqOptions = useMemo(() => [
+    labels?.specialReqOption1 || "드론",
+    labels?.specialReqOption2 || "짐벌",
+    labels?.specialReqOption3 || "지미집",
+    labels?.specialReqOption4 || "기타",
+  ], [labels]);
+  const isPublicOptionLabels = useMemo(() => ({
+    "1": labels?.isPublicOption1 || "허용",
+    "0": labels?.isPublicOption2 || "불허",
+  }), [labels]);
+  const paymentMethodOptionLabels = useMemo(() => ({
+    card: labels?.paymentMethodOption1 || "카드",
+    transfer: labels?.paymentMethodOption2 || "계좌이체",
+    cash: labels?.paymentMethodOption3 || "현금",
+  }), [labels]);
+  const receiptTypeOptionLabels = useMemo(() => ({
+    issued: labels?.receiptTypeOption1 || "발행",
+    not_issued: labels?.receiptTypeOption2 || "미발행",
+    cash_receipt: labels?.receiptTypeOption3 || "간이영수증",
+  }), [labels]);
 
   if (isLoading) {
     return (
@@ -199,32 +275,16 @@ export default function ReservationDetail() {
   };
 
   const getEventTypeLabel = (type: string) => {
-    switch (type) {
-      case 'photo': return '사진 촬영';
-      case 'concert': return '공연 촬영';
-      case 'video': return '영상 제작';
-      case 'music_video': return '뮤직비디오 제작';
-      case 'other': return '기타';
-      default: return type;
-    }
+    const found = eventTypeOptions.find(o => o.value === type);
+    return found ? found.label : type;
   };
 
   const getPaymentMethodLabel = (method: string) => {
-    switch (method) {
-      case 'card': return '카드';
-      case 'transfer': return '계좌이체';
-      case 'cash': return '현금';
-      default: return method || '-';
-    }
+    return (paymentMethodOptionLabels as any)[method] || method || '-';
   };
 
   const getReceiptTypeLabel = (type: string) => {
-    switch (type) {
-      case 'issued': return '발행';
-      case 'not_issued': return '미발행';
-      case 'cash_receipt': return '간이영수증';
-      default: return type || '-';
-    }
+    return (receiptTypeOptionLabels as any)[type] || type || '-';
   };
 
   const isValidUrl = (url: string | null | undefined): boolean => {
@@ -252,21 +312,7 @@ export default function ReservationDetail() {
   const imageAttachments = attachments.filter(isImageUrl);
   const fileAttachments = attachments.filter(url => !isImageUrl(url));
 
-  // Inline row component for view mode
-  const InfoRow = ({ label, value, labelColor = "text-muted-foreground" }: { label: string; value: React.ReactNode; labelColor?: string }) => (
-    <div className="flex items-baseline gap-3 py-2 border-b border-gray-100 last:border-b-0">
-      <span className={`text-xs sm:text-sm font-semibold ${labelColor} whitespace-nowrap min-w-[80px] sm:min-w-[120px]`}>{label}</span>
-      <span className="text-sm sm:text-base text-foreground font-medium flex-1">{value || "-"}</span>
-    </div>
-  );
-
-  // Inline row for edit mode
-  const EditRow = ({ label, children, labelColor = "text-muted-foreground" }: { label: string; children: React.ReactNode; labelColor?: string }) => (
-    <div className="flex items-center gap-3 py-2 border-b border-gray-100 last:border-b-0">
-      <span className={`text-xs sm:text-sm font-semibold ${labelColor} whitespace-nowrap min-w-[80px] sm:min-w-[120px]`}>{label}</span>
-      <div className="flex-1">{children}</div>
-    </div>
-  );
+  //   // InfoRow and EditRow are now defined outside the component to prevent DOM replacement);
 
   return (
     <div className="min-h-screen bg-background">
@@ -440,33 +486,28 @@ export default function ReservationDetail() {
                   <div className="space-y-0">
                     <EditRow label={l.sub3_1} labelColor="text-purple-700">
                       <Select value={editData?.eventType || "photo"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, eventType: value }))}>
-                        <SelectTrigger><SelectValue placeholder="사진 촬영" /></SelectTrigger>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="photo">사진 촬영</SelectItem>
-                          <SelectItem value="concert">공연 촬영</SelectItem>
-                          <SelectItem value="video">영상 제작</SelectItem>
-                          <SelectItem value="music_video">뮤직비디오 제작</SelectItem>
-                          <SelectItem value="other">기타</SelectItem>
+                          {eventTypeOptions.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </EditRow>
                     <EditRow label={l.sub3_2} labelColor="text-purple-700">
-                      <Select value={editData?.recordingType || "Photo"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, recordingType: value }))}>
-                        <SelectTrigger><SelectValue placeholder="Photo" /></SelectTrigger>
+                      <Select value={editData?.recordingType || recordingTypeOptions[0]} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, recordingType: value }))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Photo">Photo</SelectItem>
-                          <SelectItem value="Solo">Solo</SelectItem>
-                          <SelectItem value="Recording">Recording</SelectItem>
-                          <SelectItem value="Simple">Simple</SelectItem>
-                          <SelectItem value="Basic">Basic</SelectItem>
-                          <SelectItem value="Professional">Professional</SelectItem>
+                          {recordingTypeOptions.map((opt) => (
+                            <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </EditRow>
                     {/* 특수 요청 - 체크박스 */}
                     <EditRow label={l.sub3_3} labelColor="text-purple-700">
                       <div className="flex flex-wrap gap-3">
-                        {["드론", "짐벌", "지미집", "기타"].map((opt) => {
+                        {specialReqOptions.map((opt) => {
                           const currentReqs = editData?.specialRequirements ? editData.specialRequirements.split(",").map((s: string) => s.trim()).filter(Boolean) : [];
                           const isChecked = currentReqs.includes(opt);
                           return (
@@ -492,8 +533,9 @@ export default function ReservationDetail() {
                       <Select value={String(editData?.isPublic ?? 1)} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, isPublic: parseInt(value) }))}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="1">허용</SelectItem>
-                          <SelectItem value="0">불허</SelectItem>
+                          {Object.entries(isPublicOptionLabels).map(([val, label]) => (
+                            <SelectItem key={val} value={val}>{label}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </EditRow>
@@ -503,7 +545,7 @@ export default function ReservationDetail() {
                     <InfoRow label={l.sub3_1} value={getEventTypeLabel(displayData.eventType)} labelColor="text-purple-700" />
                     <InfoRow label={l.sub3_2} value={displayData.recordingType} labelColor="text-purple-700" />
                     <InfoRow label={l.sub3_3} value={displayData.specialRequirements} labelColor="text-purple-700" />
-                    <InfoRow label={l.sub3_4} value={displayData.isPublic === 1 ? "허용" : "불허"} labelColor="text-purple-700" />
+                    <InfoRow label={l.sub3_4} value={isPublicOptionLabels[String(displayData.isPublic) as "1" | "0"]} labelColor="text-purple-700" />
                   </div>
                 )}
               </div>
@@ -524,9 +566,9 @@ export default function ReservationDetail() {
                       <Select value={editData?.paymentMethod || "card"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, paymentMethod: value }))}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="card">카드</SelectItem>
-                          <SelectItem value="transfer">계좌이체</SelectItem>
-                          <SelectItem value="cash">현금</SelectItem>
+                          {Object.entries(paymentMethodOptionLabels).map(([val, label]) => (
+                            <SelectItem key={val} value={val}>{label}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </EditRow>
@@ -534,9 +576,9 @@ export default function ReservationDetail() {
                       <Select value={editData?.receiptType || "issued"} onValueChange={(value) => setEditData((prev: any) => ({ ...prev, receiptType: value }))}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="issued">발행</SelectItem>
-                          <SelectItem value="not_issued">미발행</SelectItem>
-                          <SelectItem value="cash_receipt">간이영수증</SelectItem>
+                          {Object.entries(receiptTypeOptionLabels).map(([val, label]) => (
+                            <SelectItem key={val} value={val}>{label}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </EditRow>
@@ -559,15 +601,25 @@ export default function ReservationDetail() {
                     {isAdmin ? (
                       <>
                         <EditRow label={`${l.sub4_3} ⚙`} labelColor="text-orange-700">
-                          <Input type="text" inputMode="numeric" value={editData?._quotedAmountStr ?? String(editData?.quotedAmount ?? '')} onChange={(e) => { const raw = e.target.value; const numericOnly = raw.replace(/[^0-9]/g, ''); setEditData((prev: any) => ({ ...prev, _quotedAmountStr: raw, quotedAmount: numericOnly === '' ? 0 : parseInt(numericOnly) })); }} placeholder="숫자 입력" />
+                          <AmountInput
+                            key="quoted-amount"
+                            initialValue={quotedAmountStr}
+                            onValueChange={setQuotedAmountStr}
+                            placeholder="숫자 입력"
+                          />
                         </EditRow>
                         <EditRow label={`${l.sub4_4} ⚙`} labelColor="text-orange-700">
-                          <Input type="text" inputMode="numeric" value={editData?._paidAmountStr ?? String(editData?.paidAmount ?? '')} onChange={(e) => { const raw = e.target.value; const numericOnly = raw.replace(/[^0-9]/g, ''); setEditData((prev: any) => ({ ...prev, _paidAmountStr: raw, paidAmount: numericOnly === '' ? 0 : parseInt(numericOnly) })); }} placeholder="숫자 입력" />
+                          <AmountInput
+                            key="paid-amount"
+                            initialValue={paidAmountStr}
+                            onValueChange={setPaidAmountStr}
+                            placeholder="숫자 입력"
+                          />
                         </EditRow>
                         <div className="flex items-center gap-3 py-2 border-b border-gray-100">
                           <span className="text-xs sm:text-sm font-semibold text-orange-700 whitespace-nowrap min-w-[80px] sm:min-w-[120px]">{l.sub4_5}</span>
                           <span className="text-sm sm:text-base text-red-600 font-bold flex-1">
-                            {((editData?.quotedAmount || 0) - (editData?.paidAmount || 0)).toLocaleString()}원 (자동계산)
+                            {((parseInt(quotedAmountStr.replace(/[^0-9]/g, '')) || 0) - (parseInt(paidAmountStr.replace(/[^0-9]/g, '')) || 0)).toLocaleString()}원 (자동계산)
                           </span>
                         </div>
                       </>

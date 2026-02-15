@@ -1,0 +1,109 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'reservationFormLabels' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'reservationFormLabels' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "cat1Label"
+    },
+    {
+      "COLUMN_NAME": "cat2Label"
+    },
+    {
+      "COLUMN_NAME": "cat3Label"
+    },
+    {
+      "COLUMN_NAME": "cat4Label"
+    },
+    {
+      "COLUMN_NAME": "cat5Label"
+    },
+    {
+      "COLUMN_NAME": "sub1_1Label"
+    },
+    {
+      "COLUMN_NAME": "sub1_2Label"
+    },
+    {
+      "COLUMN_NAME": "sub1_3Label"
+    },
+    {
+      "COLUMN_NAME": "sub2_1Label"
+    },
+    {
+      "COLUMN_NAME": "sub2_2Label"
+    },
+    {
+      "COLUMN_NAME": "sub2_3Label"
+    },
+    {
+      "COLUMN_NAME": "sub2_4Label"
+    },
+    {
+      "COLUMN_NAME": "sub2_5Label"
+    },
+    {
+      "COLUMN_NAME": "sub3_1Label"
+    },
+    {
+      "COLUMN_NAME": "sub3_2Label"
+    },
+    {
+      "COLUMN_NAME": "sub3_3Label"
+    },
+    {
+      "COLUMN_NAME": "sub3_4Label"
+    },
+    {
+      "COLUMN_NAME": "sub4_1Label"
+    },
+    {
+      "COLUMN_NAME": "sub4_2Label"
+    },
+    {
+      "COLUMN_NAME": "sub4_3Label"
+    },
+    {
+      "COLUMN_NAME": "sub4_4Label"
+    },
+    {
+      "COLUMN_NAME": "sub4_5Label"
+    },
+    {
+      "COLUMN_NAME": "updatedBy"
+    },
+    {
+      "COLUMN_NAME": "createdAt"
+    },
+    {
+      "COLUMN_NAME": "updatedAt"
+    },
+    {
+      "COLUMN_NAME": "sub4_6Label"
+    },
+    {
+      "COLUMN_NAME": "progressOption1"
+    },
+    {
+      "COLUMN_NAME": "progressOption2"
+    },
+    {
+      "COLUMN_NAME": "progressOption3"
+    },
+    {
+      "COLUMN_NAME": "progressOption4"
+    },
+    {
+      "COLUMN_NAME": "progressOption5"
+    },
+    {
+      "COLUMN_NAME": "progressOption6"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\ncat1Label\ncat2Label\ncat3Label\ncat4Label\ncat5Label\nsub1_1Label\nsub1_2Label\nsub1_3Label\nsub2_1Label\nsub2_2Label\nsub2_3Label\nsub2_4Label\nsub2_5Label\nsub3_1Label\nsub3_2Label\nsub3_3Label\nsub3_4Label\nsub4_1Label\nsub4_2Label\nsub4_3Label\nsub4_4Label\nsub4_5Label\nupdatedBy\ncreatedAt\nupdatedAt\nsub4_6Label\nprogressOption1\nprogressOption2\nprogressOption3\nprogressOption4\nprogressOption5\nprogressOption6\n",
+  "stderr": "",
+  "execution_time_ms": 1523
+}

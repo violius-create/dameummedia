@@ -8,7 +8,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 
-const DEFAULT_LABELS = {
+const DEFAULT_LABELS: Record<string, string> = {
   cat1Label: "담당자 정보",
   cat2Label: "행사 정보",
   cat3Label: "작업 내용",
@@ -38,6 +38,29 @@ const DEFAULT_LABELS = {
   progressOption4: "작업중",
   progressOption5: "작업완료",
   progressOption6: "취소",
+  eventTypeOption1: "사진 촬영",
+  eventTypeOption2: "공연 촬영",
+  eventTypeOption3: "영상 제작",
+  eventTypeOption4: "뮤직비디오 제작",
+  eventTypeOption5: "기타",
+  recordingTypeOption1: "Photo",
+  recordingTypeOption2: "Solo",
+  recordingTypeOption3: "Recording",
+  recordingTypeOption4: "Simple",
+  recordingTypeOption5: "Basic",
+  recordingTypeOption6: "Professional",
+  specialReqOption1: "드론",
+  specialReqOption2: "짐벌",
+  specialReqOption3: "지미집",
+  specialReqOption4: "기타",
+  isPublicOption1: "허용",
+  isPublicOption2: "불허",
+  paymentMethodOption1: "카드",
+  paymentMethodOption2: "계좌이체",
+  paymentMethodOption3: "현금",
+  receiptTypeOption1: "발행",
+  receiptTypeOption2: "미발행",
+  receiptTypeOption3: "간이영수증",
 };
 
 type LabelKey = keyof typeof DEFAULT_LABELS;
@@ -57,52 +80,26 @@ export default function AdminReservationLabels() {
 
   useEffect(() => {
     if (labels) {
-      setFormData({
-        cat1Label: labels.cat1Label || DEFAULT_LABELS.cat1Label,
-        cat2Label: labels.cat2Label || DEFAULT_LABELS.cat2Label,
-        cat3Label: labels.cat3Label || DEFAULT_LABELS.cat3Label,
-        cat4Label: labels.cat4Label || DEFAULT_LABELS.cat4Label,
-        cat5Label: labels.cat5Label || DEFAULT_LABELS.cat5Label,
-        sub1_1Label: labels.sub1_1Label || DEFAULT_LABELS.sub1_1Label,
-        sub1_2Label: labels.sub1_2Label || DEFAULT_LABELS.sub1_2Label,
-        sub1_3Label: labels.sub1_3Label || DEFAULT_LABELS.sub1_3Label,
-        sub2_1Label: labels.sub2_1Label || DEFAULT_LABELS.sub2_1Label,
-        sub2_2Label: labels.sub2_2Label || DEFAULT_LABELS.sub2_2Label,
-        sub2_3Label: labels.sub2_3Label || DEFAULT_LABELS.sub2_3Label,
-        sub2_4Label: labels.sub2_4Label || DEFAULT_LABELS.sub2_4Label,
-        sub2_5Label: labels.sub2_5Label || DEFAULT_LABELS.sub2_5Label,
-        sub3_1Label: labels.sub3_1Label || DEFAULT_LABELS.sub3_1Label,
-        sub3_2Label: labels.sub3_2Label || DEFAULT_LABELS.sub3_2Label,
-        sub3_3Label: labels.sub3_3Label || DEFAULT_LABELS.sub3_3Label,
-        sub3_4Label: labels.sub3_4Label || DEFAULT_LABELS.sub3_4Label,
-        sub4_1Label: labels.sub4_1Label || DEFAULT_LABELS.sub4_1Label,
-        sub4_2Label: labels.sub4_2Label || DEFAULT_LABELS.sub4_2Label,
-        sub4_3Label: labels.sub4_3Label || DEFAULT_LABELS.sub4_3Label,
-        sub4_4Label: labels.sub4_4Label || DEFAULT_LABELS.sub4_4Label,
-        sub4_5Label: labels.sub4_5Label || DEFAULT_LABELS.sub4_5Label,
-        sub4_6Label: labels.sub4_6Label || DEFAULT_LABELS.sub4_6Label,
-        progressOption1: labels.progressOption1 || DEFAULT_LABELS.progressOption1,
-        progressOption2: labels.progressOption2 || DEFAULT_LABELS.progressOption2,
-        progressOption3: labels.progressOption3 || DEFAULT_LABELS.progressOption3,
-        progressOption4: labels.progressOption4 || DEFAULT_LABELS.progressOption4,
-        progressOption5: labels.progressOption5 || DEFAULT_LABELS.progressOption5,
-        progressOption6: labels.progressOption6 || DEFAULT_LABELS.progressOption6,
-      });
+      const newData: Record<string, string> = {};
+      for (const key of Object.keys(DEFAULT_LABELS)) {
+        newData[key] = (labels as any)[key] || DEFAULT_LABELS[key];
+      }
+      setFormData(newData);
     }
   }, [labels]);
 
-  const handleChange = (key: LabelKey, value: string) => {
+  const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSave = () => {
-    updateMutation.mutate(formData);
+    updateMutation.mutate(formData as any);
   };
 
   const handleReset = () => {
     if (confirm("모든 라벨을 기본값으로 초기화하시겠습니까?")) {
       setFormData(DEFAULT_LABELS);
-      updateMutation.mutate(DEFAULT_LABELS);
+      updateMutation.mutate(DEFAULT_LABELS as any);
     }
   };
 
@@ -118,54 +115,114 @@ export default function AdminReservationLabels() {
     {
       title: "카테고리 1",
       color: "blue",
-      catKey: "cat1Label" as LabelKey,
+      catKey: "cat1Label",
       subs: [
-        { key: "sub1_1Label" as LabelKey, default: DEFAULT_LABELS.sub1_1Label },
-        { key: "sub1_2Label" as LabelKey, default: DEFAULT_LABELS.sub1_2Label },
-        { key: "sub1_3Label" as LabelKey, default: DEFAULT_LABELS.sub1_3Label },
+        { key: "sub1_1Label", default: DEFAULT_LABELS.sub1_1Label },
+        { key: "sub1_2Label", default: DEFAULT_LABELS.sub1_2Label },
+        { key: "sub1_3Label", default: DEFAULT_LABELS.sub1_3Label },
       ],
+      options: [],
     },
     {
       title: "카테고리 2",
       color: "green",
-      catKey: "cat2Label" as LabelKey,
+      catKey: "cat2Label",
       subs: [
-        { key: "sub2_1Label" as LabelKey, default: DEFAULT_LABELS.sub2_1Label },
-        { key: "sub2_2Label" as LabelKey, default: DEFAULT_LABELS.sub2_2Label },
-        { key: "sub2_3Label" as LabelKey, default: DEFAULT_LABELS.sub2_3Label },
-        { key: "sub2_4Label" as LabelKey, default: DEFAULT_LABELS.sub2_4Label },
-        { key: "sub2_5Label" as LabelKey, default: DEFAULT_LABELS.sub2_5Label },
+        { key: "sub2_1Label", default: DEFAULT_LABELS.sub2_1Label },
+        { key: "sub2_2Label", default: DEFAULT_LABELS.sub2_2Label },
+        { key: "sub2_3Label", default: DEFAULT_LABELS.sub2_3Label },
+        { key: "sub2_4Label", default: DEFAULT_LABELS.sub2_4Label },
+        { key: "sub2_5Label", default: DEFAULT_LABELS.sub2_5Label },
       ],
+      options: [],
     },
     {
       title: "카테고리 3",
       color: "purple",
-      catKey: "cat3Label" as LabelKey,
+      catKey: "cat3Label",
       subs: [
-        { key: "sub3_1Label" as LabelKey, default: DEFAULT_LABELS.sub3_1Label },
-        { key: "sub3_2Label" as LabelKey, default: DEFAULT_LABELS.sub3_2Label },
-        { key: "sub3_3Label" as LabelKey, default: DEFAULT_LABELS.sub3_3Label },
-        { key: "sub3_4Label" as LabelKey, default: DEFAULT_LABELS.sub3_4Label },
+        { key: "sub3_1Label", default: DEFAULT_LABELS.sub3_1Label },
+        { key: "sub3_2Label", default: DEFAULT_LABELS.sub3_2Label },
+        { key: "sub3_3Label", default: DEFAULT_LABELS.sub3_3Label },
+        { key: "sub3_4Label", default: DEFAULT_LABELS.sub3_4Label },
+      ],
+      options: [
+        {
+          groupLabel: "분류 옵션 (라디오)",
+          items: [
+            { key: "eventTypeOption1", default: DEFAULT_LABELS.eventTypeOption1 },
+            { key: "eventTypeOption2", default: DEFAULT_LABELS.eventTypeOption2 },
+            { key: "eventTypeOption3", default: DEFAULT_LABELS.eventTypeOption3 },
+            { key: "eventTypeOption4", default: DEFAULT_LABELS.eventTypeOption4 },
+            { key: "eventTypeOption5", default: DEFAULT_LABELS.eventTypeOption5 },
+          ],
+        },
+        {
+          groupLabel: "촬영 유형 옵션 (라디오)",
+          items: [
+            { key: "recordingTypeOption1", default: DEFAULT_LABELS.recordingTypeOption1 },
+            { key: "recordingTypeOption2", default: DEFAULT_LABELS.recordingTypeOption2 },
+            { key: "recordingTypeOption3", default: DEFAULT_LABELS.recordingTypeOption3 },
+            { key: "recordingTypeOption4", default: DEFAULT_LABELS.recordingTypeOption4 },
+            { key: "recordingTypeOption5", default: DEFAULT_LABELS.recordingTypeOption5 },
+            { key: "recordingTypeOption6", default: DEFAULT_LABELS.recordingTypeOption6 },
+          ],
+        },
+        {
+          groupLabel: "특수 요청 옵션 (체크박스)",
+          items: [
+            { key: "specialReqOption1", default: DEFAULT_LABELS.specialReqOption1 },
+            { key: "specialReqOption2", default: DEFAULT_LABELS.specialReqOption2 },
+            { key: "specialReqOption3", default: DEFAULT_LABELS.specialReqOption3 },
+            { key: "specialReqOption4", default: DEFAULT_LABELS.specialReqOption4 },
+          ],
+        },
+        {
+          groupLabel: "공개 여부 옵션 (라디오)",
+          items: [
+            { key: "isPublicOption1", default: DEFAULT_LABELS.isPublicOption1 },
+            { key: "isPublicOption2", default: DEFAULT_LABELS.isPublicOption2 },
+          ],
+        },
       ],
     },
     {
       title: "카테고리 4",
       color: "orange",
-      catKey: "cat4Label" as LabelKey,
+      catKey: "cat4Label",
       subs: [
-        { key: "sub4_1Label" as LabelKey, default: DEFAULT_LABELS.sub4_1Label },
-        { key: "sub4_2Label" as LabelKey, default: DEFAULT_LABELS.sub4_2Label },
-        { key: "sub4_3Label" as LabelKey, default: DEFAULT_LABELS.sub4_3Label },
-        { key: "sub4_4Label" as LabelKey, default: DEFAULT_LABELS.sub4_4Label },
-        { key: "sub4_5Label" as LabelKey, default: DEFAULT_LABELS.sub4_5Label },
-        { key: "sub4_6Label" as LabelKey, default: DEFAULT_LABELS.sub4_6Label },
+        { key: "sub4_1Label", default: DEFAULT_LABELS.sub4_1Label },
+        { key: "sub4_2Label", default: DEFAULT_LABELS.sub4_2Label },
+        { key: "sub4_3Label", default: DEFAULT_LABELS.sub4_3Label },
+        { key: "sub4_4Label", default: DEFAULT_LABELS.sub4_4Label },
+        { key: "sub4_5Label", default: DEFAULT_LABELS.sub4_5Label },
+        { key: "sub4_6Label", default: DEFAULT_LABELS.sub4_6Label },
+      ],
+      options: [
+        {
+          groupLabel: "결제 방식 옵션 (라디오)",
+          items: [
+            { key: "paymentMethodOption1", default: DEFAULT_LABELS.paymentMethodOption1 },
+            { key: "paymentMethodOption2", default: DEFAULT_LABELS.paymentMethodOption2 },
+            { key: "paymentMethodOption3", default: DEFAULT_LABELS.paymentMethodOption3 },
+          ],
+        },
+        {
+          groupLabel: "계산서 발행 옵션 (라디오)",
+          items: [
+            { key: "receiptTypeOption1", default: DEFAULT_LABELS.receiptTypeOption1 },
+            { key: "receiptTypeOption2", default: DEFAULT_LABELS.receiptTypeOption2 },
+            { key: "receiptTypeOption3", default: DEFAULT_LABELS.receiptTypeOption3 },
+          ],
+        },
       ],
     },
     {
       title: "카테고리 5",
       color: "red",
-      catKey: "cat5Label" as LabelKey,
+      catKey: "cat5Label",
       subs: [],
+      options: [],
     },
   ];
 
@@ -209,7 +266,7 @@ export default function AdminReservationLabels() {
           </div>
 
           <p className="text-sm text-muted-foreground mb-6">
-            예약 폼과 상세 페이지에 표시되는 카테고리 및 서브항목의 이름을 수정할 수 있습니다. 변경 후 저장 버튼을 클릭하세요.
+            예약 폼과 상세 페이지에 표시되는 카테고리, 서브항목, 라디오/체크박스 옵션의 이름을 수정할 수 있습니다. 변경 후 저장 버튼을 클릭하세요.
           </p>
 
           {/* Sections */}
@@ -234,21 +291,50 @@ export default function AdminReservationLabels() {
                       </div>
                     </div>
                   </CardHeader>
-                  {section.subs.length > 0 && (
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {section.subs.map((sub) => (
-                          <div key={sub.key} className={`${cc.subBg} rounded p-3 border ${cc.subBorder}`}>
-                            <Label className="text-xs text-muted-foreground">서브항목 ({sub.default})</Label>
-                            <Input
-                              value={formData[sub.key]}
-                              onChange={(e) => handleChange(sub.key, e.target.value)}
-                              className="mt-1"
-                              placeholder={sub.default}
-                            />
+                  {(section.subs.length > 0 || section.options.length > 0) && (
+                    <CardContent className="space-y-6">
+                      {/* Sub-item labels */}
+                      {section.subs.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-semibold text-muted-foreground mb-3">서브항목 라벨</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {section.subs.map((sub) => (
+                              <div key={sub.key} className={`${cc.subBg} rounded p-3 border ${cc.subBorder}`}>
+                                <Label className="text-xs text-muted-foreground">서브항목 ({sub.default})</Label>
+                                <Input
+                                  value={formData[sub.key]}
+                                  onChange={(e) => handleChange(sub.key, e.target.value)}
+                                  className="mt-1"
+                                  placeholder={sub.default}
+                                />
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      )}
+
+                      {/* Radio/Checkbox option labels */}
+                      {section.options.map((optGroup, oi) => (
+                        <div key={oi}>
+                          <h4 className="text-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
+                            <span className="inline-block w-2 h-2 rounded-full bg-amber-400"></span>
+                            {optGroup.groupLabel}
+                          </h4>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            {optGroup.items.map((item, ii) => (
+                              <div key={item.key} className="bg-amber-50 rounded p-3 border border-amber-200">
+                                <Label className="text-xs text-muted-foreground">옵션 {ii + 1} ({item.default})</Label>
+                                <Input
+                                  value={formData[item.key]}
+                                  onChange={(e) => handleChange(item.key, e.target.value)}
+                                  className="mt-1"
+                                  placeholder={item.default}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </CardContent>
                   )}
                 </Card>
@@ -271,12 +357,12 @@ export default function AdminReservationLabels() {
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {([
-                    { key: "progressOption1" as LabelKey, default: "접수중", num: 1 },
-                    { key: "progressOption2" as LabelKey, default: "예약완료", num: 2 },
-                    { key: "progressOption3" as LabelKey, default: "준비중", num: 3 },
-                    { key: "progressOption4" as LabelKey, default: "작업중", num: 4 },
-                    { key: "progressOption5" as LabelKey, default: "작업완료", num: 5 },
-                    { key: "progressOption6" as LabelKey, default: "취소", num: 6 },
+                    { key: "progressOption1", default: "접수중", num: 1 },
+                    { key: "progressOption2", default: "예약완료", num: 2 },
+                    { key: "progressOption3", default: "준비중", num: 3 },
+                    { key: "progressOption4", default: "작업중", num: 4 },
+                    { key: "progressOption5", default: "작업완료", num: 5 },
+                    { key: "progressOption6", default: "취소", num: 6 },
                   ]).map((opt) => (
                     <div key={opt.key} className="bg-white rounded p-3 border border-amber-200">
                       <Label className="text-xs text-muted-foreground">옵션 {opt.num} ({opt.default})</Label>

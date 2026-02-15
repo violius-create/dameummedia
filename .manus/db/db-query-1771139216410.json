@@ -1,0 +1,274 @@
+{
+  "query": "SHOW COLUMNS FROM reservationFormLabels;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SHOW COLUMNS FROM reservationFormLabels;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "cat1Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "담당자 정보",
+      "Extra": ""
+    },
+    {
+      "Field": "cat2Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "행사 정보",
+      "Extra": ""
+    },
+    {
+      "Field": "cat3Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "작업 내용",
+      "Extra": ""
+    },
+    {
+      "Field": "cat4Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "결제 정보",
+      "Extra": ""
+    },
+    {
+      "Field": "cat5Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "프로그램 및 요청사항",
+      "Extra": ""
+    },
+    {
+      "Field": "sub1_1Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "담당자 성함",
+      "Extra": ""
+    },
+    {
+      "Field": "sub1_2Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "연락처",
+      "Extra": ""
+    },
+    {
+      "Field": "sub1_3Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "이메일",
+      "Extra": ""
+    },
+    {
+      "Field": "sub2_1Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "행사명",
+      "Extra": ""
+    },
+    {
+      "Field": "sub2_2Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "장소",
+      "Extra": ""
+    },
+    {
+      "Field": "sub2_3Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "행사 날짜",
+      "Extra": ""
+    },
+    {
+      "Field": "sub2_4Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "시작 시간",
+      "Extra": ""
+    },
+    {
+      "Field": "sub2_5Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "리허설 시간",
+      "Extra": ""
+    },
+    {
+      "Field": "sub3_1Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "분류",
+      "Extra": ""
+    },
+    {
+      "Field": "sub3_2Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "촬영 유형",
+      "Extra": ""
+    },
+    {
+      "Field": "sub3_3Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "특수 요청",
+      "Extra": ""
+    },
+    {
+      "Field": "sub3_4Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "공개 여부",
+      "Extra": ""
+    },
+    {
+      "Field": "sub4_1Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "결제 방식",
+      "Extra": ""
+    },
+    {
+      "Field": "sub4_2Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "계산서 발행",
+      "Extra": ""
+    },
+    {
+      "Field": "sub4_3Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "견적액",
+      "Extra": ""
+    },
+    {
+      "Field": "sub4_4Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "결제된 금액",
+      "Extra": ""
+    },
+    {
+      "Field": "sub4_5Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "미납 금액",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedBy",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "createdAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "sub4_6Label",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "진행상황",
+      "Extra": ""
+    },
+    {
+      "Field": "progressOption1",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "접수중",
+      "Extra": ""
+    },
+    {
+      "Field": "progressOption2",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "예약완료",
+      "Extra": ""
+    },
+    {
+      "Field": "progressOption3",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "준비중",
+      "Extra": ""
+    },
+    {
+      "Field": "progressOption4",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "작업중",
+      "Extra": ""
+    },
+    {
+      "Field": "progressOption5",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "작업완료",
+      "Extra": ""
+    },
+    {
+      "Field": "progressOption6",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "취소",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\ncat1Label\tvarchar(100)\tNO\t\t담당자 정보\t\ncat2Label\tvarchar(100)\tNO\t\t행사 정보\t\ncat3Label\tvarchar(100)\tNO\t\t작업 내용\t\ncat4Label\tvarchar(100)\tNO\t\t결제 정보\t\ncat5Label\tvarchar(100)\tNO\t\t프로그램 및 요청사항\t\nsub1_1Label\tvarchar(100)\tNO\t\t담당자 성함\t\nsub1_2Label\tvarchar(100)\tNO\t\t연락처\t\nsub1_3Label\tvarchar(100)\tNO\t\t이메일\t\nsub2_1Label\tvarchar(100)\tNO\t\t행사명\t\nsub2_2Label\tvarchar(100)\tNO\t\t장소\t\nsub2_3Label\tvarchar(100)\tNO\t\t행사 날짜\t\nsub2_4Label\tvarchar(100)\tNO\t\t시작 시간\t\nsub2_5Label\tvarchar(100)\tNO\t\t리허설 시간\t\nsub3_1Label\tvarchar(100)\tNO\t\t분류\t\nsub3_2Label\tvarchar(100)\tNO\t\t촬영 유형\t\nsub3_3Label\tvarchar(100)\tNO\t\t특수 요청\t\nsub3_4Label\tvarchar(100)\tNO\t\t공개 여부\t\nsub4_1Label\tvarchar(100)\tNO\t\t결제 방식\t\nsub4_2Label\tvarchar(100)\tNO\t\t계산서 발행\t\nsub4_3Label\tvarchar(100)\tNO\t\t견적액\t\nsub4_4Label\tvarchar(100)\tNO\t\t결제된 금액\t\nsub4_5Label\tvarchar(100)\tNO\t\t미납 금액\t\nupdatedBy\tint(11)\tNO\t\tNULL\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nsub4_6Label\tvarchar(100)\tNO\t\t진행상황\t\nprogressOption1\tvarchar(100)\tNO\t\t접수중\t\nprogressOption2\tvarchar(100)\tNO\t\t예약완료\t\nprogressOption3\tvarchar(100)\tNO\t\t준비중\t\nprogressOption4\tvarchar(100)\tNO\t\t작업중\t\nprogressOption5\tvarchar(100)\tNO\t\t작업완료\t\nprogressOption6\tvarchar(100)\tNO\t\t취소\t\n",
+  "stderr": "",
+  "execution_time_ms": 1551
+}

@@ -135,6 +135,43 @@ export default function Reservation() {
     labels?.progressOption6 || "취소",
   ];
 
+  // Radio/checkbox option labels from DB
+  const eventTypeOptions = [
+    { value: "photo", label: labels?.eventTypeOption1 || "사진 촬영" },
+    { value: "concert", label: labels?.eventTypeOption2 || "공연 촬영" },
+    { value: "video", label: labels?.eventTypeOption3 || "영상 제작" },
+    { value: "music_video", label: labels?.eventTypeOption4 || "뮤직비디오 제작" },
+    { value: "other", label: labels?.eventTypeOption5 || "기타" },
+  ];
+  const recordingTypeOptions = [
+    labels?.recordingTypeOption1 || "Photo",
+    labels?.recordingTypeOption2 || "Solo",
+    labels?.recordingTypeOption3 || "Recording",
+    labels?.recordingTypeOption4 || "Simple",
+    labels?.recordingTypeOption5 || "Basic",
+    labels?.recordingTypeOption6 || "Professional",
+  ];
+  const specialReqOptions = [
+    labels?.specialReqOption1 || "드론",
+    labels?.specialReqOption2 || "짐벌",
+    labels?.specialReqOption3 || "지미집",
+    labels?.specialReqOption4 || "기타",
+  ];
+  const isPublicOptions = [
+    { value: "1", label: labels?.isPublicOption1 || "허용" },
+    { value: "0", label: labels?.isPublicOption2 || "불허" },
+  ];
+  const paymentMethodOptions = [
+    { value: "card", label: labels?.paymentMethodOption1 || "카드" },
+    { value: "transfer", label: labels?.paymentMethodOption2 || "계좌이체" },
+    { value: "cash", label: labels?.paymentMethodOption3 || "현금" },
+  ];
+  const receiptTypeOptions = [
+    { value: "issued", label: labels?.receiptTypeOption1 || "발행" },
+    { value: "not_issued", label: labels?.receiptTypeOption2 || "미발행" },
+    { value: "cash_receipt", label: labels?.receiptTypeOption3 || "간이영수증" },
+  ];
+
   // Auto-calculate unpaid amount
   const calculatedUnpaid = (parseInt(formData.quotedAmount) || 0) - (parseInt(formData.paidAmount) || 0);
 
@@ -293,13 +330,7 @@ export default function Reservation() {
                     <div className="space-y-2 md:col-span-2">
                       <Label>{l.sub3_1} <span className="text-red-500">*</span></Label>
                       <div className="flex flex-wrap gap-4 p-3 bg-muted/30 rounded-md">
-                        {[
-                          { value: "photo", label: "사진 촬영" },
-                          { value: "concert", label: "공연 촬영" },
-                          { value: "video", label: "영상 제작" },
-                          { value: "music_video", label: "뮤직비디오 제작" },
-                          { value: "other", label: "기타" },
-                        ].map((opt) => (
+                        {eventTypeOptions.map((opt) => (
                           <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                             <input
                               type="radio"
@@ -319,7 +350,7 @@ export default function Reservation() {
                     <div className="space-y-2 md:col-span-2">
                       <Label>{l.sub3_2}</Label>
                       <div className="flex flex-wrap gap-4 p-3 bg-muted/30 rounded-md">
-                        {["Photo", "Solo", "Recording", "Simple", "Basic", "Professional"].map((opt) => (
+                        {recordingTypeOptions.map((opt) => (
                           <label key={opt} className="flex items-center gap-2 cursor-pointer">
                             <input
                               type="radio"
@@ -339,7 +370,7 @@ export default function Reservation() {
                     <div className="space-y-2 md:col-span-2">
                       <Label>{l.sub3_3}</Label>
                       <div className="flex flex-wrap gap-4 p-3 bg-muted/30 rounded-md">
-                        {["드론", "짐벌", "지미집", "기타"].map((opt) => {
+                        {specialReqOptions.map((opt) => {
                           const currentReqs = formData.specialRequirements ? formData.specialRequirements.split(",").map(s => s.trim()).filter(Boolean) : [];
                           const isChecked = currentReqs.includes(opt);
                           return (
@@ -366,28 +397,19 @@ export default function Reservation() {
                     <div className="space-y-2">
                       <Label>{l.sub3_4}</Label>
                       <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="radio"
-                            name="isPublic"
-                            value="1"
-                            checked={formData.isPublic === "1"}
-                            onChange={(e) => setFormData({ ...formData, isPublic: e.target.value })}
-                            className="w-4 h-4"
-                          />
-                          <span>허용</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="radio"
-                            name="isPublic"
-                            value="0"
-                            checked={formData.isPublic === "0"}
-                            onChange={(e) => setFormData({ ...formData, isPublic: e.target.value })}
-                            className="w-4 h-4"
-                          />
-                          <span>불허</span>
-                        </label>
+                        {isPublicOptions.map((opt) => (
+                          <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="isPublic"
+                              value={opt.value}
+                              checked={formData.isPublic === opt.value}
+                              onChange={(e) => setFormData({ ...formData, isPublic: e.target.value })}
+                              className="w-4 h-4"
+                            />
+                            <span>{opt.label}</span>
+                          </label>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -405,11 +427,7 @@ export default function Reservation() {
                     <div className="space-y-2">
                       <Label>{l.sub4_1}</Label>
                       <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
-                        {[
-                          { value: "card", label: "카드" },
-                          { value: "transfer", label: "계좌이체" },
-                          { value: "cash", label: "현금" },
-                        ].map((opt) => (
+                        {paymentMethodOptions.map((opt) => (
                           <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                             <input
                               type="radio"
@@ -429,11 +447,7 @@ export default function Reservation() {
                     <div className="space-y-2">
                       <Label>{l.sub4_2}</Label>
                       <div className="flex gap-4 p-3 bg-muted/30 rounded-md">
-                        {[
-                          { value: "issued", label: "발행" },
-                          { value: "not_issued", label: "미발행" },
-                          { value: "cash_receipt", label: "간이영수증" },
-                        ].map((opt) => (
+                        {receiptTypeOptions.map((opt) => (
                           <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                             <input
                               type="radio"

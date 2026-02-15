@@ -131,13 +131,42 @@ export const reservationFormLabels = mysqlTable("reservationFormLabels", {
   sub4_5Label: varchar("sub4_5Label", { length: 100 }).default("미납 금액").notNull(),
   // Sub-item labels for 진행상황 (결제 정보 카테고리 내)
   sub4_6Label: varchar("sub4_6Label", { length: 100 }).default("진행상황").notNull(),
-  // Progress status option labels (comma-separated default values)
+  // Progress status option labels
   progressOption1: varchar("progressOption1", { length: 100 }).default("접수중").notNull(),
   progressOption2: varchar("progressOption2", { length: 100 }).default("예약완료").notNull(),
   progressOption3: varchar("progressOption3", { length: 100 }).default("준비중").notNull(),
   progressOption4: varchar("progressOption4", { length: 100 }).default("작업중").notNull(),
   progressOption5: varchar("progressOption5", { length: 100 }).default("작업완료").notNull(),
   progressOption6: varchar("progressOption6", { length: 100 }).default("취소").notNull(),
+  // 분류(eventType) radio option labels
+  eventTypeOption1: varchar("eventTypeOption1", { length: 100 }).default("사진 촬영").notNull(),
+  eventTypeOption2: varchar("eventTypeOption2", { length: 100 }).default("공연 촬영").notNull(),
+  eventTypeOption3: varchar("eventTypeOption3", { length: 100 }).default("영상 제작").notNull(),
+  eventTypeOption4: varchar("eventTypeOption4", { length: 100 }).default("뮤직비디오 제작").notNull(),
+  eventTypeOption5: varchar("eventTypeOption5", { length: 100 }).default("기타").notNull(),
+  // 촬영 유형(recordingType) radio option labels
+  recordingTypeOption1: varchar("recordingTypeOption1", { length: 100 }).default("Photo").notNull(),
+  recordingTypeOption2: varchar("recordingTypeOption2", { length: 100 }).default("Solo").notNull(),
+  recordingTypeOption3: varchar("recordingTypeOption3", { length: 100 }).default("Recording").notNull(),
+  recordingTypeOption4: varchar("recordingTypeOption4", { length: 100 }).default("Simple").notNull(),
+  recordingTypeOption5: varchar("recordingTypeOption5", { length: 100 }).default("Basic").notNull(),
+  recordingTypeOption6: varchar("recordingTypeOption6", { length: 100 }).default("Professional").notNull(),
+  // 특수 요청(specialRequirements) checkbox option labels
+  specialReqOption1: varchar("specialReqOption1", { length: 100 }).default("드론").notNull(),
+  specialReqOption2: varchar("specialReqOption2", { length: 100 }).default("짐벌").notNull(),
+  specialReqOption3: varchar("specialReqOption3", { length: 100 }).default("지미집").notNull(),
+  specialReqOption4: varchar("specialReqOption4", { length: 100 }).default("기타").notNull(),
+  // 공개 여부(isPublic) radio option labels
+  isPublicOption1: varchar("isPublicOption1", { length: 100 }).default("허용").notNull(),
+  isPublicOption2: varchar("isPublicOption2", { length: 100 }).default("불허").notNull(),
+  // 결제 방식(paymentMethod) radio option labels
+  paymentMethodOption1: varchar("paymentMethodOption1", { length: 100 }).default("카드").notNull(),
+  paymentMethodOption2: varchar("paymentMethodOption2", { length: 100 }).default("계좌이체").notNull(),
+  paymentMethodOption3: varchar("paymentMethodOption3", { length: 100 }).default("현금").notNull(),
+  // 계산서 발행(receiptType) radio option labels
+  receiptTypeOption1: varchar("receiptTypeOption1", { length: 100 }).default("발행").notNull(),
+  receiptTypeOption2: varchar("receiptTypeOption2", { length: 100 }).default("미발행").notNull(),
+  receiptTypeOption3: varchar("receiptTypeOption3", { length: 100 }).default("간이영수증").notNull(),
   updatedBy: int("updatedBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

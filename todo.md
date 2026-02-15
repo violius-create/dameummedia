@@ -1168,3 +1168,10 @@
 - [x] ReservationBoard.tsx에서 상태 컬럼 제거하고 진행상황만 표시
 - [x] Home.tsx 메인 화면 latest 섹션에서도 통합된 진행상황 표시
 - [x] ReservationDetail.tsx 헤더에서 status 드롭다운을 progressStatus 배지로 교체
+
+## 예약 게시판 추가 수정 (2026-02-15 추가 2)
+- [x] 금액 입력란(견적액/결제금액) 입력 불가 문제 근본 수정 - AmountInput 별도 컴포넌트로 분리
+- [x] 대시보드에서 서브항목 하위 라디오버튼 등 명칭도 수정 가능하도록 기능 추가
+- [x] DB 스키마에 23개 라디오 옵션 라벨 컨럼 추가
+- [x] AdminReservationLabels.tsx에 라디오 옵션 수정 UI 추가
+- [x] Reservation.tsx/ReservationDetail.tsx에서 하드코딩된 옵션을 DB 라벨로 교체
