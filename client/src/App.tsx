@@ -131,11 +131,13 @@ function Navigation() {
                 Notice
               </Button>
             </Link>
-            <Link href="/atelier01">
-              <Button variant="ghost" className="text-foreground hover:bg-muted">
-                DIY Atelier
-              </Button>
-            </Link>
+            {isAuthenticated && user?.role === 'admin' && (
+              <Link href="/atelier01">
+                <Button variant="ghost" className="text-foreground hover:bg-muted">
+                  DIY Atelier
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Right Side - SNS and Auth */}
@@ -226,11 +228,13 @@ function Navigation() {
                 Reservation
               </Button>
             </Link>
-            <Link href="/atelier01" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="ghost" className="w-full justify-start text-foreground">
-                DIY Atelier
-              </Button>
-            </Link>
+            {isAuthenticated && user?.role === 'admin' && (
+              <Link href="/atelier01" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-foreground">
+                  DIY Atelier
+                </Button>
+              </Link>
+            )}
             <div className="pt-2 border-t border-border space-y-2">
               <div className="flex gap-2">
                 <a href={siteBranding?.instagramUrl || "https://www.instagram.com/dameum_media"} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={() => setMobileMenuOpen(false)}>

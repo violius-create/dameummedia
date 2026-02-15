@@ -329,8 +329,7 @@ export default function ReservationDetail() {
               </Link>
             </div>
             <div className="flex gap-2">
-              {(isAdmin || (user && reservation?.userId && user.id === reservation.userId)) && (
-                !isEditing ? (
+              {!isEditing ? (
                   <>
                     <Button size="sm" variant="outline" onClick={handleEdit} className="hover:text-neutral-400 transition-colors">
                       <Edit2 className="mr-2 h-4 w-4" />
@@ -352,8 +351,7 @@ export default function ReservationDetail() {
                       취소
                     </Button>
                   </>
-                )
-              )}
+                )}
             </div>
           </div>
         </div>
@@ -424,15 +422,13 @@ export default function ReservationDetail() {
                     <EditRow label={l.sub1_2} labelColor="text-blue-700">
                       <Input value={editData?.clientPhone || ""} onChange={(e) => setEditData((prev: any) => ({ ...prev, clientPhone: e.target.value }))} />
                     </EditRow>
-                    <EditRow label={l.sub1_3} labelColor="text-blue-700">
-                      <Input type="email" value={editData?.clientEmail || ""} onChange={(e) => setEditData((prev: any) => ({ ...prev, clientEmail: e.target.value }))} />
-                    </EditRow>
+
                   </div>
                 ) : (
                   <div className="space-y-0">
                     <InfoRow label={l.sub1_1} value={displayData.clientName} labelColor="text-blue-700" />
                     <InfoRow label={l.sub1_2} value={displayData.clientPhone} labelColor="text-blue-700" />
-                    <InfoRow label={l.sub1_3} value={displayData.clientEmail} labelColor="text-blue-700" />
+
                   </div>
                 )}
               </div>

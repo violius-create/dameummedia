@@ -1,0 +1,125 @@
+{
+  "query": "SELECT id, title, viewCount FROM posts WHERE category = 'atelier01' ORDER BY id ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, viewCount FROM posts WHERE category = 'atelier01' ORDER BY id ASC;",
+  "rows": [
+    {
+      "id": "600134",
+      "title": "팬텀 전원이 공급되는 세미 DI 박스 (다이렉트 박스)",
+      "viewCount": "6083"
+    },
+    {
+      "id": "600135",
+      "title": "공연 및 강의용 헤드밴드(백셋)",
+      "viewCount": "5044"
+    },
+    {
+      "id": "600136",
+      "title": "낚시대로 만드는 초경량 마이크 스탠드",
+      "viewCount": "6692"
+    },
+    {
+      "id": "600137",
+      "title": "프린트기판 만들기 (1) [개요] 필요성 및 준비과정",
+      "viewCount": "5888"
+    },
+    {
+      "id": "600138",
+      "title": "프린트기판 만들기 (2) 제작과정",
+      "viewCount": "9031"
+    },
+    {
+      "id": "600139",
+      "title": "간단한(?) 전자 바이올린 만들기(1) - 몸통 만들기",
+      "viewCount": "8865"
+    },
+    {
+      "id": "600140",
+      "title": "간단한(?) 전자 바이올린 만들기(2) - 픽업 만들기",
+      "viewCount": "9018"
+    },
+    {
+      "id": "600141",
+      "title": "전문 녹음용 마이크의 제작 - (1) 프롤로그",
+      "viewCount": "13982"
+    },
+    {
+      "id": "600142",
+      "title": "리플렉션 필터 (Reflecton Fliter) : 녹음시 주변 잡음 차단용 필터",
+      "viewCount": "9516"
+    },
+    {
+      "id": "600143",
+      "title": "[나만의 티셔츠 인쇄 방법] 프린트기판 인쇄 방법과 동일합니다!",
+      "viewCount": "7139"
+    },
+    {
+      "id": "600144",
+      "title": "전문 녹음용 마이크의 제작 - (2) 회로 이론 및 제작 1",
+      "viewCount": "19414"
+    },
+    {
+      "id": "600145",
+      "title": "전문 녹음용 마이크의 제작 - (3) 회로 이론 및 제작 2 [전원부]",
+      "viewCount": "8924"
+    },
+    {
+      "id": "600146",
+      "title": "기본 회로로 만드는 미니마이크 V2.1",
+      "viewCount": "7513"
+    },
+    {
+      "id": "600147",
+      "title": "아이폰4 녹음용 마이크 만들기 (1) 프롤로그",
+      "viewCount": "9469"
+    },
+    {
+      "id": "600148",
+      "title": "아이폰4 녹음용 마이크 만들기 (2) 4극 젠더 조립하기",
+      "viewCount": "8544"
+    },
+    {
+      "id": "600149",
+      "title": "아이폰4 녹음용 마이크 만들기 (3) 실험 및 감도 조정하기",
+      "viewCount": "6957"
+    },
+    {
+      "id": "600150",
+      "title": "아이폰4 녹음용 마이크 만들기 (4) 노래 및 악기 녹음하기",
+      "viewCount": "9056"
+    },
+    {
+      "id": "600151",
+      "title": "아이폰4 녹음용 마이크 만들기 (5) 공연실황 녹음하기",
+      "viewCount": "12328"
+    },
+    {
+      "id": "600152",
+      "title": "아이폰4 독스피커 만들기",
+      "viewCount": "10334"
+    },
+    {
+      "id": "600153",
+      "title": "카메라 무선 컨트롤러 (Wireless Pan-Tilt-Zoom Controller) - 1. 기구부",
+      "viewCount": "4796"
+    },
+    {
+      "id": "600154",
+      "title": "카메라 무선 컨트롤러 (Wireless Pan-Tilt-Zoom Controller) - 2. 송신부",
+      "viewCount": "4244"
+    },
+    {
+      "id": "600155",
+      "title": "카메라 무선 컨트롤러 (Wireless Pan-Tilt-Zoom Controller) - 3. 수신부 및 모터 구동부",
+      "viewCount": "5036"
+    },
+    {
+      "id": "600156",
+      "title": "팬틸트가 가능한 카메라 집크레인(Jib-Crane, 지미집)",
+      "viewCount": "7592"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tviewCount\n600134\t팬텀 전원이 공급되는 세미 DI 박스 (다이렉트 박스)\t6083\n600135\t공연 및 강의용 헤드밴드(백셋)\t5044\n600136\t낚시대로 만드는 초경량 마이크 스탠드\t6692\n600137\t프린트기판 만들기 (1) [개요] 필요성 및 준비과정\t5888\n600138\t프린트기판 만들기 (2) 제작과정\t9031\n600139\t간단한(?) 전자 바이올린 만들기(1) - 몸통 만들기\t8865\n600140\t간단한(?) 전자 바이올린 만들기(2) - 픽업 만들기\t9018\n600141\t전문 녹음용 마이크의 제작 - (1) 프롤로그\t13982\n600142\t리플렉션 필터 (Reflecton Fliter) : 녹음시 주변 잡음 차단용 필터\t9516\n600143\t[나만의 티셔츠 인쇄 방법] 프린트기판 인쇄 방법과 동일합니다!\t7139\n600144\t전문 녹음용 마이크의 제작 - (2) 회로 이론 및 제작 1\t19414\n600145\t전문 녹음용 마이크의 제작 - (3) 회로 이론 및 제작 2 [전원부]\t8924\n600146\t기본 회로로 만드는 미니마이크 V2.1\t7513\n600147\t아이폰4 녹음용 마이크 만들기 (1) 프롤로그\t9469\n600148\t아이폰4 녹음용 마이크 만들기 (2) 4극 젠더 조립하기\t8544\n600149\t아이폰4 녹음용 마이크 만들기 (3) 실험 및 감도 조정하기\t6957\n600150\t아이폰4 녹음용 마이크 만들기 (4) 노래 및 악기 녹음하기\t9056\n600151\t아이폰4 녹음용 마이크 만들기 (5) 공연실황 녹음하기\t12328\n600152\t아이폰4 독스피커 만들기\t10334\n600153\t카메라 무선 컨트롤러 (Wireless Pan-Tilt-Zoom Controller) - 1. 기구부\t4796\n600154\t카메라 무선 컨트롤러 (Wireless Pan-Tilt-Zoom Controller) - 2. 송신부\t4244\n600155\t카메라 무선 컨트롤러 (Wireless Pan-Tilt-Zoom Controller) - 3. 수신부 및 모터 구동부\t5036\n600156\t팬틸트가 가능한 카메라 집크레인(Jib-Crane, 지미집)\t7592\n",
+  "stderr": "",
+  "execution_time_ms": 1540
+}

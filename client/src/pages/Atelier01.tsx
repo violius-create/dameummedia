@@ -8,10 +8,33 @@ import { useState } from "react";
 import { Link } from "wouter";
 
 export default function Atelier01() {
-  const { user } = useAuth();
+  const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const isAdmin = user?.role === 'admin';
   const [page, setPage] = useState(0);
   const [viewingId, setViewingId] = useState<number | null>(null);
   const limit = 10;
+
+  // 관리자 전용 페이지 - 인증 로딩 중이면 로딩 표시
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  // 관리자가 아니면 접근 차단
+  if (!isAuthenticated || !isAdmin) {
+    return (
+      <div className="container py-20 text-center">
+        <h2 className="text-2xl font-bold mb-4">접근 권한이 없습니다</h2>
+        <p className="text-muted-foreground mb-6">이 페이지는 관리자만 접근할 수 있습니다.</p>
+        <Link href="/">
+          <Button>홈으로 돌아가기</Button>
+        </Link>
+      </div>
+    );
+  }
 
   const { data: posts, isLoading } = trpc.posts.list.useQuery({
     category: "atelier01",

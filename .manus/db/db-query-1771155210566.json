@@ -1,0 +1,35 @@
+{
+  "query": "SELECT id, title, viewCount FROM posts WHERE category = 'atelier01' ORDER BY id ASC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, title, viewCount FROM posts WHERE category = 'atelier01' ORDER BY id ASC LIMIT 5;",
+  "rows": [
+    {
+      "id": "600134",
+      "title": "팬텀 전원이 공급되는 세미 DI 박스 (다이렉트 박스)",
+      "viewCount": "6083"
+    },
+    {
+      "id": "600135",
+      "title": "공연 및 강의용 헤드밴드(백셋)",
+      "viewCount": "5044"
+    },
+    {
+      "id": "600136",
+      "title": "낚시대로 만드는 초경량 마이크 스탠드",
+      "viewCount": "6692"
+    },
+    {
+      "id": "600137",
+      "title": "프린트기판 만들기 (1) [개요] 필요성 및 준비과정",
+      "viewCount": "5888"
+    },
+    {
+      "id": "600138",
+      "title": "프린트기판 만들기 (2) 제작과정",
+      "viewCount": "9031"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tviewCount\n600134\t팬텀 전원이 공급되는 세미 DI 박스 (다이렉트 박스)\t6083\n600135\t공연 및 강의용 헤드밴드(백셋)\t5044\n600136\t낚시대로 만드는 초경량 마이크 스탠드\t6692\n600137\t프린트기판 만들기 (1) [개요] 필요성 및 준비과정\t5888\n600138\t프린트기판 만들기 (2) 제작과정\t9031\n",
+  "stderr": "",
+  "execution_time_ms": 2073
+}

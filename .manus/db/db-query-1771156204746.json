@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, LEFT(content, 200) as preview FROM posts WHERE category = 'atelier01' AND (content LIKE '%dameum.kr%' OR content LIKE '%cafe24%') LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2ffDfLxGEerkSpA.e87efec9205a --database BvmmLkPh272eigDx9MFBhy --execute SELECT id, LEFT(content, 200) as preview FROM posts WHERE category = 'atelier01' AND (content LIKE '%dameum.kr%' OR content LIKE '%cafe24%') LIMIT 10",
+  "rows": [
+    {
+      "id": "600134",
+      "preview": "<div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><strong><span style=\"font-size:14pt;\">원</span></strong>래 DI 박스는</div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"> </"
+    },
+    {
+      "id": "600135",
+      "preview": "<div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"> </div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;text-align:center;\"><img alt=\"00383893ac6118a1b35ea2b8673cde0b"
+    },
+    {
+      "id": "600136",
+      "preview": "<div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">아는 분은 아시겠지만, 마이크 스탠드는 꽤나 무게가 나가면서 가격도 비싼 장비입니다.<br/></div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">무겁고 튼튼해야 "
+    },
+    {
+      "id": "600137",
+      "preview": "<div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><span style=\"font-weight:bold;\"><span style=\"font-size:14pt;\">회</span></span>로 부품을 고정하고 부품간의 배선을 그려놓은 기판을 일반적으로 프린트기판이라고 합니다.<br/></div>"
+    },
+    {
+      "id": "600138",
+      "preview": "<div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">제작 과정의 핵심 부분은, <span style=\"color:rgb(255,0,0);font-weight:bold;\">토너가 융착되지 않는 종이에 레이저 프린터 인쇄를 하여, 열을 가해 이 토너를 기판(동판)에 재융착 시키는 것입니다."
+    },
+    {
+      "id": "600139",
+      "preview": "<div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><strong><span style=\"font-size:14pt;\">제</span></strong>작이.. 간단할지는 모르겠습니다만, 생각보다는 간단하다는 표현이구요..^^</div><div style=\"font-family:'굴림', '맑은 "
+    },
+    {
+      "id": "600140",
+      "preview": "<div><span style=\"font-size:14pt;\"><strong></strong></span><span style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;font-size:14pt;\"><strong>﻿일</strong></span><span style=\"font-family:'굴림', '맑은 "
+    },
+    {
+      "id": "600141",
+      "preview": "<font color=\"#0075c8\" style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"></font><div align=\"center\"><img alt=\"6fd0ec0687cdab41339e35cd8e378da2_1471142726_8.jpg\" src=\"http://pphony9.cafe24.com/"
+    },
+    {
+      "id": "600142",
+      "preview": "<div align=\"center\" style=\"text-align:center;font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><br/></div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">전문 녹음 스튜디오에서는 그리 많이 사용되지는 않지"
+    },
+    {
+      "id": "600143",
+      "preview": "<div align=\"center\" style=\"text-align:center;font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><br/></div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;color:rgb(68,68,68);line-heigh"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tpreview\n600134\t<div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><strong><span style=\"font-size:14pt;\">원</span></strong>래 DI 박스는</div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"> </\n600135\t<div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"> </div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;text-align:center;\"><img alt=\"00383893ac6118a1b35ea2b8673cde0b\n600136\t<div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">아는 분은 아시겠지만, 마이크 스탠드는 꽤나 무게가 나가면서 가격도 비싼 장비입니다.<br/></div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">무겁고 튼튼해야 \n600137\t<div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><span style=\"font-weight:bold;\"><span style=\"font-size:14pt;\">회</span></span>로 부품을 고정하고 부품간의 배선을 그려놓은 기판을 일반적으로 프린트기판이라고 합니다.<br/></div>\n600138\t<div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">제작 과정의 핵심 부분은, <span style=\"color:rgb(255,0,0);font-weight:bold;\">토너가 융착되지 않는 종이에 레이저 프린터 인쇄를 하여, 열을 가해 이 토너를 기판(동판)에 재융착 시키는 것입니다.\n600139\t<div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><strong><span style=\"font-size:14pt;\">제</span></strong>작이.. 간단할지는 모르겠습니다만, 생각보다는 간단하다는 표현이구요..^^</div><div style=\"font-family:'굴림', '맑은 \n600140\t<div><span style=\"font-size:14pt;\"><strong></strong></span><span style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;font-size:14pt;\"><strong>﻿일</strong></span><span style=\"font-family:'굴림', '맑은 \n600141\t<font color=\"#0075c8\" style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"></font><div align=\"center\"><img alt=\"6fd0ec0687cdab41339e35cd8e378da2_1471142726_8.jpg\" src=\"http://pphony9.cafe24.com/\n600142\t<div align=\"center\" style=\"text-align:center;font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><br/></div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\">전문 녹음 스튜디오에서는 그리 많이 사용되지는 않지\n600143\t<div align=\"center\" style=\"text-align:center;font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;\"><br/></div><div style=\"font-family:'굴림', '맑은 고딕', 'Malgun Gothic', gulim;color:rgb(68,68,68);line-heigh\n",
+  "stderr": "",
+  "execution_time_ms": 1750
+}
