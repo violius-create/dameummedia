@@ -1234,3 +1234,6 @@
 
 ## Making Film 상세 페이지 하단 카드 본문 3줄 제한 (2026-02-15 추가 14)
 - [x] 다른 게시물 보기 카드에서 본문(content) 내용을 3줄로 제한 표시 (sm:block이 line-clamp의 -webkit-box를 override하는 문제 수정)
+
+## 게시판 레이아웃 설정 view 페이지 반영 (2026-02-15 추가 15)
+- [x] 게시물 아이템 설정(폭, 높이, 여백 등)이 view(상세) 페이지 하단 '다른 게시물 보기'에도 반영되도록 수정 (boardKey 매핑 버그 수정: 'film' → 'making_film', postHeight 동적 적용)

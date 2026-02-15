@@ -277,12 +277,40 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
   const [currentPage, setCurrentPage] = useState(1);
   
   // Load board layout settings to match list page
-  const boardKey = category === 'concert' ? 'concert_live' : category === 'making_film' ? 'making_film' : 'notice';
+  const boardKey = category === 'concert' ? 'concert_live' : (category === 'making_film' || category === 'film') ? 'making_film' : category === 'admin_board' ? 'admin_board' : 'notice';
   const { data: boardSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey });
   // Notice 카테고리는 항상 리스트 형식으로 표시
   const displayMode = category === 'notice' ? 'list' : (boardSettings?.displayMode || 'gallery');
   // 상세 페이지 하단에서는 3줄만 표시 (갤러리: 3열x3행=9개, 리스트: 3개)
   const postsPerPage = displayMode === 'gallery' ? 9 : 3;
+
+  // Apply board layout settings for post items
+  const postWidth = boardSettings?.postWidth || 'auto';
+  const postHeight = boardSettings?.postHeight || 'auto';
+  const postMarginTop = boardSettings?.postMarginTop || '0';
+  const postTitleSize = boardSettings?.postTitleSize || 'base';
+
+  const getWidthClass = (width: string) => {
+    switch(width) {
+      case 'full': return 'w-full';
+      case '1/2': return 'w-1/2';
+      case '1/3': return 'w-1/3';
+      case '1/4': return 'w-1/4';
+      default: return '';
+    }
+  };
+
+  const getTitleSizeClass = (size: string) => {
+    switch(size) {
+      case 'xs': return 'text-xs';
+      case 'sm': return 'text-sm';
+      case 'base': return 'text-base';
+      case 'lg': return 'text-lg';
+      case 'xl': return 'text-xl';
+      case '2xl': return 'text-2xl';
+      default: return 'text-base';
+    }
+  };
 
   const { data: allPosts } = trpc.posts.list.useQuery({
     category: category,
@@ -341,40 +369,60 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
     <div>
       {displayMode === 'list' ? (
         <div className="space-y-4">
+          {paginatedPosts.map((post: any, index: number) => (
+            <div
+              key={post.id}
+              className={`${getWidthClass(postWidth)}`}
+              style={{
+                marginTop: postMarginTop !== '0' ? postMarginTop : undefined,
+                height: postHeight !== 'auto' ? postHeight : undefined
+              }}
+            >
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
+                <div className="flex flex-col sm:flex-row h-auto sm:h-48">
+                  <div className="relative w-full sm:w-64 h-40 sm:h-48 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
+                    {post.imageUrl ? (
+                      <img src={post.imageUrl} alt={post.title} className="h-full w-full object-cover" />
+                    ) : (
+                      <Music className="h-8 w-8 text-muted-foreground" />
+                    )}
+                  </div>
+                  <div className="flex flex-col flex-1 p-4 sm:p-6">
+                    <h4 className={`font-semibold line-clamp-2 mb-2 text-sm sm:${getTitleSizeClass(postTitleSize)}`}>{post.title}</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3">{stripHtmlTags(post.content)}</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {paginatedPosts.map((post: any) => (
-            <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
-              <div className="flex flex-col sm:flex-row h-auto sm:h-48">
-                <div className="relative w-full sm:w-64 h-40 sm:h-48 flex-shrink-0 bg-muted flex items-center justify-center overflow-hidden">
+            <div
+              key={post.id}
+              className={`${getWidthClass(postWidth)}`}
+              style={{
+                marginTop: postMarginTop !== '0' ? postMarginTop : undefined
+              }}
+            >
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
+                <div 
+                  className={`relative w-full bg-muted flex items-center justify-center overflow-hidden aspect-[4/3] sm:aspect-auto ${postHeight === 'auto' ? 'sm:h-[300px]' : ''}`}
+                  style={postHeight !== 'auto' ? { height: postHeight } : undefined}
+                >
                   {post.imageUrl ? (
                     <img src={post.imageUrl} alt={post.title} className="h-full w-full object-cover" />
                   ) : (
                     <Music className="h-8 w-8 text-muted-foreground" />
                   )}
                 </div>
-                <div className="flex flex-col flex-1 p-4 sm:p-6">
-                  <h4 className="font-semibold line-clamp-2 mb-2 text-sm sm:text-xl">{post.title}</h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3">{stripHtmlTags(post.content)}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {paginatedPosts.map((post: any) => (
-            <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => window.location.href = `/posts/${post.id}`}>
-              <div className="relative h-40 sm:h-[300px] w-full bg-muted flex items-center justify-center overflow-hidden">
-                {post.imageUrl ? (
-                  <img src={post.imageUrl} alt={post.title} className="h-full w-full object-cover" />
-                ) : (
-                  <Music className="h-8 w-8 text-muted-foreground" />
-                )}
-              </div>
-              <CardContent className="pt-4">
-                <h4 className="font-semibold line-clamp-2 mb-2 text-xs sm:text-base">{post.title}</h4>
-                <p className="hidden sm:line-clamp-3 text-xs sm:text-sm text-muted-foreground">{stripHtmlTags(post.content)}</p>
-              </CardContent>
-            </Card>
+                <CardContent className="pt-4">
+                  <h4 className={`font-semibold line-clamp-2 mb-2 text-xs sm:${getTitleSizeClass(postTitleSize)}`}>{post.title}</h4>
+                  <p className="hidden sm:line-clamp-3 text-xs sm:text-sm text-muted-foreground">{stripHtmlTags(post.content)}</p>
+                </CardContent>
+              </Card>
+            </div>
           ))}
         </div>
       )}

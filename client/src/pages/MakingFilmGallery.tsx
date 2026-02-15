@@ -310,7 +310,8 @@ export default function MakingFilmGallery() {
                     // 갤러리형 레이아웃: 썸네일 위 + 내용 아래
                     <div className="flex flex-col h-full">
                       <div 
-                        className="relative w-full bg-muted flex items-center justify-center overflow-hidden aspect-[4/3] sm:aspect-auto sm:h-[300px]"
+                        className={`relative w-full bg-muted flex items-center justify-center overflow-hidden aspect-[4/3] sm:aspect-auto ${postHeight === 'auto' ? 'sm:h-[300px]' : ''}`}
+                        style={postHeight !== 'auto' ? { height: postHeight } : undefined}
                       >
                         {post.imageUrl ? (
                           <img
