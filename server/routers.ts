@@ -157,10 +157,13 @@ export const appRouter = router({
         paymentMethod: z.enum(['card', 'transfer', 'cash', 'other', 'full', 'half']).optional(),
         isPublic: z.number().optional(),
         receiptType: z.enum(['issued', 'not_issued', 'cash_receipt']).optional(),
+        quotedAmount: z.number().optional(),
         paidAmount: z.number().optional(),
         unpaidAmount: z.number().optional(),
         description: z.string().optional(),
         attachments: z.string().optional(),
+        linkUrl: z.string().optional(),
+        startTime: z.string().optional(),
         status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
       }))
       .mutation(async ({ input }) => {
@@ -172,6 +175,7 @@ export const appRouter = router({
           eventType: input.eventType as any,
           venue: input.venue,
           eventDate: input.eventDate,
+          startTime: input.startTime,
           rehearsalTime: input.rehearsalTime,
           composition: input.composition,
           managerName: input.managerName,
@@ -188,6 +192,7 @@ export const appRouter = router({
           unpaidAmount: input.unpaidAmount,
           description: input.description,
           attachments: input.attachments,
+          linkUrl: input.linkUrl,
           status: input.status as any,
         });
       }),
@@ -236,10 +241,47 @@ export const appRouter = router({
           unpaidAmount: z.number().optional(),
           description: z.string().optional(),
           attachments: z.string().optional(),
+          linkUrl: z.string().optional(),
+          startTime: z.string().optional(),
           status: z.enum(['pending', 'confirmed', 'payment_completed', 'work_pending', 'in_progress', 'editing', 'completed', 'cancelled']).optional(),
         }),
       }))
       .mutation(({ input }) => db.updateReservation(input.id, input.data)),
+  }),
+
+  // Reservation form labels router
+  reservationFormLabels: router({
+    get: publicProcedure.query(async () => {
+      return db.getReservationFormLabels();
+    }),
+    update: adminProcedure
+      .input(z.object({
+        cat1Label: z.string().optional(),
+        cat2Label: z.string().optional(),
+        cat3Label: z.string().optional(),
+        cat4Label: z.string().optional(),
+        cat5Label: z.string().optional(),
+        sub1_1Label: z.string().optional(),
+        sub1_2Label: z.string().optional(),
+        sub1_3Label: z.string().optional(),
+        sub2_1Label: z.string().optional(),
+        sub2_2Label: z.string().optional(),
+        sub2_3Label: z.string().optional(),
+        sub2_4Label: z.string().optional(),
+        sub2_5Label: z.string().optional(),
+        sub3_1Label: z.string().optional(),
+        sub3_2Label: z.string().optional(),
+        sub3_3Label: z.string().optional(),
+        sub3_4Label: z.string().optional(),
+        sub4_1Label: z.string().optional(),
+        sub4_2Label: z.string().optional(),
+        sub4_3Label: z.string().optional(),
+        sub4_4Label: z.string().optional(),
+        sub4_5Label: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.updateReservationFormLabels({ ...input, updatedBy: ctx.user.id });
+      }),
   }),
 
   // Gallery router

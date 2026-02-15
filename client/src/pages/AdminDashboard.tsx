@@ -265,6 +265,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="instagram" onClick={() => navigate('/admin/instagram-posts')}>Instagram 관리</TabsTrigger>
             <TabsTrigger value="hero-text" onClick={() => navigate('/admin/hero-text-rotation')}>히어로 텍스트</TabsTrigger>
             <TabsTrigger value="information" onClick={() => navigate('/admin/information')}>Information 관리</TabsTrigger>
+            <TabsTrigger value="reservation-labels" onClick={() => navigate('/admin/reservation-labels')}>예약 폼 라벨</TabsTrigger>
           </TabsList>
 
           {/* Posts Tab */}

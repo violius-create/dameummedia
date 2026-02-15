@@ -230,7 +230,8 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
   const boardKey = category === 'concert' ? 'concert_live' : category === 'making_film' ? 'making_film' : 'notice';
   const { data: boardSettings } = trpc.boardLayoutSettings.get.useQuery({ boardKey });
   const postsPerPage = boardSettings?.itemsPerPage || 12;
-  const displayMode = boardSettings?.displayMode || 'gallery';
+  // Notice 카테고리는 항상 리스트 형식으로 표시
+  const displayMode = category === 'notice' ? 'list' : (boardSettings?.displayMode || 'gallery');
 
   const { data: allPosts } = trpc.posts.list.useQuery({
     category: category,

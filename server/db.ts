@@ -1,6 +1,6 @@
 import { eq, desc, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, heroTextRotation, informationItems, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings, HeroTextRotation, InsertHeroTextRotation, InformationItem, InsertInformationItem } from "../drizzle/schema";
+import { InsertUser, users, posts, images, reservations, comments, galleryItems, heroBackgrounds, serviceItems, siteBranding, sectionTitles, footerSettings, boardLayoutSettings, heroTextRotation, informationItems, reservationFormLabels, Post, InsertPost, Image, InsertImage, Reservation, InsertReservation, Comment, InsertComment, GalleryItem, InsertGalleryItem, HeroBackground, InsertHeroBackground, ServiceItem, InsertServiceItem, SiteBranding, InsertSiteBranding, SectionTitle, InsertSectionTitle, FooterSettings, InsertFooterSettings, BoardLayoutSettings, InsertBoardLayoutSettings, HeroTextRotation, InsertHeroTextRotation, InformationItem, InsertInformationItem, ReservationFormLabels, InsertReservationFormLabels } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -805,6 +805,59 @@ export async function upsertInformationItem(data: {
     return { ...existing[0], ...data };
   } else {
     const result = await db.insert(informationItems).values(data);
+    return { id: result[0].insertId, ...data };
+  }
+}
+
+// Reservation form labels queries
+export async function getReservationFormLabels() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(reservationFormLabels).limit(1);
+  if (result.length > 0) return result[0];
+  
+  // Return default labels if none exist
+  return {
+    id: 0,
+    cat1Label: '담당자 정보',
+    cat2Label: '행사 정보',
+    cat3Label: '작업 내용',
+    cat4Label: '결제 정보',
+    cat5Label: '프로그램 및 요청사항',
+    sub1_1Label: '담당자 성함',
+    sub1_2Label: '연락처',
+    sub1_3Label: '이메일',
+    sub2_1Label: '행사명',
+    sub2_2Label: '장소',
+    sub2_3Label: '행사 날짜',
+    sub2_4Label: '시작 시간',
+    sub2_5Label: '리허설 시간',
+    sub3_1Label: '분류',
+    sub3_2Label: '촬영 유형',
+    sub3_3Label: '특수 요청',
+    sub3_4Label: '공개 여부',
+    sub4_1Label: '결제 방식',
+    sub4_2Label: '계산서 발행',
+    sub4_3Label: '견적액',
+    sub4_4Label: '결제된 금액',
+    sub4_5Label: '미납 금액',
+    updatedBy: 0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+}
+
+export async function updateReservationFormLabels(data: Partial<InsertReservationFormLabels> & { updatedBy: number }) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const existing = await db.select().from(reservationFormLabels).limit(1);
+  if (existing.length > 0) {
+    await db.update(reservationFormLabels).set(data).where(eq(reservationFormLabels.id, existing[0].id));
+    return { ...existing[0], ...data };
+  } else {
+    const result = await db.insert(reservationFormLabels).values(data as InsertReservationFormLabels);
     return { id: result[0].insertId, ...data };
   }
 }

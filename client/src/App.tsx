@@ -32,6 +32,7 @@ import AdminInstagramPosts from "@/pages/AdminInstagramPosts";
 import AdminHeroTextRotation from "@/pages/AdminHeroTextRotation";
 import AdminInformation from "@/pages/AdminInformation";
 import AdminBoard from "@/pages/AdminBoard";
+import AdminReservationLabels from "@/pages/AdminReservationLabels";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -59,6 +60,7 @@ function Router() {
       <Route path={"/admin/instagram-posts"} component={AdminInstagramPosts} />
         <Route path="/admin/hero-text-rotation" component={AdminHeroTextRotation} />
       <Route path="/admin/information" component={AdminInformation} />
+      <Route path="/admin/reservation-labels" component={AdminReservationLabels} />
       <Route path="/admin-board" component={AdminBoard} />
       <Route path="/concert-live/new" component={(props) => <CreatePost {...props} category="concert" />} />
       <Route path="/making-film/new" component={(props) => <CreatePost {...props} category="film" />} />

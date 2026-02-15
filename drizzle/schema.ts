@@ -88,6 +88,8 @@ export const reservations = mysqlTable("reservations", {
   unpaidAmount: int("unpaidAmount").default(0),
   description: text("description"),
   attachments: text("attachments"), // JSON array of file URLs
+  linkUrl: text("linkUrl"), // Link attachment URL
+  startTime: varchar("startTime", { length: 100 }), // Event start time (separate from eventDate)
   status: mysqlEnum("status", ["pending", "confirmed", "payment_completed", "work_pending", "in_progress", "editing", "completed", "cancelled"]).default("pending").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -95,6 +97,44 @@ export const reservations = mysqlTable("reservations", {
 
 export type Reservation = typeof reservations.$inferSelect;
 export type InsertReservation = typeof reservations.$inferInsert;
+
+// Reservation form labels table for managing category/sub-item names
+export const reservationFormLabels = mysqlTable("reservationFormLabels", {
+  id: int("id").autoincrement().primaryKey(),
+  // Category labels (section headers)
+  cat1Label: varchar("cat1Label", { length: 100 }).default("담당자 정보").notNull(),
+  cat2Label: varchar("cat2Label", { length: 100 }).default("행사 정보").notNull(),
+  cat3Label: varchar("cat3Label", { length: 100 }).default("작업 내용").notNull(),
+  cat4Label: varchar("cat4Label", { length: 100 }).default("결제 정보").notNull(),
+  cat5Label: varchar("cat5Label", { length: 100 }).default("프로그램 및 요청사항").notNull(),
+  // Sub-item labels for 담당자 정보
+  sub1_1Label: varchar("sub1_1Label", { length: 100 }).default("담당자 성함").notNull(),
+  sub1_2Label: varchar("sub1_2Label", { length: 100 }).default("연락처").notNull(),
+  sub1_3Label: varchar("sub1_3Label", { length: 100 }).default("이메일").notNull(),
+  // Sub-item labels for 행사 정보
+  sub2_1Label: varchar("sub2_1Label", { length: 100 }).default("행사명").notNull(),
+  sub2_2Label: varchar("sub2_2Label", { length: 100 }).default("장소").notNull(),
+  sub2_3Label: varchar("sub2_3Label", { length: 100 }).default("행사 날짜").notNull(),
+  sub2_4Label: varchar("sub2_4Label", { length: 100 }).default("시작 시간").notNull(),
+  sub2_5Label: varchar("sub2_5Label", { length: 100 }).default("리허설 시간").notNull(),
+  // Sub-item labels for 작업 내용
+  sub3_1Label: varchar("sub3_1Label", { length: 100 }).default("분류").notNull(),
+  sub3_2Label: varchar("sub3_2Label", { length: 100 }).default("촬영 유형").notNull(),
+  sub3_3Label: varchar("sub3_3Label", { length: 100 }).default("특수 요청").notNull(),
+  sub3_4Label: varchar("sub3_4Label", { length: 100 }).default("공개 여부").notNull(),
+  // Sub-item labels for 결제 정보
+  sub4_1Label: varchar("sub4_1Label", { length: 100 }).default("결제 방식").notNull(),
+  sub4_2Label: varchar("sub4_2Label", { length: 100 }).default("계산서 발행").notNull(),
+  sub4_3Label: varchar("sub4_3Label", { length: 100 }).default("견적액").notNull(),
+  sub4_4Label: varchar("sub4_4Label", { length: 100 }).default("결제된 금액").notNull(),
+  sub4_5Label: varchar("sub4_5Label", { length: 100 }).default("미납 금액").notNull(),
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ReservationFormLabels = typeof reservationFormLabels.$inferSelect;
+export type InsertReservationFormLabels = typeof reservationFormLabels.$inferInsert;
 
 // Comment table for posts
 export const comments = mysqlTable("comments", {
