@@ -29,6 +29,25 @@ export default function PostDetail() {
     { enabled: !!postId }
   );
 
+  // Load board layout settings for container width
+  const boardKey = post?.category === 'concert' ? 'concert_live' : post?.category === 'film' ? 'making_film' : post?.category === 'admin_board' ? 'admin_board' : 'notice';
+  const { data: boardSettings } = trpc.boardLayoutSettings.get.useQuery(
+    { boardKey },
+    { enabled: !!post }
+  );
+  const containerWidth = boardSettings?.containerWidth || 'container';
+  const getContainerClass = (width: string) => {
+    switch(width) {
+      case 'full': return 'w-full px-4';
+      case 'container-wide': return 'mx-auto px-4';
+      default: return 'container';
+    }
+  };
+  const getContainerStyle = (width: string): React.CSSProperties | undefined => {
+    if (width === 'container-wide') return { maxWidth: '1536px' };
+    return undefined;
+  };
+
   const deletePostMutation = trpc.posts.delete.useMutation({
     onSuccess: () => {
       toast.success("게시글이 삭제되었습니다.");
@@ -127,7 +146,7 @@ export default function PostDetail() {
       </nav>
 
       {/* Content */}
-      <div className="container py-8 sm:py-16">
+      <div className={`${getContainerClass(containerWidth)} py-8 sm:py-16`} style={getContainerStyle(containerWidth)}>
         <article className="mx-auto">
           <Card>
             <CardHeader>
@@ -285,10 +304,23 @@ function RelatedPostsList({ category, currentPostId }: { category: string; curre
   const postsPerPage = displayMode === 'gallery' ? 9 : 3;
 
   // Apply board layout settings for post items
+  const containerWidth = boardSettings?.containerWidth || 'container';
   const postWidth = boardSettings?.postWidth || 'auto';
   const postHeight = boardSettings?.postHeight || 'auto';
   const postMarginTop = boardSettings?.postMarginTop || '0';
   const postTitleSize = boardSettings?.postTitleSize || 'base';
+
+  const getContainerClass = (width: string) => {
+    switch(width) {
+      case 'full': return 'w-full px-4';
+      case 'container-wide': return 'mx-auto px-4';
+      default: return 'container';
+    }
+  };
+  const getContainerStyle = (width: string): React.CSSProperties | undefined => {
+    if (width === 'container-wide') return { maxWidth: '1536px' };
+    return undefined;
+  };
 
   const getWidthClass = (width: string) => {
     switch(width) {

@@ -155,9 +155,9 @@ export default function MakingFilmGallery() {
 
       <div className={`${
         containerWidth === 'full' ? 'w-full px-4' :
-        containerWidth === 'container-wide' ? 'max-w-7xl mx-auto px-4' :
+        containerWidth === 'container-wide' ? 'mx-auto px-4' :
         'container'
-      } py-8 sm:py-16`}>
+      } py-8 sm:py-16`} style={containerWidth === 'container-wide' ? { maxWidth: '1536px' } : undefined}>
         {/* Header Section */}
         <div className="mb-4 sm:mb-8 space-y-4">
           {user?.role === 'admin' && (
