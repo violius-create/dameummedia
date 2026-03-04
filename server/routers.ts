@@ -141,7 +141,15 @@ export const appRouter = router({
     
     update: adminProcedure
       .input(z.object({ id: z.number(), title: z.string().optional(), content: z.string().optional(), category: z.string().optional(), imageUrl: z.string().optional(), videoUrl: z.string().optional() }))
-      .mutation(({ input }) => db.updatePost(input.id, { title: input.title, content: input.content, category: input.category as any, imageUrl: input.imageUrl, videoUrl: input.videoUrl })),
+      .mutation(async ({ input }) => {
+        const updateData: any = {};
+        if (input.title !== undefined) updateData.title = input.title;
+        if (input.content !== undefined) updateData.content = input.content;
+        if (input.category !== undefined) updateData.category = input.category;
+        if (input.imageUrl !== undefined) updateData.imageUrl = input.imageUrl;
+        if (input.videoUrl !== undefined) updateData.videoUrl = input.videoUrl;
+        return db.updatePost(input.id, updateData);
+      }),
     
     delete: adminProcedure
       .input(z.object({ id: z.number() }))

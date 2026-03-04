@@ -1,12 +1,10 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import Youtube from '@tiptap/extension-youtube';
+// YouTube extension temporarily disabled due to module resolution issues
 import Placeholder from '@tiptap/extension-placeholder';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
-import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import { Button } from '@/components/ui/button';
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -48,11 +46,12 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: 'text-primary underline',
+      StarterKit.configure({
+        link: {
+          openOnClick: false,
+          HTMLAttributes: {
+            class: 'text-primary underline',
+          },
         },
       }),
       Image.configure({
@@ -61,20 +60,12 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
         },
         allowBase64: true,
       }),
-      Youtube.configure({
-        HTMLAttributes: {
-          class: 'w-full aspect-video rounded-lg my-4',
-        },
-        width: 0,
-        height: 0,
-        nocookie: true,
-      }),
+      // YouTube extension disabled
       Placeholder.configure({
         placeholder,
       }),
       TextStyle,
       Color,
-      Underline,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
@@ -100,130 +91,114 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
           const item = items[i];
           
           // Handle image paste
-          if (item.type.indexOf('image') !== -1) {
-            event.preventDefault();
+          if (item.type.indexOf('image') === 0) {
             const file = item.getAsFile();
             if (file) {
-              handleFileUpload(file);
-            }
-            return true;
-          }
-        }
-        return false;
-      },
-      // Handle image drop
-      handleDrop: (view, event, _slice, moved) => {
-        // If it's a moved node (drag within editor), let Tiptap handle it
-        if (moved) return false;
-        
-        // Handle external file drop
-        const files = event.dataTransfer?.files;
-        if (files && files.length > 0) {
-          event.preventDefault();
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file.type.startsWith('image/')) {
-              handleFileUpload(file);
+              handleImageFile(file);
+              return true;
             }
           }
-          return true;
         }
         return false;
       },
     },
   });
 
-  // File upload handler
-  const handleFileUpload = useCallback(async (file: File) => {
-    if (!editor) return;
-    
+  const handleImageFile = useCallback(async (file: File) => {
     setIsUploading(true);
     try {
       const reader = new FileReader();
       reader.onload = async (e) => {
-        const dataUrl = e.target?.result as string;
-        const base64Data = dataUrl.split(',')[1];
-        
-        try {
-          const result = await uploadImageMutation.mutateAsync({
-            fileName: file.name || `uploaded-image-${Date.now()}.png`,
-            fileData: base64Data,
+        const base64 = (e.target?.result as string)?.split(',')[1];
+        if (!base64 || !editor) return;
+
+        uploadImageMutation.mutate(
+          {
+            fileName: file.name,
+            fileData: base64,
             mimeType: file.type,
-          });
-          
-          // Insert image at current cursor position
-          editor.chain().focus().setImage({ src: result.fileUrl }).run();
-        } catch (error) {
-          console.error('Failed to upload image:', error);
-          alert('이미지 업로드에 실패했습니다.');
-        } finally {
-          setIsUploading(false);
-        }
+          },
+          {
+            onSuccess: (result) => {
+              editor.chain().focus().setImage({ src: result.fileUrl }).run();
+              setIsUploading(false);
+            },
+            onError: () => {
+              alert('이미지 업로드 실패');
+              setIsUploading(false);
+            },
+          }
+        );
       };
       reader.readAsDataURL(file);
     } catch (error) {
+      console.error('Image upload error:', error);
       setIsUploading(false);
-      console.error('Failed to read file:', error);
     }
   }, [editor, uploadImageMutation]);
 
-  // Update editor content when content prop changes
-  useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
-    }
-  }, [content, editor]);
-
-  if (!editor) {
-    return null;
-  }
-
-  const addLink = () => {
-    const url = window.prompt('URL을 입력하세요:');
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
-
-  const addImageByUrl = () => {
-    const url = window.prompt('이미지 URL을 입력하세요:');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
-  const addImageByFile = () => {
+  const handleImageUpload = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        handleFileUpload(files[i]);
-      }
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageFile(file);
     }
-    // Reset input so same file can be selected again
-    e.target.value = '';
   };
 
-  const addYouTubeVideo = () => {
-    const url = window.prompt('YouTube 영상 URL을 입력하세요:\n(예: https://www.youtube.com/watch?v=...)');
+  const toggleBold = () => {
+    editor?.chain().focus().toggleBold().run();
+  };
+
+  const toggleItalic = () => {
+    editor?.chain().focus().toggleItalic().run();
+  };
+
+  const toggleUnderline = () => {
+    editor?.chain().focus().toggleUnderline().run();
+  };
+
+  const toggleStrike = () => {
+    editor?.chain().focus().toggleStrike().run();
+  };
+
+  const toggleBulletList = () => {
+    editor?.chain().focus().toggleBulletList().run();
+  };
+
+  const toggleOrderedList = () => {
+    editor?.chain().focus().toggleOrderedList().run();
+  };
+
+  const toggleBlockquote = () => {
+    editor?.chain().focus().toggleBlockquote().run();
+  };
+
+  const toggleCodeBlock = () => {
+    editor?.chain().focus().toggleCodeBlock().run();
+  };
+
+  const setHeading = (level: 1 | 2 | 3) => {
+    editor?.chain().focus().toggleHeading({ level }).run();
+  };
+
+  const insertLink = () => {
+    const url = window.prompt('링크 주소를 입력하세요:');
     if (url) {
-      // Validate YouTube URL
-      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/)/;
-      if (!youtubeRegex.test(url)) {
-        alert('올바른 YouTube URL을 입력해주세요.');
-        return;
-      }
-      editor.chain().focus().setYoutubeVideo({ src: url }).run();
+      editor?.chain().focus().setLink({ href: url }).run();
     }
+  };
+
+  const insertYoutubeVideo = () => {
+    alert('YouTube 기능은 현재 준비 중입니다.');
   };
 
   const setColor = () => {
     const color = window.prompt('색상 코드를 입력하세요 (예: #ff0000):');
     if (color) {
-      editor.chain().focus().setColor(color).run();
+      editor?.chain().focus().setColor(color).run();
     }
   };
 
@@ -234,235 +209,219 @@ export function RichTextEditor({ content, onChange, placeholder = '내용을 입
         ref={fileInputRef}
         type="file"
         accept="image/*"
-        multiple
-        onChange={handleFileInputChange}
+        onChange={handleFileSelect}
         className="hidden"
       />
 
       {/* Toolbar */}
-      <div className="flex flex-wrap gap-1 p-2 border-b border-border bg-muted/30">
-        {/* Headings */}
+      <div className="bg-muted p-3 border-b border-border flex flex-wrap gap-1">
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={editor.isActive('heading', { level: 1 }) ? 'bg-muted' : ''}
-        >
-          <Heading1 className="h-4 w-4" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editor.isActive('heading', { level: 2 }) ? 'bg-muted' : ''}
-        >
-          <Heading2 className="h-4 w-4" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={editor.isActive('heading', { level: 3 }) ? 'bg-muted' : ''}
-        >
-          <Heading3 className="h-4 w-4" />
-        </Button>
-        <div className="w-px h-6 bg-border mx-1" />
-
-        {/* Text formatting */}
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'bg-muted' : ''}
+          variant={editor?.isActive('bold') ? 'default' : 'outline'}
+          onClick={toggleBold}
+          className="h-8 w-8 p-0"
         >
           <Bold className="h-4 w-4" />
         </Button>
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'bg-muted' : ''}
+          variant={editor?.isActive('italic') ? 'default' : 'outline'}
+          onClick={toggleItalic}
+          className="h-8 w-8 p-0"
         >
           <Italic className="h-4 w-4" />
         </Button>
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={editor.isActive('underline') ? 'bg-muted' : ''}
+          variant={editor?.isActive('underline') ? 'default' : 'outline'}
+          onClick={toggleUnderline}
+          className="h-8 w-8 p-0"
         >
           <UnderlineIcon className="h-4 w-4" />
         </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={setColor}
-        >
-          <Palette className="h-4 w-4" />
-        </Button>
-        <div className="w-px h-6 bg-border mx-1" />
 
-        {/* Text alignment */}
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          className={editor.isActive({ textAlign: 'left' }) ? 'bg-muted' : ''}
+          variant={editor?.isActive('strike') ? 'default' : 'outline'}
+          onClick={toggleStrike}
+          className="h-8 w-8 p-0"
         >
-          <AlignLeft className="h-4 w-4" />
+          <span className="text-sm font-bold">S</span>
         </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          className={editor.isActive({ textAlign: 'center' }) ? 'bg-muted' : ''}
-        >
-          <AlignCenter className="h-4 w-4" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('right').run()}
-          className={editor.isActive({ textAlign: 'right' }) ? 'bg-muted' : ''}
-        >
-          <AlignRight className="h-4 w-4" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-          className={editor.isActive({ textAlign: 'justify' }) ? 'bg-muted' : ''}
-        >
-          <AlignJustify className="h-4 w-4" />
-        </Button>
-        <div className="w-px h-6 bg-border mx-1" />
 
-        {/* Lists */}
+        <div className="w-px bg-border mx-1" />
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('bulletList') ? 'bg-muted' : ''}
+          variant={editor?.isActive('heading', { level: 1 }) ? 'default' : 'outline'}
+          onClick={() => setHeading(1)}
+          className="h-8 w-8 p-0"
+        >
+          <Heading1 className="h-4 w-4" />
+        </Button>
+
+        <Button
+          size="sm"
+          variant={editor?.isActive('heading', { level: 2 }) ? 'default' : 'outline'}
+          onClick={() => setHeading(2)}
+          className="h-8 w-8 p-0"
+        >
+          <Heading2 className="h-4 w-4" />
+        </Button>
+
+        <Button
+          size="sm"
+          variant={editor?.isActive('heading', { level: 3 }) ? 'default' : 'outline'}
+          onClick={() => setHeading(3)}
+          className="h-8 w-8 p-0"
+        >
+          <Heading3 className="h-4 w-4" />
+        </Button>
+
+        <div className="w-px bg-border mx-1" />
+
+        <Button
+          size="sm"
+          variant={editor?.isActive('bulletList') ? 'default' : 'outline'}
+          onClick={toggleBulletList}
+          className="h-8 w-8 p-0"
         >
           <List className="h-4 w-4" />
         </Button>
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive('orderedList') ? 'bg-muted' : ''}
+          variant={editor?.isActive('orderedList') ? 'default' : 'outline'}
+          onClick={toggleOrderedList}
+          className="h-8 w-8 p-0"
         >
           <ListOrdered className="h-4 w-4" />
         </Button>
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={editor.isActive('blockquote') ? 'bg-muted' : ''}
+          variant={editor?.isActive('blockquote') ? 'default' : 'outline'}
+          onClick={toggleBlockquote}
+          className="h-8 w-8 p-0"
         >
           <Quote className="h-4 w-4" />
         </Button>
-        <div className="w-px h-6 bg-border mx-1" />
 
-        {/* Link */}
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={addLink}
-          title="링크 삽입"
+          variant={editor?.isActive('codeBlock') ? 'default' : 'outline'}
+          onClick={toggleCodeBlock}
+          className="h-8 w-8 p-0"
+        >
+          <span className="text-sm font-bold">{'</>'}</span>
+        </Button>
+
+        <div className="w-px bg-border mx-1" />
+
+        <Button
+          size="sm"
+          variant={editor?.isActive('link') ? 'default' : 'outline'}
+          onClick={insertLink}
+          className="h-8 w-8 p-0"
         >
           <LinkIcon className="h-4 w-4" />
         </Button>
-        <div className="w-px h-6 bg-border mx-1" />
 
-        {/* Image & Video insertion */}
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={addImageByFile}
+          variant="outline"
+          onClick={handleImageUpload}
           disabled={isUploading}
-          title="이미지 파일 업로드"
-          className="relative"
+          className="h-8 w-8 p-0"
         >
           {isUploading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <Upload className="h-4 w-4" />
+            <ImageIcon className="h-4 w-4" />
           )}
         </Button>
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={addImageByUrl}
-          title="이미지 URL 삽입"
-        >
-          <ImageIcon className="h-4 w-4" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={addYouTubeVideo}
-          title="YouTube 영상 삽입"
+          variant="outline"
+          onClick={insertYoutubeVideo}
+          className="h-8 w-8 p-0"
         >
           <Video className="h-4 w-4" />
         </Button>
-        <div className="w-px h-6 bg-border mx-1" />
 
-        {/* Undo/Redo */}
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editor.can().undo()}
+          variant="outline"
+          onClick={setColor}
+          className="h-8 w-8 p-0"
+        >
+          <Palette className="h-4 w-4" />
+        </Button>
+
+        <div className="w-px bg-border mx-1" />
+
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => editor?.chain().focus().setTextAlign('left').run()}
+          className="h-8 w-8 p-0"
+        >
+          <AlignLeft className="h-4 w-4" />
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => editor?.chain().focus().setTextAlign('center').run()}
+          className="h-8 w-8 p-0"
+        >
+          <AlignCenter className="h-4 w-4" />
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => editor?.chain().focus().setTextAlign('right').run()}
+          className="h-8 w-8 p-0"
+        >
+          <AlignRight className="h-4 w-4" />
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => editor?.chain().focus().setTextAlign('justify').run()}
+          className="h-8 w-8 p-0"
+        >
+          <AlignJustify className="h-4 w-4" />
+        </Button>
+
+        <div className="w-px bg-border mx-1" />
+
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => editor?.chain().focus().undo().run()}
+          className="h-8 w-8 p-0"
         >
           <Undo className="h-4 w-4" />
         </Button>
+
         <Button
-          type="button"
-          variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editor.can().redo()}
+          variant="outline"
+          onClick={() => editor?.chain().focus().redo().run()}
+          className="h-8 w-8 p-0"
         >
           <Redo className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* Upload indicator */}
-      {isUploading && (
-        <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 text-sm border-b border-border">
-          <Loader2 className="h-3 w-3 animate-spin" />
-          이미지 업로드 중...
-        </div>
-      )}
-
-      {/* Editor Content */}
-      <EditorContent editor={editor} className="bg-background" />
-
-      {/* Helper text */}
-      <div className="px-4 py-2 border-t border-border bg-muted/20 text-xs text-muted-foreground">
-        <span className="mr-4">💡 이미지: 파일 업로드(⬆), URL 삽입(🖼), 클립보드 붙여넣기, 드래그 앤 드롭 지원</span>
-        <span>🎬 영상: YouTube URL 삽입 지원</span>
-      </div>
+      {/* Editor */}
+      <EditorContent editor={editor} />
     </div>
   );
 }
